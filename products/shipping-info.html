@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipping Information | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/shipping-info.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products.html">Products</a></li>
+                <li><a href="./cart.html">Cart</a></li>
+                <li><a href="./activities.html">Activities</a></li>
+                <li><a href="./guides.html">Guides</a></li>
+                <li><a href="./support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="./cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page title banner -->
+    <section class="page-banner">
+        <div class="banner-content">
+            <h1>Shipping Information</h1>
+            <nav class="breadcrumb">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="./support.html">Support</a></li>
+                    <li>Shipping Information</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <main class="shipping-container">
+        <!-- Shipping methods section -->
+        <section class="shipping-section">
+            <h2>Shipping Methods <i class="fas fa-truck-fast"></i></h2>
+            <div class="shipping-methods">
+                <div class="shipping-card">
+                    <div class="shipping-header">
+                        <h3>Standard Shipping</h3>
+                        <span class="shipping-price">FREE</span>
+                    </div>
+                    <div class="shipping-details">
+                        <p><strong>Delivery Time:</strong> 5-7 business days</p>
+                        <p><strong>Applicable To:</strong> Orders $50+</p>
+                        <p>Free standard shipping on all orders over $50. Orders under $50 have a flat rate of $5.99.</p>
+                    </div>
+                </div>
+
+                <div class="shipping-card">
+                    <div class="shipping-header">
+                        <h3>Express Shipping</h3>
+                        <span class="shipping-price">$12.99</span>
+                    </div>
+                    <div class="shipping-details">
+                        <p><strong>Delivery Time:</strong> 2-3 business days</p>
+                        <p><strong>Applicable To:</strong> All orders</p>
+                        <p>Faster delivery for when you need your gear sooner. Not available in all locations.</p>
+                    </div>
+                </div>
+
+                <div class="shipping-card">
+                    <div class="shipping-header">
+                        <h3>Next Day Delivery</h3>
+                        <span class="shipping-price">$24.99</span>
+                    </div>
+                    <div class="shipping-details">
+                        <p><strong>Delivery Time:</strong> Next business day</p>
+                        <p><strong>Order By:</strong> 12 PM local time</p>
+                        <p>For urgent orders. Available in select metropolitan areas only. Order by noon for next-day delivery.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Delivery information section -->
+        <section class="shipping-section">
+            <h2>Delivery Information <i class="fas fa-box-open"></i></h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>Processing Time</h3>
+                    <p>Most orders are processed within 24 hours of being placed. During high-volume periods (like sales and holidays), processing may take up to 48 hours.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Tracking Your Order</h3>
+                    <p>Once your order ships, you'll receive an email with tracking information. You can also track your order by entering your order number in your account dashboard.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Delivery Areas</h3>
+                    <p>We ship to all 50 U.S. states, Canada, and select international destinations. Shipping times and rates vary by location.</p>
+                </div>
+                <div class="info-item">
+                    <h3>Shipping Delays</h3>
+                    <p>Occasionally, events outside our control (weather, carrier delays) may affect delivery times. We'll notify you of any known delays affecting your order.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- International shipping section -->
+        <section class="shipping-section">
+            <h2>International Shipping <i class="fas fa-globe"></i></h2>
+            <div class="international-shipping">
+                <p class="highlight-text">WildGear ships to over 40 countries worldwide! International shipping rates and delivery times vary by location.</p>
+
+                <div class="country-tabs">
+                    <div class="tab-header">
+                        <button class="tab-btn active" data-target="canada">Canada</button>
+                        <button class="tab-btn" data-target="europe">Europe</button>
+                        <button class="tab-btn" data-target="australia">Australia/NZ</button>
+                        <button class="tab-btn" data-target="other">Other Regions</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="canada">
+                            <h4>Shipping to Canada</h4>
+                            <ul>
+                                <li><strong>Standard:</strong> 7-10 business days ($15.99)</li>
+                                <li><strong>Express:</strong> 3-5 business days ($29.99)</li>
+                                <li>Import duties and taxes may apply</li>
+                                <li>Free shipping on orders over $150</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" id="europe">
+                            <h4>Shipping to Europe</h4>
+                            <ul>
+                                <li><strong>Standard:</strong> 10-14 business days ($19.99)</li>
+                                <li><strong>Express:</strong> 5-7 business days ($39.99)</li>
+                                <li>VAT and customs fees are the responsibility of the recipient</li>
+                                <li>Free shipping on orders over $200</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" id="australia">
+                            <h4>Shipping to Australia & New Zealand</h4>
+                            <ul>
+                                <li><strong>Standard:</strong> 12-16 business days ($24.99)</li>
+                                <li><strong>Express:</strong> 7-9 business days ($49.99)</li>
+                                <li>Import duties and taxes may apply</li>
+                                <li>Free shipping on orders over $250</li>
+                            </ul>
+                        </div>
+                        <div class="tab-pane" id="other">
+                            <h4>Other International Regions</h4>
+                            <ul>
+                                <li><strong>Standard:</strong> 14-21 business days (varies by region)</li>
+                                <li><strong>Express:</strong> 7-12 business days (varies by region)</li>
+                                <li>Contact customer service for specific pricing</li>
+                                <li>Not all products are available for international shipping</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shipping FAQ section -->
+        <section class="shipping-section">
+            <h2>Shipping FAQs <i class="fas fa-question-circle"></i></h2>
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>When will my order ship?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Most orders ship within 1-2 business days after being placed. During high-volume sales periods, this may extend to 2-3 business days. You'll receive a shipping confirmation email with tracking information once your order has been shipped.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Can I change my shipping address after ordering?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Address changes can only be made if your order hasn't entered the shipping process. Please contact our customer service team immediately if you need to change your shipping address. Once a package has shipped, we cannot redirect it.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Do you ship to PO boxes or APO/FPO addresses?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we ship to PO boxes using USPS. For APO/FPO addresses, we offer standard shipping only. Please note that delivery times to these addresses may be longer than our standard estimates.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What if my package is lost or damaged?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>If your package appears to be lost (no tracking updates for 3+ days past estimated delivery) or arrives damaged, please contact our customer service team within 5 days of the expected delivery date. We'll work with the carrier to resolve the issue and ensure you receive your items.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Are there any restrictions on shipping certain products?</h3>
+                        <span class="faq-icon"><i class="fas fa-chevron-down"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Some products like fuel canisters, bear spray, and certain batteries are classified as hazardous materials and have shipping restrictions. These items are clearly marked on our website and may not be available for all shipping methods or international destinations.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shipping calculator -->
+        <section class="shipping-section">
+            <h2>Shipping Cost Calculator <i class="fas fa-calculator"></i></h2>
+            <div class="calculator-container">
+                <p>Estimate your shipping cost and delivery time based on your location and order details.</p>
+
+                <form id="shipping-calculator" class="calculator-form">
+                    <div class="form-group">
+                        <label for="country">Country/Region</label>
+                        <select id="country" required>
+                            <option value="">Select Country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zipcode">ZIP/Postal Code</label>
+                        <input type="text" id="zipcode" placeholder="Enter ZIP/Postal code" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="order-value">Order Value (USD)</label>
+                        <input type="number" id="order-value" placeholder="Enter order total" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shipping-method">Shipping Method</label>
+                        <select id="shipping-method" required>
+                            <option value="standard">Standard Shipping</option>
+                            <option value="express">Express Shipping</option>
+                            <option value="nextday">Next Day Delivery</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="calculate-btn">Calculate Shipping</button>
+                </form>
+
+                <div id="calculator-results" class="calculator-results" style="display:none;">
+                    <h3>Estimated Shipping Results</h3>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <span class="result-label">Shipping Cost:</span>
+                            <span id="result-cost" class="result-value">$0.00</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Estimated Delivery:</span>
+                            <span id="result-delivery" class="result-value">N/A</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Shipping Method:</span>
+                            <span id="result-method" class="result-value">N/A</span>
+                        </div>
+                    </div>
+                    <p class="results-disclaimer">* Estimate only. Actual rates and delivery times may vary.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact section -->
+        <section class="shipping-section">
+            <h2>Need Help? <i class="fas fa-headset"></i></h2>
+            <div class="contact-section">
+                <p>If you have questions about shipping or need assistance with your order, our customer service team is here to help.</p>
+                <div class="contact-options">
+                    <a href="mailto:shipping@wildgear.com" class="contact-option">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email Us</span>
+                    </a>
+                    <a href="tel:1-800-WILDGEAR" class="contact-option">
+                        <i class="fas fa-phone"></i>
+                        <span>Call Us</span>
+                    </a>
+                    <a href="./support.html" class="contact-option">
+                        <i class="fas fa-message"></i>
+                        <span>Live Chat</span>
+                    </a>
+                </div>
+                <div class="business-hours">
+                    <p><strong>Customer Service Hours:</strong> Monday-Friday, 9 AM - 8 PM ET | Saturday, 10 AM - 6 PM ET</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Newsletter section -->
+    <section class="newsletter">
+        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./support.html">Contact Us</a></li>
+                    <li><a href="./faq.html">FAQ</a></li>
+                    <li><a href="./shipping-info.html">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="./visual-sitemap.html">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./privacy-policy.html">Privacy Policy</a>
+                <a href="./terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat widget -->
+    <a href="https://wa.me/8613326425565">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Contact Support</div>
+        </div>
+    </a>
+
+    <!-- Search overlay -->
+    <div id="search-overlay" class="search-overlay active" style="display: none;">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products..." autofocus="">
+                <button id="close-search" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="initial-message">Start typing to search products...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../script.js"></script>
+    <script src="../js/shipping-info.js"></script>
+</body>
+</html>

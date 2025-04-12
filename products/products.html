@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdoor Equipment Mall - Product List</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/product-styles.css">        
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html">Summer Sale</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+    <!-- 主要内容 -->
+    <main class="products-page">
+        <div class="container">
+            <div class="products-layout">
+                <!-- 分类侧边栏 -->
+                <aside class="categories-sidebar">
+                    <h3>Product Categories</h3>
+                    <!-- 分类列表将通过JavaScript动态生成 -->
+                </aside>
+
+                <!-- 产品内容区域 -->
+                <div class="products-content">
+                    <!-- 产品头部 -->
+                    <div class="products-header">
+                        <h1>All Products</h1>
+                        <div class="products-filters">
+                            <select id="sort-select">
+                                <option value="default">默认排序</option>
+                                <option value="price-asc">价格从低到高</option>
+                                <option value="price-desc">价格从高到低</option>
+                                <option value="name-asc">名称A-Z</option>
+                                <option value="name-desc">名称Z-A</option>
+                            </select>
+                            <div class="view-options">
+                                <button class="view-btn" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" data-view="list">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 子分类导航 -->
+                    <div class="subcategories-nav">
+                        <!-- 子分类按钮将通过JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 产品网格 -->
+                    <div class="products-grid">
+                        <!-- 产品卡片将通过JavaScript动态生成 -->
+                    </div>
+
+                    <!-- 分页 -->
+                    <div class="pagination">
+                        <div class="page-numbers">
+                            <!-- 页码按钮将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./products/summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./products/support.html">Contact Us</a></li>
+                    <li><a href="./products/faq.html">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./products/privacy-policy.html">Privacy Policy</a>
+                <a href="./products/terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./products/visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 脚本引用 -->
+    <script src="../js/cart.js"></script>
+    <script src="../js/products.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html> 

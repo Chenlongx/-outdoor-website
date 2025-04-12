@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdoor Guides | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/guides.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="#" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="./img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./products/summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products/product-detail.html">Products</a></li>
+                <li><a href="#">Activities</a></li>
+                <li><a href="#">Adventures</a></li>
+                <li><a href="guides.html" class="active">Guides</a></li>
+                <li><a href="./products/support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="guides-hero">
+        <div class="guides-hero-content">
+            <h1>Outdoor Adventure Guides</h1>
+            <p>Expert advice and comprehensive resources for all your adventures</p>
+        </div>
+    </section>
+
+    <div class="guides-container">
+        <aside class="guides-sidebar">
+            <div class="sidebar-widget">
+                <h3>Guide Categories</h3>
+                <ul class="category-list">
+                    <li class="active"><a href="#" data-category="all">All Guides</a></li>
+                    <li><a href="#" data-category="hiking">Hiking</a></li>
+                    <li><a href="#" data-category="camping">Camping</a></li>
+                    <li><a href="#" data-category="climbing">Climbing</a></li>
+                    <li><a href="#" data-category="fishing">Fishing</a></li>
+                    <li><a href="#" data-category="kayaking">Kayaking</a></li>
+                    <li><a href="#" data-category="survival">Survival</a></li>
+                    <li><a href="#" data-category="gear">Gear & Equipment</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Experience Level</h3>
+                <div class="filter-group">
+                    <label class="filter-option">
+                        <input type="checkbox" value="beginner"> Beginner
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="intermediate"> Intermediate
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="advanced"> Advanced
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="expert"> Expert
+                    </label>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Season</h3>
+                <div class="filter-group">
+                    <label class="filter-option">
+                        <input type="checkbox" value="spring"> Spring
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="summer"> Summer
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="fall"> Fall
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="winter"> Winter
+                    </label>
+                    <label class="filter-option">
+                        <input type="checkbox" value="all-seasons"> All Seasons
+                    </label>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Featured Resources</h3>
+                <div class="resource-links">
+                    <a href="#" class="resource-link">
+                        <i class="fas fa-download"></i> Trail Maps
+                    </a>
+                    <a href="#" class="resource-link">
+                        <i class="fas fa-book"></i> Gear Checklists
+                    </a>
+                    <a href="#" class="resource-link">
+                        <i class="fas fa-compass"></i> Navigation Basics
+                    </a>
+                    <a href="#" class="resource-link">
+                        <i class="fas fa-first-aid"></i> First Aid Guide
+                    </a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget newsletter-small">
+                <h3>Get Expert Tips</h3>
+                <p>Sign up for our newsletter to receive outdoor tips and guides.</p>
+                <div class="newsletter-form-small">
+                    <input type="email" placeholder="Your Email">
+                    <button type="submit">Sign Up</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="guides-content">
+            <div class="guides-header">
+                <h2>Explore Our Adventure Guides</h2>
+                <div class="guides-search">
+                    <input type="text" id="guides-search" placeholder="Search guides...">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="guides-sort">
+                    <label for="sort-guides">Sort By:</label>
+                    <select id="sort-guides">
+                        <option value="newest">Newest</option>
+                        <option value="popular">Most Popular</option>
+                        <option value="az">A-Z</option>
+                        <option value="za">Z-A</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="featured-guide">
+                <div class="featured-guide-content">
+                    <span class="guide-badge">Featured</span>
+                    <h3>Ultimate Backpacking Essentials: What to Pack for Any Trail</h3>
+                    <p class="guide-meta">
+                        <span><i class="fas fa-tag"></i> Hiking, Gear</span>
+                        <span><i class="fas fa-signal"></i> Beginner to Advanced</span>
+                        <span><i class="fas fa-calendar"></i> All Seasons</span>
+                    </p>
+                    <p class="guide-excerpt">Master the art of packing for backcountry adventures with our complete guide to essential gear, weight distribution, and season-specific considerations.</p>
+                    <a href="#" class="btn-primary">Read Full Guide</a>
+                </div>
+                <div class="featured-guide-image">
+                    <img src="https://images.unsplash.com/photo-1533240332313-0db49b459ad6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Backpacking Essentials">
+                </div>
+            </div>
+
+            <div class="guides-grid" id="guides-list">
+                <!-- Guide 1 -->
+                <div class="guide-card" data-category="hiking" data-level="beginner" data-season="spring summer">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Hiking Trails Guide">
+                        <span class="guide-level beginner">Beginner</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Hiking</span>
+                        <h4>Top 10 Day Hiking Trails for Beginners</h4>
+                        <p>Discover the best trails for newcomers with scenic views and manageable terrain.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 10 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Apr 15, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 2 -->
+                <div class="guide-card" data-category="camping" data-level="intermediate" data-season="summer">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1537225228614-56cc3556d7ed?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Camp Cooking">
+                        <span class="guide-level intermediate">Intermediate</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Camping</span>
+                        <h4>Wilderness Cooking: Gourmet Meals on the Trail</h4>
+                        <p>Elevate your camping cuisine with these easy-to-prepare but impressive meal ideas.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 15 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Mar 22, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 3 -->
+                <div class="guide-card" data-category="climbing" data-level="advanced" data-season="spring fall">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1522163182402-834f871fd851?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Rock Climbing">
+                        <span class="guide-level advanced">Advanced</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Climbing</span>
+                        <h4>Advanced Rock Climbing Techniques for Steep Terrain</h4>
+                        <p>Master the skills needed to tackle challenging rock faces and improve your climbing efficiency.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 20 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Feb 08, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 4 -->
+                <div class="guide-card" data-category="survival" data-level="intermediate" data-season="all-seasons">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Survival Skills">
+                        <span class="guide-level intermediate">Intermediate</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Survival</span>
+                        <h4>Wilderness Navigation: Beyond the GPS</h4>
+                        <p>Learn essential map and compass skills to navigate safely when technology fails.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 18 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Jan 30, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 5 -->
+                <div class="guide-card" data-category="fishing" data-level="beginner" data-season="summer">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1516423879646-4274e92c456a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Fly Fishing">
+                        <span class="guide-level beginner">Beginner</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Fishing</span>
+                        <h4>Beginner's Guide to Fly Fishing</h4>
+                        <p>Start your fly fishing journey with equipment recommendations, basic casting techniques, and river etiquette.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 12 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Mar 05, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 6 -->
+                <div class="guide-card" data-category="kayaking" data-level="intermediate" data-season="summer spring">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1604537372111-13b49975da20?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Kayaking Guide">
+                        <span class="guide-level intermediate">Intermediate</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Kayaking</span>
+                        <h4>Navigating Rapids: A Guide to Whitewater Kayaking</h4>
+                        <p>Essential techniques for reading water, executing rolls, and staying safe in fast-moving rivers.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 15 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Feb 18, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 7 -->
+                <div class="guide-card" data-category="gear" data-level="beginner" data-season="all-seasons">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Gear Maintenance">
+                        <span class="guide-level beginner">Beginner</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Gear</span>
+                        <h4>Outdoor Gear Maintenance & Care</h4>
+                        <p>Extend the life of your equipment with proper cleaning, storage, and repair techniques.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 14 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Jan 12, 2025</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Guide 8 -->
+                <div class="guide-card" data-category="camping" data-level="expert" data-season="winter">
+                    <div class="guide-card-img">
+                        <img src="https://images.unsplash.com/photo-1515444744559-7be63e1600de?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Winter Camping">
+                        <span class="guide-level expert">Expert</span>
+                    </div>
+                    <div class="guide-card-content">
+                        <span class="guide-category">Camping</span>
+                        <h4>Winter Camping: Thriving in Sub-Zero Temperatures</h4>
+                        <p>Advanced techniques for camping safely and comfortably in extreme cold weather conditions.</p>
+                        <div class="guide-meta">
+                            <span><i class="far fa-clock"></i> 22 min read</span>
+                            <span><i class="far fa-calendar-alt"></i> Dec 05, 2024</span>
+                        </div>
+                        <a href="#" class="read-more">Read Guide <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="guides-pagination">
+                <a href="#" class="active">1</a>
+                <a href="#">2</a>
+                <a href="#">3</a>
+                <a href="#">4</a>
+                <a href="#" class="next-page">Next <i class="fas fa-angle-right"></i></a>
+            </div>
+
+            <div class="no-results" style="display: none;">
+                <div class="no-results-icon">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3>No guides found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+                <button id="reset-filters" class="btn-secondary">Reset All Filters</button>
+            </div>
+        </main>
+    </div>
+
+    <section class="outdoor-expertise">
+        <div class="outdoor-expertise-content">
+            <h2>Learn from Outdoor Experts</h2>
+            <p>Our guides are written by professionals with years of wilderness experience</p>
+            <div class="experts-grid">
+                <div class="expert-card">
+                    <img src="https://images.unsplash.com/photo-1542142430-59412211d0a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Michael Torres">
+                    <div class="expert-info">
+                        <h4>Michael Torres</h4>
+                        <p class="expert-title">Trail Guide & Mountaineer</p>
+                        <p class="expert-bio">15+ years guiding high-altitude expeditions across six continents.</p>
+                    </div>
+                </div>
+                <div class="expert-card">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sarah Johnson">
+                    <div class="expert-info">
+                        <h4>Sarah Johnson</h4>
+                        <p class="expert-title">Wilderness Survival Instructor</p>
+                        <p class="expert-bio">Former search & rescue team member and certified wilderness first responder.</p>
+                    </div>
+                </div>
+                <div class="expert-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="David Chen">
+                    <div class="expert-info">
+                        <h4>David Chen</h4>
+                        <p class="expert-title">Outdoor Gear Specialist</p>
+                        <p class="expert-bio">Product designer with a focus on innovative, sustainable outdoor equipment.</p>
+                    </div>
+                </div>
+                <div class="expert-card">
+                    <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Emma Rodriguez">
+                    <div class="expert-info">
+                        <h4>Emma Rodriguez</h4>
+                        <p class="expert-title">Environmental Educator</p>
+                        <p class="expert-bio">Specializes in teaching low-impact outdoor practices and wildlife identification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="guide-resources">
+        <div class="guide-resources-header">
+            <h2>Essential Adventure Resources</h2>
+            <p>Tools and information to enhance your outdoor experience</p>
+        </div>
+        <div class="resources-grid">
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h4>Trail Maps</h4>
+                <p>Download detailed maps for popular hiking destinations</p>
+            </a>
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h4>Weather Planning</h4>
+                <p>Seasonal forecasts and weather preparation guides</p>
+            </a>
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-campground"></i>
+                </div>
+                <h4>Campsite Directory</h4>
+                <p>Find and reserve campsites across national parks</p>
+            </a>
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-first-aid"></i>
+                </div>
+                <h4>Emergency Preparedness</h4>
+                <p>Safety protocols and first aid for the wilderness</p>
+            </a>
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <h4>Gear Checklists</h4>
+                <p>Printable lists for different activities and seasons</p>
+            </a>
+            <a href="#" class="resource-card">
+                <div class="resource-icon">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h4>Leave No Trace</h4>
+                <p>Guidelines for minimal environmental impact</p>
+            </a>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h3>Want more outdoor tips and guides?</h3>
+        <p>Join our community of adventure enthusiasts</p>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Chat with an Outdoor Expert</div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../js/guides.js"></script>
+</body>
+</html>

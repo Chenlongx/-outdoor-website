@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 80" width="300" height="80">
+  <!-- Mountain Background -->
+  <polygon points="20,65 60,15 100,65 140,25 180,65" fill="#4c956c" />
+
+  <!-- Text -->
+  <text x="25" y="55" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#2d3142">
+    WILD<tspan fill="#2c6e49">GEAR</tspan>
+  </text>
+
+  <!-- Tagline -->
+  <text x="25" y="70" font-family="Arial, sans-serif" font-size="12" fill="#2d3142">
+    OUTDOOR ADVENTURE EQUIPMENT
+  </text>
+
+  <!-- Pine tree -->
+  <polygon points="200,65 220,30 240,65" fill="#2c6e49" />
+  <polygon points="205,65 220,40 235,65" fill="#4c956c" />
+
+  <!-- Sun -->
+  <circle cx="260" cy="30" r="12" fill="#d68c45" />
+  <line x1="260" y1="10" x2="260" y2="15" stroke="#d68c45" stroke-width="2" />
+  <line x1="260" y1="45" x2="260" y2="50" stroke="#d68c45" stroke-width="2" />
+  <line x1="240" y1="30" x2="245" y2="30" stroke="#d68c45" stroke-width="2" />
+  <line x1="275" y1="30" x2="280" y2="30" stroke="#d68c45" stroke-width="2" />
+  <line x1="246" y1="16" x2="250" y2="20" stroke="#d68c45" stroke-width="2" />
+  <line x1="270" y1="40" x2="274" y2="44" stroke="#d68c45" stroke-width="2" />
+  <line x1="246" y1="44" x2="250" y2="40" stroke="#d68c45" stroke-width="2" />
+  <line x1="270" y1="20" x2="274" y2="16" stroke="#d68c45" stroke-width="2" />
+</svg>

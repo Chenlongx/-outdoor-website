@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Camping Tent | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/product-detail.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
+                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="products.html">products</a></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-gallery">
+                <div class="main-image">
+                    <div class="image-track">
+                        <img id="main-product-image" src="img/product-tent.jpg" alt="Premium Camping Tent">
+                    </div>
+                </div>
+                <div class="thumbnail-images">
+                </div>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h1></h1>
+                    <div class="product-rating">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span>4.5 (128 reviews)</span>
+                    </div>
+                </div>
+                <div class="product-price">
+                    <span class="current-price">$199.99</span>
+                    <span class="original-price">$249.99</span>
+                    <span class="discount-badge">20% OFF</span>
+                </div>
+                <div class="product-description-wrapper">
+                    <div class="product-description">
+                    </div>
+                    <button class="read-more-btn">See more</button>
+                </div>
+                <div class="product-actions">
+                    <div class="quantity-selector">
+                        <button id="decrease-quantity">-</button>
+                        <input type="number" id="quantity" value="1" min="1" max="10">
+                        <button id="increase-quantity">+</button>
+                    </div>
+                    <button id="add-to-cart" class="btn-primary add-to-cart-btn">ADD TO CART</button>
+                    <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                </div>
+                <!-- 购物车按钮 -->
+                <button class="proceed-checkout" >Proceed to Checkout</button>
+                <div class="product-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-box"></i>
+                        <span>In Stock</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-truck"></i>
+                        <span>Free Shipping over $75</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-undo"></i>
+                        <span>30-Day Returns</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-details-tabs">
+        <div class="container">
+            <div class="tabs">
+                <div class="tab active" data-tab="description">Description</div>
+                <div class="tab" data-tab="specifications">Specifications</div>
+                <div class="tab" data-tab="reviews">Reviews</div>
+                <div class="tab" data-tab="shipping">Shipping & Returns</div>
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="description">
+                    <div class="product-description-header">
+                        <!-- JS动态插入小标题和段落 -->
+                    </div>
+                
+                    <div class="product-features">
+                        <!-- JS动态插入图片和内容 -->
+                    </div>
+                </div>
+                <div class="tab-pane" id="specifications">
+                    <h2>Technical Specifications</h2>
+
+                    <div class="specs-table">
+                        <!-- JavaScript 动态渲染规格 -->
+                    </div>
+
+                    <div class="included-items">
+                        <h3>What's Included</h3>
+                        <ul class="included-list">
+                            <!-- 这里用JS动态生成li -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-pane" id="reviews">
+                    <div class="reviews-summary">
+                        <div class="overall-rating">
+                            <div class="rating-number">4.5</div>
+                            <div class="rating-stars">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <div class="total-reviews">Based on 128 reviews</div>
+                        </div>
+                        <div class="rating-breakdown">
+                            <div class="rating-row">
+                                <div class="star-label">5 Stars</div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 72%"></div>
+                                </div>
+                                <div class="percent">72%</div>
+                            </div>
+                            <div class="rating-row">
+                                <div class="star-label">4 Stars</div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 18%"></div>
+                                </div>
+                                <div class="percent">18%</div>
+                            </div>
+                            <div class="rating-row">
+                                <div class="star-label">3 Stars</div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 7%"></div>
+                                </div>
+                                <div class="percent">7%</div>
+                            </div>
+                            <div class="rating-row">
+                                <div class="star-label">2 Stars</div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 2%"></div>
+                                </div>
+                                <div class="percent">2%</div>
+                            </div>
+                            <div class="rating-row">
+                                <div class="star-label">1 Star</div>
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 1%"></div>
+                                </div>
+                                <div class="percent">1%</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-filters">
+                        <select class="filter-dropdown">
+                            <option>Most Recent</option>
+                            <option>Highest Rated</option>
+                            <option>Lowest Rated</option>
+                        </select>
+                        <button class="btn-secondary">Write a Review</button>
+                    </div>
+
+                    <div class="reviews-list">
+                        <div class="review-item">
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Michael T.</div>
+                                <div class="review-date">July 15, 2025</div>
+                            </div>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <h4>Exceeded my expectations!</h4>
+                            <p>I've used this tent on three different camping trips now, and it has performed exceptionally well in various conditions. It withstood heavy rain in the mountains without a single leak, and setup is truly as easy as advertised. Highly recommend for anyone looking for a reliable tent.</p>
+                            <div class="review-images">
+                                <img src="img/review-image-1.jpg" alt="Customer Review Image">
+                                <img src="img/review-image-2.jpg" alt="Customer Review Image">
+                            </div>
+                        </div>
+
+                        <div class="review-item">
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Sarah L.</div>
+                                <div class="review-date">June 28, 2025</div>
+                            </div>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                            <h4>Great tent, but heavier than expected</h4>
+                            <p>The quality of this tent is outstanding, and I love the interior space and pockets. My only complaint is that it's a bit heavier than I expected for backpacking trips. It's perfect for car camping though, and the durability makes up for the extra weight.</p>
+                        </div>
+
+                        <div class="review-item">
+                            <div class="reviewer-info">
+                                <div class="reviewer-name">Alex J.</div>
+                                <div class="review-date">June 10, 2025</div>
+                            </div>
+                            <div class="review-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <h4>Excellent ventilation and weather protection</h4>
+                            <p>I took this tent on a week-long trip through varying weather conditions. The ventilation system is excellent - no condensation issues even in high humidity. The rainfly kept everything dry during a thunderstorm, and the tent stayed firmly anchored despite strong winds. Setup is straightforward once you've done it once or twice.</p>
+                        </div>
+                    </div>
+
+                    <div class="pagination">
+                        <a href="#" class="active">1</a>
+                        <a href="#">2</a>
+                        <a href="#">3</a>
+                        <span>...</span>
+                        <a href="#">9</a>
+                        <a href="#" class="next">Next <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="tab-pane" id="shipping">
+                    <h2>Shipping & Returns</h2>
+
+                    <div class="shipping-info">
+                        <h3>Shipping Policy</h3>
+                        <ul>
+                            <li><strong>Free Standard Shipping:</strong> On all orders over $75 (US only)</li>
+                            <li><strong>Standard Shipping (3-7 business days):</strong> $5.99</li>
+                            <li><strong>Expedited Shipping (2-3 business days):</strong> $12.99</li>
+                            <li><strong>Next Day Shipping:</strong> $24.99 (order by 12pm EST)</li>
+                        </ul>
+                        <p>Orders are processed and shipped Monday through Friday, excluding holidays. Please allow additional processing time during peak seasons and sale events.</p>
+
+                        <h3>International Shipping</h3>
+                        <p>We ship to over 40 countries worldwide. International shipping rates and delivery times vary by location. Customs fees and import taxes are not included in the product price or shipping cost and are the responsibility of the customer.</p>
+
+                        <h3>Returns & Exchanges</h3>
+                        <p>We offer a 30-day return policy on unused, unwashed items in their original packaging. To initiate a return, please contact our customer service team or visit the Returns portal in your account.</p>
+
+                        <ul>
+                            <li>Items must be in original condition with all tags attached</li>
+                            <li>Return shipping is free for exchanges</li>
+                            <li>Return shipping fees for refunds are the responsibility of the customer unless the item arrived damaged or incorrect</li>
+                            <li>Refunds will be processed to the original payment method within 10 business days of receiving the returned item</li>
+                        </ul>
+
+                        <h3>Warranty Information</h3>
+                        <p>All WildGear tents come with a lifetime warranty against manufacturing defects. This warranty does not cover normal wear and tear, misuse, or alterations to the product. For warranty claims, please contact our customer service team with your order number and photos of the issue.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="related-products">
+        <div class="container">
+            <h2 class="section-title">YOU MAY ALSO LIKE</h2>
+            <div class="product-grid">
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Chat with an Outdoor Expert</div>
+    </div>
+
+    <script src="../js/cart.js"></script>
+    <script src="../js/product-detail.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

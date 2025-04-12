@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Size Charts | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/size-chart.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products.html">Products</a></li>
+                <li><a href="./cart.html">Cart</a></li>
+                <li><a href="./activities.html">Activities</a></li>
+                <li><a href="./guides.html">Guides</a></li>
+                <li><a href="./support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="./cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Page title banner -->
+    <section class="page-banner">
+        <div class="banner-content">
+            <h1>Size Charts</h1>
+            <nav class="breadcrumb">
+                <ol>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="./support.html">Support</a></li>
+                    <li>Size Charts</li>
+                </ol>
+            </nav>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <main class="size-chart-container">
+        <!-- Introduction -->
+        <section class="size-chart-intro">
+            <h2>Find Your Perfect Fit</h2>
+            <p>At WildGear, we understand that proper fit is essential for comfort and performance during your outdoor adventures. Use our size charts to find the right fit for our apparel and equipment. All measurements are provided in both inches and centimeters.</p>
+            <div class="sizing-tips">
+                <h3><i class="fas fa-ruler"></i> Measuring Tips</h3>
+                <ul>
+                    <li><strong>Use a soft tape measure</strong> for body measurements.</li>
+                    <li><strong>Measure directly against your body</strong>, not over clothing (except where indicated).</li>
+                    <li><strong>Stand naturally</strong> with feet together and weight distributed evenly.</li>
+                    <li>If you're <strong>between sizes</strong>, we recommend sizing up for a more comfortable fit.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Category Tabs -->
+        <div class="size-category-tabs">
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-target="mens">Men's Apparel</button>
+                <button class="tab-btn" data-target="womens">Women's Apparel</button>
+                <button class="tab-btn" data-target="footwear">Footwear</button>
+                <button class="tab-btn" data-target="kids">Kids' Sizes</button>
+                <button class="tab-btn" data-target="equipment">Equipment</button>
+            </div>
+
+            <div class="tab-content-container">
+                <!-- Men's Apparel Tab -->
+                <div class="tab-content active" id="mens">
+                    <div class="measurement-diagram">
+                        <img src="../img/size-chart/boys size.webp" alt="Men's Measurement Guide" class="measurement-image">
+                        <div class="measurement-points">
+                            <div class="point" style="top: 15%; left: 50%;">
+                                <span class="point-label">Chest</span>
+                            </div>
+                            <div class="point" style="top: 30%; left: 50%;">
+                                <span class="point-label">Waist</span>
+                            </div>
+                            <div class="point" style="top: 45%; left: 50%;">
+                                <span class="point-label">Hips</span>
+                            </div>
+                            <div class="point" style="top: 35%; left: 20%;">
+                                <span class="point-label">Sleeve</span>
+                            </div>
+                            <div class="point" style="top: 70%; left: 50%;">
+                                <span class="point-label">Inseam</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="measurement-instructions">
+                        <h3>How to Measure</h3>
+                        <ul>
+                            <li><strong>Chest:</strong> Measure around the fullest part of your chest, keeping the tape horizontal.</li>
+                            <li><strong>Waist:</strong> Measure around your natural waistline, at the narrowest part of your waist.</li>
+                            <li><strong>Hips:</strong> Measure around the fullest part of your hips.</li>
+                            <li><strong>Sleeve:</strong> Measure from the center back of your neck, across the shoulder, and down to the wrist.</li>
+                            <li><strong>Inseam:</strong> Measure from the crotch to the bottom of the leg.</li>
+                        </ul>
+                    </div>
+
+                    <div class="size-tables">
+                        <h3>Men's Tops (Jackets, Shirts, Sweaters)</h3>
+                        <div class="unit-toggle">
+                            <button class="unit-btn active" data-unit="inches">Inches</button>
+                            <button class="unit-btn" data-unit="cm">Centimeters</button>
+                        </div>
+                        <div class="table-container">
+                            <table class="size-table inches-table active">
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Chest</th>
+                                        <th>Waist</th>
+                                        <th>Sleeve</th>
+                                        <th>Neck</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>XS</td>
+                                        <td>33-35</td>
+                                        <td>27-29</td>
+                                        <td>31-32</td>
+                                        <td>13-13.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>S</td>
+                                        <td>36-38</td>
+                                        <td>30-32</td>
+                                        <td>32-33</td>
+                                        <td>14-14.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>M</td>
+                                        <td>39-41</td>
+                                        <td>33-35</td>
+                                        <td>33-34</td>
+                                        <td>15-15.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L</td>
+                                        <td>42-44</td>
+                                        <td>36-38</td>
+                                        <td>34-35</td>
+                                        <td>16-16.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XL</td>
+                                        <td>45-47</td>
+                                        <td>39-41</td>
+                                        <td>35-36</td>
+                                        <td>17-17.5</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXL</td>
+                                        <td>48-50</td>
+                                        <td>42-44</td>
+                                        <td>36-37</td>
+                                        <td>18-18.5</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="size-table cm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Chest (cm)</th>
+                                        <th>Waist (cm)</th>
+                                        <th>Sleeve (cm)</th>
+                                        <th>Neck (cm)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>XS</td>
+                                        <td>84-89</td>
+                                        <td>69-74</td>
+                                        <td>79-81</td>
+                                        <td>33-34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>S</td>
+                                        <td>91-97</td>
+                                        <td>76-81</td>
+                                        <td>81-84</td>
+                                        <td>36-37</td>
+                                    </tr>
+                                    <tr>
+                                        <td>M</td>
+                                        <td>99-104</td>
+                                        <td>84-89</td>
+                                        <td>84-86</td>
+                                        <td>38-39</td>
+                                    </tr>
+                                    <tr>
+                                        <td>L</td>
+                                        <td>107-112</td>
+                                        <td>91-97</td>
+                                        <td>86-89</td>
+                                        <td>41-42</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XL</td>
+                                        <td>114-119</td>
+                                        <td>99-104</td>
+                                        <td>89-91</td>
+                                        <td>43-44</td>
+                                    </tr>
+                                    <tr>
+                                        <td>XXL</td>
+                                        <td>122-127</td>
+                                        <td>107-112</td>
+                                        <td>91-94</td>
+                                        <td>46-47</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <h3>Men's Bottoms (Pants, Shorts)</h3>
+                        <div class="table-container">
+                            <table class="size-table inches-table active">
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Waist</th>
+                                        <th>Hip</th>
+                                        <th>Inseam (Regular)</th>
+                                        <th>Inseam (Short)</th>
+                                        <th>Inseam (Long)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>28</td>
+                                        <td>27-29</td>
+                                        <td>33-35</td>
+                                        <td>31</td>
+                                        <td>29</td>
+                                        <td>33</td>
+                                    </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td>29-31</td>
+                                        <td>35-37</td>
+                                        <td>31</td>
+                                        <td>29</td>
+                                        <td>33</td>
+                                    </tr>
+                                    <tr>
+                                        <td>32</td>
+                                        <td>31-33</td>
+                                        <td>37-39</td>
+                                        <td>32</td>
+                                        <td>30</td>
+                                        <td>34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>34</td>
+                                        <td>33-35</td>
+                                        <td>39-41</td>
+                                        <td>32</td>
+                                        <td>30</td>
+                                        <td>34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>36</td>
+                                        <td>35-37</td>
+                                        <td>41-43</td>
+                                        <td>32</td>
+                                        <td>30</td>
+                                        <td>34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>38</td>
+                                        <td>37-39</td>
+                                        <td>43-45</td>
+                                        <td>32</td>
+                                        <td>30</td>
+                                        <td>34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>40</td>
+                                        <td>39-41</td>
+                                        <td>45-47</td>
+                                        <td>32</td>
+                                        <td>30</td>
+                                        <td>34</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="size-table cm-table">
+                                <thead>
+                                    <tr>
+                                        <th>Size</th>
+                                        <th>Waist (cm)</th>
+                                        <th>Hip (cm)</th>
+                                        <th>Inseam (Regular)</th>
+                                        <th>Inseam (Short)</th>
+                                        <th>Inseam (Long)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>28</td>
+                                        <td>69-74</td>
+                                        <td>84-89</td>
+                                        <td>79</td>
+                                        <td>74</td>
+                                        <td>84</td>
+                                    </tr>
+                                    <tr>
+                                        <td>30</td>
+                                        <td>74-79</td>
+                                        <td>89-94</td>
+                                        <td>79</td>
+                                        <td>74</td>
+                                        <td>84</td>
+                                    </tr>
+                                    <tr>
+                                        <td>32</td>
+                                        <td>79-84</td>
+                                        <td>94-99</td>
+                                        <td>81</td>
+                                        <td>76</td>
+                                        <td>86</td>
+                                    </tr>
+                                    <tr>
+                                        <td>34</td>
+                                        <td>84-89</td>
+                                        <td>99-104</td>
+                                        <td>81</td>
+                                        <td>76</td>
+                                        <td>86</td>
+                                    </tr>
+                                    <tr>
+                                        <td>36</td>
+                                        <td>89-94</td>
+                                        <td>104-109</td>
+                                        <td>81</td>
+                                        <td>76</td>
+                                        <td>86</td>
+                                    </tr>
+                                    <tr>
+                                        <td>38</td>
+                                        <td>94-99</td>
+                                        <td>109-114</td>
+                                        <td>81</td>
+                                        <td>76</td>
+                                        <td>86</td>
+                                    </tr>
+                                    <tr>
+                                        <td>40</td>
+                                        <td>99-104</td>
+                                        <td>114-119</td>
+                                        <td>81</td>
+                                        <td>76</td>
+                                        <td>86</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other tab contents will go here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./support.html">Contact Us</a></li>
+                    <li><a href="./faq.html">FAQ</a></li>
+                    <li><a href="./shipping-info.html">Shipping Info</a></li>
+                    <li><a href="./size-chart.html">Size Charts</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="./privacy-policy.html">Privacy Policy</a></li>
+                    <li><a href="./terms-of-service.html">Terms of Service</a></li>
+                    <li><a href="#">Accessibility</a></li>
+                    <li><a href="./visual-sitemap.html">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./privacy-policy.html">Privacy Policy</a>
+                <a href="./terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat widget -->
+    <a href="https://wa.me/8613326425565">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Contact Support</div>
+        </div>
+    </a>
+
+    <!-- Search overlay -->
+    <div id="search-overlay" class="search-overlay active" style="display: none;">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products..." autofocus="">
+                <button id="close-search" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="initial-message">Start typing to search products...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../script.js"></script>
+    <script src="../js/size-chart.js"></script>
+</body>
+</html>

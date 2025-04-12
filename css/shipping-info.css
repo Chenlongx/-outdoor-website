@@ -1,0 +1,498 @@
+/* Shipping Information Page Styles */
+
+/* Page Banner */
+.page-banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/shipping-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.banner-content h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.breadcrumb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.breadcrumb ol {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.breadcrumb li:not(:last-child)::after {
+    content: '/';
+    margin-left: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.breadcrumb a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+    color: var(--accent-color);
+}
+
+/* Main Container */
+.shipping-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem 4rem;
+}
+
+/* Section Common Styles */
+.shipping-section {
+    margin-bottom: 4rem;
+}
+
+.shipping-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.shipping-section h2 i {
+    color: var(--accent-color);
+}
+
+/* Shipping Methods */
+.shipping-methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.shipping-card {
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.shipping-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+.shipping-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shipping-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+}
+
+.shipping-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.shipping-details {
+    padding: 1.5rem;
+}
+
+.shipping-details p {
+    margin-bottom: 0.5rem;
+}
+
+.shipping-details p:last-child {
+    margin-top: 1rem;
+    margin-bottom: 0;
+    color: var(--gray-color);
+    font-size: 0.95rem;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-item {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.info-item h3 {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.info-item p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--dark-color);
+}
+
+/* International Shipping */
+.international-shipping {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.highlight-text {
+    background-color: var(--light-gray);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--accent-color);
+}
+
+.country-tabs {
+    margin-top: 1.5rem;
+}
+
+.tab-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    background-color: var(--light-gray);
+    border: none;
+    padding: 0.75rem 1.25rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background-color: #e2e6ea;
+}
+
+.tab-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    background-color: var(--light-gray);
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+.tab-pane h4 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.tab-pane ul {
+    padding-left: 1.5rem;
+}
+
+.tab-pane li {
+    margin-bottom: 0.75rem;
+}
+
+/* FAQ Accordion */
+.faq-accordion {
+    background-color: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+.faq-question {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: #f8f9fa;
+}
+
+.faq-question h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    font-weight: 600;
+}
+
+.faq-icon {
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 1.25rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    padding: 0 1.25rem 1.25rem;
+    max-height: 500px;
+}
+
+/* Shipping Calculator */
+.calculator-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.calculator-container > p {
+    margin-bottom: 1.5rem;
+}
+
+.calculator-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.form-group input,
+.form-group select {
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: var(--body-font);
+}
+
+.calculate-btn {
+    grid-column: 1 / -1;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.calculate-btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.calculator-results {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: var(--light-gray);
+    border-radius: 0.5rem;
+}
+
+.calculator-results h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.result-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.result-label {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.result-value {
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.results-disclaimer {
+    font-size: 0.85rem;
+    color: var(--gray-color);
+    font-style: italic;
+}
+
+/* Contact Section */
+.contact-section {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.contact-section > p {
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.contact-options {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contact-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--dark-color);
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.contact-option:hover {
+    transform: translateY(-5px);
+    color: var(--primary-color);
+}
+
+.contact-option i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.contact-option span {
+    font-weight: 600;
+}
+
+.business-hours {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--light-gray);
+}
+
+.business-hours p {
+    font-size: 0.95rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .page-banner {
+        padding: 3rem 1rem;
+    }
+
+    .banner-content h1 {
+        font-size: 2rem;
+    }
+
+    .shipping-container {
+        padding: 0 1rem 3rem;
+    }
+
+    .shipping-methods {
+        grid-template-columns: 1fr;
+    }
+
+    .tab-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .tab-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .calculator-form {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-options {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .banner-content h1 {
+        font-size: 1.75rem;
+    }
+
+    .shipping-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+
+    .shipping-price {
+        font-size: 1.25rem;
+    }
+}

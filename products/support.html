@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support | WildGear | Outdoor Adventure Equipment</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/support.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="#" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products/product-detail.html">Products</a></li>
+                <li><a href="#">Activities</a></li>
+                <li><a href="#">Adventures</a></li>
+                <li><a href="#">Guides</a></li>
+                <li><a href="./support.html" class="active">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="support-hero">
+        <div class="hero-content">
+            <h1>Customer Support</h1>
+            <p>We're here to help you with any questions or concerns</p>
+        </div>
+    </section>
+
+    <section class="support-options">
+        <div class="support-option">
+            <i class="fas fa-headset"></i>
+            <h3>Customer Service</h3>
+            <p>Talk to our outdoor experts for personalized assistance</p>
+            <a href="#contact" class="btn-secondary">Contact Us</a>
+        </div>
+        <div class="support-option">
+            <i class="fas fa-question-circle"></i>
+            <h3>FAQ</h3>
+            <p>Find answers to common questions about our products and services</p>
+            <a href="#faq" class="btn-secondary">View FAQs</a>
+        </div>
+        <div class="support-option">
+            <i class="fas fa-box"></i>
+            <h3>Returns & Exchanges</h3>
+            <p>Learn about our hassle-free return and exchange policies</p>
+            <a href="#returns" class="btn-secondary">Learn More</a>
+        </div>
+        <div class="support-option">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Store Locator</h3>
+            <p>Find WildGear stores and authorized retailers near you</p>
+            <a href="#stores" class="btn-secondary">Find Stores</a>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <h2 class="section-title">CONTACT US</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <div class="contact-method">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h3>Call Us</h3>
+                        <p>1-800-WILDGEAR (1-800-945-3432)</p>
+                        <p class="hours">Monday-Friday: 8am-8pm ET</p>
+                        <p class="hours">Saturday-Sunday: 9am-6pm ET</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h3>Email Us</h3>
+                        <p>support@wildgear.com</p>
+                        <p class="hours">We respond within 24 hours</p>
+                    </div>
+                </div>
+                <div class="contact-method">
+                    <i class="fas fa-comments"></i>
+                    <div>
+                        <h3>Live Chat</h3>
+                        <p>Chat with our support team in real-time</p>
+                        <button class="chat-now-btn">Chat Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Send Us a Message</h3>
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number (optional)</label>
+                        <input type="text" id="orderNumber" name="orderNumber">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject" required>
+                            <option value="" disabled selected>Select a topic</option>
+                            <option value="order">Order Status</option>
+                            <option value="return">Returns & Exchanges</option>
+                            <option value="product">Product Information</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq-section">
+        <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+        <div class="faq-categories">
+            <button class="faq-category-btn active" data-category="orders">Orders & Shipping</button>
+            <button class="faq-category-btn" data-category="returns">Returns & Warranties</button>
+            <button class="faq-category-btn" data-category="products">Product Information</button>
+            <button class="faq-category-btn" data-category="account">Account & Membership</button>
+        </div>
+
+        <div class="faq-container">
+            <!-- Orders & Shipping FAQs -->
+            <div class="faq-category active" id="orders">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I track my order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can track your order by logging into your account and viewing your order history. Alternatively, you can use the tracking number provided in your shipping confirmation email. If you need further assistance, please contact our customer service team.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are your shipping options and costs?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer several shipping options:</p>
+                        <ul>
+                            <li>Standard Shipping (3-5 business days): $5.99 or FREE for orders over $75</li>
+                            <li>Expedited Shipping (2-3 business days): $12.99</li>
+                            <li>Next Day Shipping (1 business day): $25.99</li>
+                        </ul>
+                        <p>International shipping is available to select countries. Rates vary by location.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How long will it take to receive my order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Order processing typically takes 1-2 business days. After your order ships, delivery times depend on your selected shipping method. Standard shipping takes 3-5 business days, while expedited options arrive faster. You'll receive tracking information once your order ships.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Returns & Warranties FAQs -->
+            <div class="faq-category" id="returns">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer a 60-day satisfaction guarantee on most items. If you're not completely satisfied with your purchase, you can return it within 60 days for a full refund. Items must be unused, unwashed, and in their original packaging with all tags attached.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I start a return or exchange?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To start a return or exchange:</p>
+                        <ol>
+                            <li>Log into your account and go to your order history</li>
+                            <li>Select the order containing the item(s) you wish to return</li>
+                            <li>Click "Start Return/Exchange" and follow the prompts</li>
+                            <li>Print your return label and packing slip</li>
+                            <li>Pack your items and attach the return label</li>
+                            <li>Drop off your package at any authorized shipping location</li>
+                        </ol>
+                        <p>If you need assistance, our customer service team is happy to help.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What is covered under your product warranty?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our WildGear brand products come with a limited lifetime warranty against manufacturing defects in materials and workmanship. This warranty covers repairs or replacement at our discretion. Normal wear and tear, improper care, accidents, or modifications are not covered.</p>
+                        <p>Other brands sold on our site may have different warranty terms. Please check the product description or contact us for specific warranty information.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Information FAQs -->
+            <div class="faq-category" id="products">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I know what size to order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Each product page includes detailed sizing information and measurement charts. For clothing and footwear, we recommend measuring yourself and comparing to our size charts. If you're between sizes, we typically recommend sizing up for outerwear and down for base layers.</p>
+                        <p>If you need additional assistance, our customer service team can provide specific sizing recommendations.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Are your products waterproof or water-resistant?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Product descriptions specify whether items are waterproof, water-resistant, or water-repellent:</p>
+                        <ul>
+                            <li><strong>Waterproof:</strong> Prevents water penetration, suitable for heavy rain/snow</li>
+                            <li><strong>Water-resistant:</strong> Resists water penetration to some degree, suitable for light rain</li>
+                            <li><strong>Water-repellent:</strong> Causes water to bead up and roll off, but will eventually soak through</li>
+                        </ul>
+                        <p>Waterproof ratings (e.g., 10,000mm, 20,000mm) indicate the level of water protection.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How should I care for my gear?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Care instructions are included with each product and can also be found on the product page. Generally:</p>
+                        <ul>
+                            <li>Follow garment labels for washing instructions</li>
+                            <li>Use gentle, technical cleansers for waterproof/technical fabrics</li>
+                            <li>Avoid fabric softeners on performance gear</li>
+                            <li>Air dry when possible</li>
+                            <li>Store gear clean and dry</li>
+                        </ul>
+                        <p>For detailed care guides, visit our Learning Center.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account & Membership FAQs -->
+            <div class="faq-category" id="account">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I create an account?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To create an account:</p>
+                        <ol>
+                            <li>Click on the account icon in the top navigation</li>
+                            <li>Select "Create Account"</li>
+                            <li>Enter your email address and create a password</li>
+                            <li>Provide your name and other required information</li>
+                            <li>Click "Create Account" to complete the process</li>
+                        </ol>
+                        <p>You can also create an account during checkout.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What are the benefits of the WildGear Adventurers Club?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The WildGear Adventurers Club is our free loyalty program that offers:</p>
+                        <ul>
+                            <li>Earn points on purchases (1 point per $1 spent)</li>
+                            <li>Redeem points for discounts on future purchases</li>
+                            <li>Early access to sales and new products</li>
+                            <li>Birthday rewards</li>
+                            <li>Free shipping on all orders (no minimum)</li>
+                            <li>Exclusive invitations to events and adventures</li>
+                            <li>Extended 90-day return period</li>
+                        </ul>
+                        <p>Join today through your account settings.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I reset my password?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To reset your password:</p>
+                        <ol>
+                            <li>Click on the account icon in the top navigation</li>
+                            <li>Select "Sign In"</li>
+                            <li>Click "Forgot Password?"</li>
+                            <li>Enter your email address and click "Reset Password"</li>
+                            <li>Check your email for a password reset link</li>
+                            <li>Follow the link to create a new password</li>
+                        </ol>
+                        <p>If you don't receive the reset email, check your spam folder or contact customer service.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="returns" class="returns-section">
+        <h2 class="section-title">RETURNS & EXCHANGES</h2>
+        <div class="returns-container">
+            <div class="returns-info">
+                <h3>Our Guarantee</h3>
+                <p>We stand behind every product we sell. If you're not satisfied with your purchase for any reason, you can return it within 60 days for a full refund or exchange.</p>
+
+                <h3>Return Policy Highlights</h3>
+                <ul class="policy-list">
+                    <li><i class="fas fa-check-circle"></i> 60-day return period for most items</li>
+                    <li><i class="fas fa-check-circle"></i> Items must be unused, unwashed, and with original tags</li>
+                    <li><i class="fas fa-check-circle"></i> Free returns on all orders within the US</li>
+                    <li><i class="fas fa-check-circle"></i> Expedited processing for WildGear Adventurers Club members</li>
+                </ul>
+
+                <div class="policy-buttons">
+                    <a href="#" class="btn-secondary"><i class="fas fa-file-alt"></i> Full Return Policy</a>
+                    <a href="#" class="btn-secondary"><i class="fas fa-shield-alt"></i> Warranty Information</a>
+                </div>
+            </div>
+
+            <div class="returns-process">
+                <h3>Return Process</h3>
+                <div class="process-steps">
+                    <div class="process-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Start Your Return</h4>
+                            <p>Log into your account and select the items you wish to return</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Print Your Label</h4>
+                            <p>Print the prepaid return label and packing slip</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Pack Your Items</h4>
+                            <p>Securely pack your items with the packing slip</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Ship It Back</h4>
+                            <p>Drop off your package at any authorized shipping location</p>
+                        </div>
+                    </div>
+                    <div class="process-step">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Receive Your Refund</h4>
+                            <p>Refunds are processed within 5-7 business days after receipt</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="start-return-btn">
+                    <a href="#" class="btn-primary">Start a Return</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./support.html" class="active-link">Contact Us</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                    <li><a href="#returns">Shipping Info</a></li>
+                    <li><a href="#returns">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Chat with an Outdoor Expert</div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../js/support.js"></script>
+    <script src="../js/cart.js"></script>
+</body>
+</html>

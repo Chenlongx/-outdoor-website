@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Information | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/delivery-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="./img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./products/summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products/product-detail.html">Products</a></li>
+                <li><a href="./products/activities.html">Activities</a></li>
+                <li><a href="./products/guides.html">Guides</a></li>
+                <li><a href="./products/support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <a href="./products/cart.html">Cart</a> / <span>Delivery Information</span>
+        </div>
+        <h1>Delivery Information</h1>
+    </section>
+
+    <section class="delivery-container">
+        <div class="delivery-form-container">
+            <div class="progress-bar">
+                <div class="progress-step active">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Delivery</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Payment</div>
+                </div>
+                <div class="progress-line"></div>
+                <div class="progress-step">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Confirmation</div>
+                </div>
+            </div>
+
+            <form id="delivery-form">
+                <div class="form-section">
+                    <h2>Contact Information</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address*</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number*</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Shipping Address</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name*</label>
+                            <input type="text" id="firstName" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name*</label>
+                            <input type="text" id="lastName" name="lastName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Street Address*</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apartment">Apartment, Suite, etc. (optional)</label>
+                        <input type="text" id="apartment" name="apartment">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City*</label>
+                            <input type="text" id="city" name="city" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="state">State/Province*</label>
+                            <!-- <select id="state" name="state" required>
+                                <option value="">Select State</option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                                <option value="AZ">Arizona</option>
+                                <option value="WY">Wyoming</option>
+                            </select> -->
+                            <input type="text" id="state" name="state" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">ZIP / Postal Code*</label>
+                            <input type="text" id="zip" name="zip" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country*</label>
+                        <!-- <select id="country" name="country" required>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="AU">Australia</option>
+                        </select> -->
+                        <input type="text" id="country" name="country" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Delivery Options</h2>
+                    <div class="delivery-options">
+                        <div class="delivery-option">
+                            <input type="radio" id="standard" name="delivery" value="standard" checked>
+                            <label for="standard">
+                                <div class="option-info">
+                                    <span class="option-name">Standard Shipping</span>
+                                    <span class="option-time">15-30 Business Days</span>
+                                </div>
+                                <span class="option-price">$4.99</span>
+                            </label>
+                        </div>
+                        <div class="delivery-option">
+                            <input type="radio" id="express" name="delivery" value="express">
+                            <label for="express">
+                                <div class="option-info">
+                                    <span class="option-name">Express Shipping</span>
+                                    <span class="option-time">6-10 Business Days</span>
+                                </div>
+                                <span class="option-price">$9.99</span>
+                            </label>
+                        </div>
+                        <div class="delivery-option">
+                            <input type="radio" id="next-day" name="delivery" value="next-day">
+                            <label for="next-day">
+                                <div class="option-info">
+                                    <span class="option-name">Priority Shipping</span>
+                                    <span class="option-time">Next Business Day</span>
+                                </div>
+                                <span class="option-price">$14.99</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2>Special Instructions (Optional)</h2>
+                    <div class="form-group">
+                        <textarea id="instructions" name="instructions" rows="3" placeholder="Add any special delivery instructions here..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="cart.html" class="btn-back">
+                        <i class="fas fa-arrow-left"></i> Back to Cart
+                    </a>
+                    <button type="submit" class="btn-primary">Continue to Payment</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="order-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-products">
+                <div class="summary-product">
+                    <img src="https://exzbshteqangjyjflhlz.supabase.co/storage/v1/object/public/websitedata//product-tent.jpg" alt="Premium Camping Tent">
+                    <div class="product-info">
+                        <h4>Premium Camping Tent</h4>
+                        <p>Quantity: 1</p>
+                    </div>
+                    <div class="product-price">$199.99</div>
+                </div>
+                <div class="summary-product">
+                    <img src="https://exzbshteqangjyjflhlz.supabase.co/storage/v1/object/public/websitedata//backpack.png" alt="Trail Explorer Backpack">
+                    <div class="product-info">
+                        <h4>Trail Explorer Backpack</h4>
+                        <p>Quantity: 1</p>
+                    </div>
+                    <div class="product-price">$89.99</div>
+                </div>
+            </div>
+
+            <div class="summary-details">
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <span>$289.98</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span id="shipping-cost">$4.99</span>
+                </div>
+                <div class="summary-row">
+                    <span>Tax</span>
+                    <span>$23.20</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <span id="order-total">$318.17</span>
+                </div>
+            </div>
+
+            <div class="coupon-code">
+                <input type="text" placeholder="Coupon Code">
+                <button>Apply</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./products/summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./products/support.html">Contact Us</a></li>
+                    <li><a href="./products/faq.html">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./products/privacy-policy.html">Privacy Policy</a>
+                <a href="./products/terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./products/visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/8613326425565">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Chat with an Outdoor Expert</div>
+        </div>
+    </a>
+
+    <div id="search-overlay" class="search-overlay active" style="display: none;">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products..." autofocus="">
+                <button id="close-search" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="search-results"><div class="initial-message">Start typing to search products...</div></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="delivery-script.js"></script>
+</body>
+</html>

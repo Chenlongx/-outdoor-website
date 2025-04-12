@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outdoor Activities | WildGear</title>
+    <link rel="stylesheet" href="../css/combined-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="../products/summer-sale.html">Summer Sale</a></li>
+                <li><a href="../products/product-detail.html">Products</a></li>
+                <li><a href="activities.html" class="active">Activities</a></li>
+                <li><a href="../products/guides.html">Guides</a></li>
+                <li><a href="../products/support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="activity-hero">
+        <div class="hero-content">
+            <h1>Your Next Adventure Awaits</h1>
+            <p>Discover outdoor activities for every season and skill level</p>
+            <a href="#activity-categories" class="btn-primary">Explore Activities</a>
+        </div>
+    </section>
+
+    <section id="activity-categories" class="activity-categories">
+        <div class="section-header">
+            <h2 class="section-title">FIND YOUR ADVENTURE</h2>
+            <p class="section-description">From serene lakeside experiences to heart-pounding mountain trails, we have everything you need for your next outdoor adventure.</p>
+        </div>
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="all">All Activities</button>
+            <button class="category-tab" data-category="summer">Summer</button>
+            <button class="category-tab" data-category="winter">Winter</button>
+            <button class="category-tab" data-category="water">Water</button>
+            <button class="category-tab" data-category="mountain">Mountain</button>
+        </div>
+
+        <div class="activity-grid">
+            <!-- Summer Activities -->
+            <div class="activity-card" data-category="summer mountain">
+                <div class="activity-image">
+                    <img src="https://media.istockphoto.com/id/1468908187/photo/man-relaxing-on-hiking-trip-in-the-mountains.jpg?s=612x612&w=0&k=20&c=umhe6pwL-8uSfuRkLCIGeKOnA_c6MfHtTMivdehw-9o=" alt="Hiking Adventure">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Moderate</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Hiking Adventures</h3>
+                    <p>Explore scenic trails and breathtaking views on foot with our guided hiking experiences.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available April-October</span>
+                        <span><i class="fas fa-clock"></i> 2-8 hours</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="activity-card" data-category="summer mountain">
+                <div class="activity-image">
+                    <img src="https://alpineairadventures.com/wp-content/uploads/elementor/thumbs/rock-climbing-Banff-ozp38lmlgsd8iu02fw1t32o8m459aw8bc4k8ehnseg.jpg" alt="Rock Climbing">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Challenging</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Rock Climbing</h3>
+                    <p>Scale natural rock formations with expert guides and premium climbing gear.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available May-September</span>
+                        <span><i class="fas fa-clock"></i> 3-6 hours</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="activity-card" data-category="summer">
+                <div class="activity-image">
+                    <img src="https://crrhospitality.com/wp-content/uploads/2024/01/Outdoor-Adventure-Tourism-Market-1-1024x585.jpg" alt="Camping">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Beginner-Friendly</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Camping Experiences</h3>
+                    <p>Enjoy the great outdoors with our fully equipped camping experiences in pristine locations.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available May-October</span>
+                        <span><i class="fas fa-clock"></i> 1-7 nights</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Water Activities -->
+            <div class="activity-card" data-category="summer water">
+                <div class="activity-image">
+                    <img src="https://campusrecreation.illinoisstate.edu/images/adventure/adventure_hero2.jpg" alt="Kayaking">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Moderate</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Kayaking Expeditions</h3>
+                    <p>Paddle through calm waters or exciting rapids with our kayaking adventures for all skill levels.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available June-September</span>
+                        <span><i class="fas fa-clock"></i> 2-4 hours</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="activity-card" data-category="summer water">
+                <div class="activity-image">
+                    <img src="https://www.rockbrookcamp.com/cdn-cgi/image/quality=90,gravity=auto,sharpen=1,metadata=none,format=auto,onerror=redirect/wp-content/uploads/2008/09/camp-girls-kayak.jpg" alt="Rafting">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Moderate-Challenging</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Whitewater Rafting</h3>
+                    <p>Experience the thrill of navigating through rapids on our guided rafting adventures.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available May-September</span>
+                        <span><i class="fas fa-clock"></i> 2-6 hours</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Winter Activities -->
+            <div class="activity-card" data-category="winter mountain">
+                <div class="activity-image">
+                    <img src="https://www.garmin.com/en-US/blog/wp-content/uploads/2024/12/winter-sports-header-image.jpg" alt="Skiing">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">All Levels</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Alpine Skiing</h3>
+                    <p>Hit the slopes with our ski packages for beginners to expert skiers, complete with quality equipment.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available December-March</span>
+                        <span><i class="fas fa-clock"></i> Half-day or Full-day</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="activity-card" data-category="winter mountain">
+                <div class="activity-image">
+                    <img src="https://media.istockphoto.com/id/1446438866/photo/happy-couple-snowboarders-having-fun.jpg?s=612x612&w=0&k=20&c=6sdPJ9ih98VY6bl6lbkVUC90fWsKmwcmSdNVSq_CEx0=" alt="Snowboarding">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Moderate-Challenging</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Snowboarding</h3>
+                    <p>Carve the mountain with our snowboarding packages, including lessons for beginners.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available December-March</span>
+                        <span><i class="fas fa-clock"></i> Half-day or Full-day</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+            <div class="activity-card" data-category="winter">
+                <div class="activity-image">
+                    <img src="https://www.townoffrisco.com/wp-content/uploads/2023/09/Snowschoolers-Beginner-Ski-and-Ride-Hill_Credit-Snow-Schoolers_2560x864_Banner-Images.jpg" alt="Winter Family Activities">
+                    <div class="activity-difficulty">
+                        <span class="difficulty-label">Beginner-Friendly</span>
+                    </div>
+                </div>
+                <div class="activity-info">
+                    <h3>Family Snow Adventures</h3>
+                    <p>Enjoy winter's magic with family-friendly snow activities including sledding, snow tubing, and more.</p>
+                    <div class="activity-meta">
+                        <span><i class="fas fa-calendar"></i> Available December-February</span>
+                        <span><i class="fas fa-clock"></i> 2-4 hours</span>
+                    </div>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-adventures">
+        <h2 class="section-title">FEATURED ADVENTURES</h2>
+        <div class="featured-adventure-grid">
+            <div class="featured-adventure">
+                <img src="https://campusrecreation.illinoisstate.edu/images/adventure/welcomeweekcrew8.jpg" alt="Adventure Challenge Course">
+                <div class="featured-overlay">
+                    <h3>Adventure Challenge Course</h3>
+                    <p>Test your limits with our ropes course and team-building activities</p>
+                    <a href="#" class="btn-primary">Explore Challenge</a>
+                </div>
+            </div>
+            <div class="featured-adventure-details">
+                <h3>Mountain to Valley Expedition</h3>
+                <div class="featured-details-content">
+                    <div class="detail-icon"><i class="fas fa-mountain"></i></div>
+                    <div class="detail-info">
+                        <h4>3-Day Adventure</h4>
+                        <p>Experience the complete outdoor journey from mountain peaks to valley floors. This expedition includes hiking, camping, and river adventures.</p>
+                        <ul class="detail-features">
+                            <li><i class="fas fa-check"></i> Expert guides & equipment</li>
+                            <li><i class="fas fa-check"></i> Meals included</li>
+                            <li><i class="fas fa-check"></i> Transportation provided</li>
+                            <li><i class="fas fa-check"></i> Suitable for intermediate adventurers</li>
+                        </ul>
+                        <div class="detail-pricing">
+                            <span class="price">$349</span>
+                            <span class="price-note">per person</span>
+                        </div>
+                        <a href="#" class="btn-primary">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="activity-planning">
+        <div class="planning-container">
+            <div class="planning-content">
+                <h2>Plan Your Perfect Outdoor Adventure</h2>
+                <p>Whether you're looking for a day trip or a week-long expedition, our adventure specialists can help you create the perfect itinerary tailored to your interests and skill level.</p>
+                <div class="planning-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Choose Your Activity</h4>
+                            <p>Select from a wide range of seasonal activities including hiking, climbing, water sports, and winter adventures.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Select Your Gear</h4>
+                            <p>Get outfitted with premium equipment tailored to your adventure needs, available for purchase or rental.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Book Your Experience</h4>
+                            <p>Reserve your spot with our trusted adventure partners or build a self-guided itinerary with our expert advice.</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary">Contact an Adventure Specialist</a>
+            </div>
+            <div class="planning-image">
+                <img src="https://media.istockphoto.com/id/1468908187/photo/man-relaxing-on-hiking-trip-in-the-mountains.jpg?s=612x612&w=0&k=20&c=umhe6pwL-8uSfuRkLCIGeKOnA_c6MfHtTMivdehw-9o=" alt="Planning Your Adventure">
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2 class="section-title">ADVENTURE TESTIMONIALS</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-slide">
+                <div class="testimonial-content">
+                    <div class="testimonial-quote">
+                        <i class="fas fa-quote-left"></i>
+                        <p>The guided hiking tour exceeded all our expectations. Our guide was knowledgeable about the local terrain and wildlife, making the experience both educational and exhilarating. The gear provided was top-notch, and we felt prepared for every part of the journey.</p>
+                        <div class="testimonial-author">
+                            <strong>Michael & Sarah</strong>
+                            <span>Hiking Enthusiasts</span>
+                        </div>
+                    </div>
+                    <div class="testimonial-image">
+                        <img src="img/story-hiking.jpg" alt="Hiking Testimonial">
+                    </div>
+                </div>
+            </div>
+            <!-- Additional testimonials would be added here and controlled via JS -->
+        </div>
+        <div class="testimonial-controls">
+            <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
+            <div class="testimonial-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+            <button class="testimonial-next"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="activity-faq">
+        <h2 class="section-title">FREQUENTLY ASKED QUESTIONS</h2>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What skill level is required for your activities?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>We offer activities for all skill levels, from beginner to expert. Each activity listing indicates the recommended skill level, and many include options for different experience levels.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Do I need to bring my own equipment?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>For guided experiences, all necessary equipment is provided and included in the price. For self-guided adventures, you can either bring your own gear or rent from our extensive collection of premium outdoor equipment.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Can I book activities for large groups?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes! We offer group bookings and custom experiences for teams, families, and gatherings. Contact our adventure specialists for special group rates and tailored itineraries.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>What is your cancellation policy?</h3>
+                    <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Cancellations made 7 or more days before your scheduled activity receive a full refund. Cancellations within 3-6 days receive a 50% refund. Cancellations less than 3 days before are non-refundable, but we do offer the option to reschedule based on availability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="cta-content">
+            <h2>Ready for your next adventure?</h2>
+            <p>Sign up for our newsletter to receive exclusive offers, activity guides, and outdoor tips.</p>
+            <form class="cta-form">
+                <input type="email" placeholder="Your Email Address">
+                <button type="submit" class="btn-primary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="#">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Chat with an Outdoor Expert</div>
+    </div>
+
+    <script src="../js/activities.js"></script>
+</body>
+</html>

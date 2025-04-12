@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGear | Outdoor Adventure Equipment</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="index.html"><img src="./img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./products/summer-sale.html">Summer Sale</a></li>
+                <li><a href="./products/products.html">Products</a></li>
+                <li><a href="./products/cart.html">Cart</a></li>
+                <li><a href="./products/activities.html">Activities</a></li>
+                <li><a href="./products/guides.html">Guides</a></li>
+                <li><a href="./products/support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Explore The Outdoors</h1>
+            <p>Premium gear for unforgettable adventures</p>
+            <a href="./products/summer-sale.html" class="btn-primary">Shop Now</a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/category-hiking.jpg" alt="Hiking Gear">
+                <h3>Hiking</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/category-camping.jpg" alt="Camping Gear">
+                <h3>Camping</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/The climb.png" alt="Climbing Gear">
+                <h3>Climbing</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/Fishing tackle.jpg" alt="Fishing Gear">
+                <h3>Fishing</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/category-kayaking.jpg" alt="Kayaking Gear">
+                <h3>Kayaking</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/Outdoor clothing.png" alt="Outdoor Apparel">
+                <h3>Apparel</h3>
+            </a>
+        </div>
+        <div class="category-item">
+            <a href="./products/products.html">
+                <img src="img/category-backpacks.png" alt="Backpacks">
+                <h3>Backpacks</h3>
+            </a>
+        </div>
+    </section>
+
+    <section class="activities">
+        <div class="activity-item">
+            <img src="img/activity-mountaineering.png" alt="Mountaineering">
+            <div class="overlay-text">Mountaineering</div>
+        </div>
+        <div class="activity-item">
+            <img src="img/activity-camping.jpg" alt="Camping">
+            <div class="overlay-text">Camping</div>
+        </div>
+        <div class="activity-item">
+            <img src="img/activity-fishing.webp" alt="Fishing">
+            <div class="overlay-text">Fishing</div>
+        </div>
+        <div class="activity-item">
+            <img src="img/activity-kayaking.webp" alt="Kayaking">
+            <div class="overlay-text">Kayaking</div>
+        </div>
+        <div class="activity-item">
+            <img src="img/activity-hiking.jpg" alt="Hiking">
+            <div class="overlay-text">Hiking</div>
+        </div>
+    </section>
+
+    <section class="featured">
+        <h2 class="section-title">BEST SELLER DEALS</h2>
+        <div class="product-grid" id="dynamic-products"></div>
+    </section>
+
+    <section class="new-releases">
+        <h2 class="section-title">NEW RELEASES</h2>
+        <div class="releases-grid">
+            <div class="release-item">
+                <img src="img/new-jackets.jpg" alt="All-Weather Jackets">
+                <div class="release-info">
+                    <h3>All-Weather Jackets</h3>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="release-item">
+                <img src="img/new-hydration.webp" alt="Advanced Hydration Systems">
+                <div class="release-info">
+                    <h3>Advanced Hydration Systems</h3>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="release-item">
+                <img src="img/new-tents.webp" alt="Lightweight Camping Tents">
+                <div class="release-info">
+                    <h3>Lightweight Camping Tents</h3>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="release-item">
+                <img src="img/new-footwear.jpg" alt="All-Terrain Footwear">
+                <div class="release-info">
+                    <h3>All-Terrain Footwear</h3>
+                    <a href="#" class="btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="featured-products">
+        <h2 class="section-title">FEATURED PRODUCTS</h2>
+        <div class="featured-grid">
+            <div class="featured-item">
+                <img src="img/featured-ultralight.jpg" alt="Ultralight Tent">
+                <div class="featured-info">
+                    <h4>Ultralight Tent</h4>
+                    <p>Waterproof 2-Person Backpacking Tent</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="featured-item">
+                <img src="img/featured-jacket.jpg" alt="TrekPro Jacket">
+                <div class="featured-info">
+                    <h4>TrekPro Jacket</h4>
+                    <p>All-Weather Protection with Breathable Fabric</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="featured-item">
+                <img src="img/featured-cookset.jpg" alt="Camp Cookset">
+                <div class="featured-info">
+                    <h4>Camp Cookset</h4>
+                    <p>Lightweight Portable Cooking System</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+            <div class="featured-item">
+                <img src="img/featured-headlamp.jpg" alt="Night Explorer">
+                <div class="featured-info">
+                    <h4>Night Explorer</h4>
+                    <p>Rechargeable LED Headlamp with 300ft Range</p>
+                    <a href="#" class="learn-more">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="adventure-solutions">
+        <h2 class="section-title">COMPLETE ADVENTURE SOLUTIONS</h2>
+        <p class="section-description">From weekend trips to expeditions, WildGear provides tested equipment that's reliable, durable, and designed for the outdoors.</p>
+        <div class="solution-content">
+            <div class="solution-text">
+                <h3>Expert.<br>Total Solution.<br>Safety.</h3>
+            </div>
+            <div class="solution-video">
+                <img src="img/video-thumbnail.jpg" alt="Adventure Solutions Video">
+                <div class="play-button">
+                    <i class="fas fa-play"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="user-stories">
+        <h2 class="section-title">USER STORIES</h2>
+        <div class="stories-grid">
+            <div class="story-card">
+                <div class="story-video">
+                    <img src="img/story-mountain.jpg" alt="Mountain Adventure">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <h3>Alex & Maya</h3>
+                <p>"The gear we purchased allowed us to reach summits we thought were beyond our capabilities. The quality and durability exceeded our expectations."</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+            <div class="story-card">
+                <div class="story-video">
+                    <img src="img/story-camping.jpg" alt="Family Camping">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <h3>The Peterson Family</h3>
+                <p>"With three young kids, we needed equipment that was reliable and easy to set up. WildGear's family tent and cooking system made our trips stress-free."</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+            <div class="story-card">
+                <div class="story-video">
+                    <img src="img/story-hiking.jpg" alt="Solo Hiking">
+                    <div class="play-button">
+                        <i class="fas fa-play"></i>
+                    </div>
+                </div>
+                <h3>Sarah's Trail Journey</h3>
+                <p>"The backpack and navigation tools were essential for my solo trek across the Appalachian Trail. I felt secure knowing I had reliable equipment."</p>
+                <a href="#" class="read-more">Read More</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-links">
+        <div class="info-item">
+            <i class="fas fa-book"></i>
+            <h3>Learning Center</h3>
+        </div>
+        <div class="info-item">
+            <i class="fas fa-blog"></i>
+            <h3>Blog</h3>
+        </div>
+        <div class="info-item">
+            <a href="./products/partners-discount.html" class="info-item" >
+                <i class="fas fa-handshake"></i>
+                <h3>Partners</h3>
+            </a>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./products/summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./products/support.html">Contact Us</a></li>
+                    <li><a href="./products/faq.html">FAQ</a></li>
+                    <li><a href="./products/shipping-info.html">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./products/privacy-policy.html">Privacy Policy</a>
+                <a href="./products/terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./products/visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- 转whatsapp号码 -->
+     <a href="https://wa.me/8613326425565">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Contact Support</div>
+        </div>
+     </a>
+
+    <!-- 搜索框 -->
+    <div id="search-overlay" class="search-overlay active" style="display: none;">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products..." autofocus="">
+                <button id="close-search" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="search-results"><div class="initial-message">Start typing to search products...</div></div>
+        </div>
+    </div>
+    <!-- 在 HTML head 中引入 Supabase 客户端 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

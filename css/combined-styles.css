@@ -1,0 +1,1031 @@
+/* Including both styles.css and activities-styles.css combined */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Main color palette */
+    --primary-color: #2c6e49;
+    --secondary-color: #4c956c;
+    --accent-color: #d68c45;
+    --dark-color: #2d3142;
+    --light-color: #f8f9fa;
+    --gray-color: #6c757d;
+    --light-gray: #e9ecef;
+    --danger-color: #e63946;
+
+    /* Typography */
+    --heading-font: 'Montserrat', sans-serif;
+    --body-font: 'Montserrat', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--body-font);
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: var(--light-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: var(--spacing-md);
+}
+
+a {
+    text-decoration: none;
+    color: var(--dark-color);
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-color);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: var(--body-font);
+}
+
+.section-title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-xl);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: var(--spacing-md);
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+.section-description {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto var(--spacing-xl);
+    color: var(--gray-color);
+}
+
+/* Button Styles */
+.btn-primary {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    padding: 0.5rem 1.25rem;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-small {
+    display: inline-block;
+    background-color: white;
+    color: var(--dark-color);
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.announcement-bar {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.5rem 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+}
+
+.announcement-bar p {
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+}
+
+.countdown {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.time-unit {
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 700;
+}
+
+nav {
+    background-color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo img {
+    height: 40px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links li a {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.nav-links li a.active {
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.icon-link {
+    font-size: 1.2rem;
+    color: var(--dark-color);
+}
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Activity Hero Section */
+.activity-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                url('https://crrhospitality.com/wp-content/uploads/2024/01/Outdoor-Adventure-Tourism-Market-1-1024x585.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 600px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.activity-hero .hero-content {
+    max-width: 800px;
+    padding: 0 1rem;
+}
+
+.activity-hero h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.activity-hero p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Activity Categories Section */
+.activity-categories {
+    padding: 3rem 2rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.category-tab {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--light-gray);
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-tab.active, .category-tab:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.activity-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-5px);
+}
+
+.activity-image {
+    position: relative;
+    height: 220px;
+}
+
+.activity-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.activity-difficulty {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+}
+
+.difficulty-label {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.activity-info {
+    padding: 1.5rem;
+}
+
+.activity-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    color: var(--dark-color);
+}
+
+.activity-info p {
+    color: var(--gray-color);
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.activity-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--gray-color);
+}
+
+.activity-meta i {
+    color: var(--primary-color);
+    margin-right: 0.25rem;
+}
+
+/* Featured Adventures Section */
+.featured-adventures {
+    padding: 4rem 2rem;
+    background-color: var(--light-gray);
+}
+
+.featured-adventure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.featured-adventure {
+    position: relative;
+    height: 350px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.featured-adventure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.featured-adventure:hover img {
+    transform: scale(1.05);
+}
+
+.featured-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+}
+
+.featured-overlay h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.featured-overlay p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.featured-adventure-details {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.featured-adventure-details h3 {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.featured-details-content {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.detail-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.detail-info {
+    flex-grow: 1;
+}
+
+.detail-info h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+}
+
+.detail-info p {
+    color: var(--gray-color);
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+}
+
+.detail-features {
+    margin-bottom: 1.5rem;
+}
+
+.detail-features li {
+    margin-bottom: 0.5rem;
+}
+
+.detail-features i {
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+}
+
+.detail-pricing {
+    margin-bottom: 1.5rem;
+}
+
+.price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-right: 0.5rem;
+}
+
+.price-note {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+/* Activity Planning Section */
+.activity-planning {
+    padding: 4rem 2rem;
+}
+
+.planning-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.planning-content {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+}
+
+.planning-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+    color: var(--dark-color);
+}
+
+.planning-content p {
+    color: var(--gray-color);
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.planning-steps {
+    margin-bottom: 2rem;
+}
+
+.step {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.step-content p {
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+
+.planning-image {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.planning-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Testimonials Section */
+.testimonials {
+    padding: 4rem 2rem;
+    background-color: var(--light-gray);
+}
+
+.testimonial-slider {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.testimonial-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.testimonial-quote {
+    flex: 1;
+    min-width: 300px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.testimonial-quote i {
+    color: var(--primary-color);
+    font-size: 2rem;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    opacity: 0.2;
+}
+
+.testimonial-quote p {
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
+    color: var(--dark-color);
+    line-height: 1.6;
+    padding-top: 1rem;
+}
+
+.testimonial-author {
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-author strong {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--dark-color);
+}
+
+.testimonial-author span {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+.testimonial-image {
+    flex: 1;
+    min-width: 300px;
+    max-width: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.testimonial-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.testimonial-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+.testimonial-prev, .testimonial-next {
+    width: 40px;
+    height: 40px;
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.testimonial-prev:hover, .testimonial-next:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.testimonial-dots {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+/* FAQ Section */
+.activity-faq {
+    padding: 4rem 2rem;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--light-gray);
+    margin-bottom: 1rem;
+}
+
+.faq-question {
+    padding: 1.25rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-question h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+    font-weight: 600;
+}
+
+.faq-toggle {
+    width: 30px;
+    height: 30px;
+    background-color: var(--light-gray);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.faq-toggle i {
+    font-size: 0.9rem;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-toggle {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.faq-item.active .faq-toggle i {
+    transform: rotate(45deg);
+}
+
+.faq-answer {
+    padding: 0 0 1.25rem;
+    display: none;
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-answer p {
+    color: var(--gray-color);
+    line-height: 1.6;
+}
+
+/* CTA Banner */
+.cta-banner {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://media.istockphoto.com/id/1468908187/photo/man-relaxing-on-hiking-trip-in-the-mountains.jpg?s=612x612&w=0&k=20&c=umhe6pwL-8uSfuRkLCIGeKOnA_c6MfHtTMivdehw-9o=');
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    color: white;
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-content h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cta-content p {
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.cta-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.cta-form input {
+    flex-grow: 1;
+    min-width: 250px;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-family: var(--body-font);
+}
+
+.cta-form button {
+    padding: 0.75rem 1.5rem;
+}
+
+/* Footer Styles */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 4rem 2rem 1rem;
+}
+
+.footer-columns {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.footer-column h4 {
+    font-size: 1.1rem;
+    margin-bottom: 1.25rem;
+    font-weight: 600;
+    color: white;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-column ul li a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.payment-methods {
+    margin-bottom: 1.5rem;
+}
+
+.payment-methods img {
+    max-height: 30px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.copyright {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+}
+
+/* Chat Widget */
+.chat-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 0.75rem 1.25rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.chat-widget:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.chat-icon {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    margin-right: 0.75rem;
+}
+
+.chat-text {
+    font-weight: 600;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .activity-hero h1 {
+        font-size: 3rem;
+    }
+
+    .featured-adventure-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links, .nav-actions {
+        display: none;
+    }
+
+    .mobile-menu-btn {
+        display: block;
+    }
+
+    .activity-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .activity-hero p {
+        font-size: 1.1rem;
+    }
+
+    .category-tabs {
+        gap: 0.5rem;
+    }
+
+    .category-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .activity-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+
+    .featured-details-content {
+        flex-direction: column;
+    }
+
+    .testimonial-content {
+        flex-direction: column;
+    }
+
+    .chat-text {
+        display: none;
+    }
+
+    .chat-widget {
+        padding: 0;
+        width: 60px;
+        height: 60px;
+        justify-content: center;
+    }
+
+    .chat-icon {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .activity-hero h1 {
+        font-size: 2rem;
+    }
+
+    .activity-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .planning-steps {
+        margin-left: 0.5rem;
+    }
+
+    .step {
+        gap: 0.75rem;
+    }
+
+    .step-number {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .cta-form {
+        flex-direction: column;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-form input {
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+
+    .newsletter-form button {
+        border-radius: 4px;
+    }
+}

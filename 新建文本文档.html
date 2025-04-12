@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <title>銘柄相談スパッと回答くん</title>
+    <meta name="description" content="銘柄相談スパっと回答くんは弊社のLINEに登録いただき、気になる銘柄の証券コードを入力するだけで、銘柄の詳細や売買に関するアドバイスが「即時」でご覧いただけるサービスです。">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="銘柄相談スパッと回答くん | 株マイスター">
+    <meta property="og:site_name" content="銘柄相談スパッと回答くん | 株マイスター">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <style>
+        :root {
+            --sf-img-58: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA2YAAADZCAYAAABLoSPD...");
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        main {
+            position: relative;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #fff;
+        }
+
+        .txt_g {
+            background: linear-gradient(90deg, #48FFBD, #007FFF);
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+
+        #question h2 {
+            margin-bottom: 80px;
+        }
+
+        #question .ac_title {
+            display: flex;
+            position: relative;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 50px 0 0;
+            margin-bottom: 0;
+        }
+
+        #question .ac_title::before,
+        #question .ac_title::after {
+            right: 22px;
+            top: 75%;
+            width: 1px;
+            height: 18px;
+        }
+
+        #question .option {
+            background-color: #fff;
+            border-top: 1px solid #DCDCDC;
+            margin-bottom: 0;
+        }
+
+        #question .ac_content {
+            padding: 0 10px 0 0;
+            margin-bottom: 50px;
+        }
+
+        .q_ttl_flex {
+            font-size: 18px;
+            width: 88%;
+        }
+
+        .q_ttl_flex > span {
+            text-indent: -1.3em;
+            padding-left: 20px;
+            font-size: 15px;
+        }
+
+        .ac_content ul li {
+            font-size: 14px;
+            text-indent: -1.3em;
+            padding-left: 20px;
+            padding-top: 30px;
+            text-align: left;
+        }
+
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            margin: 0;
+            z-index: 1000;
+        }
+
+        .floating-button .btn-line {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ff0158;
+            color: #ffffff;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            animation: switch 2s ease-out infinite;
+        }
+
+        @keyframes switch {
+            0% { transform: translateY(-5px); }
+            50% { transform: translateY(5px); }
+            100% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="floating-button">
+            <a href="javascript:void(0)" class="btn-line">
+                ▶急騰株情報をLINEで受け取る
+            </a>
+        </div>
+        
+        <div id="comment_area"></div>
+    </main>
+
+    <footer class="l-footer">
+        <div class="l-footer__content">
+            <nav class="l-footer__nav">
+                <img class="l-footer__logo" 
+                     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQsAAAAkCAMAAACpBu83..." 
+                     alt="SQI japan Superior Quality Investment">
+                <ul class="l-footer__ul">
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/">ホーム</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/service">提供サービス一覧</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/article/terms">利用規約</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/article/privacy">個人情報保護方針</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/article/fiduciary">お客様本位の業務運営に関する基本方針</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/contract/">契約締結前交付書面</a></li>
+                    <li class="l-footer__li"><a href="https://kabumai.com/visitor/0sp00sb000/article/outline">特定商取引法に関する表記</a></li>
+                </ul>
+            </nav>
+
+            <div class="l-footer__company-info">
+                <p class="l-footer__company-info-text">[金融商品取引法第３７条に基づく表示]</p>
+                <p class="l-footer__company-info-text">商号：株式会社SQIジャパン（金融商品取引業者）<br class="u-br--sp-only">業務内容：投資助言・代理業</p>
+                <p class="l-footer__company-info-text">登録番号：関東財務局長(金商)第850号<br class="u-br--sp-only">加入協会：一般社団法人 日本投資顧問業協会<br class="u-br--sp-only">会員番号:第012-02468号</p>
+                <p class="l-footer__company-info-text">住所：東京都千代田区丸の内2-7-2<br class="u-br--sp-only">サポートデスク 電話番号：0120-850-730 ※受付時間(平日9:00～17:00)</p>
+            </div>
+
+            <div class="l-footer__external-links">
+                <a class="l-footer__external-link" href="https://www.fsa.go.jp/index.html" target="_blank">金融庁ウェブサイト</a>
+                <a class="l-footer__external-link" href="https://www.jiaa.or.jp/" target="_blank">一般社団法人 日本投資顧問業協会</a>
+            </div>
+
+            <small class="l-footer__copyright--pc">Copyright © 2024 株マイスター All Rights Reserved.</small>
+            <small class="l-footer__copyright--sp sf-hidden">Copyright (c)&nbsp;SQI Japan Co.,Ltd. All Rights Reserved.</small>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            function insertScript() {
+                var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                if (iframeDoc) {
+                    var script = iframeDoc.createElement('script');
+                    script.innerHTML = "window.__CF$cv$params={r:'92d254b61e3badad',t:'MTc0NDEyMTI0NS4wMDAwMDA='};" +
+                                     "var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';" +
+                                     "document.getElementsByTagName('head')[0].appendChild(a);";
+                    iframeDoc.getElementsByTagName('head')[0].appendChild(script);
+                }
+            }
+
+            if (document.body) {
+                var iframe = document.createElement('iframe');
+                iframe.height = 1;
+                iframe.width = 1;
+                iframe.style.position = 'absolute';
+                iframe.style.top = 0;
+                iframe.style.left = 0;
+                iframe.style.border = 'none';
+                iframe.style.visibility = 'hidden';
+                document.body.appendChild(iframe);
+
+                if (document.readyState !== 'loading') {
+                    insertScript();
+                } else if (window.addEventListener) {
+                    document.addEventListener('DOMContentLoaded', insertScript);
+                } else {
+                    var originalOnReadyStateChange = document.onreadystatechange || function() {};
+                    document.onreadystatechange = function(event) {
+                        originalOnReadyStateChange(event);
+                        if (document.readyState !== 'loading') {
+                            document.onreadystatechange = originalOnReadyStateChange;
+                            insertScript();
+                        }
+                    };
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

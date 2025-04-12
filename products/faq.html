@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGear | Frequently Asked Questions</title>
+    <link rel="stylesheet" href="../css/faq.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="../img/logo.svg" alt="WildGear Logo">
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="products.html">Products</a></li>
+                    <li><a href="activities.html">Activities</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="support.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about our products, ordering, shipping, and more.</p>
+
+            <div class="search-container">
+                <input type="text" id="faq-search" placeholder="Search for questions...">
+                <button type="button" id="search-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-categories">
+        <div class="container">
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="all">All Questions</button>
+                <button class="category-tab" data-category="products">Products</button>
+                <button class="category-tab" data-category="orders">Orders & Shipping</button>
+                <button class="category-tab" data-category="returns">Returns & Warranty</button>
+                <button class="category-tab" data-category="account">Account & Payment</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="container">
+            <div class="faq-container">
+                <!-- Products Category -->
+                <div class="faq-category" id="products">
+                    <h2>Products</h2>
+
+                    <div class="faq-item" data-category="products">
+                        <div class="faq-question">
+                            <h3>How do I choose the right tent size?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>When choosing a tent, consider the following factors:</p>
+                            <ul>
+                                <li><strong>Number of people:</strong> Generally, add 1 to the number of people who will sleep in the tent. For example, a 3-person tent is comfortable for 2 people with gear.</li>
+                                <li><strong>Height:</strong> Check the peak height if you want to stand up inside.</li>
+                                <li><strong>Seasonality:</strong> 3-season tents are good for spring, summer, and fall, while 4-season tents are designed for winter conditions.</li>
+                                <li><strong>Weight:</strong> For backpacking, prioritize lightweight options.</li>
+                            </ul>
+                            <p>You can find detailed sizing guides on each product page, or contact our customer service for personalized recommendations.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="products">
+                        <div class="faq-question">
+                            <h3>Are your products tested for extreme conditions?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, all WildGear products undergo rigorous testing in various conditions before they reach the market. Our testing includes:</p>
+                            <ul>
+                                <li>Lab testing for durability, waterproofing, and material strength</li>
+                                <li>Field testing in extreme environments by professional outdoor enthusiasts</li>
+                                <li>Long-term use testing to ensure product longevity</li>
+                            </ul>
+                            <p>Our premium gear lines are tested in some of the world's most challenging environments, from the Himalayan mountains to Alaskan winters.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="products">
+                        <div class="faq-question">
+                            <h3>What's the difference between waterproof and water-resistant?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>Water-resistant</strong> items can repel water to some degree but will eventually allow water to penetrate during prolonged exposure or heavy rain. These items are good for light rain or brief exposure to moisture.</p>
+                            <p><strong>Waterproof</strong> items are designed to keep water out completely under specified conditions. We measure waterproofing using a hydrostatic head rating (mm), which indicates how much water pressure the material can withstand before leaking.</p>
+                            <p>All our waterproof products have sealed seams and water-tight zippers to prevent water from entering through these vulnerable areas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders & Shipping Category -->
+                <div class="faq-category" id="orders">
+                    <h2>Orders & Shipping</h2>
+
+                    <div class="faq-item" data-category="orders">
+                        <div class="faq-question">
+                            <h3>How long will it take to receive my order?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Standard shipping typically takes 3-7 business days within the continental United States after your order ships. Expedited shipping options are available at checkout:</p>
+                            <ul>
+                                <li><strong>Express shipping:</strong> 2-3 business days</li>
+                                <li><strong>Priority shipping:</strong> 1-2 business days</li>
+                            </ul>
+                            <p>International shipping times vary by destination, typically ranging from 7-21 business days. You'll receive tracking information via email once your order ships.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="orders">
+                        <div class="faq-question">
+                            <h3>Do you ship internationally?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we ship to over 50 countries worldwide. International shipping rates and delivery times vary by location. During checkout, you'll see available shipping options and costs for your specific destination.</p>
+                            <p>Please note that international orders may be subject to import duties, taxes, and customs clearance fees, which are the responsibility of the recipient and are not included in our shipping charges.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="orders">
+                        <div class="faq-question">
+                            <h3>Can I modify or cancel my order?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>You can modify or cancel your order within 1 hour of placing it by contacting our customer service team via the live chat on our website or by calling us at 1-800-WILDGEAR.</p>
+                            <p>Once an order has been processed or shipped, it cannot be modified or canceled. In this case, you would need to return the item following our return policy after receiving it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Returns & Warranty Category -->
+                <div class="faq-category" id="returns">
+                    <h2>Returns & Warranty</h2>
+
+                    <div class="faq-item" data-category="returns">
+                        <div class="faq-question">
+                            <h3>What is your return policy?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We offer a 30-day satisfaction guarantee on unused merchandise. To be eligible for a return, items must be:</p>
+                            <ul>
+                                <li>In original condition with all tags attached</li>
+                                <li>Unworn, unwashed, and undamaged</li>
+                                <li>In original packaging</li>
+                            </ul>
+                            <p>To initiate a return, log into your account and select the order you wish to return, or contact our customer service team. We'll provide a prepaid return shipping label for domestic returns. International returns are at the customer's expense.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="returns">
+                        <div class="faq-question">
+                            <h3>How long does the warranty last?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our warranty periods vary by product category:</p>
+                            <ul>
+                                <li><strong>Expedition Series gear:</strong> Lifetime warranty against manufacturing defects</li>
+                                <li><strong>Tents and shelters:</strong> 3-year warranty</li>
+                                <li><strong>Backpacks and bags:</strong> 2-year warranty</li>
+                                <li><strong>Apparel:</strong> 1-year warranty</li>
+                                <li><strong>Electronics and lighting:</strong> 1-year warranty</li>
+                            </ul>
+                            <p>Our warranty covers manufacturing defects but does not cover normal wear and tear, improper care, accidents, or modifications to the product. For warranty claims, please contact our customer service with proof of purchase and photos of the issue.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="returns">
+                        <div class="faq-question">
+                            <h3>Do you offer repairs for damaged items?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we offer a repair service for items that have been damaged during normal use. Our repair options include:</p>
+                            <ul>
+                                <li>Free repairs for manufacturing defects covered under warranty</li>
+                                <li>Paid repairs for damage due to wear and tear or accidents</li>
+                                <li>DIY repair kits for minor issues like small tears or zipper problems</li>
+                            </ul>
+                            <p>To request a repair, contact our customer service team with a description and photos of the damage. We'll provide you with repair options, cost estimates, and shipping instructions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account & Payment Category -->
+                <div class="faq-category" id="account">
+                    <h2>Account & Payment</h2>
+
+                    <div class="faq-item" data-category="account">
+                        <div class="faq-question">
+                            <h3>What payment methods do you accept?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>We accept the following payment methods:</p>
+                            <ul>
+                                <li>All major credit cards (Visa, Mastercard, American Express, Discover)</li>
+                                <li>PayPal</li>
+                                <li>Apple Pay</li>
+                                <li>Google Pay</li>
+                                <li>Shop Pay</li>
+                                <li>Gift cards</li>
+                            </ul>
+                            <p>For orders over $500, we also offer financing options through Affirm with 0% interest for qualified customers.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="account">
+                        <div class="faq-question">
+                            <h3>Is my payment information secure?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, we take payment security very seriously. Our website is secured with SSL encryption, ensuring that all transactions are protected. We do not store your full credit card details on our servers.</p>
+                            <p>We are PCI-DSS compliant, which means we follow all required security measures for handling credit card information. Additionally, when you use payment methods like PayPal or Apple Pay, your financial information is not shared with us.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="account">
+                        <div class="faq-question">
+                            <h3>What are the benefits of creating an account?</h3>
+                            <div class="faq-icon">
+                                <i class="fas fa-plus"></i>
+                                <i class="fas fa-minus"></i>
+                            </div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Creating a WildGear account gives you access to:</p>
+                            <ul>
+                                <li>Faster checkout with saved shipping and payment information</li>
+                                <li>Order history and easy reordering of previous purchases</li>
+                                <li>Order tracking and status updates</li>
+                                <li>WildGear Rewards program with points on every purchase</li>
+                                <li>Early access to new products and sales</li>
+                                <li>Personalized product recommendations</li>
+                                <li>Saved wishlist items</li>
+                            </ul>
+                            <p>Account creation is free and only takes a minute. You can easily opt out of marketing emails while still maintaining your account.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-cta">
+        <div class="container">
+            <h2>Still have questions?</h2>
+            <p>Our customer service team is ready to help with any questions not covered in our FAQ.</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn-primary">Contact Us</a>
+                <a href="#" class="btn-secondary live-chat">Live Chat <i class="fas fa-comment"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Best Sellers</a></li>
+                        <li><a href="#">Sale Items</a></li>
+                        <li><a href="#">Gear Collections</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Activities</h4>
+                    <ul>
+                        <li><a href="#">Camping</a></li>
+                        <li><a href="#">Hiking</a></li>
+                        <li><a href="#">Climbing</a></li>
+                        <li><a href="#">Fishing</a></li>
+                        <li><a href="#">Water Sports</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Size Charts</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Our Team</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column newsletter">
+                    <h4>Stay Updated</h4>
+                    <p>Join our newsletter for deals, tips, and adventure inspiration.</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address">
+                        <button type="submit">Sign Up</button>
+                    </form>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Accessibility</a>
+                    <a href="visual-sitemap.html">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/faq.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summer Adventure Sale | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/sale-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html" class="active">Summer Sale</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="#">Activities</a></li>
+                <li><a href="#">Adventures</a></li>
+                <li><a href="#">Guides</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i><span class="cart-count">3</span></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="sale-hero">
+        <div class="sale-hero-content">
+            <h1>Summer Adventure Sale</h1>
+            <p class="sale-dates">June 15 - July 15, 2025</p>
+            <div class="sale-badges">
+                <div class="sale-badge">
+                    <span class="discount">40%</span>
+                    <span class="text">OFF</span>
+                </div>
+                <div class="sale-badge">
+                    <span class="text">FREE</span>
+                    <span class="text">SHIPPING</span>
+                </div>
+                <div class="sale-badge">
+                    <span class="text">EXTRA</span>
+                    <span class="discount">10%</span>
+                </div>
+            </div>
+            <p class="sale-description">Get ready for your summer adventures with our biggest sale of the year! Save up to 40% on selected items, plus free shipping on orders over $75.</p>
+            <div class="sale-cta">
+                <a href="#sale-products" class="btn-primary">Shop Now</a>
+                <div class="promo-code-box">
+                    <p>Use code: <span>SUMMER25</span></p>
+                    <button class="copy-code" data-code="SUMMER25">Copy Code</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sale-categories">
+        <div class="container">
+            <h2 class="section-title">Shop By Category</h2>
+            <div class="category-tabs">
+                <!-- 类别标签将通过JavaScript动态生成 -->
+            </div>
+
+            <div class="sale-filters">
+                <div class="filter-group">
+                    <label>Sort By:</label>
+                    <select class="sort-select">
+                        <option value="featured">Featured</option>
+                        <option value="discount">Biggest Discount</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="newest">Newest Arrivals</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Discount:</label>
+                    <div class="discount-filters">
+                        <button class="discount-filter" data-discount="20">20%+</button>
+                        <button class="discount-filter" data-discount="30">30%+</button>
+                        <button class="discount-filter active" data-discount="40">40%+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sale-products" id="sale-products">
+        <div class="container">
+            <div class="product-grid">
+                <!-- 产品卡片将通过JavaScript动态生成 -->
+            </div>
+        </div>
+    </section>
+
+    <section class="deal-banners">
+        <div class="container">
+            <div class="deal-banner">
+                <div class="deal-banner-content">
+                    <h3>Complete Camping Bundle</h3>
+                    <p>Tent + Sleeping Bag + Cookset</p>
+                    <div class="bundle-price">
+                        <span class="price-now">$299.99</span>
+                        <span class="price-was">$459.99</span>
+                    </div>
+                    <span class="savings">Save $160</span>
+                    <a href="product.html" class="btn-secondary">View Bundle</a>
+                </div>
+                <div class="deal-banner-image">
+                    <img src="img/camping-bundle.jpg" alt="Camping Bundle">
+                </div>
+            </div>
+
+            <div class="deal-banner">
+                <div class="deal-banner-content">
+                    <h3>Hiking Essentials Pack</h3>
+                    <p>Backpack + Boots + Hydration System</p>
+                    <div class="bundle-price">
+                        <span class="price-now">$249.99</span>
+                        <span class="price-was">$369.99</span>
+                    </div>
+                    <span class="savings">Save $120</span>
+                    <a href="product.html" class="btn-secondary">View Bundle</a>
+                </div>
+                <div class="deal-banner-image">
+                    <img src="img/hiking-bundle.jpg" alt="Hiking Bundle">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="special-offers">
+        <div class="container">
+            <h2 class="section-title">Special Offers</h2>
+            <div class="offers-grid">
+                <div class="offer-card">
+                    <i class="fas fa-truck"></i>
+                    <h3>Free Shipping</h3>
+                    <p>On all orders over $75</p>
+                </div>
+                <div class="offer-card">
+                    <i class="fas fa-tag"></i>
+                    <h3>Student Discount</h3>
+                    <p>Extra 10% off with verification</p>
+                </div>
+                <div class="offer-card">
+                    <i class="fas fa-gift"></i>
+                    <h3>Free Gift</h3>
+                    <p>With purchases over $150</p>
+                </div>
+                <div class="offer-card">
+                    <i class="fas fa-percent"></i>
+                    <h3>Bundle Deals</h3>
+                    <p>Save up to 35% on bundles</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+        <div class="newsletter-form">
+            <input type="email" placeholder="Email Address">
+            <button type="submit">Subscribe</button>
+        </div>
+        <div class="social-links">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="#">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Chat with an Outdoor Expert</div>
+    </div>
+
+    <script src="../js/cart.js"></script>
+    <script src="../js/summer-sale.js"></script>
+    <script src="../script.js"></script>
+</body>
+</html>

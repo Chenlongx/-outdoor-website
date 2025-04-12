@@ -1,0 +1,9 @@
+{
+  "name": "outdoor-website",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.4"
+  }
+}

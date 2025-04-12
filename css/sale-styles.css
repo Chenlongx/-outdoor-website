@@ -1,0 +1,602 @@
+/* Summer Sale Page Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    overflow-x: hidden; /* 防止横向溢出 */
+}
+
+/* Active nav link */
+.nav-links a.active {
+    color: var(--primary-color);
+    position: relative;
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+/* Hero Section */
+.sale-hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 5rem 2rem;
+    color: white;
+    text-align: center;
+}
+
+.sale-hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.sale-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 800;
+}
+
+.sale-dates {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+.sale-badges {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.sale-badge {
+    background-color: var(--accent-color);
+    color: white;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    transform: rotate(-5deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    animation: pulse 2s infinite;
+}
+
+.sale-badge:nth-child(2) {
+    background-color: var(--primary-color);
+    transform: rotate(5deg);
+    animation-delay: 0.7s;
+}
+
+.sale-badge:nth-child(3) {
+    background-color: var(--secondary-color);
+    transform: rotate(-3deg);
+    animation-delay: 1.4s;
+}
+
+.sale-badge .discount {
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+.sale-badge .text {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1) rotate(-5deg);
+    }
+    50% {
+        transform: scale(1.05) rotate(-5deg);
+    }
+    100% {
+        transform: scale(1) rotate(-5deg);
+    }
+}
+
+.sale-badge:nth-child(2) {
+    animation-name: pulse2;
+}
+
+@keyframes pulse2 {
+    0% {
+        transform: scale(1) rotate(5deg);
+    }
+    50% {
+        transform: scale(1.05) rotate(5deg);
+    }
+    100% {
+        transform: scale(1) rotate(5deg);
+    }
+}
+
+.sale-badge:nth-child(3) {
+    animation-name: pulse3;
+}
+
+@keyframes pulse3 {
+    0% {
+        transform: scale(1) rotate(-3deg);
+    }
+    50% {
+        transform: scale(1.05) rotate(-3deg);
+    }
+    100% {
+        transform: scale(1) rotate(-3deg);
+    }
+}
+
+.sale-description {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.sale-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.promo-code-box {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.promo-code-box p {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.promo-code-box span {
+    font-weight: 700;
+    color: white;
+    background-color: var(--accent-color);
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.copy-code {
+    background-color: white;
+    color: var(--dark-color);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.copy-code:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Categories Section */
+.sale-categories {
+    padding: 3rem 0 1rem;
+    background-color: white;
+}
+
+.category-tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-tab {
+    background: none;
+    border: 2px solid var(--light-gray);
+    padding: 0.5rem 1.5rem;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.category-tab:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.category-tab.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.sale-filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.filter-group label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 4px;
+    font-family: var(--body-font);
+    font-size: 0.95rem;
+    color: var(--dark-color);
+    cursor: pointer;
+}
+
+.discount-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.discount-filter {
+    background: none;
+    border: 1px solid var(--light-gray);
+    padding: 0.4rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.discount-filter:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+.discount-filter.active {
+    background-color: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+/* Sale Products */
+.sale-products {
+    padding: 2rem 0 4rem;
+}
+
+/* 商品网格布局优化 */
+.product-grid {
+    display: grid;
+    /* grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));  */
+    gap: 1.5rem;
+    padding: 1rem 0;
+  }
+
+.product-card {
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    width: 100%; /* 强制宽度适应网格 */
+    border: 1px solid rgba(0,0,0,0.05); /* 添加边界 */
+    border-radius: 8px; /* 与动效协调 */
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.discount-tag {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    z-index: 2;
+}
+
+.product-description {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+    margin: 0.5rem 0.8rem 1rem;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.product-card.animated h3{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.rating {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+    font-size: 0.9rem;
+}
+
+.rating-count {
+    color: var(--gray-color);
+    font-size: 0.8rem;
+    margin-left: 0.3rem;
+}
+
+.view-details {
+    display: block;
+    text-align: center;
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gray-color);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.view-details:hover {
+    background-color: var(--light-gray);
+    color: var(--dark-color);
+}
+
+/* Deal Banners */
+.deal-banners {
+    padding: 2rem 0 4rem;
+    background-color: var(--light-gray);
+}
+
+.deal-banner {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.deal-banner-content {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.deal-banner-content h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.deal-banner-content p {
+    color: var(--gray-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+.bundle-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.price-now {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.price-was {
+    font-size: 1.2rem;
+    color: var(--gray-color);
+    text-decoration: line-through;
+}
+
+.savings {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+}
+
+.deal-banner-image {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    max-width: 50%;
+}
+
+.deal-banner-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.deal-banner:hover .deal-banner-image img {
+    transform: scale(1.05);
+}
+
+/* Special Offers */
+.special-offers {
+    padding: 4rem 0;
+    background-color: white;
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.offer-card {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: var(--light-gray);
+    transition: transform 0.3s ease;
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
+}
+
+.offer-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.offer-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.offer-card p {
+    color: var(--gray-color);
+    font-size: 0.9rem;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .sale-hero h1 {
+        font-size: 3rem;
+    }
+
+    .offers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .sale-hero {
+        padding: 3rem 1rem;
+    }
+
+    .sale-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .sale-badges {
+        gap: 1rem;
+    }
+
+    .sale-badge {
+        width: 100px;
+        height: 100px;
+    }
+
+    .sale-badge .discount {
+        font-size: 2rem;
+    }
+
+    .sale-badge .text {
+        font-size: 0.9rem;
+    }
+
+    .sale-filters {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .deal-banner {
+        flex-direction: column;
+    }
+
+    .deal-banner-image {
+        max-width: 100%;
+        height: 200px;
+    }
+
+    .offers-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .sale-hero h1 {
+        font-size: 2rem;
+    }
+
+    .sale-badges {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .category-tabs {
+        gap: 0.5rem;
+    }
+
+    .category-tab {
+        padding: 0.4rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .discount-filters {
+        flex-wrap: wrap;
+    }
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--success-color);
+    color: white;
+    padding: 15px 25px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(100px);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.notification.show {
+    transform: translateY(0);
+    opacity: 1;
+}
