@@ -390,8 +390,8 @@
         margin: 0;
         display: flex; /* 启用弹性布局 */
         flex-wrap: wrap;
-        justify-content: space-between;
-        overflow-x: auto; /* 水平溢出滚动 */
+        justify-content: space-around;
+        /* overflow-x: auto; */
         gap: 1rem; /* 项间距 */
         -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
         scrollbar-width: none; /* 隐藏滚动条 - Firefox */
@@ -410,6 +410,8 @@
         font-size: 0.9rem;
         color: #333;
         transition: all 0.3s ease;
+        width: 150px;
+        overflow-x: hidden;
     }
     .products-header h1{
         font-size: 1rem;
