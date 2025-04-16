@@ -44,10 +44,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({
+                // 确保产品图片路径正确保存
+                const productToAdd = {
                     ...product,
+                    image: product.image_url, // 确保使用image_url作为image属性
                     quantity: 1
-                });
+                };
+                
+                console.log('从产品详情页添加到购物车的产品:', productToAdd);
+                cart.push(productToAdd);
             }
             
             // 保存购物车数据

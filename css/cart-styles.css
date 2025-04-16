@@ -311,7 +311,6 @@
     width: 100%;
 }
 .product-card{
-    width: 30%;
     height: 500px;
     position: relative;
 }
@@ -511,6 +510,27 @@
         width: 250px;
         scroll-snap-align: start;
         text-align: center;
+    }
+    .product-card{
+        width: 30%;
+    }    #suggested-products {
+        display: flex !important; /* 强制覆盖 grid */
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        white-space: nowrap;
+        gap: 0.75rem;
+        padding: 1.5rem 0.5rem;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    #suggested-products .product-card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        min-width: 250px;
     }
 }
 

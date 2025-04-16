@@ -196,26 +196,49 @@ function debounce(func, wait) {
     };
 }
 
+
+// 添加商品到购物车
+function addToCart(product) {
+    if (typeof CartManager !== 'undefined' && CartManager.addToCart) {
+        CartManager.addToCart(product);
+        showNotification(`${product.name} 已添加到购物车`);
+    } else {
+        // fallback：本地缓存购物车
+        const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+        cartItems.push(product);
+        localStorage.setItem('cart', JSON.stringify(cartItems));
+        showNotification(`${product.name} 已添加到购物车（本地缓存）`);
+    }
+}
+
 // 初始化产品卡
 function initProductCards() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
     addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation(); // 阻止冒泡，避免跳转
+
             const productCard = this.closest('.product-card');
             const productName = productCard.querySelector('h3').textContent;
+            const productImage = productCard.querySelector('img').src;
+            const productPrice = productCard.querySelector('.current-price').textContent.replace('$', '');
 
-            // Animation for adding to cart
-            button.textContent = 'ADDED!';
-            button.style.backgroundColor = '#4c956c';
+            const product = {
+                id: Date.now().toString(),
+                name: productName,
+                image_url: productImage,
+                price: parseFloat(productPrice),
+                quantity: 1
+            };
 
-            // Show notification
-            showNotification(`${productName} added to cart!`);
+            addToCart(product); // ✅ 替换未定义的函数
+            this.textContent = 'ADDED!';
+            this.style.backgroundColor = '#4c956c';
 
-            // Reset button after 2 seconds
             setTimeout(() => {
-                button.textContent = 'ADD TO CART';
-                button.style.backgroundColor = '';
+                this.textContent = 'ADD TO CART';
+                this.style.backgroundColor = '';
             }, 2000);
         });
     });
@@ -370,24 +393,56 @@ document.addEventListener('DOMContentLoaded', function() {
     // 畅销商品优惠数据展示
     // 动态填充产品数据
     function renderProducts(products) {
-        const container = document.getElementById('dynamic-products');
-        if(container){
-            // 清空容器但保留原有HTML结构
-            container.innerHTML = products.map(product => `
-            <div class="product-card">
-                <img src="${product.image_url}" 
-                    alt="${product.producttype}"
-                    onerror="this.style.display='none'">
-                <h3>${product.producttype}</h3>
+        const productsGrid = document.getElementById('dynamic-products');
+        if (!productsGrid) return;
+
+        productsGrid.innerHTML = '';
+        products.forEach((product, index) => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card animated';
+            productCard.style.opacity = '0';
+            productCard.style.transform = 'translateY(20px)';
+            productCard.style.transitionDelay = `${index * 100}ms`;
+
+            productCard.innerHTML = `
+                <img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">
+                <h3>${product.name}</h3>
                 <div class="price">
-                <span class="current-price">$${parseFloat(product.price).toFixed(2)}</span>
-                <span class="original-price">$${(product.price * 1.25).toFixed(2)}</span>
+                    <span class="current-price">$${product.price}</span>
+                    <span class="original-price">$${(product.price * 1.25).toFixed(2)}</span>
                 </div>
                 <button class="add-to-cart">ADD TO CART</button>
-            </div>
-            `).join('');
-        }
+            `;
 
+            // 添加点击事件，跳转到产品详情页
+            productCard.addEventListener('click', (e) => {
+                // 如果点击的是加入购物车按钮，不进行跳转
+                if (e.target.classList.contains('add-to-cart')) {
+                    return;
+                }
+                // 将产品信息存储到 localStorage
+                localStorage.setItem('currentProduct', JSON.stringify(product));
+                // 跳转到产品详情页
+                window.location.href = './products/product-detail.html';
+            });
+
+            // 为加入购物车按钮添加单独的点击事件
+            const addToCartBtn = productCard.querySelector('.add-to-cart');
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // 阻止事件冒泡
+                    addToCart(product);
+                });
+            }
+
+            productsGrid.appendChild(productCard);
+
+            // 触发重排以启动动画
+            setTimeout(() => {
+                productCard.style.opacity = '1';
+                productCard.style.transform = 'translateY(0)';
+            }, 50);
+        });
     }
     // 从Netlify函数获取数据
     fetch('/.netlify/functions/fetch-products')
@@ -398,7 +453,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(bestSellers){
         renderProducts(bestSellers);
     }
-    initProductCards()
     
     // 保持原有动画效果
     setTimeout(() => {
@@ -425,6 +479,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initStickyHeader();
     // initProductCards();
     initVideoPlayers();
+    
+    // 初始化购物车
+    if (typeof CartManager !== 'undefined' && CartManager.init) {
+        CartManager.init();
+    }
 
 
     // Initialize smooth scroll for navigation

@@ -477,7 +477,7 @@ const CartManager = {
     // Get cart items from localStorage
     getCartItems() {
         const cartItems = localStorage.getItem('cart');
-        console.log('Raw cart data from localStorage:', cartItems); // 调试输出
+        // console.log('Raw cart data from localStorage:', cartItems); // 调试输出
         try {
             return cartItems ? JSON.parse(cartItems) : [];
         } catch (e) {
@@ -502,13 +502,17 @@ const CartManager = {
         const existingItem = cartItems.find(item => item.id === product.id);
 
         if (existingItem) {
-            existingItem.quantity += product.quantity;
+            existingItem.quantity += 1;
         } else {
-            cartItems.push(product);
+            cartItems.push({
+                ...product,
+                quantity: 1
+            });
         }
 
         this.saveCartItems(cartItems);
         this.updateCartCount();
+        return true;
     },
 
     // Update cart count in header
@@ -518,12 +522,41 @@ const CartManager = {
             console.warn('Cart items is not an array:', cartItems);
             return;
         }
-        const totalItems = cartItems.reduce((total, item) => total + (parseInt(item.quantity || 1)), 0);
-        const cartCountElements = document.querySelectorAll('.cart-count');
         
-        cartCountElements.forEach(element => {
-            element.textContent = totalItems.toString();
-        });
+        const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+        
+        // 更新购物车图标上的数量
+        const cartIcon = document.querySelector('.fa-shopping-cart');
+        if (cartIcon) {
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                cartCountElement.textContent = cartCount;
+                // cartCountElement.style.display = cartCount > 0 ? 'block' : 'none';
+            } else if (cartCount > 0) {
+                // 如果不存在数量元素，则创建一个
+                const countElement = document.createElement('span');
+                countElement.classList.add('cart-count');
+                countElement.textContent = cartCount;
+                countElement.style.position = 'absolute';
+                countElement.style.top = '-8px';
+                countElement.style.right = '-8px';
+                countElement.style.backgroundColor = 'var(--primary-color)';
+                countElement.style.color = 'white';
+                countElement.style.borderRadius = '50%';
+                countElement.style.width = '18px';
+                countElement.style.height = '18px';
+                countElement.style.fontSize = '12px';
+                countElement.style.display = 'flex';
+                countElement.style.justifyContent = 'center';
+                countElement.style.alignItems = 'center';
+                
+                const cartLink = document.querySelector('a[href="./products/cart.html"]');
+                if (cartLink) {
+                    cartLink.style.position = 'relative';
+                    cartLink.appendChild(countElement);
+                }
+            }
+        }
     },
 
     // Update cart UI
@@ -567,12 +600,18 @@ const CartManager = {
         `;
         
         cartItems.forEach(item => {
+            // 获取产品图片 - 使用image_url属性
+            let imagePath = item.image_url || 'https://via.placeholder.com/150x150?text=No+Image';
+            console.log("获取到的图片地址：" + imagePath);
+            
+            // 检查图片路径是否有效
+            if (!imagePath || imagePath === 'undefined' || imagePath === 'null') {
+                imagePath = 'https://via.placeholder.com/150x150?text=No+Image';
+            }
+            
             // 确保price是数字类型
             const price = parseFloat(item.price || 0);
             const total = price * (parseInt(item.quantity || 1));
-            
-            // 获取产品图片
-            let imagePath = item.image_url || 'https://via.placeholder.com/150x150?text=No+Image';
             
             cartHTML += `
                 <div class="cart-item" data-id="${item.id}">
@@ -614,29 +653,45 @@ const CartManager = {
 
     // Initialize cart event listeners
     initCartEventListeners() {
-        // Quantity buttons
-        document.querySelectorAll('.quantity-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const cartItem = e.target.closest('.cart-item');
-                const itemId = cartItem.dataset.id;
-                const change = e.target.classList.contains('decrease') ? -1 : 1;
-                
-                // 更新购物车中的数量
-                const cartItems = this.getCartItems();
-                const item = cartItems.find(item => item.id === itemId);
-                if (item) {
-                    item.quantity = Math.max(1, Math.min(10, parseInt(item.quantity || 1) + change));
-                    this.saveCartItems(cartItems);
-                }
-            });
-        });
-
-        // Remove buttons
-        document.querySelectorAll('.remove-item').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        // Remove item buttons
+        document.querySelectorAll('.remove-item').forEach(button => {
+            button.addEventListener('click', (e) => {
                 const cartItem = e.target.closest('.cart-item');
                 const itemId = cartItem.dataset.id;
                 this.removeFromCart(itemId);
+            });
+        });
+
+        // Save for later buttons
+        document.querySelectorAll('.save-for-later').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                const itemId = cartItem.dataset.id;
+                this.saveForLater(itemId);
+            });
+        });
+
+        // Quantity buttons
+        document.querySelectorAll('.quantity-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                const itemId = cartItem.dataset.id;
+                const isIncrease = e.target.classList.contains('increase');
+                this.updateQuantity(itemId, isIncrease ? 1 : -1);
+            });
+        });
+
+        // Quantity inputs
+        document.querySelectorAll('.item-quantity input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                const itemId = cartItem.dataset.id;
+                const newValue = parseInt(e.target.value);
+                if (newValue > 0 && newValue <= 10) {
+                    this.updateQuantityInput(itemId, newValue);
+                } else {
+                    e.target.value = 1;
+                }
             });
         });
 
@@ -653,6 +708,7 @@ const CartManager = {
         if (updateCartBtn) {
             updateCartBtn.addEventListener('click', () => {
                 this.updateCartUI();
+                this.updateCartSummary();
                 showNotification('Shopping cart updated');
             });
         }
@@ -660,60 +716,93 @@ const CartManager = {
 
     // Remove item from cart
     removeFromCart(itemId) {
-        const cartItems = this.getCartItems().filter(item => item.id !== itemId);
-        this.saveCartItems(cartItems);
-        this.updateCartCount();
-        showNotification('Item has been removed from cart除');
+        const cartItems = this.getCartItems();
+        const updatedItems = cartItems.filter(item => item.id !== itemId);
+        this.saveCartItems(updatedItems);
+        showNotification('Item has been removed from cart');
+    },
+
+    // Save item for later
+    saveForLater(itemId) {
+        const cartItems = this.getCartItems();
+        const item = cartItems.find(item => item.id === itemId);
+        if (item) {
+            // 这里可以实现保存到"稍后购买"的功能
+            showNotification('Item has been saved for later');
+        }
+    },
+
+    // Update quantity
+    updateQuantity(itemId, change) {
+        const cartItems = this.getCartItems();
+        const item = cartItems.find(item => item.id === itemId);
+        if (item) {
+            const newQuantity = item.quantity + change;
+            if (newQuantity > 0 && newQuantity <= 10) {
+                item.quantity = newQuantity;
+                this.saveCartItems(cartItems);
+            }
+        }
+    },
+
+    // Update quantity input
+    updateQuantityInput(itemId, value) {
+        const cartItems = this.getCartItems();
+        const item = cartItems.find(item => item.id === itemId);
+        if (item) {
+            item.quantity = value;
+            this.saveCartItems(cartItems);
+        }
     },
 
     // Update cart summary
     updateCartSummary() {
         const cartItems = this.getCartItems();
-        if (!Array.isArray(cartItems)) {
-            console.warn('Cart items is not an array:', cartItems);
-            return;
-        }
-        const subtotal = cartItems.reduce((total, item) => {
-            const price = parseFloat(item.price || 0);
-            const quantity = parseInt(item.quantity || 1);
-            return total + (price * quantity);
-        }, 0);
-        const shipping = subtotal > 100 ? 0 : 10;
-        const tax = subtotal * 0.1; // 10% tax
+        const subtotal = this.calculateSubtotal(cartItems);
+        const shipping = this.calculateShipping(subtotal);
+        const tax = this.calculateTax(subtotal);
         const total = subtotal + shipping + tax;
 
-        const summaryContainer = document.querySelector('.cart-summary');
-        if (summaryContainer) {
-            summaryContainer.innerHTML = `
-                <h2>Order Summary</h2>
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>$${subtotal.toFixed(2)}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Shipping</span>
-                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
-                </div>
-                <div class="summary-row">
-                    <span>Tax</span>
-                    <span>$${tax.toFixed(2)}</span>
-                </div>
-                <div class="summary-total">
-                    <span>Total</span>
-                    <span>$${total.toFixed(2)}</span>
-                </div>
-                <button class="checkout-btn">Proceed to Checkout</button>
-            `;
-        }
+        // Update summary elements
+        const subtotalElement = document.getElementById('subtotal');
+        const shippingElement = document.getElementById('shipping');
+        const taxElement = document.getElementById('tax');
+        const totalElement = document.getElementById('total');
+
+        if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        if (shippingElement) shippingElement.textContent = `$${shipping.toFixed(2)}`;
+        if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
+        if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
+    },
+
+    // Calculate subtotal
+    calculateSubtotal(cartItems) {
+        return cartItems.reduce((total, item) => {
+            return total + (parseFloat(item.price || 0) * (parseInt(item.quantity || 1)));
+        }, 0);
+    },
+
+    // Calculate shipping
+    calculateShipping(subtotal) {
+        return subtotal > 100 ? 0 : 10; // Free shipping over $100
+    },
+
+    // Calculate tax
+    calculateTax(subtotal) {
+        return subtotal * 0.08; // 8% tax
+    },
+
+    // Initialize cart
+    init() {
+        this.updateCartUI();
+        this.updateCartCount();
     }
 };
 
-// Initialize cart functionality when DOM is loaded
-// document.addEventListener('DOMContentLoaded', () => {
-//     console.log('页面加载完成，初始化购物车');
-//     CartManager.updateCartCount();
-//     CartManager.updateCartUI();
-// });
+// 当DOM加载完成后初始化购物车
+document.addEventListener('DOMContentLoaded', function() {
+    CartManager.init();
+});
 
 // Apply discount
 function applyDiscount(percentage) {

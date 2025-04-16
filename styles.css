@@ -350,68 +350,84 @@ nav {
 }
 
 .product-grid {
-    display: flex;
-    justify-content: center;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .product-card {
-    background-color: white;
+    background: #fff;
     border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 .product-card img {
     width: 100%;
-    height: 250px;
+    height: 200px;
     object-fit: cover;
+    border-bottom: 1px solid #eee;
 }
 
 .product-card h3 {
+    padding: 1rem;
+    margin: 0;
     font-size: 1.1rem;
-    padding: 1rem 1rem 0.5rem;
-    margin-bottom: 0.5rem;
+    line-height: 1.4;
+    height: 3.08em; /* 限制标题高度为3行 */
+    overflow: hidden;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 3; */
+    -webkit-box-orient: vertical;
 }
 
-.price {
+.product-card .price {
     padding: 0 1rem;
     margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
 }
 
-.current-price {
-    font-weight: 700;
-    font-size: 1.1rem;
+.product-card .current-price {
+    font-size: 1.2rem;
+    font-weight: bold;
     color: var(--primary-color);
 }
 
-.original-price {
+.product-card .original-price {
     font-size: 0.9rem;
-    color: var(--gray-color);
+    color: #999;
     text-decoration: line-through;
+    margin-left: 0.5rem;
 }
 
-.add-to-cart {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: var(--primary-color);
+.product-card .add-to-cart {
+    margin: auto 1rem 1rem;
+    padding: 0.8rem;
+    background: var(--primary-color);
     color: white;
-    font-weight: 600;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
     transition: background-color 0.3s ease;
+    width: calc(100% - 2rem);
 }
 
-.add-to-cart:hover {
-    background-color: var(--secondary-color);
+.product-card .add-to-cart:hover {
+    background: var(--secondary-color);
 }
 
 /* New Releases Section */
@@ -1171,4 +1187,102 @@ footer {
     .announcement-bar p {
         margin-right: 0;
     }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .product-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* 购物车页面推荐产品区域样式 */
+#suggested-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+#suggested-products .product-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* 响应式布局 */
+@media (min-width: 768px) {
+    #suggested-products {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    #suggested-products {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1440px) {
+    #suggested-products {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+/* 购物车页面推荐产品卡片样式优化 */
+#suggested-products .product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#suggested-products .product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+#suggested-products .product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+}
+
+#suggested-products .product-card h3 {
+    font-size: 1rem;
+    margin: 1rem;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    /* -webkit-line-clamp: 2; */
+    -webkit-box-orient: vertical;
+}
+
+#suggested-products .product-card .product-description {
+    display: none;
+}
+
+#suggested-products .product-card .price {
+    margin: 0.5rem 1rem;
+}
+
+#suggested-products .product-card .rating {
+    margin: 0.5rem 1rem;
+}
+
+#suggested-products .product-card .add-to-cart {
+    margin: 1rem;
+    margin-top: auto;
 }

@@ -24,12 +24,21 @@
 
 /* Hero Section */
 .sale-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('img/hero-background.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/summer-sale-background.webp');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* 可选：视差滚动效果 */
     padding: 5rem 2rem;
     color: white;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    min-height: 60vh;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .sale-hero-content {
@@ -514,6 +523,11 @@
 @media (max-width: 768px) {
     .sale-hero {
         padding: 3rem 1rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                    url('../img/summer-sale-background-Mobile.webp');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
     .sale-hero h1 {
@@ -554,6 +568,9 @@
     .offers-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
+    }
+    .rating {
+        margin-left: 5%;
     }
 }
 

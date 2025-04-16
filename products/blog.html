@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGear Blog | Outdoor Adventure Insights</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/blog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html">Summer Sale</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="./products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="blog-hero">
+        <div class="blog-hero-content">
+            <h1>Outdoor Adventure Blog</h1>
+            <p>Expert tips, guides, and stories from the wilderness</p>
+        </div>
+    </section>
+
+    <section class="blog-categories">
+        <div class="blog-category-filters">
+            <button class="blog-filter active" data-category="all">All Posts</button>
+            <button class="blog-filter" data-category="gear-reviews">Gear Reviews</button>
+            <button class="blog-filter" data-category="trail-guides">Trail Guides</button>
+            <button class="blog-filter" data-category="survival-tips">Survival Tips</button>
+            <button class="blog-filter" data-category="adventure-stories">Adventure Stories</button>
+        </div>
+    </section>
+
+    <div class="blog-container">
+        <main class="blog-posts">
+            <article class="featured-post" data-category="adventure-stories">
+                <div class="featured-post-img">
+                    <img src="img/blog-featured.jpg" alt="Mountain Summit Journey">
+                </div>
+                <div class="featured-post-content">
+                    <span class="post-category">Adventure Stories</span>
+                    <h2>Conquering Everest Base Camp: A Journey to Remember</h2>
+                    <p class="post-meta">
+                        <span class="post-author"><i class="fas fa-user"></i> Sarah Johnson</span>
+                        <span class="post-date"><i class="fas fa-calendar"></i> April 12, 2025</span>
+                    </p>
+                    <p class="post-excerpt">Follow our journey as we tackled the legendary trek to Everest Base Camp, facing extreme weather, breathtaking landscapes, and personal challenges along the way...</p>
+                    <a href="#" class="btn-primary">Read More</a>
+                </div>
+            </article>
+
+            <div class="blog-posts-grid">
+                <article class="post-card" data-category="gear-reviews">
+                    <div class="post-img">
+                        <img src="img/blog-gear.jpg" alt="Hiking Boots Review">
+                        <span class="post-category">Gear Reviews</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>The Ultimate Hiking Boot Showdown: 2025 Edition</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> April 8, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 16 Comments</span>
+                        </p>
+                        <p class="post-excerpt">We tested the top 10 hiking boots of 2025 in extreme conditions to find the best options for every type of hiker...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="trail-guides">
+                    <div class="post-img">
+                        <img src="img/blog-trail.jpg" alt="Pacific Crest Trail Guide">
+                        <span class="post-category">Trail Guides</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Pacific Crest Trail: Section Hiking Guide for Beginners</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> April 5, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 9 Comments</span>
+                        </p>
+                        <p class="post-excerpt">New to thru-hiking? Learn how to tackle the PCT in manageable sections with our comprehensive guide...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="survival-tips">
+                    <div class="post-img">
+                        <img src="img/blog-survival.jpg" alt="Wilderness Survival">
+                        <span class="post-category">Survival Tips</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Wilderness First Aid: Essential Skills Every Outdoor Enthusiast Should Know</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> April 1, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 21 Comments</span>
+                        </p>
+                        <p class="post-excerpt">Learn the critical first aid techniques that could save a life when you're miles away from professional medical help...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="adventure-stories">
+                    <div class="post-img">
+                        <img src="img/blog-kayaking.jpg" alt="Kayaking Adventure">
+                        <span class="post-category">Adventure Stories</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Solo Kayaking the Colorado River: 30 Days in the Grand Canyon</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> March 28, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 13 Comments</span>
+                        </p>
+                        <p class="post-excerpt">Join Mark's incredible journey as he navigated the challenges of solo kayaking through one of America's most breathtaking landscapes...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="gear-reviews">
+                    <div class="post-img">
+                        <img src="img/blog-tents.jpg" alt="Ultralight Tents">
+                        <span class="post-category">Gear Reviews</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Ultralight Tents: Are They Worth the Hype and Price?</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> March 25, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 18 Comments</span>
+                        </p>
+                        <p class="post-excerpt">We analyze the pros, cons, and true value of the ultralight tent revolution that's sweeping through the backpacking community...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="trail-guides">
+                    <div class="post-img">
+                        <img src="img/blog-national-parks.jpg" alt="National Parks Guide">
+                        <span class="post-category">Trail Guides</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Hidden Gems: 7 Underrated National Parks to Visit This Year</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> March 20, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 11 Comments</span>
+                        </p>
+                        <p class="post-excerpt">Skip the crowds and discover these lesser-known national parks that offer spectacular scenery and unique outdoor experiences...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="survival-tips">
+                    <div class="post-img">
+                        <img src="img/blog-weather.jpg" alt="Weather Navigation">
+                        <span class="post-category">Survival Tips</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Reading the Sky: How to Predict Weather Changes in the Wilderness</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> March 15, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 8 Comments</span>
+                        </p>
+                        <p class="post-excerpt">Learn how to interpret cloud formations, wind patterns, and natural signs to anticipate weather changes when you're off the grid...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="post-card" data-category="adventure-stories">
+                    <div class="post-img">
+                        <img src="img/blog-winter.jpg" alt="Winter Expedition">
+                        <span class="post-category">Adventure Stories</span>
+                    </div>
+                    <div class="post-content">
+                        <h3>Arctic Expedition: Surviving a Week in -40°F Temperatures</h3>
+                        <p class="post-meta">
+                            <span class="post-date"><i class="fas fa-calendar"></i> March 10, 2025</span>
+                            <span class="post-comments"><i class="fas fa-comments"></i> 15 Comments</span>
+                        </p>
+                        <p class="post-excerpt">Our team's harrowing experience testing the limits of human endurance and gear performance in the Arctic wilderness...</p>
+                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="blog-pagination">
+                <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i> Previous</button>
+                <div class="pagination-numbers">
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <span>...</span>
+                    <a href="#">7</a>
+                </div>
+                <button class="pagination-btn">Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </main>
+
+        <aside class="blog-sidebar">
+            <div class="sidebar-widget search-widget">
+                <h3>Search Articles</h3>
+                <div class="blog-search">
+                    <input type="text" placeholder="Search...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Popular Posts</h3>
+                <div class="popular-posts">
+                    <div class="popular-post">
+                        <img src="img/blog-popular1.jpg" alt="Popular Post">
+                        <div>
+                            <h4>Essential Gear for Weekend Hiking Trips</h4>
+                            <span><i class="fas fa-eye"></i> 4.2K Views</span>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <img src="img/blog-popular2.jpg" alt="Popular Post">
+                        <div>
+                            <h4>How to Choose the Perfect Backpack</h4>
+                            <span><i class="fas fa-eye"></i> 3.8K Views</span>
+                        </div>
+                    </div>
+                    <div class="popular-post">
+                        <img src="img/blog-popular3.jpg" alt="Popular Post">
+                        <div>
+                            <h4>10 Must-Visit Camping Destinations</h4>
+                            <span><i class="fas fa-eye"></i> 3.5K Views</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-widget categories-widget">
+                <h3>Categories</h3>
+                <ul class="category-list">
+                    <li><a href="#">Gear Reviews <span>(24)</span></a></li>
+                    <li><a href="#">Trail Guides <span>(18)</span></a></li>
+                    <li><a href="#">Survival Tips <span>(15)</span></a></li>
+                    <li><a href="#">Adventure Stories <span>(21)</span></a></li>
+                    <li><a href="#">Environmental Conservation <span>(9)</span></a></li>
+                    <li><a href="#">Photography Tips <span>(12)</span></a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Newsletter</h3>
+                <p>Get our latest articles and adventure tips delivered to your inbox.</p>
+                <div class="sidebar-newsletter">
+                    <input type="email" placeholder="Your Email Address">
+                    <button>Subscribe</button>
+                </div>
+            </div>
+
+            <div class="sidebar-widget tags-widget">
+                <h3>Popular Tags</h3>
+                <div class="tag-cloud">
+                    <a href="#">Hiking</a>
+                    <a href="#">Camping</a>
+                    <a href="#">Gear</a>
+                    <a href="#">Backpacking</a>
+                    <a href="#">Survival</a>
+                    <a href="#">Mountains</a>
+                    <a href="#">National Parks</a>
+                    <a href="#">Trails</a>
+                    <a href="#">Wildlife</a>
+                    <a href="#">Photography</a>
+                    <a href="#">Climbing</a>
+                    <a href="#">Kayaking</a>
+                </div>
+            </div>
+
+            <div class="sidebar-widget">
+                <h3>Follow Us</h3>
+                <div class="sidebar-social">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <section class="blog-subscribe">
+        <div class="blog-subscribe-content">
+            <h2>Join Our Adventure Community</h2>
+            <p>Subscribe to receive exclusive content, expert gear tips, and adventure inspiration directly to your inbox.</p>
+            <div class="blog-subscribe-form">
+                <input type="text" placeholder="Your Name">
+                <input type="email" placeholder="Your Email Address">
+                <button class="btn-primary">Subscribe Now</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="./products/summer-sale.html">Sale</a></li>
+                    <li><a href="#">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="#">Outdoor Skills</a></li>
+                    <li><a href="#">Survival Techniques</a></li>
+                    <li><a href="#">Gear Guides</a></li>
+                    <li><a href="#">Trail Maps</a></li>
+                    <li><a href="#">Weather Preparation</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="./products/support.html">Contact Us</a></li>
+                    <li><a href="./products/faq.html">FAQ</a></li>
+                    <li><a href="./products/shipping-info.html">Shipping Info</a></li>
+                    <li><a href="#">Returns & Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="./products/privacy-policy.html">Privacy Policy</a>
+                <a href="./products/terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="./products/visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Chat Widget -->
+    <a href="https://wa.me/8613326425565">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Contact Support</div>
+        </div>
+    </a>
+
+    <!-- Search Overlay -->
+    <div id="search-overlay" class="search-overlay active" style="display: none;">
+        <div class="search-container">
+            <div class="search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products..." autofocus>
+                <button id="close-search" class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-results" id="search-results">
+                <div class="initial-message">Start typing to search products...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../js/blog.js"></script>
+</body>
+</html>

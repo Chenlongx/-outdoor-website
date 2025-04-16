@@ -21,10 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (existingItem) {
                 existingItem.quantity += 1; // 如果已存在，增加数量
             } else {
-                items.push({
+                // 确保产品图片路径正确保存
+                const productToAdd = {
                     ...product,
+                    image: product.image_url, // 确保使用image_url作为image属性
                     quantity: 1 // 新增产品，默认数量为 1
-                });
+                };
+                
+                console.log('添加到购物车的产品:', productToAdd);
+                items.push(productToAdd);
             }
             
             this.saveCartItems(items);
@@ -263,6 +268,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // 跳转到产品详情页
             window.location.href = './product-detail.html';
         });
+
+        // 为加入购物车按钮添加单独的点击事件
+        const addToCartBtn = card.querySelector('.add-to-cart-btn');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // 阻止事件冒泡
+                const productId = e.target.getAttribute('data-product-id');
+                addToCart(productId);
+            });
+        }
 
         return card;
     }

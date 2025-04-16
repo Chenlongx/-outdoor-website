@@ -64,21 +64,21 @@
             <div class="cart-container">
                 <div class="cart-items">
                     <h2>Your Items (<span id="cart-item-count">0</span>)</h2>
-                    <div class="cart-headers">
-                        <span class="header-product">Product</span>
+                    <!-- <div class="cart-headers"> -->
+                        <!-- <span class="header-product">Product</span>
                         <span class="header-price">Price</span>
                         <span class="header-quantity">Quantity</span>
-                        <span class="header-total">Total</span>
-                    </div>
+                        <span class="header-total">Total</span> -->
+                    <!-- </div> -->
 
                     <div id="cart-items-container">
                         <!-- 购物车项目将通过JavaScript动态生成 -->
                     </div>
 
-                    <div class="cart-actions">
+                    <!-- <div class="cart-actions">
                         <button class="continue-shopping"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
                         <button class="update-cart">Update Cart</button>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="cart-summary">
@@ -248,8 +248,268 @@
         </div>
       </div>
 
+    <script src="../js/cart-manager.js"></script>
     <script src="../js/cart.js"></script>
     <script src="../js/summer-sale.js"></script>
     <script src="../script.js"></script>
+    
+    <!-- 添加一个简单的脚本来从localStorage获取购物车数据 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查CartManager是否存在
+            if (typeof CartManager === 'undefined') {
+                console.warn('CartManager未定义，创建基本购物车功能');
+                
+                // 创建基本的购物车功能
+                window.CartManager = {
+                    getCartItems() {
+                        const cartItems = localStorage.getItem('cart');
+                        console.log('从localStorage获取的原始购物车数据:', cartItems);
+                        try {
+                            const parsedItems = cartItems ? JSON.parse(cartItems) : [];
+                            console.log('解析后的购物车数据:', parsedItems);
+                            return parsedItems;
+                        } catch (e) {
+                            console.error('解析购物车数据时出错:', e);
+                            return [];
+                        }
+                    },
+                    
+                    saveCartItems(items) {
+                        if (!Array.isArray(items)) {
+                            console.warn('items不是数组:', items);
+                            items = [];
+                        }
+                        console.log('保存到localStorage的购物车数据:', items);
+                        localStorage.setItem('cart', JSON.stringify(items));
+                        this.updateCartUI();
+                    },
+                    
+                    updateCartUI() {
+                        const cartItems = this.getCartItems();
+                        const cartItemsContainer = document.getElementById('cart-items-container');
+                        const cartItemCount = document.getElementById('cart-item-count');
+                        
+                        if (!cartItemsContainer) {
+                            console.warn('未找到购物车容器');
+                            return;
+                        }
+                        
+                        // 确保cartItems是数组
+                        if (!Array.isArray(cartItems)) {
+                            console.error('cartItems不是数组:', cartItems);
+                            cartItemsContainer.innerHTML = '<div class="empty-cart">Your shopping cart is empty</div>';
+                            return;
+                        }
+                        
+                        // 更新商品数量显示
+                        if (cartItemCount) {
+                            cartItemCount.textContent = cartItems.length.toString();
+                        }
+                        
+                        if (cartItems.length === 0) {
+                            cartItemsContainer.innerHTML = '<div class="empty-cart">Your shopping cart is empty</div>';
+                            return;
+                        }
+                        
+                        // 更新购物车项目显示
+                        let cartHTML = '';
+                        
+                        cartItems.forEach(item => {
+                            const price = parseFloat(item.price || 0);
+                            const total = price * (parseInt(item.quantity || 1));
+                            
+                            // 获取产品图片
+                            let imagePath = item.image || 'https://via.placeholder.com/150x150?text=No+Image';
+                            console.log("获取到的图片地址：" + imagePath);
+                            
+                            // 检查图片路径是否有效
+                            if (!imagePath || imagePath === 'undefined' || imagePath === 'null') {
+                                imagePath = 'https://via.placeholder.com/150x150?text=No+Image';
+                            }
+                            
+                            cartHTML += `
+                                <div class="cart-item" data-id="${item.id}">
+                                    <div class="item-image">
+                                        <img src="${imagePath}" alt="${item.name || 'Product'}" 
+                                             onerror="this.src='https://via.placeholder.com/150x150?text=No+Image'">
+                                    </div>
+                                    <div class="item-details">
+                                        <h3>${item.name || 'Unnamed Product'}</h3>
+                                        <p class="item-attributes">
+                                            ${item.color ? `Color: ${item.color}` : ''}
+                                            ${item.size ? ` | Size: ${item.size}` : ''}
+                                        </p>
+                                        <button class="remove-item"><i class="fas fa-trash-alt"></i> Remove</button>
+                                        <button class="save-for-later"><i class="far fa-heart"></i> Save for Later</button>
+                                    </div>
+                                    <div class="item-price">$${price.toFixed(2)}</div>
+                                    <div class="item-quantity">
+                                        <button class="quantity-btn decrease">-</button>
+                                        <input type="number" value="${item.quantity || 1}" min="1" max="10">
+                                        <button class="quantity-btn increase">+</button>
+                                    </div>
+                                    <div class="item-total">$${total.toFixed(2)}</div>
+                                </div>
+                            `;
+                        });
+                        
+                        cartItemsContainer.innerHTML = cartHTML;
+                        
+                        // 添加事件监听器
+                        this.addEventListeners();
+                        
+                        // 更新购物车摘要
+                        this.updateCartSummary();
+                    },
+                    
+                    addEventListeners() {
+                        // 移除商品按钮
+                        document.querySelectorAll('.remove-item').forEach(button => {
+                            button.addEventListener('click', (e) => {
+                                const cartItem = e.target.closest('.cart-item');
+                                const itemId = cartItem.dataset.id;
+                                this.removeFromCart(itemId);
+                            });
+                        });
+                        
+                        // 数量按钮
+                        document.querySelectorAll('.quantity-btn').forEach(button => {
+                            button.addEventListener('click', (e) => {
+                                const cartItem = e.target.closest('.cart-item');
+                                const itemId = cartItem.dataset.id;
+                                const isIncrease = e.target.classList.contains('increase');
+                                this.updateQuantity(itemId, isIncrease ? 1 : -1);
+                            });
+                        });
+                        
+                        // 数量输入框
+                        document.querySelectorAll('.item-quantity input').forEach(input => {
+                            input.addEventListener('change', (e) => {
+                                const cartItem = e.target.closest('.cart-item');
+                                const itemId = cartItem.dataset.id;
+                                const newValue = parseInt(e.target.value);
+                                if (newValue > 0 && newValue <= 10) {
+                                    this.updateQuantityInput(itemId, newValue);
+                                } else {
+                                    e.target.value = 1;
+                                }
+                            });
+                        });
+                    },
+                    
+                    removeFromCart(itemId) {
+                        const cartItems = this.getCartItems();
+                        const updatedItems = cartItems.filter(item => item.id !== itemId);
+                        this.saveCartItems(updatedItems);
+                        this.showNotification('商品已从购物车中移除');
+                    },
+                    
+                    updateQuantity(itemId, change) {
+                        const cartItems = this.getCartItems();
+                        const item = cartItems.find(item => item.id === itemId);
+                        if (item) {
+                            const newQuantity = item.quantity + change;
+                            if (newQuantity > 0 && newQuantity <= 10) {
+                                item.quantity = newQuantity;
+                                this.saveCartItems(cartItems);
+                            }
+                        }
+                    },
+                    
+                    updateQuantityInput(itemId, value) {
+                        const cartItems = this.getCartItems();
+                        const item = cartItems.find(item => item.id === itemId);
+                        if (item) {
+                            item.quantity = value;
+                            this.saveCartItems(cartItems);
+                        }
+                    },
+                    
+                    updateCartSummary() {
+                        const cartItems = this.getCartItems();
+                        const subtotal = this.calculateSubtotal(cartItems);
+                        const shipping = this.calculateShipping(subtotal);
+                        const tax = this.calculateTax(subtotal);
+                        const total = subtotal + shipping + tax;
+                        
+                        // 更新摘要元素
+                        const subtotalElement = document.getElementById('subtotal');
+                        const shippingElement = document.getElementById('shipping');
+                        const taxElement = document.getElementById('tax');
+                        const totalElement = document.getElementById('total');
+                        
+                        if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+                        if (shippingElement) shippingElement.textContent = `$${shipping.toFixed(2)}`;
+                        if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
+                        if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
+                    },
+                    
+                    calculateSubtotal(cartItems) {
+                        return cartItems.reduce((total, item) => {
+                            return total + (parseFloat(item.price || 0) * (parseInt(item.quantity || 1)));
+                        }, 0);
+                    },
+                    
+                    calculateShipping(subtotal) {
+                        return subtotal > 100 ? 0 : 10; // 超过$100免运费
+                    },
+                    
+                    calculateTax(subtotal) {
+                        return subtotal * 0.08; // 8%税费
+                    },
+                    
+                    showNotification(message) {
+                        const notification = document.createElement('div');
+                        notification.className = 'notification';
+                        notification.textContent = message;
+                        document.body.appendChild(notification);
+                        
+                        setTimeout(() => {
+                            notification.classList.add('show');
+                        }, 100);
+                        
+                        setTimeout(() => {
+                            notification.classList.remove('show');
+                            setTimeout(() => {
+                                notification.remove();
+                            }, 300);
+                        }, 3000);
+                    },
+                    
+                    init() {
+                        this.updateCartUI();
+                    }
+                };
+            }
+            
+            // 初始化购物车
+            CartManager.init();
+            
+            // 添加结账按钮事件监听器
+            const checkoutBtn = document.querySelector('.checkout-btn');
+            if (checkoutBtn) {
+                checkoutBtn.addEventListener('click', function() {
+                    document.getElementById('custom-modal').style.display = 'flex';
+                });
+            }
+            
+            // 添加关闭模态框事件监听器
+            const closeModalBtn = document.getElementById('close-modal');
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    document.getElementById('custom-modal').style.display = 'none';
+                });
+            }
+            
+            // 添加联系客服按钮事件监听器
+            const contactSupportBtn = document.getElementById('contact-support');
+            if (contactSupportBtn) {
+                contactSupportBtn.addEventListener('click', function() {
+                    window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
+                });
+            }
+        });
+    </script>
 </body>
 </html>
