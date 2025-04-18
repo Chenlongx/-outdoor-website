@@ -3,7 +3,7 @@
 
 /* Partner Hero Section */
 .partner-hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://same-assets.com/images/Zf1G5gMFxKAqBFZnWJTwOfjgRxR3ug2JCLzKSS9a.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/partners.webp');
     background-size: cover;
     background-position: center;
     height: 400px;

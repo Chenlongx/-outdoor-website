@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productCard.style.transitionDelay = `${index * 100}ms`;
 
             productCard.innerHTML = `
-                <img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">
+                <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
                 <h3>${product.name}</h3>
                 <div class="price">
                     <span class="current-price">$${product.price}</span>

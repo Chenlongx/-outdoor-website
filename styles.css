@@ -701,7 +701,9 @@ nav {
 .info-item:hover {
     background-color: var(--light-gray);
 }
-
+.info-item:hover h3 {
+    color: var(--primary-color); /* ← 悬浮时变字体颜色 */
+  }
 .info-item i {
     font-size: 2.5rem;
     color: var(--primary-color);
@@ -962,9 +964,9 @@ footer {
     color: var(--gray);
     padding: 2rem;
 }
-.fas.fa-handshake{
+/* .fas.fa-handshake{
     margin-right: 30px;
-}
+} */
 
 /* Responsive Styles */
 @media (max-width: 1024px) {

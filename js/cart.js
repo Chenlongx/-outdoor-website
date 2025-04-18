@@ -63,19 +63,45 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize suggested products
     initSuggestedProducts();
 
-    document.querySelector('.checkout-btn').addEventListener('click', function(e) {
-        e.preventDefault(); // 阻止正常提交
-        document.getElementById('custom-modal').style.display = 'flex'; // 显示弹窗
-    });
+    // document.querySelector('.checkout-btn').addEventListener('click', function(e) {
+    //     e.preventDefault(); // 阻止正常提交
+    //     document.getElementById('custom-modal').style.display = 'flex'; // 显示弹窗
+    // });
+    const checkoutbtn = document.querySelector('.checkout-btn');
+    const modal = document.getElementById('custom-modal');
+
+    if (checkoutbtn && modal) {
+        checkoutbtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            modal.style.display = 'flex';
+        });
+    }
     
-    document.getElementById('close-modal').addEventListener('click', function() {
-        document.getElementById('custom-modal').style.display = 'none'; // 关闭弹窗
-    });
+    // document.getElementById('close-modal').addEventListener('click', function() {
+    //     document.getElementById('custom-modal').style.display = 'none'; // 关闭弹窗
+    // });
+
+    const closeBtn = document.getElementById('close-modal');
+    const closemodal = document.getElementById('custom-modal');
+
+    if (closeBtn && closemodal) {
+        closeBtn.addEventListener('click', function () {
+            closemodal.style.display = 'none';
+        });
+    }
     
-    document.getElementById('contact-support').addEventListener('click', function() {
-        // 跳转到你的 WhatsApp
-        window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
-    });
+    // document.getElementById('contact-support').addEventListener('click', function() {
+    //     // 跳转到你的 WhatsApp
+    //     window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
+    // });
+
+    const contactBtn = document.getElementById('contact-support');
+
+    if (contactBtn) {
+        contactBtn.addEventListener('click', function () {
+            window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
+        });
+    }
 
 });
 

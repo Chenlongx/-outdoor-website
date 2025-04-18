@@ -1,3 +1,7 @@
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     let currentProducts = []; // 存储当前产品数据
     let currentCategory = null; // 当前选中的分类
@@ -5,6 +9,22 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 1; // 当前页码
     let currentSort = 'default'; // 当前排序方式
     const productsPerPage = 12; // 每页显示的产品数量
+    let originalProducts = [];
+
+    // 获取首页携带的产品参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlCategory = urlParams.get('category');
+    const urlSubcategory = urlParams.get('subcategory');
+
+
+    function highlightCategoryInSidebar() {
+        const categoryItems = document.querySelectorAll('.category-item');
+        categoryItems.forEach(item => {
+            if (item.textContent.toLowerCase() === currentCategory.toLowerCase()) {
+                item.classList.add('active');
+            }
+        });
+    }
 
     // 购物车管理对象
     const cart = {
@@ -68,10 +88,52 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/.netlify/functions/fetch-products')
         .then(response => response.json())
         .then(data => {
+            originalProducts = data; // <== 保存原始完整数据
             currentProducts = data;
             console.log('获取到的产品数据:', data);
             renderCategories();
-            renderProducts(getPaginatedProducts());
+
+            // 如果 URL 携带了 category 参数，则设置当前分类
+            // if (urlCategory) {
+            //     currentCategory = decodeURIComponent(urlCategory);
+            //     currentSubcategory = urlSubcategory ? decodeURIComponent(urlSubcategory) : null;
+
+            //     console.log(currentCategory)
+        
+            //     renderSubcategories();
+            //     renderProducts(getPaginatedProducts());
+            //     highlightCategoryInSidebar();
+            // } else {
+            //     renderProducts(getPaginatedProducts());
+            // }
+
+            if (urlCategory) {
+                currentCategory = decodeURIComponent(urlCategory);
+                currentSubcategory = urlSubcategory ? decodeURIComponent(urlSubcategory) : null;
+              
+                // 使用 name 字段进行模糊匹配（忽略大小写）
+                const filteredByName = data.filter(product =>
+                  product.name.toLowerCase().includes(currentCategory.toLowerCase())
+                );
+              
+                // 如果匹配到则用过滤后的数据渲染，否则默认按原分类字段过滤
+                if (filteredByName.length > 0) {
+                  currentProducts = filteredByName;
+                  console.log('按 name 模糊匹配后的产品:', currentProducts);
+                } else {
+                  currentProducts = data.filter(product =>
+                    product.category && product.category.toLowerCase().includes(currentCategory.toLowerCase())
+                  );
+                }
+              
+                renderSubcategories();
+                renderProducts(getPaginatedProducts());
+                highlightCategoryInSidebar();
+              } else {
+                currentProducts = data; // ✅ 缺失的这一行补上！
+                renderProducts(getPaginatedProducts());
+              }
+
             cart.updateCartCount(); // 初始化购物车计数
             setupCartEventListeners(); // 设置购物车事件监听器
         })
@@ -91,12 +153,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainCategories = [...new Set(currentProducts
             .map(product => product.category)
             .filter(category => category))];
-
+        
+        // 点击选项项展示相关的产品
         mainCategories.forEach(category => {
             const categoryItem = document.createElement('li');
             categoryItem.className = 'category-item';
             categoryItem.textContent = category;
             categoryItem.addEventListener('click', () => {
+                console.log(categoryItem)
                 currentCategory = category;
                 currentSubcategory = null;
                 currentPage = 1;
@@ -167,11 +231,11 @@ document.addEventListener('DOMContentLoaded', function() {
         let filteredProducts = [...currentProducts];
 
         // 按分类和子分类过滤
-        if (currentCategory) {
-            filteredProducts = filteredProducts.filter(product => 
-                product.category === currentCategory
+        if (currentCategory && currentProducts === originalProducts) {
+            filteredProducts = filteredProducts.filter(product =>
+              product.category === currentCategory
             );
-        }
+          }
         if (currentSubcategory) {
             filteredProducts = filteredProducts.filter(product => 
                 product.subcategory === currentSubcategory
@@ -243,7 +307,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         card.innerHTML = `
             <div class="product-image">
-                <img src="${product.image_url}" alt="${product.name}">
+                <img src="${product.image_url}" alt="${product.name}" loading="lazy">
             </div>
             <div class="product-info">
                 <h3 class="product-name">${product.name}</h3>
