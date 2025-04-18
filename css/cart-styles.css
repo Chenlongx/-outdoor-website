@@ -532,6 +532,9 @@
         scroll-snap-align: start;
         min-width: 250px;
     }
+    .announcement-bar{
+        display: none;
+    }
 }
 
 @media (max-width: 480px) {

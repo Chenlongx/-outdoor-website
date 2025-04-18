@@ -124,6 +124,18 @@ document.addEventListener('DOMContentLoaded', function() {
                   currentProducts = data.filter(product =>
                     product.category && product.category.toLowerCase().includes(currentCategory.toLowerCase())
                   );
+
+                    // ✅ 如果还是没匹配到，隐藏分类侧边栏
+                    if (currentProducts.length === 0) {
+                        const sidebar = document.querySelector('.categories-sidebar');
+                        if (sidebar) sidebar.style.display = 'none';
+
+                        // 同时更新 subcategories-nav 提示信息
+                        const subNav = document.querySelector('.subcategories-nav');
+                        if (subNav) {
+                            subNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
+                        }
+                    }
                 }
               
                 renderSubcategories();
@@ -206,6 +218,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 subcategoriesNav.appendChild(subcategoriesList);
+            }else {
+                // 👇 没有子分类时显示提示信息
+                subcategoriesNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
             }
         }
     }

@@ -201,13 +201,13 @@ function debounce(func, wait) {
 function addToCart(product) {
     if (typeof CartManager !== 'undefined' && CartManager.addToCart) {
         CartManager.addToCart(product);
-        showNotification(`${product.name} 已添加到购物车`);
+        showNotification(`${product.name} Added to cart`);
     } else {
         // fallback：本地缓存购物车
         const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
         cartItems.push(product);
         localStorage.setItem('cart', JSON.stringify(cartItems));
-        showNotification(`${product.name} 已添加到购物车（本地缓存）`);
+        showNotification(`${product.name} Added to cart (local cache)`);
     }
 }
 
