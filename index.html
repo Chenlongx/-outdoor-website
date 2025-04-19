@@ -79,7 +79,7 @@
                 <li><a href="/products/support.html">Support</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#" class="icon-link" id="header-search"><i class="fas fa-search"></i></a>
+                <a href="#" class="icon-link" id="header-search" aria-label="Open search bar"><i class="fas fa-search" aria-hidden="true"></i></a>
                 <a href="/products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
             </div>
             <div class="mobile-menu-btn">
@@ -96,79 +96,79 @@
         </div>
     </section>
 
-    <section class="categories">
+    <section class="categories" aria-label="Product Categories">
         <div class="category-item">
-            <a href="./products/products.html?category=hiking">
-                <img src="img/category-hiking.webp" loading="lazy" alt="Hiking Gear">
+            <a href="./products/products.html?category=hiking" aria-label="Explore Hiking Gear including tents and backpacks">
+                <img src="img/category-hiking.webp" loading="lazy" alt="Hiking gear including tents, backpacks, and boots for hiking">
                 <h3>Hiking</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=camping">
+            <a href="./products/products.html?category=camping" aria-label="Explore Camping Gear">
                 <img src="img/category-camping.webp" loading="lazy" alt="Camping Gear">
                 <h3>Camping</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=climbing">
+            <a href="./products/products.html?category=climbing" aria-label="Explore Climbing Gear">
                 <img src="img/The climb.webp" loading="lazy" alt="Climbing Gear">
                 <h3>Climbing</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=fishing">
+            <a href="./products/products.html?category=fishing" aria-label="Explore Fishing Gear">
                 <img src="img/Fishing tackle.webp" loading="lazy" alt="Fishing Gear">
                 <h3>Fishing</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=kayaking">
+            <a href="./products/products.html?category=kayaking" aria-label="Explore Kayaking Gear">
                 <img src="img/category-kayaking.webp" alt="Kayaking Gear">
                 <h3>Kayaking</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=apparel">
+            <a href="./products/products.html?category=apparel" aria-label="Explore Outdoor Apparel">
                 <img src="img/Outdoor clothing.webp" loading="lazy" alt="Outdoor Apparel">
                 <h3>Apparel</h3>
             </a>
         </div>
         <div class="category-item">
-            <a href="./products/products.html?category=backpack">
+            <a href="./products/products.html?category=backpack" aria-label="Explore Backpacks for all adventures">
                 <img src="img/category-backpacks.webp" loading="lazy" alt="Backpacks">
                 <h3>Backpacks</h3>
             </a>
         </div>
     </section>
 
-    <section class="activities">
+    <section class="activities" aria-label="Outdoor Activities">
         <div class="activity-item">
-            <a href="./products/products.html?category=Mountaineering">
-                <img src="img/activity-mountaineering.webp" loading="lazy" alt="Mountaineering">
+            <a href="./products/products.html?category=Mountaineering" aria-label="Explore Mountaineering Gear">
+                <img src="img/activity-mountaineering.webp" loading="lazy" alt="Mountaineering activity with climbers on a mountain">
                 <div class="overlay-text">Mountaineering</div>
             </a>
         </div>
         <div class="activity-item">
-            <a href="./products/products.html?category=Camping">
-                <img src="img/activity-camping.webp" loading="lazy" alt="Camping">
+            <a href="./products/products.html?category=Camping" aria-label="Explore Camping Gear">
+                <img src="img/activity-camping.webp" loading="lazy" alt="Camping activity with tents and campfire">
                 <div class="overlay-text">Camping</div>
             </a>
         </div>
         <div class="activity-item">
-            <a href="./products/products.html?category=Fishing">
-                <img src="img/activity-fishing.webp" loading="lazy" alt="Fishing">
+            <a href="./products/products.html?category=Fishing" aria-label="Explore Fishing Gear">
+                <img src="img/activity-fishing.webp" loading="lazy" alt="Fishing activity with a fisherman by the lake">
                 <div class="overlay-text">Fishing</div>
             </a>
         </div>
         <div class="activity-item">
-            <a href="./products/products.html?category=Kayaking">
-                <img src="img/activity-kayaking.webp" loading="lazy" alt="Kayaking">
+            <a href="./products/products.html?category=Kayaking" aria-label="Explore Kayaking Gear">
+                <img src="img/activity-kayaking.webp" loading="lazy" alt="Kayaking activity on a river with paddles">
                 <div class="overlay-text">Kayaking</div>
             </a>
         </div>
         <div class="activity-item">
-            <a href="./products/products.html?category=Hiking">
-                <img src="img/activity-hiking.webp" loading="lazy" alt="Hiking">
+            <a href="./products/products.html?category=Hiking" aria-label="Explore Hiking Gear">
+                <img src="img/activity-hiking.webp" loading="lazy" alt="Hiking activity on a mountain trail">
                 <div class="overlay-text">Hiking</div>
             </a>
         </div>
@@ -179,179 +179,196 @@
         <div class="product-grid" id="dynamic-products"></div>
     </section>
 
-    <section class="new-releases">
-        <h2 class="section-title">NEW RELEASES</h2>
+    <section class="new-releases" aria-labelledby="new-releases-title">
+        <h2 class="section-title" id="new-releases-title">NEW RELEASES</h2>
         <div class="releases-grid">
             <div class="release-item">
-                <img src="img/new-jackets.webp" loading="lazy" alt="All-Weather Jackets">
-                <div class="release-info">
-                    <h3>All-Weather Jackets</h3>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore All-Weather Jackets for outdoor adventures">
+                    <img src="img/new-jackets.webp" loading="lazy" alt="All-Weather Jackets for various weather conditions">
+                    <div class="release-info">
+                        <h3>All-Weather Jackets</h3>
+                        <a href="#" class="btn-secondary" aria-label="Learn more about All-Weather Jackets">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="release-item">
-                <img src="img/new-hydration.webp" loading="lazy" alt="Advanced Hydration Systems">
-                <div class="release-info">
-                    <h3>Advanced Hydration Systems</h3>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore Advanced Hydration Systems for outdoor hydration needs">
+                    <img src="img/new-hydration.webp" loading="lazy" alt="Advanced Hydration Systems designed for outdoor activities">
+                    <div class="release-info">
+                        <h3>Advanced Hydration Systems</h3>
+                        <a href="#" class="btn-secondary" aria-label="Learn more about Hydration Systems">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="release-item">
-                <img src="img/new-tents.webp" loading="lazy" alt="Lightweight Camping Tents">
-                <div class="release-info">
-                    <h3>Lightweight Camping Tents</h3>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore Lightweight Camping Tents for your camping trips">
+                    <img src="img/new-tents.webp" loading="lazy" alt="Lightweight Camping Tents suitable for backpacking and camping">
+                    <div class="release-info">
+                        <h3>Lightweight Camping Tents</h3>
+                        <a href="#" class="btn-secondary" aria-label="Learn more about Camping Tents">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="release-item">
-                <img src="img/new-footwear.webp" loading="lazy" alt="All-Terrain Footwear">
-                <div class="release-info">
-                    <h3>All-Terrain Footwear</h3>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore All-Terrain Footwear for rugged outdoor terrain">
+                    <img src="img/new-footwear.webp" loading="lazy" alt="All-Terrain Footwear designed for durability and comfort">
+                    <div class="release-info">
+                        <h3>All-Terrain Footwear</h3>
+                        <a href="#" class="btn-secondary" aria-label="Learn more about All-Terrain Footwear">Learn More</a>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="featured-products">
-        <h2 class="section-title">FEATURED PRODUCTS</h2>
+    <section class="featured-products" aria-labelledby="featured-products-title">
+        <h2 class="section-title" id="featured-products-title">FEATURED PRODUCTS</h2>
         <div class="featured-grid">
             <div class="featured-item">
-                <img src="img/featured-ultralight.webp" loading="lazy" alt="Ultralight Tent">
-                <div class="featured-info">
-                    <h4>Ultralight Tent</h4>
-                    <p>Waterproof 2-Person Backpacking Tent</p>
-                    <a href="#" class="learn-more">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore Ultralight Tent for two-person backpacking">
+                    <img src="img/featured-ultralight.webp" loading="lazy" alt="Ultralight Tent designed for two-person backpacking">
+                    <div class="featured-info">
+                        <h4>Ultralight Tent</h4>
+                        <p>Waterproof 2-Person Backpacking Tent</p>
+                        <a href="#" class="learn-more" aria-label="Learn more about Ultralight Tent">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="featured-item">
-                <img src="img/featured-jacket.webp" loading="lazy" alt="TrekPro Jacket">
-                <div class="featured-info">
-                    <h4>TrekPro Jacket</h4>
-                    <p>All-Weather Protection with Breathable Fabric</p>
-                    <a href="#" class="learn-more">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore TrekPro Jacket for all-weather protection">
+                    <img src="img/featured-jacket.webp" loading="lazy" alt="TrekPro Jacket providing all-weather protection with breathable fabric">
+                    <div class="featured-info">
+                        <h4>TrekPro Jacket</h4>
+                        <p>All-Weather Protection with Breathable Fabric</p>
+                        <a href="#" class="learn-more" aria-label="Learn more about TrekPro Jacket">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="featured-item">
-                <img src="img/featured-cookset.webp" loading="lazy" alt="Camp Cookset">
-                <div class="featured-info">
-                    <h4>Camp Cookset</h4>
-                    <p>Lightweight Portable Cooking System</p>
-                    <a href="#" class="learn-more">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore Camp Cookset for lightweight outdoor cooking">
+                    <img src="img/featured-cookset.webp" loading="lazy" alt="Camp Cookset for lightweight portable outdoor cooking">
+                    <div class="featured-info">
+                        <h4>Camp Cookset</h4>
+                        <p>Lightweight Portable Cooking System</p>
+                        <a href="#" class="learn-more" aria-label="Learn more about Camp Cookset">Learn More</a>
+                    </div>
+                </a>
             </div>
             <div class="featured-item">
-                <img src="img/featured-headlamp.webp" loading="lazy" alt="Night Explorer">
-                <div class="featured-info">
-                    <h4>Night Explorer</h4>
-                    <p>Rechargeable LED Headlamp with 300ft Range</p>
-                    <a href="#" class="learn-more">Learn More</a>
-                </div>
+                <a href="#" aria-label="Explore Night Explorer LED Headlamp for night adventures">
+                    <img src="img/featured-headlamp.webp" loading="lazy" alt="Night Explorer rechargeable LED headlamp for night adventures">
+                    <div class="featured-info">
+                        <h4>Night Explorer</h4>
+                        <p>Rechargeable LED Headlamp with 300ft Range</p>
+                        <a href="#" class="learn-more" aria-label="Learn more about Night Explorer LED Headlamp">Learn More</a>
+                    </div>
+                </a>
             </div>
         </div>
     </section>
 
-    <section class="adventure-solutions">
-        <h2 class="section-title">COMPLETE ADVENTURE SOLUTIONS</h2>
+    <section class="adventure-solutions" aria-labelledby="adventure-solutions-title">
+        <h2 class="section-title" id="adventure-solutions-title">COMPLETE ADVENTURE SOLUTIONS</h2>
         <p class="section-description">From weekend trips to expeditions, WildGear provides tested equipment that's reliable, durable, and designed for the outdoors.</p>
         <div class="solution-content">
             <div class="solution-text">
                 <h3>Expert.<br>Total Solution.<br>Safety.</h3>
             </div>
             <div class="solution-video">
-                <img src="img/video-thumbnail.webp" loading="lazy" alt="Adventure Solutions Video">
+                <img src="img/video-thumbnail.webp" loading="lazy" alt="Adventure Solutions video thumbnail showing outdoor activities">
                 <div class="play-button">
-                    <i class="fas fa-play"></i>
+                    <i class="fas fa-play" aria-label="Play Adventure Solutions Video"></i>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="user-stories">
-        <h2 class="section-title">USER STORIES</h2>
+    <section class="user-stories" aria-labelledby="user-stories-title">
+        <h2 class="section-title" id="user-stories-title">USER STORIES</h2>
         <div class="stories-grid">
             <div class="story-card">
                 <div class="story-video">
                     <img src="img/story-mountain.webp" loading="lazy" alt="Mountain Adventure">
                     <div class="play-button">
-                        <i class="fas fa-play"></i>
+                        <i class="fas fa-play" aria-label="Play Mountain Adventure video"></i>
                     </div>
                 </div>
                 <h3>Alex & Maya</h3>
                 <p>"The gear we purchased allowed us to reach summits we thought were beyond our capabilities. The quality and durability exceeded our expectations."</p>
-                <a href="#" class="read-more">Read More</a>
+                <a href="#" class="read-more" aria-label="Read full story of Alex & Maya's adventure">Read More</a>
             </div>
             <div class="story-card">
                 <div class="story-video">
                     <img src="img/story-camping.webp" loading="lazy" alt="Family Camping">
                     <div class="play-button">
-                        <i class="fas fa-play"></i>
+                        <i class="fas fa-play" aria-label="Play Family Camping video"></i>
                     </div>
                 </div>
                 <h3>The Peterson Family</h3>
                 <p>"With three young kids, we needed equipment that was reliable and easy to set up. WildGear's family tent and cooking system made our trips stress-free."</p>
-                <a href="#" class="read-more">Read More</a>
+                <a href="#" class="read-more" ria-label="Read full story of The Peterson Family's camping experience">Read More</a>
             </div>
             <div class="story-card">
                 <div class="story-video">
                     <img src="img/story-hiking.webp" loading="lazy" alt="Solo Hiking">
                     <div class="play-button">
-                        <i class="fas fa-play"></i>
+                        <i class="fas fa-play" aria-label="Play Solo Hiking video"></i>
                     </div>
                 </div>
                 <h3>Sarah's Trail Journey</h3>
                 <p>"The backpack and navigation tools were essential for my solo trek across the Appalachian Trail. I felt secure knowing I had reliable equipment."</p>
-                <a href="#" class="read-more">Read More</a>
+                <a href="#" class="read-more" aria-label="Read full story of Sarah's solo hiking journey">Read More</a>
             </div>
         </div>
     </section>
 
-    <section class="info-links">
+    <section class="info-links" aria-labelledby="info-links-title">
         <div class="info-item">
-            <i class="fas fa-book"></i>
+            <i class="fas fa-book" aria-hidden="true"></i>
             <h3>Learning Center</h3>
         </div>
         <a href="./products/blog.html">
             <div class="info-item">
-                <i class="fas fa-blog"></i>
+                <i class="fas fa-blog" aria-hidden="true"></i>
                 <h3>Blog</h3>
             </div>
         </a>
         <div class="info-item">
             <a href="./products/partners-discount.html" >
                 <div  class="info-item">
-                    <i class="fas fa-handshake"></i>
+                    <i class="fas fa-handshake" aria-hidden="true"></i>
                     <h3>Partners</h3>
                 </div>
             </a>
         </div>
     </section>
 
-    <section class="newsletter">
-        <h3>Be the first to receive our latest news and exclusive deals!</h3>
+    <section class="newsletter" aria-labelledby="newsletter-title">
+        <h3 id="newsletter-title">Be the first to receive our latest news and exclusive deals!</h3>
         <div class="newsletter-form">
-            <input type="email" placeholder="Email Address">
-            <button type="submit">Subscribe</button>
+            <label for="email-address">Email Address</label>
+            <input type="email" id="email-address" placeholder="Email Address" aria-label="Enter your email address to subscribe">
+            <button type="submit" aria-label="Subscribe to the newsletter">Subscribe</button>
         </div>
-        <div class="social-links">
+        <div class="social-links" aria-label="Follow us on social media">
             <p>Follow Us</p>
             <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-pinterest"></i></a>
+                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+                <a href="#" aria-label="Follow us on Pinterest"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>
 
-    <footer>
+    <footer aria-labelledby="footer-title">
         <div class="footer-columns">
             <div class="footer-column">
                 <h4>Products</h4>
                 <ul>
-                    <li><a href="./products/summer-sale.html">Sale</a></li>
-                    <li><a href="#">New Releases</a></li>
+                    <li><a href="./products/summer-sale.html" aria-label="View products on sale">Sale</a></li>
+                    <li><a href="#" aria-label="Check out the new releases">New Releases</a></li>
                     <li><a href="#">Camping Gear</a></li>
                     <li><a href="#">Hiking Equipment</a></li>
                     <li><a href="#">Climbing Tools</a></li>
@@ -388,10 +405,7 @@
                 <h4>Learn</h4>
                 <ul>
                     <li><a href="#">Outdoor Skills</a></li>
-                    <li><a href="#">Survival Techniques</a></li>
-                    <li><a href="#">Gear Guides</a></li>
-                    <li><a href="#">Trail Maps</a></li>
-                    <li><a href="#">Weather Preparation</a></li>
+                    <li><a href="/products/survival Skills.html">Survival Techniques</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -422,10 +436,10 @@
         </div>
     </footer>
     <!-- 转whatsapp号码 -->
-     <a href="https://wa.me/8613326425565">
+     <a href="https://wa.me/8613326425565" aria-label="Contact support via WhatsApp">
         <div class="chat-widget">
             <div class="chat-icon">
-                <i class="fas fa-comments"></i>
+                <i class="fas fa-comments" aria-hidden="true"></i>
             </div>
             <div class="chat-text">Contact Support</div>
         </div>
@@ -435,10 +449,10 @@
     <div id="search-overlay" class="search-overlay active" style="display: none;">
         <div class="search-container">
             <div class="search-header">
-                <i class="fas fa-search"></i>
-                <input type="text" id="search-input" placeholder="Search products..." autofocus="">
-                <button id="close-search" class="close-btn">
-                    <i class="fas fa-times"></i>
+                <i class="fas fa-search" aria-hidden="true"></i>
+                <input type="text" id="search-input" placeholder="Search products..." aria-label="Search for products" autofocus="">
+                <button id="close-search" class="close-btn" aria-label="Close search overlay">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
             <div class="search-results" id="search-results"><div class="initial-message">Start typing to search products...</div></div>

@@ -129,12 +129,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (currentProducts.length === 0) {
                         const sidebar = document.querySelector('.categories-sidebar');
                         if (sidebar) sidebar.style.display = 'none';
+                        
+                        // 隐藏分页
+                        const paginationnone = document.querySelector('.pagination');
+                        if (paginationnone) paginationnone.style.display = 'none';
 
-                        // 同时更新 subcategories-nav 提示信息
-                        const subNav = document.querySelector('.subcategories-nav');
-                        if (subNav) {
-                            subNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
-                        }
+                        // 👇 没有子分类时显示提示信息
+                        const subcategoriesNav = document.querySelector('.subcategories-nav');
+                        subcategoriesNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
+                        return;
                     }
                 }
               
@@ -218,9 +221,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 subcategoriesNav.appendChild(subcategoriesList);
-            }else {
-                // 👇 没有子分类时显示提示信息
-                subcategoriesNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
             }
         }
     }
