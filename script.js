@@ -196,49 +196,47 @@ function debounce(func, wait) {
     };
 }
 
-
-// 添加商品到购物车
-function addToCart(product) {
-    if (typeof CartManager !== 'undefined' && CartManager.addToCart) {
-        CartManager.addToCart(product);
-        showNotification(`${product.name} Added to cart`);
-    } else {
-        // fallback：本地缓存购物车
-        const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
-        cartItems.push(product);
-        localStorage.setItem('cart', JSON.stringify(cartItems));
-        showNotification(`${product.name} Added to cart (local cache)`);
-    }
-}
-
 // 初始化产品卡
 function initProductCards() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
     addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation(); // 阻止冒泡，避免跳转
-
+        button.addEventListener('click', function() {
             const productCard = this.closest('.product-card');
             const productName = productCard.querySelector('h3').textContent;
             const productImage = productCard.querySelector('img').src;
             const productPrice = productCard.querySelector('.current-price').textContent.replace('$', '');
-
+            
+            // 创建产品对象
             const product = {
-                id: Date.now().toString(),
+                id: Date.now().toString(), // 使用时间戳作为临时ID
                 name: productName,
-                image_url: productImage,
+                image: productImage,
                 price: parseFloat(productPrice),
                 quantity: 1
             };
 
-            addToCart(product); // ✅ 替换未定义的函数
-            this.textContent = 'ADDED!';
-            this.style.backgroundColor = '#4c956c';
+            // 添加到购物车
+            if (typeof CartManager !== 'undefined' && CartManager.addToCart) {
+                CartManager.addToCart(product);
+            } else {
+                // 如果CartManager不可用，使用本地存储
+                const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+                cartItems.push(product);
+                localStorage.setItem('cart', JSON.stringify(cartItems));
+            }
 
+            // Animation for adding to cart
+            button.textContent = 'ADDED!';
+            button.style.backgroundColor = '#4c956c';
+
+            // Show notification
+            showNotification(`${productName} added to cart!`);
+
+            // Reset button after 2 seconds
             setTimeout(() => {
-                this.textContent = 'ADD TO CART';
-                this.style.backgroundColor = '';
+                button.textContent = 'ADD TO CART';
+                button.style.backgroundColor = '';
             }, 2000);
         });
     });
@@ -405,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productCard.style.transitionDelay = `${index * 100}ms`;
 
             productCard.innerHTML = `
-                <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
+                <img src="${product.image_url}" alt="${product.name}" onerror="this.style.display='none'">
                 <h3>${product.name}</h3>
                 <div class="price">
                     <span class="current-price">$${product.price}</span>

@@ -440,6 +440,9 @@ nav {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
+.releases-grid h3{
+    color: white;
+}
 
 .release-item {
     position: relative;
