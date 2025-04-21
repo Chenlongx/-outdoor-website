@@ -232,6 +232,21 @@ nav {
     font-size: 1.2rem;
     color: var(--dark-color);
 }
+/* 购物车样式 */
+.cart-count{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--accent-color);
+    color: white;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
 
 .mobile-menu-btn {
     display: none;

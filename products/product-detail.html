@@ -33,7 +33,10 @@
             </div>
             <div class="nav-actions">
                 <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
-                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+                <a href="cart.html" class="icon-link" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -59,7 +62,7 @@
                         <img id="main-product-image" src="img/product-tent.jpg" alt="Premium Camping Tent">
                     </div>
                 </div>
-                <div class="thumbnail-images">
+                <div class="thumbnail-images" style="display: flex;">
                 </div>
             </div>
             <div class="product-info">
@@ -415,7 +418,17 @@
         <div class="chat-text">Chat with an Outdoor Expert</div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/cart-manager.js"></script>
     <script src="../js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化购物车
+            if (typeof CartManager !== 'undefined') {
+                CartManager.init();
+            }
+        });
+    </script>
     <script src="../js/product-detail.js"></script>
     <script src="../script.js"></script>
 </body>

@@ -499,7 +499,7 @@ function showNotification(message, type = 'success') {
 }
 
 // Cart Management Core Functions
-const CartManager = {
+window.CartManager = window.CartManager || {
     // Get cart items from localStorage
     getCartItems() {
         const cartItems = localStorage.getItem('cart');
@@ -669,6 +669,15 @@ const CartManager = {
             <div class="cart-actions">
                 <button class="continue-shopping"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
                 <button class="update-cart">Update Cart</button>
+                <button class="checkout-btn">Proceed to Checkout</button>
+
+                <div class="payment-methods-icons">
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-amex"></i>
+                    <i class="fab fa-cc-paypal"></i>
+                    <i class="fab fa-cc-discover"></i>
+                </div>
             </div>
         `;
 

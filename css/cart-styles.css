@@ -364,7 +364,7 @@
     height: 18px;
     border-radius: 50%;
     font-size: 0.7rem;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
 }

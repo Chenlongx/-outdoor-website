@@ -80,7 +80,10 @@
             </ul>
             <div class="nav-actions">
                 <a href="#" class="icon-link" id="header-search" aria-label="Open search bar"><i class="fas fa-search" aria-hidden="true"></i></a>
-                <a href="/products/cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+                <a href="/products/cart.html" class="icon-link" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -461,6 +464,15 @@
     <!-- 在 HTML head 中引入 Supabase 客户端 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/cart-manager.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化购物车
+            if (typeof CartManager !== 'undefined') {
+                CartManager.init();
+            }
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>

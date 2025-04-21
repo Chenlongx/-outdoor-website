@@ -362,6 +362,7 @@
     margin-bottom: 1rem;
     color: var(--accent-color);
     font-size: 0.9rem;
+    margin-left: 5%;
 }
 
 .rating-count {

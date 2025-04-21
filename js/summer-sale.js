@@ -4,62 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentDiscount = 20; // 修改默认折扣为20%
     let currentSort = 'featured'; // 当前排序方式
 
-    // 初始化购物车功能
-    const cart = {
-        getCartItems() {
-            return JSON.parse(localStorage.getItem('cart')) || [];
-        },
-        saveCartItems(items) {
-            localStorage.setItem('cart', JSON.stringify(items));
-        },
-        addToCart(product) {
-            const items = this.getCartItems();
-            const existingItem = items.find(item => item.id === product.id);
-            
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                items.push({
-                    ...product,
-                    quantity: 1
-                });
-            }
-            
-            this.saveCartItems(items);
-            this.updateCartCount();
-            this.showNotification(`${product.name} 已添加到购物车`);
-        },
-        updateCartCount() {
-            const items = this.getCartItems();
-            const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-            const cartCount = document.querySelector('.cart-count');
-            if (cartCount) {
-                cartCount.textContent = totalItems;
-            }
-        },
-        showNotification(message) {
-            // 创建通知元素
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.textContent = message;
-            
-            // 添加到页面
-            document.body.appendChild(notification);
-            
-            // 显示通知
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 100);
-            
-            // 3秒后移除通知
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 300);
-            }, 3000);
-        }
-    };
+    // 初始化购物车
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     console.log('页面加载完成，开始获取数据...');
 
@@ -230,9 +176,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${generateRatingStars(product.rating)}
                 <span class="rating-count">(${product.rating_count})</span>
             </div>
-            <button class="add-to-cart" data-product-id="${product.id}">ADD TO CART</button>
-            <a href="product.html?id=${product.id}" class="view-details">View Details</a>
+            <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
         `;
+
+        // 添加点击事件
+        card.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('add-to-cart')) {
+                // 存储当前产品信息
+                localStorage.setItem('currentProduct', JSON.stringify(product));
+                // 跳转到产品详情页
+                window.location.href = 'product-detail.html';
+            }
+        });
+        
+        // 添加购物车按钮事件
+        const addToCartBtn = card.querySelector('.add-to-cart');
+        addToCartBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            addToCart(product);
+        });
 
         return card;
     }
@@ -286,21 +248,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 renderProducts(filterProducts());
             });
         }
-
-        // 添加到购物车事件
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('add-to-cart')) {
-                const productId = e.target.getAttribute('data-product-id');
-                addToCart(productId);
-            }
-        });
     }
 
     // 添加到购物车
-    function addToCart(productId) {
-        const product = currentProducts.find(p => p.id === productId);
-        if (product) {
-            cart.addToCart(product);
+    function addToCart(product) {
+        const existingItem = cart.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: product.id,
+                name: product.name,
+                image: product.image_url,
+                price: product.price,
+                quantity: 1
+            });
         }
+        
+        // 保存购物车数据
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // 更新购物车数量显示
+        updateCartCount();
+        
+        // 显示添加成功提示
+        showNotification('商品已添加到购物车');
+    }
+
+    // 更新购物车数量显示
+    function updateCartCount() {
+        const cartCount = document.querySelector('.cart-count');
+        if (cartCount) {
+            cartCount.textContent = cart.reduce((total, item) => total + item.quantity, 0);
+        }
+    }
+
+    // 显示通知
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        // 2秒后移除通知
+        setTimeout(() => {
+            notification.remove();
+        }, 2000);
     }
 }); 
