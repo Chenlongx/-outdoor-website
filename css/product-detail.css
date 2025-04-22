@@ -58,41 +58,74 @@
 /* Product Gallery */
 .product-gallery {
     position: relative;
+    width: 34vw;
+    /* width: 500px; */
 }
+
+/* .main-image {
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    margin-bottom: 1rem;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    position: relative;
+    cursor: grab;
+    white-space: nowrap;
+} */
 
 .main-image {
     width: 100%;
-    /* height: 450px; */
-    border-radius: 8px;
-    overflow-x: auto; /* 允许横向滚动 */
-    overflow-y: hidden; /* 禁止纵向滚动 */
-    margin-bottom: 1rem;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    -webkit-overflow-scrolling: touch; /* iOS 上流畅滚动 */
-    scroll-behavior: smooth; /* 加上自然滑动 */
-    scroll-snap-type: x mandatory; /* 加自动吸附滚动体验 */
+    height: 500px;
+    overflow: hidden;
     position: relative;
-    cursor: grab;
+    border-radius: 8px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
 }
+
 
 .main-image:active {
     cursor: grabbing;
   }
 
-.image-track {
-    display: inline-flex; /* 横向排列图片 */
+/* .image-track {
+    display: inline-flex;
     height: 100%;
-    /* min-width: 100%; */
+    align-items: center;
+} */
+
+.image-track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
 }
 
-.image-track img {
-    height: 100%; /* 保持图片高度 */
-    width: auto; /* 图片宽度自适应 */
+
+
+/* .image-track img {
+    height: 100%; 
+    width: auto; 
+    max-height: 100%;
     object-fit: cover;
     border-radius: 8px;
-    flex-shrink: 0; /* 防止图片压缩 */
-    scroll-snap-align: center; /* 滚动停留在图片中心 */
-    margin-right: 10px; /* 图片间距（可选） */
+    flex-shrink: 0; 
+    scroll-snap-align: center; 
+    margin-right: 10px; 
+} */
+
+.image-track img {
+    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    scroll-snap-align: center;
 }
 
 
@@ -104,8 +137,12 @@
     white-space: nowrap; /* 不换行 */
     padding: 10px 0; /* 上下留点空间，看着更舒服 */
     scrollbar-width: none; /* Firefox 隐藏滚动条 */
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
     /* width: 90vw; */
 }
+
 .thumbnail-images::-webkit-scrollbar {
     display: none; /* Chrome、Safari 隐藏滚动条 */
   }
@@ -946,6 +983,9 @@
       
       .read-more-btn:hover {
         background-color: #0056b3;
+      }
+      .product-gallery {
+        width: 100%;
       }
 }
 
