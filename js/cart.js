@@ -1,5 +1,3 @@
-// Cart Page JavaScript
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart functionality
     initCart();
@@ -112,7 +110,7 @@ function initCart() {
     updateCartCount();
 }
 
-// Update cart display
+// 更新购物车显示
 function updateCartDisplay() {
     const cartItemsContainer = document.getElementById('cart-items-container');
     const cartItemCount = document.getElementById('cart-item-count');
@@ -141,12 +139,18 @@ function updateCartDisplay() {
 
     // 添加事件委托
     cartItemsContainer.addEventListener('click', (e) => {
+        // 如果点击的是 quantity-btn 按钮，不处理其它按钮
+        if (e.target.closest('.quantity-btn')) {
+            return; // 阻止继续执行
+        }
+    
         const target = e.target.closest('button');
         if (!target) return;
-
+    
         const productId = target.closest('.cart-item').dataset.productId;
-
+    
         if (target.classList.contains('remove-item')) {
+            e.stopPropagation();
             removeFromCart(productId);
         } else if (target.classList.contains('save-for-later')) {
             saveForLater(productId);
@@ -162,9 +166,9 @@ function updateCartDisplay() {
             const productId = e.target.closest('.cart-item').dataset.productId;
             updateQuantityInput(productId, e.target.value);
         });
-    });
+    }, { once: true });
 }
-// Create cart item element
+// 创建购物车商品元素
 function createCartItemElement(item) {
     const div = document.createElement('div');
     div.className = 'cart-item';
@@ -178,11 +182,11 @@ function createCartItemElement(item) {
         <div class="item-details">
             <h3>${item.name}</h3>
             <p class="item-attributes">${item.attributes || ''}</p>
-            <button class="save-for-later">
-                <i class="far fa-heart"></i> Save for Later
-            </button>
             <button class="remove-item">
                 <i class="fas fa-trash-alt"></i> Remove
+            </button>
+            <button class="save-for-later">
+                <i class="far fa-heart"></i> Save for Later
             </button>
         </div>
         <div class="item-price">$${parseFloat(item.price).toFixed(2)}</div>
@@ -197,7 +201,7 @@ function createCartItemElement(item) {
     return div;
 }
 
-// Update order summary
+// 更新订单摘要
 function updateOrderSummary() {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);
@@ -275,7 +279,7 @@ function saveCart(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-// Remove item from cart
+// 从购物车中移除商品
 function removeFromCart(productId) {
     let cart = getCart();
     cart = cart.filter(item => item.id !== productId);
@@ -286,7 +290,7 @@ function removeFromCart(productId) {
     showNotification('Item has been removed from cart');
 }
 
-// Update quantity
+// 更新数量
 function updateQuantity(productId, change) {
     let cart = getCart();
     const item = cart.find(item => item.id === productId);
@@ -299,7 +303,7 @@ function updateQuantity(productId, change) {
     }
 }
 
-// Update quantity via input
+// 通过输入更新数量
 function updateQuantityInput(productId, value) {
     const quantity = parseInt(value);
     if (quantity >= 1 && quantity <= 10) {
@@ -315,7 +319,7 @@ function updateQuantityInput(productId, value) {
     }
 }
 
-// Save for later
+// 保存以供稍后使用
 function saveForLater(productId) {
     let cart = getCart();
     let savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');
@@ -334,7 +338,7 @@ function saveForLater(productId) {
     }
 }
 
-// Update cart count badge
+// 更新购物车计数徽章
 function updateCartCount() {
     const cart = getCart();
     if (!Array.isArray(cart)) {
@@ -349,7 +353,7 @@ function updateCartCount() {
     });
 }
 
-// Show empty cart message
+// 显示空购物车消息
 function showEmptyCartMessage() {
     const cartItems = document.querySelector('.cart-items');
     const emptyMessage = document.createElement('div');
@@ -388,14 +392,14 @@ function showEmptyCartMessage() {
     checkoutBtn.style.cursor = 'not-allowed';
 }
 
-// Update cart after quantity changes
+// 数量变化后更新购物车
 function updateCart() {
     // This would typically sync with a backend or localStorage
     // For demo purposes, we just recalculate totals
     updateCartDisplay();
 }
 
-// Initialize suggested products
+// 初始化推荐产品
 function initSuggestedProducts() {
     const addToCartButtons = document.querySelectorAll('.suggested-products .add-to-cart');
 
@@ -426,7 +430,7 @@ function initSuggestedProducts() {
     });
 }
 
-// Notification system
+// 通知系统
 function showNotification(message, type = 'success') {
     // Check if notification container exists
     let notificationContainer = document.querySelector('.notification-container');
@@ -498,7 +502,7 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
-// Cart Management Core Functions
+// 购物车管理核心功能
 window.CartManager = window.CartManager || {
     // Get cart items from localStorage
     getCartItems() {
@@ -512,7 +516,7 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Save cart items to localStorage
+    // 将购物车商品保存到本地存储
     saveCartItems(items) {
         if (!Array.isArray(items)) {
             console.warn('Items is not an array:', items);
@@ -585,7 +589,7 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Update cart UI
+    // 更新购物车 UI
     updateCartUI() {
         const cartItems = this.getCartItems();
         const cartItemsContainer = document.getElementById('cart-items-container');
@@ -615,7 +619,7 @@ window.CartManager = window.CartManager || {
             return;
         }
 
-        // Update cart items display
+        // 更新购物车商品显示
         let cartHTML = `
             <div class="cart-headers">
                 <span class="header-product">Product</span>
@@ -669,15 +673,6 @@ window.CartManager = window.CartManager || {
             <div class="cart-actions">
                 <button class="continue-shopping"><i class="fas fa-arrow-left"></i> Continue Shopping</button>
                 <button class="update-cart">Update Cart</button>
-                <button class="checkout-btn">Proceed to Checkout</button>
-
-                <div class="payment-methods-icons">
-                    <i class="fab fa-cc-visa"></i>
-                    <i class="fab fa-cc-mastercard"></i>
-                    <i class="fab fa-cc-amex"></i>
-                    <i class="fab fa-cc-paypal"></i>
-                    <i class="fab fa-cc-discover"></i>
-                </div>
             </div>
         `;
 
@@ -686,9 +681,9 @@ window.CartManager = window.CartManager || {
         this.updateCartSummary();
     },
 
-    // Initialize cart event listeners
+    // 初始化购物车事件监听器
     initCartEventListeners() {
-        // Remove item buttons
+        // 删除项目按钮
         document.querySelectorAll('.remove-item').forEach(button => {
             button.addEventListener('click', (e) => {
                 const cartItem = e.target.closest('.cart-item');
@@ -697,7 +692,7 @@ window.CartManager = window.CartManager || {
             });
         });
 
-        // Save for later buttons
+        // 稍后保存按钮
         document.querySelectorAll('.save-for-later').forEach(button => {
             button.addEventListener('click', (e) => {
                 const cartItem = e.target.closest('.cart-item');
@@ -706,7 +701,7 @@ window.CartManager = window.CartManager || {
             });
         });
 
-        // Quantity buttons
+        // 数量按钮
         document.querySelectorAll('.quantity-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const cartItem = e.target.closest('.cart-item');
@@ -716,7 +711,7 @@ window.CartManager = window.CartManager || {
             });
         });
 
-        // Quantity inputs
+        // 数量输入
         document.querySelectorAll('.item-quantity input').forEach(input => {
             input.addEventListener('change', (e) => {
                 const cartItem = e.target.closest('.cart-item');
@@ -730,7 +725,7 @@ window.CartManager = window.CartManager || {
             });
         });
 
-        // Continue shopping button
+        // 继续购物按钮
         const continueShoppingBtn = document.querySelector('.continue-shopping');
         if (continueShoppingBtn) {
             continueShoppingBtn.addEventListener('click', () => {
@@ -738,7 +733,7 @@ window.CartManager = window.CartManager || {
             });
         }
 
-        // Update cart button
+        // 更新购物车按钮
         const updateCartBtn = document.querySelector('.update-cart');
         if (updateCartBtn) {
             updateCartBtn.addEventListener('click', () => {
@@ -749,15 +744,15 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Remove item from cart
+    // 从购物车中移除商品
     removeFromCart(itemId) {
         const cartItems = this.getCartItems();
         const updatedItems = cartItems.filter(item => item.id !== itemId);
         this.saveCartItems(updatedItems);
-        showNotification('Item has been removed from cart');
+        // showNotification('Item has been removed from cart');
     },
 
-    // Save item for later
+    // 保存项目以供稍后使用
     saveForLater(itemId) {
         const cartItems = this.getCartItems();
         const item = cartItems.find(item => item.id === itemId);
@@ -767,7 +762,7 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Update quantity
+    // 更新数量
     updateQuantity(itemId, change) {
         const cartItems = this.getCartItems();
         const item = cartItems.find(item => item.id === itemId);
@@ -780,7 +775,7 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Update quantity input
+    // 更新数量输入
     updateQuantityInput(itemId, value) {
         const cartItems = this.getCartItems();
         const item = cartItems.find(item => item.id === itemId);
@@ -790,7 +785,7 @@ window.CartManager = window.CartManager || {
         }
     },
 
-    // Update cart summary
+    // 更新购物车摘要
     updateCartSummary() {
         const cartItems = this.getCartItems();
         const subtotal = this.calculateSubtotal(cartItems);
@@ -798,7 +793,7 @@ window.CartManager = window.CartManager || {
         const tax = this.calculateTax(subtotal);
         const total = subtotal + shipping + tax;
 
-        // Update summary elements
+        // 更新摘要元素
         const subtotalElement = document.getElementById('subtotal');
         const shippingElement = document.getElementById('shipping');
         const taxElement = document.getElementById('tax');
@@ -810,24 +805,24 @@ window.CartManager = window.CartManager || {
         if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
     },
 
-    // Calculate subtotal
+    // 计算小计
     calculateSubtotal(cartItems) {
         return cartItems.reduce((total, item) => {
             return total + (parseFloat(item.price || 0) * (parseInt(item.quantity || 1)));
         }, 0);
     },
 
-    // Calculate shipping
+    // 计算运费
     calculateShipping(subtotal) {
-        return subtotal > 100 ? 0 : 10; // Free shipping over $100
+        return subtotal > 100 ? 0 : 10; // 超过 100 美元即可免费送货
     },
 
-    // Calculate tax
+    // 计算税额
     calculateTax(subtotal) {
         return subtotal * 0.08; // 8% tax
     },
 
-    // Initialize cart
+    // 初始化购物车
     init() {
         this.updateCartUI();
         this.updateCartCount();
@@ -839,7 +834,7 @@ document.addEventListener('DOMContentLoaded', function() {
     CartManager.init();
 });
 
-// Apply discount
+// 申请折扣
 function applyDiscount(percentage) {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);
@@ -854,7 +849,7 @@ function applyDiscount(percentage) {
     document.getElementById('total').textContent = `$${total.toFixed(2)}`;
 }
 
-// Update shipping
+// 更新运输
 function updateShipping(cost) {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);

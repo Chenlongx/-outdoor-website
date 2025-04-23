@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Product Search - WildGear</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 引用主样式 -->
+    <link rel="stylesheet" href="../styles.css">
+    <!-- 引用搜索页面样式 -->
+    <link rel="stylesheet" href="../css/search.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% off on selected gear. <a href="summer-sale.html" class="btn-small">Buy Now</a></p>
+            <div class="countdown" id="countdown" style="display:none;">
+                <!-- 倒计时功能 -->
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html">Summer Sale</a></li>
+                <li><a href="../index.html">Products</a></li>
+                <li><a href="cart.html">Cart</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="icon-link" aria-label="打开搜索栏"><i class="fas fa-search" aria-hidden="true"></i></a>
+                <a href="cart.html" class="icon-link" style="position: relative;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main class="search-container">
+        <div class="search-header">
+            <h1 class="search-keyword"></h1>
+            <p class="result-count"></p>
+        </div>
+
+        <div class="sort-container">
+            <select class="sort-select">
+                <option value="default">Default Sorting</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name-asc">Name: A-Z</option>
+                <option value="name-desc">Name: Z-A</option>
+            </select>
+        </div>
+
+        <div class="search-results-grid">
+            <!-- 搜索结果将在这里动态显示 -->
+        </div>
+    </main>
+
+    <footer aria-labelledby="footer-title">
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="summer-sale.html" aria-label="View products on sale">Sale</a></li>
+                    <li><a href="#" aria-label="Check out the new releases">New Releases</a></li>
+                    <li><a href="#">Camping Gear</a></li>
+                    <li><a href="#">Hiking Equipment</a></li>
+                    <li><a href="#">Climbing Tools</a></li>
+                    <li><a href="#">Fishing Gear</a></li>
+                    <li><a href="#">Water Sports</a></li>
+                    <li><a href="#">Apparel</a></li>
+                    <li><a href="#">Footwear</a></li>
+                    <li><a href="#">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="#">Camping</a></li>
+                    <li><a href="#">Hiking</a></li>
+                    <li><a href="#">Climbing</a></li>
+                    <li><a href="#">Fishing</a></li>
+                    <li><a href="#">Kayaking</a></li>
+                    <li><a href="#">Mountaineering</a></li>
+                    <li><a href="#">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="skills.html">Outdoor Skills</a></li>
+                    <li><a href="survival Skills.html">Survival Techniques</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="support.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="shipping-info.html">Shipping Info</a></li>
+                    <li><a href="#">Returns &amp; Warranty</a></li>
+                    <li><a href="#">Size Charts</a></li>
+                    <li><a href="#">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" loading="lazy" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="#">Accessibility</a>
+                <a href="visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>© 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 引入必要的JavaScript文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/cart-manager.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/search.js"></script>
+</body>
+</html>

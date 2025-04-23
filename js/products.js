@@ -1,7 +1,4 @@
 
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
     let currentProducts = []; // 存储当前产品数据
     let currentCategory = null; // 当前选中的分类
@@ -92,20 +89,6 @@ document.addEventListener('DOMContentLoaded', function() {
             currentProducts = data;
             console.log('获取到的产品数据:', data);
             renderCategories();
-
-            // 如果 URL 携带了 category 参数，则设置当前分类
-            // if (urlCategory) {
-            //     currentCategory = decodeURIComponent(urlCategory);
-            //     currentSubcategory = urlSubcategory ? decodeURIComponent(urlSubcategory) : null;
-
-            //     console.log(currentCategory)
-        
-            //     renderSubcategories();
-            //     renderProducts(getPaginatedProducts());
-            //     highlightCategoryInSidebar();
-            // } else {
-            //     renderProducts(getPaginatedProducts());
-            // }
 
             if (urlCategory) {
                 currentCategory = decodeURIComponent(urlCategory);
@@ -315,51 +298,70 @@ document.addEventListener('DOMContentLoaded', function() {
         renderPagination(currentProducts.length);
     }
 
-    // 创建产品卡片
     function createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
-        
-        card.innerHTML = `
-            <div class="product-image">
-                <img src="${product.image_url}" alt="${product.name}" loading="lazy">
-            </div>
-            <div class="product-info">
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-type">${product.producttype}</p>
-                <p class="product-price">$${product.price}</p>
-                <p class="product-stock">stock items: ${product.stock}</p>
-                <p class="product-description">${product.description}</p>
-                <button class="add-to-cart-btn" data-product-id="${product.id}">
-                    add to the cart
-                </button>
-            </div>
-        `;
-
-        // 添加点击事件，跳转到产品详情页
-        card.addEventListener('click', (e) => {
-            // 如果点击的是加入购物车按钮，不进行跳转
-            if (e.target.classList.contains('add-to-cart-btn')) {
-                return;
-            }
-            // 将产品信息存储到 localStorage
-            localStorage.setItem('currentProduct', JSON.stringify(product));
-            // 跳转到产品详情页
-            window.location.href = './product-detail.html';
+    
+        // 使用产品名称生成友好的 URL 格式，去除空格并转换为小写字母
+        const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
+    
+        // 创建跳转到详情页的链接，包含简化后的 ID 和产品名称
+        const productLink = document.createElement('a');
+        productLink.href = `./product-detail.html?id=${product.id}-${productNameForUrl}`; // 生成带有简短 ID 和产品名称的 URL
+        productLink.className = 'product-link';
+    
+        // 创建图片容器
+        const productImage = document.createElement('div');
+        productImage.className = 'product-image';
+    
+        // 在图片容器中添加图片
+        const img = document.createElement('img');
+        img.src = product.image_url;
+        img.alt = product.name;
+        img.loading = 'lazy';
+    
+        // 将图片添加到图片容器
+        productImage.appendChild(img);
+    
+        // 为图片容器添加点击事件，跳转到产品详情页
+        productImage.addEventListener('click', (e) => {
+            window.location.href = productLink.href; // 点击图片容器跳转到详情页
         });
-
+    
+        // 创建产品信息容器
+        const productInfo = document.createElement('div');
+        productInfo.className = 'product-info';
+        productInfo.innerHTML = `
+            <h3 class="product-name">${product.name}</h3>
+            <p class="product-type">${product.producttype}</p>
+            <p class="product-price">$${product.price}</p>
+            <p class="product-stock">stock items: ${product.stock}</p>
+            <p class="product-description">${product.description}</p>
+            <button class="add-to-cart-btn" data-product-id="${product.id}">add to the cart</button>
+        `;
+    
+        // 将图片和产品信息容器添加到跳转链接容器中
+        productLink.appendChild(productImage);
+        productLink.appendChild(productInfo);
+    
         // 为加入购物车按钮添加单独的点击事件
-        const addToCartBtn = card.querySelector('.add-to-cart-btn');
+        const addToCartBtn = productInfo.querySelector('.add-to-cart-btn');
         if (addToCartBtn) {
             addToCartBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // 阻止事件冒泡
+                e.stopPropagation(); // 阻止事件冒泡，确保按钮点击不触发跳转
+                e.preventDefault();  // 阻止默认行为
                 const productId = e.target.getAttribute('data-product-id');
-                addToCart(productId);
+                cart.addToCart(productId);  // 添加到购物车
             });
         }
-
+    
+        // 将跳转链接添加到卡片容器中
+        card.appendChild(productLink);
+    
         return card;
     }
+    
+    
 
     // 渲染分页
     function renderPagination(totalProducts) {

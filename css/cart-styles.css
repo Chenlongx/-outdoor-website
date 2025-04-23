@@ -458,6 +458,9 @@
         grid-row: 1;
         padding-left: 100px;
     }
+    .cart-item h2,.item-details h3{
+        font-size: 1rem;
+    }
 
     .item-price, .item-quantity, .item-total {
         grid-column: 1;

@@ -48,8 +48,7 @@
         <div class="container">
             <ul>
                 <li><a href="../index.html">Home</a></li>
-                <li><a href="products.html">products</a></li>
-                <li></li>
+                <li><a href="./">products</a></li>
             </ul>
         </div>
     </div>
@@ -59,10 +58,17 @@
             <div class="product-gallery">
                 <div class="main-image">
                     <div class="image-track">
-                        <img id="main-product-image" src="img/product-tent.jpg" alt="Premium Camping Tent">
+                        <img id="main-product-image" src="" alt="Premium Camping Tent">
                     </div>
                 </div>
+                <!-- 缩略图容器 -->
                 <div class="thumbnail-images" style="display: flex;">
+                </div>
+                <!-- 预览模态框 -->
+                <div id="imageModal" class="modal">
+                    <span class="close" id="closeModal">&times;</span>
+                    <img class="modal-content" id="modalImage">
+                    <div id="caption"></div>
                 </div>
             </div>
             <div class="product-info">
@@ -227,8 +233,8 @@
                             <h4>Exceeded my expectations!</h4>
                             <p>I've used this tent on three different camping trips now, and it has performed exceptionally well in various conditions. It withstood heavy rain in the mountains without a single leak, and setup is truly as easy as advertised. Highly recommend for anyone looking for a reliable tent.</p>
                             <div class="review-images">
-                                <img src="img/review-image-1.jpg" alt="Customer Review Image">
-                                <img src="img/review-image-2.jpg" alt="Customer Review Image">
+                                <img src="" alt="Customer Review Image">
+                                <img src="" alt="Customer Review Image">
                             </div>
                         </div>
 
@@ -419,7 +425,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/cart-manager.js"></script>
+    <!-- <script src="../js/cart-manager.js"></script> -->
     <script src="../js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

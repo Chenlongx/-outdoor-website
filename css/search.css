@@ -1,0 +1,237 @@
+.search-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    width: 70%;
+    margin-bottom: 5%;
+}
+
+.search-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.search-keyword {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 0rem;
+}
+
+.result-count {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+/* 搜索框样式 */
+.search-bar-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.search-bar-wrap input[type="text"] {
+    padding: 0.75rem 1rem;
+    font-size: 1.1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-width: 280px;
+    max-width: 100vw;
+    flex-grow: 1;
+}
+
+.search-bar-wrap button {
+    padding: 0.75rem 2rem;
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background .3s;
+}
+
+.search-bar-wrap button:hover {
+    background: var(--secondary-color);
+}
+
+.sort-container {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #333;
+    background-color: white;
+    cursor: pointer;
+}
+
+.sort-select:hover {
+    border-color: #999;
+}
+
+.search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 20px 0px;
+}
+
+.product-card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+.product-card img{
+    height: 100%;
+}
+
+.product-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 1rem;
+}
+
+.product-name {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.product-card h3{
+    padding: 0px !important;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.current-price {
+    font-size: 1.2rem;
+    color: #e44d26;
+    font-weight: bold;
+}
+
+.original-price {
+    font-size: 0.9rem;
+    color: #999;
+    text-decoration: line-through;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.add-to-cart:hover {
+    background-color: #45a049;
+}
+
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 25px;
+    border-radius: 4px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-results-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .product-image {
+        height: 150px;
+    }
+
+    .search-keyword {
+        font-size: 1.5rem;
+    }
+    
+    .search-bar-wrap {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .search-bar-wrap input[type="text"] {
+        width: 100%;
+        min-width: 0;
+    }
+    .search-header {
+        display: block !important;
+    }
+    .product-card {
+        width: 100%;
+    }
+    .product-card img{
+        width: 90%;
+    }
+    .sort-container{
+        justify-content: flex-start;
+    }
+    .product-card h3{
+        font-size: 0.8rem;
+    }
+    .price-container{
+        justify-content: center;
+    }
+} 

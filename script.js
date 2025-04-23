@@ -99,43 +99,52 @@ mobileMenuBtn.addEventListener('click', () => {
 });
 
 // 倒计时器
-function startCountdown() {
+async function startCountdown() {
     const countdownElement = document.getElementById('countdown');
     if (!countdownElement) return;
 
-    // Set countdown date (7 days from now)
-    const countdownDate = new Date();
-    countdownDate.setDate(countdownDate.getDate() + 7);
+    try {
+        // Fetch the end time from the Netlify function
+        const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
+        const data = await response.json();
+        
+        // 获取从函数中返回的活动结束时间
+        const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
 
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
 
-        // Calculate time units
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Update DOM
-        document.getElementById('days').textContent = days.toString().padStart(2, '0');
-        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            // Update DOM
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 
-        // If countdown is over
-        if (distance < 0) {
-            clearInterval(countdownInterval);
-            countdownElement.innerHTML = 'Promotion Ended';
+            // If countdown is over
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = 'Promotion Ended';
+            }
         }
+
+        // Initial call to update the countdown immediately
+        updateCountdown();
+
+        // Update countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+    } catch (error) {
+        console.error('Error fetching end time:', error);
     }
-
-    // Initial call
-    updateCountdown();
-
-    // Update every second
-    const countdownInterval = setInterval(updateCountdown, 1000);
 }
+
 
 // 粘性标题
 function initStickyHeader() {
@@ -386,7 +395,52 @@ function initVideoPlayers() {
     });
 }
 
+// 搜索功能
+function initSearch() {
+    const searchOverlay = document.getElementById('search-overlay');
+    const searchInput = document.getElementById('search-input');
+    const closeSearch = document.getElementById('close-search');
+    const headerSearch = document.getElementById('header-search');
 
+    // 打开搜索框
+    if (headerSearch && searchOverlay && searchInput) {
+        // 打开搜索框
+        headerSearch.addEventListener('click', (e) => {
+            e.preventDefault();
+            searchOverlay.style.display = 'flex';
+            searchInput.focus();
+        });
+    }
+
+    // 关闭搜索框
+    if (closeSearch) {
+        closeSearch.addEventListener('click', () => {
+            searchOverlay.style.display = 'none';
+        });
+    }
+
+    // 点击遮罩层关闭搜索框
+    if(searchOverlay){
+        searchOverlay.addEventListener('click', (e) => {
+            if (e.target === searchOverlay) {
+                searchOverlay.style.display = 'none';
+            }
+        });
+    }
+
+    // 处理搜索
+    if(searchInput){
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const searchQuery = searchInput.value.trim();
+                if (searchQuery) {
+                    window.location.href = `./products/search.html?q=${encodeURIComponent(searchQuery)}`;
+                }
+            }
+        });
+    }
+
+}
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function() {
@@ -426,8 +480,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 // 将产品信息存储到 localStorage
                 localStorage.setItem('currentProduct', JSON.stringify(product));
-                // 跳转到产品详情页
-                window.location.href = './products/product-detail.html';
+                // 将产品的UUID通过链接的方式传输到产品页面
+                const productUUID = product.id;
+                // 使用产品名称生成友好的 URL 格式，去除空格并转换为小写字母
+                const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
+                // console.log(productUUID)
+                // 跳转到产品详情页 
+                // window.location.href = './products/product-detail.html';
+                window.location.href = `./products/product-detail.html?id=${productUUID}-${productNameForUrl}`;
             });
 
             // 为加入购物车按钮添加单独的点击事件
@@ -490,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // Initialize smooth scroll for navigation
+    // 初始化导航的平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             if (this.getAttribute('href') !== '#') {
@@ -506,7 +566,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add animation to elements when scrolling into view
+    // 滚动到视图时为元素添加动画
     const animateOnScroll = () => {
         const elements = document.querySelectorAll(
             '.category-item, .product-card, .release-item, .featured-item, .story-card'
@@ -524,17 +584,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
 
-    // Set initial styles for animated elements
+    // 设置动画元素的初始样式
     document.querySelectorAll('.category-item, .product-card, .release-item, .featured-item, .story-card').forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(30px)';
         element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
 
-    // Run animation on scroll
+    // 滚动时运行动画
     window.addEventListener('scroll', animateOnScroll);
 
-    // Run once on page load
+    // 页面加载时运行一次
     animateOnScroll();
 
 
@@ -577,4 +637,6 @@ document.addEventListener('DOMContentLoaded', function() {
             searchOverlay.style.visibility = 'hidden';
         }
     });
+
+    initSearch();
 });
