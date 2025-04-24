@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSort = 'featured'; // 当前排序方式
 
     // 初始化购物车
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
     console.log('页面加载完成，开始获取数据...');
     startCountdown()
+    updateFloatingCartCount();
 
     // 从Netlify 函数获取数据（获取优惠码）
     fetch('/.netlify/functions/get-unused-codes')  // 调用你定义的Netlify函数
@@ -417,21 +417,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // 如果产品已在购物车中，增加数量
             existingItem.quantity += 1;
         } else {
-            // 如果产品不在购物车中，添加新的产品
-            cart.push({
-                id: product.id,
-                name: product.name,
-                image: product.image_url,
-                price: product.price,
-                quantity: 1
-            });
+            // 如果产品不在购物车中，直接添加整个 product 对象
+            product.quantity = 1; // 默认数量为 1
+            cart.push(product);
         }
         
         // 保存购物车数据
-        localStorage.setItem('cart', JSON.stringify(cart));
+        console.log(product)
         
+        localStorage.setItem('cart', JSON.stringify(cart));
+
         // 更新购物车数量显示
         updateCartCount();
+
+        // 更新悬浮购物车按钮数量
+        updateFloatingCartCount();
         
         // 显示添加成功提示
         showNotification(product.name +'Item has been added to cart');
@@ -446,8 +446,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-
-    
-    
+    // 更新悬浮购物车按钮购物车数量
+    function updateFloatingCartCount() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        const cartCountElement = document.querySelector('.floating-cart-btn .cart-count');
+        if (cartCountElement) {
+            cartCountElement.textContent = cartCount;
+        }
+    }
     
 }); 

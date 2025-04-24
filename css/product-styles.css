@@ -320,6 +320,55 @@
     background-color: var(--light-gray);
 }
 
+/* 悬浮购物车按钮样式 */
+.floating-cart-btn {
+    position: fixed;
+    bottom: 15%; /* 距离底部 20px */
+    right: 9%; /* 距离右边 20px */
+    background-color: #d68c45;
+    color: white;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* 确保按钮在最上层 */
+    transition: all 0.3s ease;
+}
+
+.floating-cart-btn a {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+}
+
+.floating-cart-btn .cart-count {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #f00; /* 红色背景 */
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 50%;
+    min-width: 20px;
+    text-align: center;
+}
+.fa-solid, .fas {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+/* 悬浮按钮悬停时的效果 */
+.floating-cart-btn:hover {
+    background-color: #db7515; /* 更改按钮颜色 */
+    cursor: pointer;
+}
+
+
+
 /* 响应式设计 */
 @media (max-width: 1200px) {
     .products-grid {
