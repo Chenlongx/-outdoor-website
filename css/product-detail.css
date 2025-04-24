@@ -312,6 +312,13 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
+.mobile-menu-btn {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
 .proceed-checkout:hover {
     background-color: #e65100; /* hover 深一点的橙色 */
 }

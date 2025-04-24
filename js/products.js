@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     let currentProducts = []; // 存储当前产品数据
     let currentCategory = null; // 当前选中的分类
@@ -45,13 +44,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     quantity: 1 // 新增产品，默认数量为 1
                 };
                 
-                console.log('添加到购物车的产品:', productToAdd);
+
                 items.push(productToAdd);
             }
             
             this.saveCartItems(items);
             this.updateCartCount();
-            this.showNotification(`${product.name} 已添加到购物车`);
+            this.showNotification(`${product.name} Added to cart`);
         },
         updateCartCount() {
             const items = this.getCartItems();
@@ -62,17 +61,46 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         },
         showNotification(message) {
+            let notificationContainer = document.querySelector('.notification-container');
+
+            if (!notificationContainer) {
+                notificationContainer = document.createElement('div');
+                notificationContainer.classList.add('notification-container');
+                document.body.appendChild(notificationContainer);
+        
+                // Style notification container
+                notificationContainer.style.position = 'fixed';
+                notificationContainer.style.top = '20px';
+                notificationContainer.style.right = '20px';
+                notificationContainer.style.zIndex = '9999';
+            }
+        
+            // Create notification
             const notification = document.createElement('div');
-            notification.className = 'notification';
+            notification.classList.add('notification');
             notification.textContent = message;
-            document.body.appendChild(notification);
-            
+        
+            // Style notification
+            notification.style.backgroundColor = 'var(--primary-color)';
+            notification.style.color = 'white';
+            notification.style.padding = '12px 20px';
+            notification.style.borderRadius = '4px';
+            notification.style.marginBottom = '10px';
+            notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.15)';
+            notification.style.transform = 'translateX(150%)';
+            notification.style.transition = 'transform 0.3s ease';
+        
+            // Add notification to container
+            notificationContainer.appendChild(notification);
+        
+            // Animate notification
             setTimeout(() => {
-                notification.classList.add('show');
-            }, 100);
-            
+                notification.style.transform = 'translateX(0)';
+            }, 10);
+        
+            // Remove notification after 3 seconds
             setTimeout(() => {
-                notification.classList.remove('show');
+                notification.style.transform = 'translateX(150%)';
                 setTimeout(() => {
                     notification.remove();
                 }, 300);
@@ -351,7 +379,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.stopPropagation(); // 阻止事件冒泡，确保按钮点击不触发跳转
                 e.preventDefault();  // 阻止默认行为
                 const productId = e.target.getAttribute('data-product-id');
-                cart.addToCart(productId);  // 添加到购物车
+                const product = currentProducts.find(p => p.id === productId); // 查找对应的产品
+                // cart.addToCart(productId);
+                if (product) {
+                    cart.addToCart(product); // 调用 cart 对象的 addToCart 方法
+                }
+                // 将产品
             });
         }
     

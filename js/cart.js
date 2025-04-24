@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart functionality
     initCart();
 
-    // Continue Shopping button
+    // 继续购物按钮
     const continueShoppingBtn = document.querySelector('.continue-shopping');
     if (continueShoppingBtn) {
         continueShoppingBtn.addEventListener('click', function() {
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Update Cart button
+    // 更新购物车按钮
     const updateCartBtn = document.querySelector('.update-cart');
     if (updateCartBtn) {
         updateCartBtn.addEventListener('click', function() {
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Checkout button
+    // 结帐按钮
     const checkoutBtn = document.querySelector('.checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function() {
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.warn('.checkout-btn not found');
     }
 
-    // Apply promo code button
+    // 应用促销代码按钮
     const promoBtn = document.querySelector('.promo-input button');
     if (promoBtn) {
         promoBtn.addEventListener('click', function() {
@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Initialize suggested products
+    // 初始化推荐产品
     initSuggestedProducts();
 
     // document.querySelector('.checkout-btn').addEventListener('click', function(e) {
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// Initialize cart functionality
+// 初始化购物车功能
 function initCart() {
     updateCartDisplay();
     updateOrderSummary();
@@ -136,30 +136,34 @@ function updateCartDisplay() {
         const cartItem = createCartItemElement(item);
         cartItemsContainer.appendChild(cartItem);
     });
+    
+    // 事件委托，避免重复绑定
+    cartItemsContainer.removeEventListener('click', handleCartItemClick); // 移除已有的事件监听器
+    cartItemsContainer.addEventListener('click', handleCartItemClick);  // 绑定新的事件监听器
 
     // 添加事件委托
-    cartItemsContainer.addEventListener('click', (e) => {
-        // 如果点击的是 quantity-btn 按钮，不处理其它按钮
-        if (e.target.closest('.quantity-btn')) {
-            return; // 阻止继续执行
-        }
+    // cartItemsContainer.addEventListener('click', (e) => {
+    //     // 如果点击的是 quantity-btn 按钮，不处理其它按钮
+    //     if (e.target.closest('.quantity-btn')) {
+    //         return; // 阻止继续执行
+    //     }
     
-        const target = e.target.closest('button');
-        if (!target) return;
+    //     const target = e.target.closest('button');
+    //     if (!target) return;
     
-        const productId = target.closest('.cart-item').dataset.productId;
+    //     const productId = target.closest('.cart-item').dataset.productId;
     
-        if (target.classList.contains('remove-item')) {
-            e.stopPropagation();
-            removeFromCart(productId);
-        } else if (target.classList.contains('save-for-later')) {
-            saveForLater(productId);
-        } else if (target.classList.contains('decrease')) {
-            updateQuantity(productId, -1);
-        } else if (target.classList.contains('increase')) {
-            updateQuantity(productId, 1);
-        }
-    });
+    //     if (target.classList.contains('remove-item')) {
+    //         e.stopPropagation();
+    //         removeFromCart(productId);
+    //     } else if (target.classList.contains('save-for-later')) {
+    //         saveForLater(productId);
+    //     } else if (target.classList.contains('decrease')) {
+    //         updateQuantity(productId, -1);
+    //     } else if (target.classList.contains('increase')) {
+    //         updateQuantity(productId, 1);
+    //     }
+    // });
 
     cartItemsContainer.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('change', (e) => {
@@ -168,6 +172,28 @@ function updateCartDisplay() {
         });
     }, { once: true });
 }
+
+
+// 处理购物车项的点击事件
+function handleCartItemClick(e) {
+    const target = e.target.closest('button');
+    if (!target) return;
+
+    const productId = target.closest('.cart-item').dataset.productId;
+
+    if (target.classList.contains('remove-item')) {
+        e.stopPropagation();
+        removeFromCart(productId);
+    } else if (target.classList.contains('save-for-later')) {
+        saveForLater(productId);
+    } else if (target.classList.contains('decrease')) {
+        updateQuantity(productId, -1);
+    } else if (target.classList.contains('increase')) {
+        updateQuantity(productId, 1);
+    }
+}
+
+
 // 创建购物车商品元素
 function createCartItemElement(item) {
     const div = document.createElement('div');
@@ -240,7 +266,7 @@ function updateOrderSummary() {
 }
 
 
-// Calculate subtotal
+// 计算小计
 function calculateSubtotal(cart) {
     if (!Array.isArray(cart)) {
         console.warn('Cart is not an array:', cart);
@@ -253,17 +279,17 @@ function calculateSubtotal(cart) {
     }, 0);
 }
 
-// Calculate shipping
+// 计算运费
 function calculateShipping(subtotal) {
     return subtotal > 100 ? 0 : 10;
 }
 
-// Calculate tax
+// 计算税额
 function calculateTax(subtotal) {
     return subtotal * 0.08; // 8% tax
 }
 
-// Get cart data
+// 获取购物车数据
 function getCart() {
     const cart = localStorage.getItem('cart');
     try {
@@ -274,7 +300,7 @@ function getCart() {
     }
 }
 
-// Save cart data
+// 保存购物车数据
 function saveCart(cart) {
     localStorage.setItem('cart', JSON.stringify(cart));
 }
@@ -432,7 +458,7 @@ function initSuggestedProducts() {
 
 // 通知系统
 function showNotification(message, type = 'success') {
-    // Check if notification container exists
+    // 检查通知容器是否存在
     let notificationContainer = document.querySelector('.notification-container');
 
     if (!notificationContainer) {

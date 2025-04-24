@@ -76,9 +76,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         };
                         cart.push(productToAdd);
                     }
-
                     localStorage.setItem('cart', JSON.stringify(cart));
-                    showNotification(`${product.name} 已添加到购物车`);
+                    console.log(`${product.name} 已经添加到购物车`)
+                    showNotification(`${product.name} Added to cart`);
                 });
             }
 
@@ -487,22 +487,51 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         .catch(error => {
             console.error('获取产品信息失败:', error);
-            showNotification('获取产品信息失败，请稍后再试');
+            showNotification('Failed to obtain product information, please try again later');
     });
 
-    // 显示通知的函数
     function showNotification(message) {
+        // Check if notification container exists
+        let notificationContainer = document.querySelector('.notification-container');
+    
+        if (!notificationContainer) {
+            notificationContainer = document.createElement('div');
+            notificationContainer.classList.add('notification-container');
+            document.body.appendChild(notificationContainer);
+    
+            // Style notification container
+            notificationContainer.style.position = 'fixed';
+            notificationContainer.style.top = '20px';
+            notificationContainer.style.right = '20px';
+            notificationContainer.style.zIndex = '9999';
+        }
+    
+        // Create notification
         const notification = document.createElement('div');
-        notification.className = 'notification';
+        notification.classList.add('notification');
         notification.textContent = message;
-        document.body.appendChild(notification);
-
+    
+        // Style notification
+        notification.style.backgroundColor = 'var(--primary-color)';
+        notification.style.color = 'white';
+        notification.style.padding = '12px 20px';
+        notification.style.borderRadius = '4px';
+        notification.style.marginBottom = '10px';
+        notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.15)';
+        notification.style.transform = 'translateX(150%)';
+        notification.style.transition = 'transform 0.3s ease';
+    
+        // Add notification to container
+        notificationContainer.appendChild(notification);
+    
+        // Animate notification
         setTimeout(() => {
-            notification.classList.add('show');
-        }, 100);
-
+            notification.style.transform = 'translateX(0)';
+        }, 10);
+    
+        // Remove notification after 3 seconds
         setTimeout(() => {
-            notification.classList.remove('show');
+            notification.style.transform = 'translateX(150%)';
             setTimeout(() => {
                 notification.remove();
             }, 300);
@@ -573,14 +602,4 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('获取推荐产品数据失败:', error);
             });
     }
-
-
-
-
-
-    
-
-
-
-    
 });

@@ -200,7 +200,7 @@ nav {
     background-color: white;
     padding: 1rem 2rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -225,7 +225,7 @@ nav {
 .nav-actions {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 3rem;
 }
 
 .icon-link {
@@ -750,6 +750,7 @@ nav {
 .newsletter-form {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-bottom: 2rem;
     max-width: 500px;
     margin-left: auto;
@@ -1003,6 +1004,9 @@ footer {
 }
 
 @media (max-width: 768px) {
+    nav{
+        justify-content: space-between;
+    }
     .announcement-bar p{
         display: flex;
         flex-direction: column;
