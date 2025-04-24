@@ -446,6 +446,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // 监听 localStorage 变化，更新购物车的数量
+    window.addEventListener('storage', function(event) {
+        if (event.key === 'cart') {
+            updateFloatingCartCount();
+        }
+    });
+
     // 更新悬浮购物车按钮购物车数量
     function updateFloatingCartCount() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];

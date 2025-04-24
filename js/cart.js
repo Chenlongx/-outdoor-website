@@ -136,35 +136,12 @@ function updateCartDisplay() {
         const cartItem = createCartItemElement(item);
         cartItemsContainer.appendChild(cartItem);
     });
-    
+
     // 事件委托，避免重复绑定
     cartItemsContainer.removeEventListener('click', handleCartItemClick); // 移除已有的事件监听器
     cartItemsContainer.addEventListener('click', handleCartItemClick);  // 绑定新的事件监听器
 
     // 添加事件委托
-    // cartItemsContainer.addEventListener('click', (e) => {
-    //     // 如果点击的是 quantity-btn 按钮，不处理其它按钮
-    //     if (e.target.closest('.quantity-btn')) {
-    //         return; // 阻止继续执行
-    //     }
-    
-    //     const target = e.target.closest('button');
-    //     if (!target) return;
-    
-    //     const productId = target.closest('.cart-item').dataset.productId;
-    
-    //     if (target.classList.contains('remove-item')) {
-    //         e.stopPropagation();
-    //         removeFromCart(productId);
-    //     } else if (target.classList.contains('save-for-later')) {
-    //         saveForLater(productId);
-    //     } else if (target.classList.contains('decrease')) {
-    //         updateQuantity(productId, -1);
-    //     } else if (target.classList.contains('increase')) {
-    //         updateQuantity(productId, 1);
-    //     }
-    // });
-
     cartItemsContainer.querySelectorAll('input[type="number"]').forEach(input => {
         input.addEventListener('change', (e) => {
             const productId = e.target.closest('.cart-item').dataset.productId;
