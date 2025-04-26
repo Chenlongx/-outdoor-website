@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WildGear | Care Instructions</title>
+    <link rel="icon" href="/img/icon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../styles.css">
+
+    <style>
+        /* Care Instructions Page Styles */
+        .hero-care {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../img/hero-background.webp') center/cover no-repeat;
+            height: 300px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .product-care-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .product-care-grid div {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .product-care-grid div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .product-care-grid h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        .product-care-grid ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            color: var(--gray-color);
+        }
+        .product-care-grid ul li {
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        .care-tips-list {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding-left: 1.5rem;
+            line-height: 1.8;
+            color: var(--gray-color);
+        }
+        .care-tips-list li {
+            margin-bottom: 1rem;
+        }
+        .light-gray-background {
+            background-color: var(--light-gray);
+        }
+        .center-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .section p a {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+        .section p a:hover {
+            color: var(--accent-color);
+        }
+        .footer p{
+            text-align: center;
+        }
+        /* 🔥 Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero-care {
+                height: 200px;
+                padding: 1rem;
+            }
+            .hero-care h1 {
+                font-size: 1.8rem;
+            }
+            .hero-care p {
+                font-size: 1rem;
+            }
+            .product-care-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem 1rem;
+            }
+            .product-care-grid div {
+                padding: 1rem;
+            }
+            .section-title {
+                font-size: 1.5rem;
+            }
+            .section-description {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            .care-tips-list {
+                padding: 0 1rem;
+            }
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+            .center-text{
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="./index.html">Products</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="size-chart.html">Size Charts</a></li>
+                <li><a href="care-instructions.html" class="active">Care Instructions</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-care">
+        <div class="hero-content">
+            <h1>Care Instructions</h1>
+            <p>Extend the life of your gear with proper maintenance</p>
+        </div>
+    </section>
+
+    <section class="section section-padding">
+        <div class="section-title">GENERAL CARE TIPS</div>
+        <div class="section-description">
+            Proper care and maintenance help your gear stay reliable for every adventure.
+        </div>
+
+        <ul class="care-tips-list">
+            <li><strong>Store gear clean and dry:</strong> Avoid mold and mildew buildup by drying before storage.</li>
+            <li><strong>Avoid direct sunlight:</strong> UV exposure can degrade fabrics and plastics.</li>
+            <li><strong>Clean zippers and seams:</strong> Use a soft brush or cloth to remove dirt that can cause wear.</li>
+            <li><strong>Inspect regularly:</strong> Look for signs of wear or damage before use.</li>
+        </ul>
+    </section>
+
+    <section class="section section-padding light-gray-background">
+        <div class="section-title">PRODUCT-SPECIFIC CARE</div>
+
+        <div class="section-description">Here's how to care for specific gear categories:</div>
+
+        <div class="product-care-grid">
+            <div>
+                <h3>Apparel</h3>
+                <ul>
+                    <li>Machine wash cold, gentle cycle</li>
+                    <li>Avoid fabric softeners</li>
+                    <li>Hang dry or tumble dry low</li>
+                    <li>Reapply DWR coating periodically</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Tents & Shelters</h3>
+                <ul>
+                    <li>Spot clean with a damp cloth</li>
+                    <li>Avoid harsh detergents</li>
+                    <li>Air dry completely before storing</li>
+                    <li>Store loosely rolled in a breathable bag</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Sleeping Bags</h3>
+                <ul>
+                    <li>Use a sleeping bag liner to reduce washing</li>
+                    <li>Hand wash or use front-loading machine</li>
+                    <li>Dry slowly with clean tennis balls to retain loft</li>
+                    <li>Store loosely, never compressed long-term</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>Footwear</h3>
+                <ul>
+                    <li>Brush off dirt after each use</li>
+                    <li>Dry at room temperature (never use direct heat)</li>
+                    <li>Condition leather occasionally</li>
+                    <li>Use shoe trees to maintain shape</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-padding">
+        <div class="section-title">WARRANTY & SUPPORT</div>
+        <p class="center-text">
+            Have questions or need help with repairs? Our support team is here for you.
+            Visit our <a href="/products/support.html">Support Center</a> or <a href="https://wa.me/8613326425565">chat with us on WhatsApp</a>.
+        </p>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 WildGear. All rights reserved.</p>
+    </footer>
+</body>
+</html>

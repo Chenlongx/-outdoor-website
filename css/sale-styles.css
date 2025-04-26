@@ -514,7 +514,7 @@
 /* 悬浮购物车按钮样式 */
 .floating-cart-btn {
     position: fixed;
-    bottom: 5%; /* 距离底部 20px */
+    bottom: 15%; /* 距离底部 20px */
     right: 5%; /* 距离右边 20px */
     background-color: #d68c45;
     color: white;

@@ -715,6 +715,7 @@ nav {
     padding: 2rem;
     cursor: pointer;
     transition: all 0.3s ease;
+    height: 100%;
 }
 
 .info-item:hover {

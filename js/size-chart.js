@@ -1,36 +1,44 @@
-// Size Chart Page JavaScript
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tabs
+    // 初始化标签页
     initTabs();
 
-    // Initialize unit toggle
+    // 初始化单元切换
     initUnitToggle();
 
-    // Animate on scroll
+    // 滚动时动画
     initAnimateOnScroll();
 });
 
-// Tab functionality
+// 选项卡功能
 function initTabs() {
     const tabButtons = document.querySelectorAll('.tab-btn');
+    
+    // 默认选中第一个标签
+    if (tabButtons.length > 0) {
+        tabButtons[0].classList.add('active'); // 默认选中第一个标签
+        const firstTabId = tabButtons[0].getAttribute('data-target');
+        const firstTabContent = document.getElementById(firstTabId);
+        if (firstTabContent) {
+            firstTabContent.classList.add('active');
+        }
+    }
 
     tabButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all buttons
+            // 从所有按钮中删除活动类
             document.querySelectorAll('.tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Add active class to clicked button
+            // 为点击的按钮添加 active 类
             this.classList.add('active');
 
-            // Hide all tab contents
+            // 隐藏所有标签内容
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
 
-            // Show corresponding tab content
+            // 显示相应标签内容
             const targetId = this.getAttribute('data-target');
             const targetContent = document.getElementById(targetId);
             if (targetContent) {
@@ -40,7 +48,7 @@ function initTabs() {
     });
 }
 
-// Unit toggle functionality (inches/cm)
+// 单位切换功能（英寸/厘米）
 function initUnitToggle() {
     const unitButtons = document.querySelectorAll('.unit-btn');
 
@@ -49,23 +57,23 @@ function initUnitToggle() {
             const parentTable = this.closest('.size-tables');
             if (!parentTable) return;
 
-            // Remove active class from all unit buttons in this table
+            // 从此表中的所有单位按钮中删除活动类
             parentTable.querySelectorAll('.unit-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Add active class to clicked button
+            // 为点击的按钮添加 active 类
             this.classList.add('active');
 
-            // Get the unit type (inches or cm)
+            // 获取单位类型（英寸或厘米）
             const unitType = this.getAttribute('data-unit');
 
-            // Hide all tables in this container
+            // 隐藏此容器中的所有表格
             parentTable.querySelectorAll('.size-table').forEach(table => {
                 table.classList.remove('active');
             });
 
-            // Show the corresponding table
+            // 显示相应表格
             const targetTables = parentTable.querySelectorAll(`.${unitType}-table`);
             targetTables.forEach(table => {
                 table.classList.add('active');
@@ -74,18 +82,18 @@ function initUnitToggle() {
     });
 }
 
-// Animate elements on scroll
+// 滚动时动画元素
 function initAnimateOnScroll() {
     const animateElements = document.querySelectorAll('.sizing-tips, .tab-content, .measurement-instructions, .size-tables');
 
-    // Set initial styles
+    // 设置初始样式
     animateElements.forEach(element => {
         element.style.opacity = '0';
         element.style.transform = 'translateY(20px)';
         element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
 
-    // Animation function
+    // 动画功能
     function animateOnScroll() {
         animateElements.forEach(element => {
             const elementPosition = element.getBoundingClientRect().top;
@@ -98,14 +106,14 @@ function initAnimateOnScroll() {
         });
     }
 
-    // Run on scroll
+    // 滚动运行
     window.addEventListener('scroll', animateOnScroll);
 
-    // Run once on page load
+    // 页面加载时运行一次
     setTimeout(animateOnScroll, 100);
 }
 
-// Search functionality
+// 搜索功能
 const searchTrigger = document.getElementById('header-search');
 const searchOverlay = document.querySelector('.search-overlay');
 const closeButton = document.getElementById('close-search');
@@ -142,12 +150,12 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Mobile menu functionality
+// 移动菜单功能
 const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', () => {
-        // If no mobile menu exists, create one
+        // 如果不存在移动菜单，请创建一个
         if (!document.querySelector('.mobile-menu')) {
             const mobileMenu = document.createElement('div');
             mobileMenu.classList.add('mobile-menu');
@@ -232,44 +240,52 @@ if (mobileMenuBtn) {
     });
 }
 
-// Countdown functionality
-function startCountdown() {
+// 倒计时功能
+async function startCountdown() {
     const countdownElement = document.getElementById('countdown');
     if (!countdownElement) return;
 
-    // Set countdown date (7 days from now)
-    const countdownDate = new Date();
-    countdownDate.setDate(countdownDate.getDate() + 7);
+    try {
+        // Fetch the end time from the Netlify function
+        const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
+        const data = await response.json();
+        
+        // 获取从函数中返回的活动结束时间
+        const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
 
-    function updateCountdown() {
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
 
-        // Calculate time units
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        // Update DOM
-        document.getElementById('days').textContent = days.toString().padStart(2, '0');
-        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            // Update DOM
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
 
-        // If countdown is over
-        if (distance < 0) {
-            clearInterval(countdownInterval);
-            countdownElement.innerHTML = 'Promotion Ended';
+            // If countdown is over
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = 'Promotion Ended';
+            }
         }
+
+        // Initial call to update the countdown immediately
+        updateCountdown();
+
+        // Update countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+    } catch (error) {
+        console.error('Error fetching end time:', error);
     }
-
-    // Initial call
-    updateCountdown();
-
-    // Update every second
-    const countdownInterval = setInterval(updateCountdown, 1000);
 }
 
-// Start countdown when page loads
+// 页面加载时开始倒计时
 startCountdown();
