@@ -69,7 +69,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // 为每个产品添加模拟折扣数据
             currentProducts = data.map(product => ({
                 ...product,
-                discount: Math.floor(Math.random() * 20) + 20, // 随机生成20-40%的折扣
                 rating: Math.random() * 2 + 3, // 随机生成3-5星的评分
                 rating_count: Math.floor(Math.random() * 100) + 50 // 随机生成50-150条评价
             }));
@@ -193,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 按折扣过滤
         filteredProducts = filteredProducts.filter(product => 
-            product.discount >= currentDiscount
+            (1 - parseFloat(product.discount)) * 100 >= currentDiscount
         );
         console.log('按折扣过滤后数量:', filteredProducts.length);
 
@@ -254,17 +253,16 @@ document.addEventListener('DOMContentLoaded', function() {
         card.className = 'product-card';
         card.setAttribute('data-category', product.category);
         card.setAttribute('data-discount', product.discount);
-        
-        const currentPrice = (product.price * (1 - product.discount / 100)).toFixed(2);
-        
+
+        // 处理 price 和 discount
         card.innerHTML = `
-            <div class="discount-tag">-${product.discount}%</div>
+            <div class="discount-tag">-${product.discount_percent}%</div>
             <img src="${product.image_url}" alt="${product.name}" class="product-image">
             <h3>${product.name}</h3>
             <p class="product-description">${product.description}</p>
             <div class="price">
-                <span class="current-price">$${currentPrice}</span>
-                <span class="original-price">$${product.price}</span>
+                <span class="current-price">$${parseFloat(product.final_price).toFixed(2)}</span>
+                <span class="original-price">$${parseFloat(product.price).toFixed(2)}</span>
             </div>
             <div class="rating">
                 ${generateRatingStars(product.rating)}
@@ -418,8 +416,16 @@ document.addEventListener('DOMContentLoaded', function() {
             existingItem.quantity += 1;
         } else {
             // 如果产品不在购物车中，直接添加整个 product 对象
-            product.quantity = 1; // 默认数量为 1
-            cart.push(product);
+            // product.quantity = 1; // 默认数量为 1
+            // cart.push(product);
+            // 把产品所有字段都保存进去，但价格字段用打折价 final_price
+            const productToCart = {
+                ...product,
+                price: parseFloat(product.final_price).toFixed(2), // 覆盖原price为折扣价
+                quantity: 1 // 新增 quantity 字段
+            };
+
+            cart.push(productToCart);
         }
         
         // 保存购物车数据

@@ -448,12 +448,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof CartManager !== 'undefined' && CartManager.init) {
         CartManager.init();
     }
-    // 畅销商品优惠数据展示
-    // 动态填充产品数据
+    // 畅销商品优惠数据展示(产品折扣价)
     function renderProducts(products) {
         const productsGrid = document.getElementById('dynamic-products');
         if (!productsGrid) return;
-
+    
         productsGrid.innerHTML = '';
         products.forEach((product, index) => {
             const productCard = document.createElement('div');
@@ -461,47 +460,40 @@ document.addEventListener('DOMContentLoaded', function() {
             productCard.style.opacity = '0';
             productCard.style.transform = 'translateY(20px)';
             productCard.style.transitionDelay = `${index * 100}ms`;
-
+    
             productCard.innerHTML = `
                 <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
                 <h3>${product.name}</h3>
                 <div class="price">
-                    <span class="current-price">$${product.price}</span>
-                    <span class="original-price">$${(product.price * 1.25).toFixed(2)}</span>
+                    <span class="current-price">$${product.final_price}</span>
+                    <span class="original-price">$${parseFloat(product.price).toFixed(2)}</span>
                 </div>
                 <button class="add-to-cart">ADD TO CART</button>
             `;
-
-            // 添加点击事件，跳转到产品详情页
+    
+            // 点击跳转到详情页
             productCard.addEventListener('click', (e) => {
-                // 如果点击的是加入购物车按钮，不进行跳转
                 if (e.target.classList.contains('add-to-cart')) {
                     return;
                 }
-                // 将产品信息存储到 localStorage
                 localStorage.setItem('currentProduct', JSON.stringify(product));
-                // 将产品的UUID通过链接的方式传输到产品页面
                 const productUUID = product.id;
-                // 使用产品名称生成友好的 URL 格式，去除空格并转换为小写字母
                 const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
-                // console.log(productUUID)
-                // 跳转到产品详情页 
-                // window.location.href = './products/product-detail.html';
                 window.location.href = `./products/product-detail.html?id=${productUUID}-${productNameForUrl}`;
             });
-
-            // 为加入购物车按钮添加单独的点击事件
+    
+            // 加入购物车按钮单独处理
             const addToCartBtn = productCard.querySelector('.add-to-cart');
             if (addToCartBtn) {
                 addToCartBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // 阻止事件冒泡
+                    e.stopPropagation();
                     addToCart(product);
                 });
             }
-
+    
             productsGrid.appendChild(productCard);
-
-            // 触发重排以启动动画
+    
+            // 启动动画
             setTimeout(() => {
                 productCard.style.opacity = '1';
                 productCard.style.transform = 'translateY(0)';
@@ -512,6 +504,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/.netlify/functions/fetch-products')
     .then(response => response.json())
     .then(data => {
+        console.log(data)
     // 只取前4个商品作为推荐
     const bestSellers = data.slice(0, 4);
     if(bestSellers){

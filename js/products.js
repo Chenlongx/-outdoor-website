@@ -37,9 +37,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (existingItem) {
                 existingItem.quantity += 1; // 如果已存在，增加数量
             } else {
+                const discountedPrice = parseFloat(product.final_price) || 0; // 使用折扣后的final_price
+
                 // 确保产品图片路径正确保存
                 const productToAdd = {
                     ...product,
+                    price: discountedPrice, // 👉 保存折扣后的价格
                     image: product.image_url, // 确保使用image_url作为image属性
                     quantity: 1 // 新增产品，默认数量为 1
                 };
@@ -55,9 +58,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCartCount() {
             const items = this.getCartItems();
             const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
-            const cartCount = document.querySelector('.cart-count');
-            if (cartCount) {
-                cartCount.textContent = totalItems;
+            // 页面右上角购物车的数量
+            const cartCount = document.querySelectorAll('.cart-count');
+            if (cartCount.length > 0) {
+                // 遍历所有的 .cart-count 元素并更新它们的数量
+                cartCount.forEach(cartCount => {
+                    cartCount.textContent = totalItems;  // 设置为购物车的总数量
+                });
             }
         },
         showNotification(message) {
@@ -108,6 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+    // 监听本地存储的变化
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'cart') {
+            cart.updateCartCount();  // 更新购物车数量
+        }
+    });
 
     // 从 Netlify 函数获取数据
     fetch('/.netlify/functions/fetch-products')
@@ -355,14 +368,20 @@ document.addEventListener('DOMContentLoaded', function() {
         productImage.addEventListener('click', (e) => {
             window.location.href = productLink.href; // 点击图片容器跳转到详情页
         });
-    
+        
+        // 计算折扣价，保证是数字类型
+        // const price = parseFloat(product.price) || 0;
+        // const discount = parseFloat(product.discount) || 1;
+        // const discountedPrice = (price * discount).toFixed(2);
+        const discountedPrice = parseFloat(product.final_price) || 0; // 使用 final_price 而不是手动计算
+
         // 创建产品信息容器
         const productInfo = document.createElement('div');
         productInfo.className = 'product-info';
         productInfo.innerHTML = `
             <h3 class="product-name">${product.name}</h3>
             <p class="product-type">${product.producttype}</p>
-            <p class="product-price">$${product.price}</p>
+            <p class="product-price">$${discountedPrice.toFixed(2)}</p>
             <p class="product-stock">stock items: ${product.stock}</p>
             <p class="product-description">${product.description}</p>
             <button class="add-to-cart-btn" data-product-id="${product.id}">add to the cart</button>

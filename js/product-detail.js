@@ -41,6 +41,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 更新页面标题
             document.title = `${product.name} | WildGear`;
 
+            console.log("获取到的数据" + product)
+            console.log(parseFloat(product.final_price).toFixed(2))
             // 更新产品信息
             const productImage = document.querySelector('.main-image img');
             const productName = document.querySelector('.product-name');
@@ -54,7 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (productName) productName.textContent = product.name;
             if (productTitle) productTitle.textContent = product.name;
             if (productType) productType.textContent = product.producttype;
-            if (productPrice) productPrice.textContent = `$${product.price}`;
+            const finalPrice = parseFloat(product.final_price);
+            if (productPrice && !isNaN(finalPrice)) {
+                productPrice.textContent = `$${finalPrice.toFixed(2)}`; // 使用 final_price 显示折扣价
+            } else {
+                productPrice.textContent = `$${product.price}`; // 如果 final_price 无效，显示原价
+            }
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
             if (productDescription) productDescription.textContent = product.description;
 
@@ -72,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         const productToAdd = {
                             ...product,
                             image: product.image_url, // 确保使用image_url作为image属性
+                            price: product.final_price,  // 确保添加折扣后的价格
                             quantity: 1
                         };
                         cart.push(productToAdd);

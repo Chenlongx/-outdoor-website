@@ -101,6 +101,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 监听本地存储的变化
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'cart') {
+            updateCartCount();  // 更新购物车数量
+        }
+    });
 });
 
 // 初始化购物车功能
@@ -534,11 +540,16 @@ window.CartManager = window.CartManager || {
         const cartItems = this.getCartItems();
         const existingItem = cartItems.find(item => item.id === product.id);
 
+        const originalPrice = parseFloat(product.price) || 0;
+        const discountRate = parseFloat(product.discount) || 1;
+        const discountedPrice = (originalPrice * discountRate).toFixed(2);
+
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
             cartItems.push({
                 ...product,
+                price: discountedPrice,
                 quantity: 1
             });
         }

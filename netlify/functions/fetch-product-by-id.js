@@ -29,6 +29,7 @@ exports.handler = async function (event, context) {
         stock,
         specifications,
         package_includes,
+        discount,
         product_details_url,
         details,
         product_categories (
@@ -47,16 +48,43 @@ exports.handler = async function (event, context) {
         body: JSON.stringify({ error: 'Failed to fetch product details' })
       };
     }
+    
+    // 计算折扣价，假设 discount 是一个百分比（例如：20 表示 20% 的折扣）
+      // 处理价格和折扣
+      const price = parseFloat(product.price) || 0;
+      const discountRate = parseFloat(product.discount);
 
+      let finalPrice = price;
+      let discountPercent = 0;
+
+      if (!isNaN(discountRate)) {
+        if (discountRate > 1) {
+          // 如果 discount 是百分数 (比如 20)，换成 0.8
+          finalPrice = price * (1 - discountRate / 100);
+          discountPercent = discountRate;
+        } else {
+          // 如果 discount 已经是比例 (比如 0.8)，直接乘
+          finalPrice = price * discountRate;
+          discountPercent = (1 - discountRate) * 100;
+        }
+      }
+
+    // 输出折扣价
+    console.log('折扣后的价格:', finalPrice.toFixed(2));
+    
     // 处理产品数据，提取分类信息
     const categoryList = product.product_categories?.map(pc => pc.categories?.name).filter(Boolean) || [];
 
     const processedProduct = {
       ...product,
+      final_price: finalPrice.toFixed(2),   // ✅ 折扣后价格
+      discount_percent: Math.round(discountPercent), // ✅ 折扣百分比，四舍五入
       categories: categoryList,
       category: categoryList[0] || 'Uncategorized',
       subcategory: categoryList[1] || null
     };
+
+
 
     return {
       statusCode: 200,
