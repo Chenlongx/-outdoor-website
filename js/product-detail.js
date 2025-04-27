@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const productName = document.querySelector('.product-name');
             const productTitle = document.querySelector('.product-header h1');
             const productType = document.querySelector('.product-type');
-            const productPrice = document.querySelector('.product-price');
+            const productPrice = document.querySelector('.current-price');
+            const originalPrice =  document.querySelector('.original-price');
+            const discountBadge =  document.querySelector('.discount-badge');
             const productStock = document.querySelector('.product-stock');
             const productDescription = document.querySelector('.product-description');
 
@@ -62,6 +64,8 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 productPrice.textContent = `$${product.price}`; // 如果 final_price 无效，显示原价
             }
+            if(originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
+            if(discountBadge) discountBadge.textContent = `${product.discount_percent}% OFF`;
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
             if (productDescription) productDescription.textContent = product.description;
 

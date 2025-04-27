@@ -1251,15 +1251,15 @@ footer {
 }
 
 @media (min-width: 1024px) {
-    #suggested-products {
+    /* #suggested-products {
         grid-template-columns: repeat(4, 1fr);
-    }
+    } */
 }
 
 @media (min-width: 1440px) {
-    #suggested-products {
+    /* #suggested-products {
         grid-template-columns: repeat(5, 1fr);
-    }
+    } */
 }
 
 /* 购物车页面推荐产品卡片样式优化 */

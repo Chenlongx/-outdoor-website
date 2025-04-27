@@ -10,6 +10,7 @@
 </head>
 <body>
     <header>
+        <!-- 夏季优惠页面 -->
         <div class="announcement-bar">
             <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
             <div class="countdown" id="countdown">
@@ -27,6 +28,10 @@
                 </span>
             </div>
         </div>
+        <!-- 包邮优惠提示 -->
+        <div class="free-shipping-banner">
+            🚚 Free shipping on orders over <strong>$49.90</strong>!
+          </div>
         <nav>
             <div class="logo">
                 <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
@@ -70,15 +75,6 @@
                 </div>
 
                 <div class="cart-summary">
-                    <button class="checkout-btn">Proceed to Checkout</button>
-
-                    <div class="payment-methods-icons">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-paypal"></i>
-                        <i class="fab fa-cc-discover"></i>
-                    </div>
                     <h2>Order Summary</h2>
                     <div class="summary-row">
                         <span>Subtotal</span>
@@ -104,6 +100,16 @@
                     <div class="summary-total">
                         <span>Total</span>
                         <span id="total">$0.00</span>
+                    </div>
+
+                    <button class="checkout-btn">Proceed to Checkout</button>
+
+                    <div class="payment-methods-icons">
+                        <i class="fab fa-cc-visa"></i>
+                        <i class="fab fa-cc-mastercard"></i>
+                        <i class="fab fa-cc-amex"></i>
+                        <i class="fab fa-cc-paypal"></i>
+                        <i class="fab fa-cc-discover"></i>
                     </div>
 
                     <div class="secure-checkout">
@@ -237,7 +243,7 @@
 
 
     <script src="../js/cart.js"></script>
-    <!-- <script src="../js/summer-sale.js"></script> -->
+    <script src="../js/summer-sale.js"></script>
     <script src="../script.js"></script>
 </body>
 </html>

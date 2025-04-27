@@ -45,15 +45,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Check if promo code is valid (mock implementation)
                 if (promoInput.value.trim().toUpperCase() === 'SUMMER25') {
                     applyDiscount(25);
-                    showNotification('优惠码已应用：25%折扣！', 'success');
+                    showNotification('Coupon code applied: 10% off！', 'success');
                 } else if (promoInput.value.trim().toUpperCase() === 'FREE') {
                     updateShipping(0);
                     showNotification('已应用免运费！', 'success');
                 } else {
-                    showNotification('无效的优惠码，请重试。', 'error');
+                    showNotification('Invalid coupon code, please try again。', 'error');
                 }
             } else {
-                showNotification('请输入优惠码。', 'error');
+                showNotification('Please enter the discount code。', 'error');
             }
         });
     }
@@ -429,7 +429,7 @@ function initSuggestedProducts() {
             if (cartCount) {
                 cartCount.textContent = (parseInt(cartCount.textContent) + 1).toString();
             }
-
+            
             // Reset button after 2 seconds
             setTimeout(() => {
                 button.textContent = 'ADD TO CART';
