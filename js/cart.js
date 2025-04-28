@@ -39,110 +39,76 @@ document.addEventListener('DOMContentLoaded', function() {
     // }
 
     // 渲染 PayPal 按钮
-    function renderPayPalButton() {
+    async function renderPayPalButton() {
         const paypalButtons = window.paypal.Buttons({
             style: {
-                 shape: "rect",
-                 layout: "vertical",
-                 color: "gold",
-                 label: "paypal",
-             },
-            message: {
-                 amount: getTotalAmount(), // 获取并传递总金额
-             },
-            async createOrder() {
-                 try {
-                     const response = await fetch("/api/orders", {
-                         method: "POST",
-                         headers: {
-                             "Content-Type": "application/json",
-                         },
-                         // 使用“body”参数可选地传递额外的订单信息
-                         // 例如产品 ID 和数量
-                         body: JSON.stringify({
-                            cart: getCart(),  // 传递购物车信息
-                         }),
-                     });
-         
-                     const orderData = await response.json();
-         
-                     if (orderData.id) {
-                         return orderData.id;
-                     }
-                     const errorDetail = orderData?.details?.[0];
-                     const errorMessage = errorDetail
-                         ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
-                         : JSON.stringify(orderData);
-         
-                     throw new Error(errorMessage);
-                 } catch (error) {
-                     console.error(error);
-                     // resultMessage(`无法启动 PayPal 结账...<br><br>${error}`);
-                 }
-             },
-            async onApprove(data, actions) {
-                 try {
-                     const response = await fetch(
-                         `/api/orders/${data.orderID}/capture`,
-                         {
-                             method: "POST",
-                             headers: {
-                                 "Content-Type": "application/json",
-                             },
-                         }
-                     );
-         
-                     const orderData = await response.json();
-                     // Three cases to handle:
-                    // (1) 可恢复的 INSTRUMENT_DECLINED -> 调用 actions.restart()
-                    // (2) 其他不可恢复的错误 -> 显示失败消息
-                    // (3) 交易成功 -> 显示确认或感谢消息
-         
-                     const errorDetail = orderData?.details?.[0];
-         
-                     if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
-                         // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
-                         // recoverable state, per
-                         // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
-                         return actions.restart();
-                     } else if (errorDetail) {
-                         // (2) Other non-recoverable errors -> Show a failure message
-                         throw new Error(
-                             `${errorDetail.description} (${orderData.debug_id})`
-                         );
-                     } else if (!orderData.purchase_units) {
-                         throw new Error(JSON.stringify(orderData));
-                     } else {
-                         // (3) Successful transaction -> Show confirmation or thank you message
-                         // Or go to another URL:  actions.redirect('thank_you.html');
-                         const transaction =
-                             orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
-                             orderData?.purchase_units?.[0]?.payments
-                                 ?.authorizations?.[0];
-                         resultMessage(
-                             `Transaction ${transaction.status}: ${transaction.id}<br>
-                   <br>See console for all available details`
-                         );
-                         console.log(
-                             "Capture result",
-                             orderData,
-                             JSON.stringify(orderData, null, 2)
-                         );
-                     }
-                 } catch (error) {
-                     console.error(error);
-                     resultMessage(
-                         `Sorry, your transaction could not be processed...<br><br>${error}`
-                     );
-                 }
-             },
-         
-            
-         });
-         paypalButtons.render("#paypal-button-container");
-         
-         
-
+                shape: 'rect',
+                layout: 'vertical',
+                color: 'gold',
+                label: 'paypal',
+            },
+            // 动态计算并传递总金额
+            createOrder: async function(data, actions) {
+                const cart = getCart(); // 获取购物车信息
+    
+                // 计算购物车总金额
+                const subtotal = calculateSubtotal(cart); // 计算小计
+                const shipping = calculateShipping(subtotal); // 计算运费
+                const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
+    
+                // 创建订单并返回给 PayPal
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            currency_code: 'USD',
+                            value: totalAmount, // 订单总金额
+                            breakdown: {
+                                item_total: {
+                                    currency_code: 'USD',
+                                    value: subtotal.toFixed(2), // 小计
+                                },
+                                shipping: {
+                                    currency_code: 'USD',
+                                    value: shipping.toFixed(2), // 运费
+                                },
+                            },
+                        },
+                        items: cart.map(item => ({
+                            name: item.name,
+                            unit_amount: {
+                                currency_code: 'USD',
+                                value: item.price.toFixed(2), // 商品单价
+                            },
+                            quantity: item.quantity,
+                        })),
+                    }],
+                });
+            },
+    
+            // 支付成功后的处理
+            onApprove: async function(data, actions) {
+                // 处理支付成功的情况
+                return actions.order.capture().then(function(details) {
+                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    // 可以在此处跳转到确认页面或显示其他支付成功信息
+                    window.location.href = '/thank-you'; // 例如跳转到感谢页面
+                });
+            },
+    
+            // 支付失败的处理
+            onCancel: function(data) {
+                alert('Transaction was cancelled');
+            },
+    
+            // 错误处理
+            onError: function(error) {
+                console.error('Error during payment processing:', error);
+                alert('Something went wrong during the payment process');
+            }
+        });
+    
+        // 渲染 PayPal 按钮
+        paypalButtons.render('#paypal-button-container');
     }
 
     // 获取总金额
@@ -402,6 +368,11 @@ function updateOrderSummary() {
     
     // const tax = calculateTax(subtotal);
     // const total = subtotal + shipping + tax;
+    // 确保 subtotal 和 shipping 都是有效的数值
+    if (isNaN(subtotal) || isNaN(shipping)) {
+        console.error("Subtotal or shipping is invalid");
+        return;
+    }
     const total = subtotal + shipping;  // 只计算小计和运费
 
     const subtotalElement = document.getElementById('subtotal');
@@ -418,6 +389,7 @@ function updateOrderSummary() {
 
     if (shippingElement) {
         shippingElement.textContent = `$${shipping.toFixed(2)}`;
+        console.log("shippingElement" + subtotal.toFixed(2));
     } else {
         console.warn('shipping element not found');
     }

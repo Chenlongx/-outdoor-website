@@ -10,7 +10,7 @@ const paypalButtons = window.paypal.Buttons({
      },
     async createOrder() {
          try {
-             const response = await fetch("/api/orders", {
+             const response = await fetch("/.netlify/functions/orders", {
                  method: "POST",
                  headers: {
                      "Content-Type": "application/json",
