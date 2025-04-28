@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize cart functionality
     initCart();
 
+    renderPayPalButton();
+
     // 继续购物按钮
     const continueShoppingBtn = document.querySelector('.continue-shopping');
     if (continueShoppingBtn) {
@@ -21,20 +23,158 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // 结帐按钮
-    const checkoutBtn = document.querySelector('.checkout-btn');
-    if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', function() {
-            const cart = getCart();
-            if (cart.length === 0) {
-                showNotification('Shopping cart is empty', 'error');
-                return;
-            }
-            showNotification('Redirecting to checkout page...', 'info');
-            // In a real application, this would redirect to the checkout page
-        });
-    }else {
-        console.warn('.checkout-btn not found');
+    // const checkoutBtn = document.querySelector('.checkout-btn');
+    // if (checkoutBtn) {
+    //     checkoutBtn.addEventListener('click', function() {
+    //         const cart = getCart();
+    //         if (cart.length === 0) {
+    //             showNotification('Shopping cart is empty', 'error');
+    //             return;
+    //         }
+    //         showNotification('Redirecting to checkout page...', 'info');
+    //         // In a real application, this would redirect to the checkout page
+    //     });
+    // }else {
+    //     console.warn('.checkout-btn not found');
+    // }
+
+    // 渲染 PayPal 按钮
+    function renderPayPalButton() {
+        const paypalButtons = window.paypal.Buttons({
+            style: {
+                 shape: "rect",
+                 layout: "vertical",
+                 color: "gold",
+                 label: "paypal",
+             },
+            message: {
+                 amount: getTotalAmount(), // 获取并传递总金额
+             },
+            async createOrder() {
+                 try {
+                     const response = await fetch("/api/orders", {
+                         method: "POST",
+                         headers: {
+                             "Content-Type": "application/json",
+                         },
+                         // 使用“body”参数可选地传递额外的订单信息
+                         // 例如产品 ID 和数量
+                         body: JSON.stringify({
+                            cart: getCart(),  // 传递购物车信息
+                         }),
+                     });
+         
+                     const orderData = await response.json();
+         
+                     if (orderData.id) {
+                         return orderData.id;
+                     }
+                     const errorDetail = orderData?.details?.[0];
+                     const errorMessage = errorDetail
+                         ? `${errorDetail.issue} ${errorDetail.description} (${orderData.debug_id})`
+                         : JSON.stringify(orderData);
+         
+                     throw new Error(errorMessage);
+                 } catch (error) {
+                     console.error(error);
+                     // resultMessage(`无法启动 PayPal 结账...<br><br>${error}`);
+                 }
+             },
+            async onApprove(data, actions) {
+                 try {
+                     const response = await fetch(
+                         `/api/orders/${data.orderID}/capture`,
+                         {
+                             method: "POST",
+                             headers: {
+                                 "Content-Type": "application/json",
+                             },
+                         }
+                     );
+         
+                     const orderData = await response.json();
+                     // Three cases to handle:
+                    // (1) 可恢复的 INSTRUMENT_DECLINED -> 调用 actions.restart()
+                    // (2) 其他不可恢复的错误 -> 显示失败消息
+                    // (3) 交易成功 -> 显示确认或感谢消息
+         
+                     const errorDetail = orderData?.details?.[0];
+         
+                     if (errorDetail?.issue === "INSTRUMENT_DECLINED") {
+                         // (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                         // recoverable state, per
+                         // https://developer.paypal.com/docs/checkout/standard/customize/handle-funding-failures/
+                         return actions.restart();
+                     } else if (errorDetail) {
+                         // (2) Other non-recoverable errors -> Show a failure message
+                         throw new Error(
+                             `${errorDetail.description} (${orderData.debug_id})`
+                         );
+                     } else if (!orderData.purchase_units) {
+                         throw new Error(JSON.stringify(orderData));
+                     } else {
+                         // (3) Successful transaction -> Show confirmation or thank you message
+                         // Or go to another URL:  actions.redirect('thank_you.html');
+                         const transaction =
+                             orderData?.purchase_units?.[0]?.payments?.captures?.[0] ||
+                             orderData?.purchase_units?.[0]?.payments
+                                 ?.authorizations?.[0];
+                         resultMessage(
+                             `Transaction ${transaction.status}: ${transaction.id}<br>
+                   <br>See console for all available details`
+                         );
+                         console.log(
+                             "Capture result",
+                             orderData,
+                             JSON.stringify(orderData, null, 2)
+                         );
+                     }
+                 } catch (error) {
+                     console.error(error);
+                     resultMessage(
+                         `Sorry, your transaction could not be processed...<br><br>${error}`
+                     );
+                 }
+             },
+         
+            
+         });
+         paypalButtons.render("#paypal-button-container");
+         
+         
+
     }
+
+    // 获取总金额
+    function getTotalAmount() {
+        const cart = getCart();
+        const subtotal = calculateSubtotal(cart);
+        const shippingCost = localStorage.getItem('shippingCost') || 10;  // 从 localStorage 获取运费
+        return (subtotal + parseFloat(shippingCost)).toFixed(2);  // 返回总金额（小计 + 运费）
+    }
+
+    // 获取购物车数据
+    function getCart() {
+        const cart = localStorage.getItem('cart');
+        return cart ? JSON.parse(cart) : [];
+    }
+
+
+    // 向用户显示结果的示例函数。您可以使用您网站的 UI 库。
+    function resultMessage(message) {
+        const container = document.querySelector("#result-message");
+        container.innerHTML = message;
+    }
+
+
+    // 监听运费选择变化
+    // const shippingSelect = document.getElementById('shipping-options');
+    // if (shippingSelect) {
+    //     shippingSelect.addEventListener('change', function() {
+    //         console.log
+    //         updateOrderSummary(); // 运送方式改变时更新购物车摘要
+    //     });
+    // }
 
     // 应用促销代码按钮
     const promoBtn = document.querySelector('.promo-input button');
@@ -42,22 +182,65 @@ document.addEventListener('DOMContentLoaded', function() {
         promoBtn.addEventListener('click', function() {
             const promoInput = document.querySelector('.promo-input input');
             if (promoInput && promoInput.value.trim()) {
-                // Check if promo code is valid (mock implementation)
-                if (promoInput.value.trim().toUpperCase() === 'SUMMER25') {
-                    applyDiscount(25);
-                    showNotification('Coupon code applied: 10% off！', 'success');
-                } else if (promoInput.value.trim().toUpperCase() === 'FREE') {
-                    updateShipping(0);
-                    showNotification('已应用免运费！', 'success');
-                } else {
-                    showNotification('Invalid coupon code, please try again。', 'error');
+                // 获取用户输入的优惠码
+                const promoCode = promoInput.value.trim().toUpperCase();
+
+                // 获取产品的价格（计算好的价格），从localStorage中获取购物车的商品（商品的ID），然后提交到后端进行计算价格
+                // const cartItems = localStorage.getItem('cart');
+                // console.log(cartItems)
+
+                // 获取购物车中的所有商品
+                const cartItems = getCart();  // 假设你有一个getCart()函数返回购物车中的商品数组
+                let totalProductPrice = 0;
+
+                // 计算购物车中所有商品的总价
+                cartItems.forEach(item => {
+                    totalProductPrice += parseFloat(item.price) * item.quantity;
+                });
+
+                // 限制价格为两位小数
+                const productPrice = totalProductPrice.toFixed(2);
+                console.log("前端商品的总价: $" + productPrice);
+
+                // 判断购物车总价是否超过49美元
+                if (totalProductPrice < 49) {
+                    showNotification('Total cart price must be at least $49 to apply a promo code.', 'error');
+                    return; // 如果不符合条件，直接返回，不再执行后续代码
                 }
+
+                // 发送优惠码到后端进行校验
+                fetch('/.netlify/functions/verify-promo-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        promoCode: promoCode,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // 如果优惠码有效，应用折扣
+                        applyDiscount(data.discount); // 假设后端返回折扣值
+                        showNotification(`Coupon code applied: ${data.discount}% off!`, 'success');
+
+                        // 使用优惠码优惠百分之25%
+
+                    } else {
+                        // 如果优惠码无效
+                        showNotification('Invalid coupon code, please try again.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showNotification('There was an error with coupon code validation.', 'error');
+                });
             } else {
                 showNotification('Please enter the discount code。', 'error');
             }
         });
     }
-
     // 初始化推荐产品
     initSuggestedProducts();
 
@@ -65,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
     //     e.preventDefault(); // 阻止正常提交
     //     document.getElementById('custom-modal').style.display = 'flex'; // 显示弹窗
     // });
+    // 转跳到弹窗页面
     const checkoutbtn = document.querySelector('.checkout-btn');
     const modal = document.getElementById('custom-modal');
 
@@ -215,16 +399,19 @@ function updateOrderSummary() {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);
     const shipping = calculateShipping(subtotal);
-    const tax = calculateTax(subtotal);
-    const total = subtotal + shipping + tax;
+    
+    // const tax = calculateTax(subtotal);
+    // const total = subtotal + shipping + tax;
+    const total = subtotal + shipping;  // 只计算小计和运费
 
     const subtotalElement = document.getElementById('subtotal');
     const shippingElement = document.getElementById('shipping');
-    const taxElement = document.getElementById('tax');
+    // const taxElement = document.getElementById('tax');
     const totalElement = document.getElementById('total');
 
     if (subtotalElement) {
         subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        console.log("shippingElement" + subtotal.toFixed(2))
     } else {
         console.warn('subtotal element not found');
     }
@@ -235,11 +422,11 @@ function updateOrderSummary() {
         console.warn('shipping element not found');
     }
 
-    if (taxElement) {
-        taxElement.textContent = `$${tax.toFixed(2)}`;
-    } else {
-        console.warn('tax element not found');
-    }
+    // if (taxElement) {
+    //     taxElement.textContent = `$${tax.toFixed(2)}`;
+    // } else {
+    //     console.warn('tax element not found');
+    // }
 
     if (totalElement) {
         totalElement.textContent = `$${total.toFixed(2)}`;
@@ -263,14 +450,23 @@ function calculateSubtotal(cart) {
 }
 
 // 计算运费
-function calculateShipping(subtotal) {
-    return subtotal > 100 ? 0 : 10;
+// function calculateShipping(subtotal) {
+//     return subtotal > 49 ? 0 : 10;
+// }
+function calculateShipping(subtotal, selectedShippingCost) {
+    // 如果购物车小计大于49美元，免运费
+    if (subtotal > 49) {
+        return 0;  // 满49免运费
+    }
+
+    // 否则返回选择的运费（可以是标准或加急运费）
+    return selectedShippingCost;
 }
 
 // 计算税额
-function calculateTax(subtotal) {
-    return subtotal * 0.08; // 8% tax
-}
+// function calculateTax(subtotal) {
+//     return subtotal * 0.08; // 8% tax
+// }
 
 // 获取购物车数据
 function getCart() {
@@ -803,19 +999,30 @@ window.CartManager = window.CartManager || {
     updateCartSummary() {
         const cartItems = this.getCartItems();
         const subtotal = this.calculateSubtotal(cartItems);
-        const shipping = this.calculateShipping(subtotal);
-        const tax = this.calculateTax(subtotal);
-        const total = subtotal + shipping + tax;
+        // const shipping = this.calculateShipping(subtotal);
+        // 判断客户是否选择加急，若选择还是需要添加计算运费的
+        // 获取用户选择的运送方式
+        const shippingSelect = document.getElementById('shipping-options');
+        const selectedShippingCost = shippingSelect ? parseFloat(shippingSelect.value) : 10; // 默认10为标准运费
+        
+        console.log("selectedShippingCost" + selectedShippingCost)
+        // 计算运费
+        const shipping = this.calculateShipping(subtotal, selectedShippingCost); // 传递选择的运费到 calculateShipping
+
+        // const tax = this.calculateTax(subtotal);
+        // const total = subtotal + shipping + tax;
+        // 总价（不包括税收）
+        const total = subtotal + shipping;
 
         // 更新摘要元素
         const subtotalElement = document.getElementById('subtotal');
         const shippingElement = document.getElementById('shipping');
-        const taxElement = document.getElementById('tax');
+        // const taxElement = document.getElementById('tax');
         const totalElement = document.getElementById('total');
 
         if (subtotalElement) subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
         if (shippingElement) shippingElement.textContent = `$${shipping.toFixed(2)}`;
-        if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
+        // if (taxElement) taxElement.textContent = `$${tax.toFixed(2)}`;
         if (totalElement) totalElement.textContent = `$${total.toFixed(2)}`;
     },
 
@@ -828,13 +1035,13 @@ window.CartManager = window.CartManager || {
 
     // 计算运费
     calculateShipping(subtotal) {
-        return subtotal > 100 ? 0 : 10; // 超过 100 美元即可免费送货
+        return subtotal > 49 ? 0 : 10; // 超过 49 美元即可免费送货
     },
 
     // 计算税额
-    calculateTax(subtotal) {
-        return subtotal * 0.08; // 8% tax
-    },
+    // calculateTax(subtotal) {
+    //     return subtotal * 0.08; // 8% tax
+    // },
 
     // 初始化购物车
     init() {
@@ -854,12 +1061,13 @@ function applyDiscount(percentage) {
     const subtotal = calculateSubtotal(cart);
     const discount = subtotal * (percentage / 100);
     const shipping = calculateShipping(subtotal);
-    const tax = calculateTax(subtotal);
-    const total = subtotal + shipping + tax - discount;
+    // const tax = calculateTax(subtotal);
+    // const total = subtotal + shipping + tax - discount;
+    const total = subtotal + shipping - discount;  // 计算总金额时不涉及税费
     
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('shipping').textContent = `$${shipping.toFixed(2)}`;
-    document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+    // document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
     document.getElementById('total').textContent = `$${total.toFixed(2)}`;
 }
 
@@ -867,8 +1075,9 @@ function applyDiscount(percentage) {
 function updateShipping(cost) {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);
-    const tax = calculateTax(subtotal);
-    const total = subtotal + cost + tax;
+    // const tax = calculateTax(subtotal);
+    // const total = subtotal + cost + tax;
+    const total = subtotal + cost;  // 不再涉及税费
     
     document.getElementById('shipping').textContent = cost === 0 ? 'FREE' : `$${cost.toFixed(2)}`;
     document.getElementById('total').textContent = `$${total.toFixed(2)}`;

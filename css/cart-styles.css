@@ -234,6 +234,22 @@
     font-size: 1rem;
 }
 
+/* 给下拉菜单和物流价格的容器设置样式 */
+#shipping-options {
+    padding: 3px 5px;
+    font-size: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 当用户选择一个物流选项时，改变下拉框的背景色 */
+#shipping-options:focus {
+    border-color: #007bff;
+    outline: none;
+    background-color: #f0f8ff;
+}
+
 .promo-code {
     margin: 1.5rem 0;
     padding: 1.5rem 0;

@@ -3,35 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping Cart | WildGear</title>
+    <title>Checkout | WildGear</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/cart-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <!-- 夏季优惠页面 -->
-        <div class="announcement-bar">
-            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
-            <div class="countdown" id="countdown">
-                <span class="time-unit">
-                    <span id="days">00</span>d
-                </span>
-                <span class="time-unit">
-                    <span id="hours">00</span>h
-                </span>
-                <span class="time-unit">
-                    <span id="minutes">00</span>m
-                </span>
-                <span class="time-unit">
-                    <span id="seconds">00</span>s
-                </span>
-            </div>
-        </div>
-        <!-- 包邮优惠提示 -->
-        <div class="free-shipping-banner">
-            🚚 Free shipping on orders over <strong>$49.90</strong>!
-          </div>
         <nav>
             <div class="logo">
                 <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
@@ -46,7 +24,7 @@
             <div class="nav-actions">
                 <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
                 <a href="#" class="icon-link"><i class="fas fa-user"></i></a>
-                <a href="cart.html" class="icon-link active"><i class="fas fa-shopping-cart"></i><span class="cart-count">3</span></a>
+                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -56,9 +34,9 @@
 
     <section class="page-header">
         <div class="container">
-            <h1>Shopping Cart</h1>
+            <h1>Checkout</h1>
             <div class="breadcrumb">
-                <a href="../index.html">Home</a> / <span>Cart</span>
+                <a href="../index.html">Home</a> / <a href="cart.html">Cart</a> / <span>Checkout</span>
             </div>
         </div>
     </section>
@@ -66,52 +44,68 @@
     <section class="cart-section">
         <div class="container">
             <div class="cart-container">
+                <!-- 收货信息表单区 -->
                 <div class="cart-items">
-                    <h2>Your Items (<span id="cart-item-count">0</span>)</h2>
-
-                    <div id="cart-items-container">
-                        <!-- 购物车项目将通过JavaScript动态生成 -->
-                    </div>
+                    <h2>Delivery Information</h2>
+                    <form id="checkout-form" autocomplete="on" novalidate>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="name" style="display:block; font-weight:600; margin-bottom:8px;">Full Name <span style="color:red">*</span></label>
+                            <input type="text" id="name" name="name" required placeholder="Full Name" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="phone" style="display:block; font-weight:600; margin-bottom:8px;">Phone Number <span style="color:red">*</span></label>
+                            <input type="tel" id="phone" name="phone" required placeholder="Phone Number" pattern="[0-9\-\+\s]{6,}" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="email" style="display:block; font-weight:600; margin-bottom:8px;">Email <span style="color:red">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="Email Address" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="country" style="display:block; font-weight:600; margin-bottom:8px;">Country <span style="color:red">*</span></label>
+                            <input type="text" id="country" name="country" required placeholder="Country" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="province" style="display:block; font-weight:600; margin-bottom:8px;">State/Province <span style="color:red">*</span></label>
+                            <input type="text" id="province" name="province" required placeholder="State / Province" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="city" style="display:block; font-weight:600; margin-bottom:8px;">City <span style="color:red">*</span></label>
+                            <input type="text" id="city" name="city" required placeholder="City" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="address" style="display:block; font-weight:600; margin-bottom:8px;">Street Address <span style="color:red">*</span></label>
+                            <input type="text" id="address" name="address" required placeholder="Street Address" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <label for="postcode" style="display:block; font-weight:600; margin-bottom:8px;">Zip / Postal Code <span style="color:red">*</span></label>
+                            <input type="text" id="postcode" name="postcode" required placeholder="Zip / Postal Code" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                        </div>
+                        <div style="margin-bottom:2rem;">
+                            <label for="notes" style="display:block;font-weight:600;margin-bottom:8px;">Order Notes (Optional)</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Anything else we should know? (e.g. delivery preference)" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;"></textarea>
+                        </div>
+                        <button type="submit" class="checkout-btn" style="margin-top:1rem;width:100%;">Place Order</button>
+                    </form>
                 </div>
-
+                <!-- 订单摘要 -->
                 <div class="cart-summary">
                     <h2>Order Summary</h2>
                     <div class="summary-row">
                         <span>Subtotal</span>
-                        <span id="subtotal">$0.00</span>
+                        <span id="summary-subtotal">$129.80</span>
                     </div>
                     <div class="summary-row">
                         <span>Shipping</span>
-                        <!-- 物流选择 -->
-                        <select id="shipping-options">
-                            <option value="10">Standard Shipping - $9.9.00</option>
-                            <option value="20">Express Shipping - $19.9.00</option>
-                        </select>
-                        <span id="shipping">$10.00</span>
+                        <span id="summary-shipping">$0.00</span>
                     </div>
-                    <!-- <div class="summary-row">
+                    <div class="summary-row">
                         <span>Tax</span>
-                        <span id="tax">$0.00</span>
-                    </div> -->
-
-                    <div class="promo-code">
-                        <h3>Promo Code</h3>
-                        <div class="promo-input">
-                            <input type="text" placeholder="Enter promo code">
-                            <button>Apply</button>
-                        </div>
+                        <span id="summary-tax">$0.00</span>
                     </div>
-
                     <div class="summary-total">
                         <span>Total</span>
-                        <span id="total">$0.00</span>
+                        <span id="summary-total">$129.80</span>
                     </div>
-                    <!-- 结算按钮 -->
-                    <!-- <button class="checkout-btn">Proceed to Checkout</button> -->
-                    
-                    <div id="paypal-button-container"></div>
-                    <p id="result-message"></p>
-
                     <div class="payment-methods-icons">
                         <i class="fab fa-cc-visa"></i>
                         <i class="fab fa-cc-mastercard"></i>
@@ -119,36 +113,10 @@
                         <i class="fab fa-cc-paypal"></i>
                         <i class="fab fa-cc-discover"></i>
                     </div>
-
                     <div class="secure-checkout">
                         <i class="fas fa-lock"></i> Secure Checkout
                     </div>
                 </div>
-            </div>
-
-            <div class="suggested-products">
-                <h2>You Might Also Like</h2>
-                <div class="product-grid" id="suggested-products">
-                    <!-- 推荐产品将通过JavaScript动态生成 -->
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="newsletter">
-        <h3>Be the first to receive our latest news and exclusive deals!</h3>
-        <div class="newsletter-form">
-            <input type="email" placeholder="Email Address">
-            <button type="submit">Subscribe</button>
-        </div>
-        <div class="social-links">
-            <p>Follow Us</p>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook-f"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-youtube"></i></a>
-                <a href="#"><i class="fab fa-pinterest"></i></a>
             </div>
         </div>
     </section>
@@ -229,7 +197,6 @@
             </div>
         </div>
     </footer>
-
     <div class="chat-widget">
         <div class="chat-icon">
             <i class="fas fa-comments"></i>
@@ -237,24 +204,33 @@
         <div class="chat-text">Contact support</div>
     </div>
 
-    <!-- 弹窗联系我们 -->
-    <!-- <div id="custom-modal" class="custom-modal">
+    <!-- 下单成功弹窗 -->
+    <div id="order-modal" class="custom-modal">
         <div class="custom-modal-content">
-          <h2>Need help?</h2>
-          <p>🛎 In order to better confirm your order details and ensure timely shipment, please contact our customer service to complete the order process.</p>
-          <div class="modal-buttons">
-            <button id="contact-support">Contact Customer</button>
-            <button id="close-modal">Cancel</button>
-          </div>
+            <h2>Order Submitted!</h2>
+            <p>Thank you for your order. Our team will confirm and contact you soon.<br>Your gear adventure is about to begin.</p>
+            <div class="modal-buttons">
+                <button id="close-order-modal">OK</button>
+            </div>
         </div>
-      </div> -->
+    </div>
 
-
-    <!-- Initialize the JS-SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=test&buyer-country=US&currency=USD&components=buttons&enable-funding=venmo,paylater,card" data-sdk-integration-source="developer-studio"></script>
-    <!-- <script src="../js/app.js "></script> -->
-    <script src="../js/cart.js"></script>
-    <script src="../js/summer-sale.js"></script>
-    <script src="../script.js"></script>
+    <script>
+    // 简单表单校验+弹窗示范
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var valid = this.checkValidity();
+        if(valid){
+          document.getElementById('order-modal').style.display = 'flex';
+          window.scrollTo({top:0});
+        }else{
+          this.reportValidity();
+        }
+    });
+    document.getElementById('close-order-modal').onclick = function(){
+      document.getElementById('order-modal').style.display = 'none';
+      window.location.href = "../index.html";
+    }
+    </script>
 </body>
 </html>
