@@ -466,18 +466,18 @@ function calculateSubtotal(cart) {
 }
 
 // 计算运费
-// function calculateShipping(subtotal) {
-//     return subtotal > 49 ? 0 : 10;
-// }
-function calculateShipping(subtotal, selectedShippingCost) {
-    // 如果购物车小计大于49美元，免运费
-    if (subtotal > 49) {
-        return 0;  // 满49免运费
-    }
-
-    // 否则返回选择的运费（可以是标准或加急运费）
-    return selectedShippingCost;
+function calculateShipping(subtotal) {
+    return subtotal > 49 ? 0 : 10;
 }
+// function calculateShipping(subtotal, selectedShippingCost) {
+//     // 如果购物车小计大于49美元，免运费
+//     if (subtotal > 49) {
+//         return 0;  // 满49免运费
+//     }
+
+//     // 否则返回选择的运费（可以是标准或加急运费）
+//     return selectedShippingCost;
+// }
 
 // 计算税额
 // function calculateTax(subtotal) {
