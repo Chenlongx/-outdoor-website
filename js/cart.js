@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
                 // 计算购物车总金额
                 const subtotal = calculateSubtotal(cart); // 计算小计
+                console.log("计算小计" + subtotal)
                 const shipping = calculateShipping(subtotal); // 计算运费
                 const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
                 
@@ -127,8 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     console.log("交易完成！！！！！！！！！")
                     // 携带信息转跳至另一个页面，如果客户有相关的地址信息，自动填写进去，并且让客户确认是否正确，如错误可以自行修改
-                    
-
                     // window.location.href = '/thank-you';
                 });
             },
