@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const subtotal = calculateSubtotal(cart); // 计算小计
                 console.log("计算小计" + subtotal)
                 const shipping = calculateShipping(subtotal); // 计算运费
+                console.log("计算运费" + shipping)
                 const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
                 
                 // 需要返回后端验证商品的价格
