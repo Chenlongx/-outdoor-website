@@ -55,7 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 const subtotal = calculateSubtotal(cart); // 计算小计
                 const shipping = calculateShipping(subtotal); // 计算运费
                 const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
-    
+                
+                // 需要返回后端验证商品的价格
+
+
                 // 创建订单并返回给 PayPal
                 return actions.order.create({
                     purchase_units: [{
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             name: item.name,
                             unit_amount: {
                                 currency_code: 'USD',
-                                value: item.price.toFixed(2), // 商品单价
+                                value: parseFloat(item.price).toFixed(2), // 商品单价
                             },
                             quantity: item.quantity,
                         })),
@@ -89,21 +92,58 @@ document.addEventListener('DOMContentLoaded', function() {
             onApprove: async function(data, actions) {
                 // 处理支付成功的情况
                 return actions.order.capture().then(function(details) {
-                    alert('Transaction completed by ' + details.payer.name.given_name);
-                    // 可以在此处跳转到确认页面或显示其他支付成功信息
-                    window.location.href = '/thank-you'; // 例如跳转到感谢页面
+                    // 获取客户的昵称
+                    console.log("Payment details: ", JSON.stringify(details, null, 2));
+                    // 获取完整的收货地址信息
+                    const shippingAddress = details.purchase_units[0].shipping.address;
+            
+                    // 打印完整的收货地址信息
+                    // console.log('Shipping Address:', shippingAddress);
+
+                    // 客户信息
+                    const email_address = details.payer.email_address;
+                    const fullName = details.purchase_units[0].shipping.name.full_name;
+                    const given_name = details.payer.name.given_name;
+                    const surname = details.payer.name.surname;
+                    console.log('email:', email_address)
+                    console.log('Full Name:', fullName);
+                    console.log('given_name:', given_name)
+                    console.log('surname:', surname)
+                    
+                    // 获取并打印各个字段
+                    const streetAddress = shippingAddress.address_line_1 || 'Address not provided';
+                    const city = shippingAddress.admin_area_2 || 'City not provided';
+                    const state = shippingAddress.admin_area_1 || 'State not provided';
+                    const postalCode = shippingAddress.postal_code || 'Postal code not provided';
+                    const countryCode = shippingAddress.country_code || 'Country not provided';
+                    // 输出地址信息
+                    console.log('国家:', countryCode);
+                    console.log('城市:', city);
+                    console.log('街道地址:', streetAddress);
+                    console.log('邮政编码:', postalCode);
+                    console.log('状态:', state);
+                    // 交易成功后处理（比如跳转到感谢页面）
+                    // alert('交易完成 ' + details.payer.name.given_name);
+
+                    console.log("交易完成！！！！！！！！！")
+                    // 携带信息转跳至另一个页面，如果客户有相关的地址信息，自动填写进去，并且让客户确认是否正确，如错误可以自行修改
+                    
+
+                    // window.location.href = '/thank-you';
                 });
             },
     
             // 支付失败的处理
             onCancel: function(data) {
-                alert('Transaction was cancelled');
+                alert('交易已取消');
             },
     
             // 错误处理
             onError: function(error) {
-                console.error('Error during payment processing:', error);
-                alert('Something went wrong during the payment process');
+                // 付款失败转跳到whatsapp客户联系页面
+                console.error('付款处理过程中出现错误:', error);
+                // alert('付款过程中出现问题');
+                
             }
         });
     
@@ -311,6 +351,10 @@ function updateCartDisplay() {
 function handleCartItemClick(e) {
     const target = e.target.closest('button');
     if (!target) return;
+
+    // 尝试查找包含 cart-item 类的父元素
+    const cartItem = target.closest('.cart-item');
+    if (!cartItem) return;  // 如果没有找到，直接返回
 
     const productId = target.closest('.cart-item').dataset.productId;
 
