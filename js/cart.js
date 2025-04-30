@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     // 初始化推荐产品
-    initSuggestedProducts();
+    // initSuggestedProducts();
 
 
     // 转跳到弹窗页面
@@ -637,36 +637,39 @@ function updateCart() {
     updateCartDisplay();
 }
 
-// 初始化推荐产品
-function initSuggestedProducts() {
-    const addToCartButtons = document.querySelectorAll('.suggested-products .add-to-cart');
+// 初始化推荐产品（猜你喜欢）
+// function initSuggestedProducts() {
+//     const addToCartButtons = document.querySelectorAll('.suggested-products .add-to-cart');
 
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const productCard = this.closest('.product-card');
-            const productName = productCard.querySelector('h3').textContent;
+//     addToCartButtons.forEach(button => {
+//         button.addEventListener('click', function() {
+//             const productCard = this.closest('.product-card');
+//             const productName = productCard.querySelector('h3').textContent;
 
-            // Animation for adding to cart
-            button.textContent = 'ADDED!';
-            button.style.backgroundColor = 'var(--secondary-color)';
+//             // 加入购物车的动画
+//             button.textContent = 'ADDED!';
+//             button.style.backgroundColor = 'var(--secondary-color)';
 
-            // Show notification
-            showNotification(`${productName} added to cart!`, 'success');
+//             // 显示通知
+//             showNotification(`${productName} added to cart!`, 'success');
 
-            // Update cart count
-            const cartCount = document.querySelector('.cart-count');
-            if (cartCount) {
-                cartCount.textContent = (parseInt(cartCount.textContent) + 1).toString();
-            }
+//             // 更新购物车图标显示数量
+//             const cartCount = document.querySelector('.cart-count');
+//             if (cartCount) {
+//                 cartCount.textContent = (parseInt(cartCount.textContent) + 1).toString();
+//             }
             
-            // Reset button after 2 seconds
-            setTimeout(() => {
-                button.textContent = 'ADD TO CART';
-                button.style.backgroundColor = '';
-            }, 2000);
-        });
-    });
-}
+//             // 将点击添加到购物车的产品更新到容器上
+            
+
+//             // 2秒后重置按钮
+//             setTimeout(() => {
+//                 button.textContent = 'ADD TO CART';
+//                 button.style.backgroundColor = '';
+//             }, 2000);
+//         });
+//     });
+// }
 
 // 通知系统
 function showNotification(message, type = 'success') {
@@ -788,7 +791,7 @@ window.CartManager = window.CartManager || {
         return true;
     },
 
-    // Update cart count in header
+    // 更新标题中的购物车数量
     updateCartCount() {
         const cartItems = this.getCartItems();
         if (!Array.isArray(cartItems)) {
@@ -1075,6 +1078,40 @@ window.CartManager = window.CartManager || {
     // calculateTax(subtotal) {
     //     return subtotal * 0.08; // 8% tax
     // },
+
+    initSuggestedProducts() {
+        const addToCartButtons = document.querySelectorAll('.suggested-products .add-to-cart');
+    
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productCard = this.closest('.product-card');
+                const productName = productCard.querySelector('h3').textContent;
+    
+                // 加入购物车的动画
+                button.textContent = 'ADDED!';
+                button.style.backgroundColor = 'var(--secondary-color)';
+    
+                // 显示通知
+                showNotification(`${productName} added to cart!`, 'success');
+    
+                // 更新购物车图标显示数量
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) {
+                    cartCount.textContent = (parseInt(cartCount.textContent) + 1).toString();
+                }
+                
+                // 将点击添加到购物车的产品更新到容器上
+                console.log("点击推荐产品")
+    
+                // 2秒后重置按钮
+                setTimeout(() => {
+                    button.textContent = 'ADD TO CART';
+                    button.style.backgroundColor = '';
+                }, 2000);
+            });
+        });
+    },
+    
 
     // 初始化购物车
     init() {

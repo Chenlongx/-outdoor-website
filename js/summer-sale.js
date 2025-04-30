@@ -224,6 +224,95 @@ document.addEventListener('DOMContentLoaded', function() {
         return sortedProducts;
     }
 
+
+    // 更新购物车显示
+    function updateCartDisplay() {
+        const cartItemsContainer = document.getElementById('cart-items-container');
+        const cartItemCount = document.getElementById('cart-item-count');
+
+        const cart = getCart();
+
+        if (!cartItemsContainer) {
+            console.warn('cart-items-container not found');
+            return; // 直接返回，不执行后面
+        }
+        
+        cartItemsContainer.innerHTML = '';
+        if (cartItemCount) {
+            cartItemCount.textContent = Array.isArray(cart) ? cart.length : 0;
+        }
+        
+        if (!Array.isArray(cart) || cart.length === 0) {
+            cartItemsContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+            return;
+        }
+        
+        cart.forEach(item => {
+            const cartItem = createCartItemElement(item);
+            cartItemsContainer.appendChild(cartItem);
+        });
+
+        // 事件委托，避免重复绑定
+        cartItemsContainer.removeEventListener('click', handleCartItemClick); // 移除已有的事件监听器
+        cartItemsContainer.addEventListener('click', handleCartItemClick);  // 绑定新的事件监听器
+
+        // 添加事件委托
+        cartItemsContainer.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const productId = e.target.closest('.cart-item').dataset.productId;
+                updateQuantityInput(productId, e.target.value);
+            });
+        }, { once: true });
+    }
+
+
+    // 更新订单摘要
+    function updateOrderSummary() {
+        const cart = getCart();
+        const subtotal = calculateSubtotal(cart);
+        const shipping = calculateShipping(subtotal);
+        
+        // const tax = calculateTax(subtotal);
+        // const total = subtotal + shipping + tax;
+        // 确保 subtotal 和 shipping 都是有效的数值
+        if (isNaN(subtotal) || isNaN(shipping)) {
+            console.error("Subtotal or shipping is invalid");
+            return;
+        }
+        const total = subtotal + shipping;  // 只计算小计和运费
+
+        const subtotalElement = document.getElementById('subtotal');
+        const shippingElement = document.getElementById('shipping');
+        // const taxElement = document.getElementById('tax');
+        const totalElement = document.getElementById('total');
+
+        if (subtotalElement) {
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            console.log("shippingElement" + subtotal.toFixed(2))
+        } else {
+            console.warn('subtotal element not found');
+        }
+
+        if (shippingElement) {
+            shippingElement.textContent = `$${shipping.toFixed(2)}`;
+            console.log("shippingElement" + subtotal.toFixed(2));
+        } else {
+            console.warn('shipping element not found');
+        }
+
+        // if (taxElement) {
+        //     taxElement.textContent = `$${tax.toFixed(2)}`;
+        // } else {
+        //     console.warn('tax element not found');
+        // }
+
+        if (totalElement) {
+            totalElement.textContent = `$${total.toFixed(2)}`;
+        } else {
+            console.warn('total element not found');
+        }
+    }
+
     // 渲染产品
     function renderProducts(products) {
         const productGrid = document.querySelector('.product-grid');
@@ -295,6 +384,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // localStorage.setItem('currentProduct', JSON.stringify(product));
 
             addToCart(product);
+
+            // 更新页面信息
+            updateCartDisplay()
+
+            updateOrderSummary()
+            
         });
 
         return card;
@@ -442,6 +537,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // 显示添加成功提示
         showNotification(product.name +'Item has been added to cart');
     }
+
+
+
 
     // 更新购物车数量显示
     function updateCartCount() {
