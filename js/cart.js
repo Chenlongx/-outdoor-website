@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize cart functionality
     initCart();
-
     renderPayPalButton();
 
     // 继续购物按钮
@@ -22,24 +20,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 结帐按钮
-    // const checkoutBtn = document.querySelector('.checkout-btn');
-    // if (checkoutBtn) {
-    //     checkoutBtn.addEventListener('click', function() {
-    //         const cart = getCart();
-    //         if (cart.length === 0) {
-    //             showNotification('Shopping cart is empty', 'error');
-    //             return;
-    //         }
-    //         showNotification('Redirecting to checkout page...', 'info');
-    //         // In a real application, this would redirect to the checkout page
-    //     });
-    // }else {
-    //     console.warn('.checkout-btn not found');
-    // }
-
     // 渲染 PayPal 按钮
     async function renderPayPalButton() {
+        if (!window.paypal) {
+            console.error("PayPal SDK has not loaded.");
+            return;
+        }
         const paypalButtons = window.paypal.Buttons({
             style: {
                 shape: 'rect',
@@ -50,16 +36,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // 动态计算并传递总金额
             createOrder: async function(data, actions) {
                 const cart = getCart(); // 获取购物车信息
-    
-                // 计算购物车总金额
-                const subtotal = calculateSubtotal(cart); // 计算小计
-                console.log("计算小计" + subtotal)
-                const shipping = calculateShipping(subtotal); // 计算运费
-                console.log("计算运费" + shipping)
-                const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
-                
-                // 需要返回后端验证商品的价格
+                console.log("购物车的信息:", cart)
+                // 在客户端发送价格请求到后端进行验证
+                const response = await fetch('/.netlify/functions/validate-price', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ cart: cart }) // 将购物车信息发送到后端
+                });
 
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error('无法获取价格');
+                }
+
+                // 获取从后端返回的价格
+                const subtotal = result.subtotal;  // 从后端返回的小计
+                const shipping = result.shipping;  // 从后端返回的运费
+                const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
+
+                console.log("后端返回小计:", subtotal);
+                console.log("后端返回运费:", shipping);
+                console.log("后端返回的金额总价：", totalAmount)
+                // 将 totalAmount 存入 actions 中，供 onApprove 使用
+                // actions.totalAmount = totalAmount;
 
                 // 创建订单并返回给 PayPal
                 return actions.order.create({
@@ -78,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 },
                             },
                         },
+                        // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
+                        custom_id: totalAmount,
                         items: cart.map(item => ({
                             name: item.name,
                             unit_amount: {
@@ -93,9 +97,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // 支付成功后的处理
             onApprove: async function(data, actions) {
                 // 处理支付成功的情况
-                return actions.order.capture().then(function(details) {
+                return actions.order.capture().then(async function(details) {
+                    // 在 capture 完成后，从 details 中获取 totalAmount
+                    const totalAmount = details.purchase_units[0].custom_id;  // 这里获取 custom_id，即 totalAmount
+                    console.log("支付成功后的处理总金额", totalAmount);
                     // 获取客户的昵称
-                    console.log("Payment details: ", JSON.stringify(details, null, 2));
+                    // console.log("Payment details: ", JSON.stringify(details, null, 2));
                     // 获取完整的收货地址信息
                     const shippingAddress = details.purchase_units[0].shipping.address;
             
@@ -124,26 +131,76 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('街道地址:', streetAddress);
                     console.log('邮政编码:', postalCode);
                     console.log('状态:', state);
-                    // 交易成功后处理（比如跳转到感谢页面）
+                    
                     // alert('交易完成 ' + details.payer.name.given_name);
 
+                    // 存储客户订单数据到数据库中（发送到后端进行存储）
+                    const cart = getCart(); // 获取购物车信息
+                    // 创建订单对象
+                    const order = {
+                        full_name: fullName,  // 客户的全名
+                        email: email_address, // 客户的电子邮件
+                        address_line_1: streetAddress, // 客户的街道地址
+                        city: city,           // 客户的城市
+                        state: state,         // 客户的省州
+                        postal_code: postalCode,  // 客户的邮政编码
+                        country: countryCode,  // 客户的国家
+                        total_amount: totalAmount, // 总金额
+                    };
+                    
+                    const items = cart.map(item => ({
+                        id: item.id,   // 订单id
+                        name: item.name,    // 产品名称
+                        price: item.price,  // 产品价格
+                        description: item.description,  // 产品短语
+                        quantity: item.quantity, // 产品数量
+                    }));
+
+                    console.log("发送前，获取一下信息:", order)
+
+                    // 将订单信息发送到后端（Netlify Function）
+                    const response = await fetch('/.netlify/functions/store-order', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ order: order, items: items })
+                    });
+                    const result = await response.json(); // 获取返回的结果
+
+                    if (response.ok) {
+                        console.log('订单已成功保存:', result);
+                        // 存储 orderId 到 localStorage
+                        if (result.orderId) {
+                            localStorage.setItem('orderId', result.orderId);
+                        }
+                    }else {
+                        console.error('保存订单时出错:', result);
+                        showNotification('处理订单时出错。请重试。');
+                    }
                     console.log("交易完成！！！！！！！！！")
+
+                    // 将订单和商品信息存储到 localStorage
+                    localStorage.setItem('orderData', JSON.stringify(order));
+                    localStorage.setItem('orderItems', JSON.stringify(items));
                     // 携带信息转跳至另一个页面，如果客户有相关的地址信息，自动填写进去，并且让客户确认是否正确，如错误可以自行修改
-                    // window.location.href = '/thank-you';
+                    window.location.href = '../products/checkout.html';
                 });
             },
     
             // 支付失败的处理
             onCancel: function(data) {
-                alert('交易已取消');
+                // 交易已取消
+                showNotification('Transaction Cancelled');
             },
-    
+            
             // 错误处理
             onError: function(error) {
                 // 付款失败转跳到whatsapp客户联系页面
                 console.error('付款处理过程中出现错误:', error);
                 // alert('付款过程中出现问题');
-                
+                showNotification("Payment error, please contact online customer service")
+                // window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
             }
         });
     
@@ -151,27 +208,12 @@ document.addEventListener('DOMContentLoaded', function() {
         paypalButtons.render('#paypal-button-container');
     }
 
-    // 获取总金额
-    function getTotalAmount() {
-        const cart = getCart();
-        const subtotal = calculateSubtotal(cart);
-        const shippingCost = localStorage.getItem('shippingCost') || 10;  // 从 localStorage 获取运费
-        return (subtotal + parseFloat(shippingCost)).toFixed(2);  // 返回总金额（小计 + 运费）
-    }
 
     // 获取购物车数据
     function getCart() {
         const cart = localStorage.getItem('cart');
         return cart ? JSON.parse(cart) : [];
     }
-
-
-    // 向用户显示结果的示例函数。您可以使用您网站的 UI 库。
-    function resultMessage(message) {
-        const container = document.querySelector("#result-message");
-        container.innerHTML = message;
-    }
-
 
     // 监听运费选择变化
     // const shippingSelect = document.getElementById('shipping-options');
@@ -190,10 +232,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (promoInput && promoInput.value.trim()) {
                 // 获取用户输入的优惠码
                 const promoCode = promoInput.value.trim().toUpperCase();
-
-                // 获取产品的价格（计算好的价格），从localStorage中获取购物车的商品（商品的ID），然后提交到后端进行计算价格
-                // const cartItems = localStorage.getItem('cart');
-                // console.log(cartItems)
 
                 // 获取购物车中的所有商品
                 const cartItems = getCart();  // 假设你有一个getCart()函数返回购物车中的商品数组
@@ -250,10 +288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初始化推荐产品
     initSuggestedProducts();
 
-    // document.querySelector('.checkout-btn').addEventListener('click', function(e) {
-    //     e.preventDefault(); // 阻止正常提交
-    //     document.getElementById('custom-modal').style.display = 'flex'; // 显示弹窗
-    // });
+
     // 转跳到弹窗页面
     const checkoutbtn = document.querySelector('.checkout-btn');
     const modal = document.getElementById('custom-modal');
@@ -277,11 +312,6 @@ document.addEventListener('DOMContentLoaded', function() {
             closemodal.style.display = 'none';
         });
     }
-    
-    // document.getElementById('contact-support').addEventListener('click', function() {
-    //     // 跳转到你的 WhatsApp
-    //     window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
-    // });
 
     const contactBtn = document.getElementById('contact-support');
 
@@ -469,20 +499,7 @@ function calculateSubtotal(cart) {
 function calculateShipping(subtotal) {
     return subtotal > 49 ? 0 : 10;
 }
-// function calculateShipping(subtotal, selectedShippingCost) {
-//     // 如果购物车小计大于49美元，免运费
-//     if (subtotal > 49) {
-//         return 0;  // 满49免运费
-//     }
 
-//     // 否则返回选择的运费（可以是标准或加急运费）
-//     return selectedShippingCost;
-// }
-
-// 计算税额
-// function calculateTax(subtotal) {
-//     return subtotal * 0.08; // 8% tax
-// }
 
 // 获取购物车数据
 function getCart() {

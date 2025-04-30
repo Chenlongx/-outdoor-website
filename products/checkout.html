@@ -34,9 +34,9 @@
 
     <section class="page-header">
         <div class="container">
-            <h1>Checkout</h1>
+            <h1>Delivery information</h1>
             <div class="breadcrumb">
-                <a href="../index.html">Home</a> / <a href="cart.html">Cart</a> / <span>Checkout</span>
+                <a href="../index.html">Home</a> / <a href="cart.html">Cart</a> / <span>Delivery information</span>
             </div>
         </div>
     </section>
@@ -46,7 +46,7 @@
             <div class="cart-container">
                 <!-- 收货信息表单区 -->
                 <div class="cart-items">
-                    <h2>Delivery Information</h2>
+                    <h2>Confirm delivery information</h2>
                     <form id="checkout-form" autocomplete="on" novalidate>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="name" style="display:block; font-weight:600; margin-bottom:8px;">Full Name <span style="color:red">*</span></label>
@@ -54,7 +54,7 @@
                         </div>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="phone" style="display:block; font-weight:600; margin-bottom:8px;">Phone Number <span style="color:red">*</span></label>
-                            <input type="tel" id="phone" name="phone" required placeholder="Phone Number" pattern="[0-9\-\+\s]{6,}" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" pattern="[0-9\-\+\s]{6,}" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="email" style="display:block; font-weight:600; margin-bottom:8px;">Email <span style="color:red">*</span></label>
@@ -84,7 +84,7 @@
                             <label for="notes" style="display:block;font-weight:600;margin-bottom:8px;">Order Notes (Optional)</label>
                             <textarea id="notes" name="notes" rows="3" placeholder="Anything else we should know? (e.g. delivery preference)" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;"></textarea>
                         </div>
-                        <button type="submit" class="checkout-btn" style="margin-top:1rem;width:100%;">Place Order</button>
+                        <button type="submit" class="checkout-btn" style="margin-top:1rem;width:100%;">submit</button>
                     </form>
                 </div>
                 <!-- 订单摘要 -->
@@ -208,9 +208,9 @@
     <div id="order-modal" class="custom-modal">
         <div class="custom-modal-content">
             <h2>Order Submitted!</h2>
-            <p>Thank you for your order. Our team will confirm and contact you soon.<br>Your gear adventure is about to begin.</p>
+            <p>Thank you for your order. Your order is now confirmed and awaiting shipment. We will send you the tracking number via email once your order is dispatched.</p>
             <div class="modal-buttons">
-                <button id="close-order-modal">OK</button>
+                <button id="close-order-modal">Confirm</button>
             </div>
         </div>
     </div>
@@ -219,6 +219,20 @@
     // 简单表单校验+弹窗示范
     document.getElementById('checkout-form').addEventListener('submit', function(e) {
         e.preventDefault();
+
+        // 获取修改后的数据
+        const updatedOrder = {
+            full_name: document.getElementById('name').value,
+            phone_number: document.getElementById('phone').value,
+            email: document.getElementById('email').value,
+            country: document.getElementById('country').value,
+            state: document.getElementById('province').value,
+            city: document.getElementById('city').value,
+            address_line_1: document.getElementById('address').value,
+            postal_code: document.getElementById('postcode').value,
+            order_notes: document.getElementById('notes').value
+        };
+
         var valid = this.checkValidity();
         if(valid){
           document.getElementById('order-modal').style.display = 'flex';
@@ -226,11 +240,75 @@
         }else{
           this.reportValidity();
         }
+
+        const orderId = localStorage.getItem('orderId');
+        if (orderId) {
+            // 提交修改后的订单信息到后端
+            fetch(`/.netlify/functions/update_store-order`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                orderId: orderId,  // 订单ID
+                order: updatedOrder // 修改后的订单信息
+            })
+            })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Order updated:', data);
+            // 根据返回的信息可以显示成功通知或跳转页面
+            alert('Order updated successfully!');
+            })
+            .catch(error => {
+            console.error('Error updating order:', error);
+            alert('Failed to update order. Please try again.');
+            });
+        }
     });
     document.getElementById('close-order-modal').onclick = function(){
       document.getElementById('order-modal').style.display = 'none';
       window.location.href = "../index.html";
     }
+
+    window.onload = function() {
+        // 从 localStorage 获取订单信息和商品信息
+        const orderData = JSON.parse(localStorage.getItem('orderData'));
+        const orderItems = JSON.parse(localStorage.getItem('orderItems'));
+        console.log("localStorage orderData: ", orderData)
+        if (orderData && orderItems) {
+            // 填充表单字段
+            document.getElementById('name').value = orderData.full_name;
+            document.getElementById('email').value = orderData.email;
+            document.getElementById('country').value = orderData.country;
+            document.getElementById('province').value = orderData.state;
+            document.getElementById('city').value = orderData.city;
+            document.getElementById('address').value = orderData.address_line_1;
+            document.getElementById('postcode').value = orderData.postal_code;
+
+            // 更新订单摘要
+            document.getElementById('summary-subtotal').textContent = `$${orderData.total_amount}`;
+            document.getElementById('summary-shipping').textContent = `$0.00`;  // 如果有运费，可以替换
+            document.getElementById('summary-tax').textContent = `$0.00`;  // 如果有税费，可以替换
+            document.getElementById('summary-total').textContent = `$${orderData.total_amount}`;
+
+            // 在订单摘要中显示商品列表
+            let itemsList = '';
+            orderItems.forEach(item => {
+                itemsList += `
+                    <div class="summary-row">
+                        <span>${item.name} (${item.quantity})</span>
+                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                `;
+            });
+
+            // 添加商品到摘要区域
+            document.querySelector('.cart-summary').insertAdjacentHTML('beforeend', itemsList);
+        } else {
+            console.error('No order data found in localStorage');
+        }
+    };
     </script>
 </body>
 </html>
