@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 更新页面标题
             document.title = `${product.name} | WildGear`;
 
-            console.log("获取到的数据" + product)
+            // console.log("获取到的数据: " + JSON.stringify(product, null, 2));
             console.log(parseFloat(product.final_price).toFixed(2))
             // 更新产品信息
             const productImage = document.querySelector('.main-image img');
@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const discountBadge =  document.querySelector('.discount-badge');
             const productStock = document.querySelector('.product-stock');
             const productDescription = document.querySelector('.product-description');
+
+            // 展示型号选择
+            const productVariants = document.querySelector('.product-variants');
+
 
             if (productImage) productImage.src = product.image_url;
             if (productName) productName.textContent = product.name;
@@ -69,27 +73,70 @@ document.addEventListener('DOMContentLoaded', function() {
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
             if (productDescription) productDescription.textContent = product.description;
 
+            if (productVariants && Array.isArray(product.variant_options) && product.variant_options.length > 0) {
+                // console.log("获取到的型号选项:", product.variant_options);
+                // 清空原有内容（避免重复插入）
+                productVariants.innerHTML = '';
+                product.variant_options.forEach(variant => {
+                    // 创建变体组容器
+                    const group = document.createElement('div');
+                    group.className = 'variant-group';
+
+                    // 创建 label
+                    const label = document.createElement('label');
+                    label.textContent = `${variant.label.charAt(0).toUpperCase() + variant.label.slice(1)}: `;
+                    label.setAttribute('for', `${variant.label}-select`);
+
+                    // 创建 select
+                    const select = document.createElement('select');
+                    select.id = `${variant.label}-select`;
+                    select.name = variant.label;
+
+                    // 填充选项
+                    variant.options.forEach(option => {
+                        const opt = document.createElement('option');
+                        opt.value = option;
+                        opt.textContent = option;
+                        select.appendChild(opt);
+                    });
+
+                    // 添加到 group
+                    group.appendChild(label);
+                    group.appendChild(select);
+            
+                    // 添加到页面容器
+                    productVariants.appendChild(group);
+
+                })
+            }
+
             // 设置加入购物车按钮的事件监听器
             const addToCartBtn = document.querySelector('.add-to-cart-btn');
             if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', () => {
-                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                addToCartBtn.addEventListener('click', (e) => {
+                    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-                    const existingItem = cart.find(item => item.id === product.id);
+                    // const existingItem = cart.find(item => item.id === product.id);
+                    
+                    // if (existingItem) {
+                    //     existingItem.quantity += 1; // 如果已存在，增加数量
+                    // } else {
+                    //     const productToAdd = {
+                    //         ...product,
+                    //         image: product.image_url, // 确保使用image_url作为image属性
+                    //         price: product.final_price,  // 确保添加折扣后的价格
+                    //         quantity: 1
+                    //     };
+                    //     cart.push(productToAdd);
+                    // }
+                    // localStorage.setItem('cart', JSON.stringify(cart));
+                    // console.log(`${product.name} 已经添加到购物车`)
+                    e.stopPropagation();
 
-                    if (existingItem) {
-                        existingItem.quantity += 1; // 如果已存在，增加数量
-                    } else {
-                        const productToAdd = {
-                            ...product,
-                            image: product.image_url, // 确保使用image_url作为image属性
-                            price: product.final_price,  // 确保添加折扣后的价格
-                            quantity: 1
-                        };
-                        cart.push(productToAdd);
-                    }
-                    localStorage.setItem('cart', JSON.stringify(cart));
-                    console.log(`${product.name} 已经添加到购物车`)
+                    // 存储当前点击的产品信息到 localStorage
+                    // localStorage.setItem('currentProduct', JSON.stringify(product));
+                    console.log("储存前的数据：", product)
+                    addToCart(product);
                     showNotification(`${product.name} Added to cart`);
                 });
             }
@@ -502,6 +549,8 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Failed to obtain product information, please try again later');
     });
 
+
+    // 封装显示消息方法
     function showNotification(message) {
         // Check if notification container exists
         let notificationContainer = document.querySelector('.notification-container');
@@ -614,4 +663,35 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('获取推荐产品数据失败:', error);
             });
     }
+
+    // 添加商品到购物车
+    function addToCart(product) {
+        // 获取购物车数据
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        const existingItem = cart.find(item => item.id === product.id);
+        
+        if (existingItem) {
+            // 如果产品已在购物车中，增加数量
+            existingItem.quantity += 1;
+        } else {
+            // 如果产品不在购物车中，直接添加整个 product 对象
+            // product.quantity = 1; // 默认数量为 1
+            // cart.push(product);
+            // 把产品所有字段都保存进去，但价格字段用打折价 final_price
+            const productToCart = {
+                ...product,
+                price: parseFloat(product.final_price).toFixed(2), // 覆盖原price为折扣价
+                quantity: 1 // 新增 quantity 字段
+            };
+
+            cart.push(productToCart);
+        }
+        
+        // 保存购物车数据
+        console.log(product)
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
 });

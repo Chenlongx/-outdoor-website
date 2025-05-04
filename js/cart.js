@@ -373,7 +373,7 @@ function updateCartDisplay() {
             const productId = e.target.closest('.cart-item').dataset.productId;
             updateQuantityInput(productId, e.target.value);
         });
-    }, { once: true });
+    });
 }
 
 
@@ -890,7 +890,7 @@ window.CartManager = window.CartManager || {
             const total = price * (parseInt(item.quantity || 1));
             
             cartHTML += `
-                <div class="cart-item" data-id="${item.id}">
+                <div class="cart-item" data-product-id="${item.id}">
                     <div class="item-image">
                         <img src="${imagePath}" alt="${item.name || 'Product'}" 
                              onerror="this.src='https://via.placeholder.com/150x150?text=No+Image'">

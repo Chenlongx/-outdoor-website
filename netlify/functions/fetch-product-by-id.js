@@ -32,6 +32,7 @@ exports.handler = async function (event, context) {
         discount,
         product_details_url,
         details,
+        variant_options,
         product_categories (
           categories (
             name
