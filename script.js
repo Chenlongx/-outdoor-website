@@ -36,6 +36,16 @@ mobileMenuBtn.addEventListener('click', () => {
         mobileMenu.appendChild(closeBtn);
         mobileMenu.appendChild(navLinksClone);
 
+        // 点击菜单项后关闭移动菜单
+        const navAnchors = navLinksClone.querySelectorAll('a');
+        navAnchors.forEach(anchor => {
+            anchor.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenu.style.transform = 'translateX(-100%)';
+                document.body.style.overflow = 'auto';
+            });
+        });
+
         // Clone nav actions
         const actionsContainer = document.createElement('div');
         actionsContainer.classList.add('mobile-actions');

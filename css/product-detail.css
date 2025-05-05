@@ -270,14 +270,34 @@
     gap: 20px;
     flex-wrap: wrap;
 }
-.variant-group label {
-    margin-right: 8px;
-    font-weight: bold;
-}
-.variant-group select {
-    padding: 4px 8px;
+
+.variant-group {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    min-width: 150px;
 }
 
+.variant-group label {
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: #444;
+}
+
+.variant-group select {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.variant-group select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
 
 .current-price {
     font-size: 1.75rem;

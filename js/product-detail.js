@@ -113,24 +113,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // 设置加入购物车按钮的事件监听器
             const addToCartBtn = document.querySelector('.add-to-cart-btn');
             if (addToCartBtn) {
+                product.id = productId; // 设置 id，用于购物车追踪
                 addToCartBtn.addEventListener('click', (e) => {
-                    // let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-                    // const existingItem = cart.find(item => item.id === product.id);
-                    
-                    // if (existingItem) {
-                    //     existingItem.quantity += 1; // 如果已存在，增加数量
-                    // } else {
-                    //     const productToAdd = {
-                    //         ...product,
-                    //         image: product.image_url, // 确保使用image_url作为image属性
-                    //         price: product.final_price,  // 确保添加折扣后的价格
-                    //         quantity: 1
-                    //     };
-                    //     cart.push(productToAdd);
-                    // }
-                    // localStorage.setItem('cart', JSON.stringify(cart));
-                    // console.log(`${product.name} 已经添加到购物车`)
                     e.stopPropagation();
 
                     // 存储当前点击的产品信息到 localStorage
@@ -668,6 +652,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function addToCart(product) {
         // 获取购物车数据
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        console.log("获取购物车数据" + cart)
+
+        // 获取用户选择的颜色
+        const selectedColor = document.getElementById('color-select')?.value || '';
 
         const existingItem = cart.find(item => item.id === product.id);
         
@@ -682,7 +670,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const productToCart = {
                 ...product,
                 price: parseFloat(product.final_price).toFixed(2), // 覆盖原price为折扣价
-                quantity: 1 // 新增 quantity 字段
+                quantity: 1, // 新增 quantity 字段
+                selectedColor // 添加用户选择的颜色
             };
 
             cart.push(productToCart);

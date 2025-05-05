@@ -123,6 +123,13 @@
     margin-bottom: 0.75rem;
 }
 
+.selected-color {
+    display: inline-block;
+    margin-left: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
 .remove-item, .save-for-later {
     background: none;
     border: none;

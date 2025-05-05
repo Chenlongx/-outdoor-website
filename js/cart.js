@@ -19,6 +19,32 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Shopping cart updated');
         });
     }
+    // ✅ 添加：监听 variant-select 的变化，更新 localStorage 中的 selectedColor
+    document.querySelectorAll('.variant-select').forEach(select => {
+        select.addEventListener('change', function () {
+            const productId = this.dataset.productId;
+            const variantLabel = this.dataset.variant;
+            const selectedValue = this.value;
+    
+            console.log('Clicked select element:', this); // 输出完整 select 元素
+            console.log('Selected option value:', selectedValue); // 输出所选值
+            console.log('Selected option text:', this.options[this.selectedIndex].text); // 输出所选文本
+    
+            let cart = window.CartManager.getCartItems();
+            const item = cart.find(p => p.id === productId);
+    
+            if (item) {
+                if (variantLabel === 'color') {
+                    item.selectedColor = selectedValue;
+                    console.log(`Updated ${item.name} color to: ${selectedValue}`);
+                }
+    
+                window.CartManager.saveCartItems(cart);
+            } else {
+                console.warn(`Product with id ${productId} not found in cart.`);
+            }
+        });
+    });
 
     // 渲染 PayPal 按钮
     async function renderPayPalButton() {
@@ -403,6 +429,9 @@ function handleCartItemClick(e) {
 
 // 创建购物车商品元素
 function createCartItemElement(item) {
+    console.log("创建的购物车元素：", item)
+    console.log("selectedColor 渲染测试：", item.selectedColor);
+    console.log("attributes 渲染测试：", item.attributes)
     const div = document.createElement('div');
     div.className = 'cart-item';
     div.dataset.productId = item.id;
@@ -414,7 +443,9 @@ function createCartItemElement(item) {
         </div>
         <div class="item-details">
             <h3>${item.name}</h3>
-            <p class="item-attributes">${item.attributes || ''}</p>
+            <p class="item-attributes">
+            ${item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : '无颜色'}
+            </p>
             <button class="remove-item">
                 <i class="fas fa-trash-alt"></i> Remove
             </button>
@@ -505,7 +536,21 @@ function calculateShipping(subtotal) {
 function getCart() {
     const cart = localStorage.getItem('cart');
     try {
-        return cart ? JSON.parse(cart) : [];
+        const parsedCart = cart ? JSON.parse(cart) : [];
+        
+        console.log('购物车中的商品如下:');
+        parsedCart.forEach((item, index) => {
+            console.log(`第 ${index + 1} 个商品:`);
+            console.log('ID:', item.id);
+            console.log('名称:', item.name);
+            console.log('数量:', item.quantity);
+            console.log('价格:', item.price);
+            console.log('所选颜色 (selectedColor):', item.selectedColor || '未指定');
+            console.log('---');
+        });
+
+        return parsedCart;
+        // return cart ? JSON.parse(cart) : [];
     } catch (e) {
         console.error('Error parsing cart data:', e);
         return [];
@@ -637,39 +682,6 @@ function updateCart() {
     updateCartDisplay();
 }
 
-// 初始化推荐产品（猜你喜欢）
-// function initSuggestedProducts() {
-//     const addToCartButtons = document.querySelectorAll('.suggested-products .add-to-cart');
-
-//     addToCartButtons.forEach(button => {
-//         button.addEventListener('click', function() {
-//             const productCard = this.closest('.product-card');
-//             const productName = productCard.querySelector('h3').textContent;
-
-//             // 加入购物车的动画
-//             button.textContent = 'ADDED!';
-//             button.style.backgroundColor = 'var(--secondary-color)';
-
-//             // 显示通知
-//             showNotification(`${productName} added to cart!`, 'success');
-
-//             // 更新购物车图标显示数量
-//             const cartCount = document.querySelector('.cart-count');
-//             if (cartCount) {
-//                 cartCount.textContent = (parseInt(cartCount.textContent) + 1).toString();
-//             }
-            
-//             // 将点击添加到购物车的产品更新到容器上
-            
-
-//             // 2秒后重置按钮
-//             setTimeout(() => {
-//                 button.textContent = 'ADD TO CART';
-//                 button.style.backgroundColor = '';
-//             }, 2000);
-//         });
-//     });
-// }
 
 // 通知系统
 function showNotification(message, type = 'success') {
@@ -743,6 +755,35 @@ function showNotification(message, type = 'success') {
     }, 3000);
 }
 
+// 添加辅助函数
+function generateVariantSelectHTML(item) {
+    if (!item.variant_options || !Array.isArray(item.variant_options) || item.variant_options.length === 0) {
+        return '<p class="item-attributes">No variants</p>';
+    }
+
+    return item.variant_options.map(variant => {
+        console.log('生成 select 时的 item.id:', item);
+        const label = variant.label;
+        const options = variant.options || [];
+        const selectId = `variant-${label}-${item.id}`;
+
+        const optionsHTML = options.map(option => {
+            const selected = (option === item.selectedColor) ? 'selected' : '';
+            return `<option value="${option}" ${selected}>${option}</option>`;
+        }).join('');
+
+        return `
+            <div class="variant-group">
+                <label for="${selectId}">${label.charAt(0).toUpperCase() + label.slice(1)}:</label>
+                <select class="variant-select" id="${selectId}" data-product-id="${item.id}" data-variant="${label}">
+                    ${optionsHTML}
+                </select>
+            </div>
+        `;
+    }).join('');
+}
+
+
 // 购物车管理核心功能
 window.CartManager = window.CartManager || {
     // Get cart items from localStorage
@@ -767,7 +808,7 @@ window.CartManager = window.CartManager || {
         this.updateCartUI();
     },
 
-    // Add item to cart
+    // 添加到购物车
     addToCart(product) {
         const cartItems = this.getCartItems();
         const existingItem = cartItems.find(item => item.id === product.id);
@@ -898,14 +939,13 @@ window.CartManager = window.CartManager || {
                     <div class="item-details">
                         <h3>${item.name || 'Unnamed Product'}</h3>
                         <p class="item-attributes">
-                            ${item.color ? `Color: ${item.color}` : ''}
-                            ${item.size ? ` | Size: ${item.size}` : ''}
+                        ${generateVariantSelectHTML(item)}
                         </p>
                         <button class="remove-item"><i class="fas fa-trash-alt"></i> Remove</button>
                         <button class="save-for-later"><i class="far fa-heart"></i> Save for Later</button>
                     </div>
                     <div class="item-price">$${price.toFixed(2)}</div>
-                    <div class="item-quantity">
+                    <div class="item-quantity"> 
                         <button class="quantity-btn decrease">-</button>
                         <input type="number" value="${item.quantity || 1}" min="1" max="10">
                         <button class="quantity-btn increase">+</button>
@@ -1123,6 +1163,7 @@ window.CartManager = window.CartManager || {
 // 当DOM加载完成后初始化购物车
 document.addEventListener('DOMContentLoaded', function() {
     CartManager.init();
+
 });
 
 // 申请折扣
