@@ -444,7 +444,7 @@ function createCartItemElement(item) {
         <div class="item-details">
             <h3>${item.name}</h3>
             <p class="item-attributes">
-            ${item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : '无颜色'}
+            ${item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : 'No specifications'}
             </p>
             <button class="remove-item">
                 <i class="fas fa-trash-alt"></i> Remove
@@ -578,7 +578,8 @@ function updateQuantity(productId, change) {
     let cart = getCart();
     const item = cart.find(item => item.id === productId);
     if (item) {
-        item.quantity = Math.max(1, Math.min(10, item.quantity + change));
+        const maxQty = item.stock || 10;  // 如果有 stock 字段就用它，否则默认10
+        item.quantity = Math.max(1, Math.min(maxQty, item.quantity + change));
         saveCart(cart);
         updateCartDisplay();
         updateOrderSummary();
