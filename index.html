@@ -35,15 +35,61 @@
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
-          "@type": "Organization",
-          "name": "WildGear",
-          "url": "https://summitgearhub.com/",
-          "logo": "https://summitgearhub.com/img/logo.svg",
-          "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://summitgearhub.com/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-          }
+          "@graph": [
+            {
+              "@type": "Organization",
+              "@id": "https://summitgearhub.com/#organization",
+              "name": "WildGear",
+              "url": "https://summitgearhub.com/",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://summitgearhub.com/img/logo.svg",
+                "width": 200,
+                "height": 60
+              },
+              "sameAs": [
+                "https://www.facebook.com/profile.php?id=100089727983737",
+                "https://www.instagram.com/summitgearhub",
+                "https://x.com/summitgearhub",
+                "https://www.youtube.com/@summitgearhub"
+              ],
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-800-945-3432",
+                "contactType": "Customer Support",
+                "areaServed": "US",
+                "availableLanguage": ["English"]
+              }
+            },
+            {
+              "@type": "WebSite",
+              "@id": "https://summitgearhub.com/#website",
+              "url": "https://summitgearhub.com/",
+              "name": "WildGear | Outdoor Adventure Gear for Hiking, Camping & Climbing",
+              "publisher": {
+                "@id": "https://summitgearhub.com/#organization"
+              },
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://summitgearhub.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              }
+            },
+            {
+              "@type": "WebPage",
+              "@id": "https://summitgearhub.com/#webpage",
+              "url": "https://summitgearhub.com/",
+              "name": "WildGear | Outdoor Adventure Gear for Hiking, Camping & Climbing",
+              "description": "Shop WildGear's premium selection of hiking, camping, and outdoor adventure equipment. Discover top deals on reliable gear for every journey.",
+              "inLanguage": "en",
+              "isPartOf": {
+                "@id": "https://summitgearhub.com/#website"
+              },
+              "about": {
+                "@id": "https://summitgearhub.com/#organization"
+              }
+            }
+          ]
         }
     </script>
 </head>
@@ -358,11 +404,10 @@
         <div class="social-links" aria-label="Follow us on social media">
             <p>Follow Us</p>
             <div class="social-icons">
-                <a href="#" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Follow us on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Follow us on YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
-                <a href="#" aria-label="Follow us on Pinterest"><i class="fab fa-pinterest" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100089727983737&mibextid=ZbWKwL" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/summitgearhub?igsh=MWZmb29iaXo2MWVzbw==" aria-label="Follow us on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://x.com/summitgearhub" aria-label="Follow us on Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                <a href="https://youtube.com/@summitgearhub?si=8L46WJOF9V52lfkB" aria-label="Follow us on YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
             </div>
         </div>
     </section>
@@ -409,19 +454,19 @@
             <div class="footer-column">
                 <h4>Learn</h4>
                 <ul>
-                    <li><a href="/products/skills.html">Outdoor Skills</a></li>
-                    <li><a href="/products/survival Skills.html">Survival Techniques</a></li>
+                    <li><a href="products/skills.html">Outdoor Skills</a></li>
+                    <li><a href="products/survival Skills.html">Survival Techniques</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="./products/support.html">Contact Us</a></li>
-                    <li><a href="./products/faq.html">FAQ</a></li>
-                    <li><a href="./products/shipping-info.html">Shipping Info</a></li>
-                    <li><a href="#">Returns & Warranty</a></li>
-                    <li><a href="./products/size-chart.html">Size Charts</a></li>
-                    <li><a href="./products/care-Instructions.html">Care Instructions</a></li>
+                    <li><a href="products/support.html">Contact Us</a></li>
+                    <li><a href="products/faq.html">FAQ</a></li>
+                    <li><a href="products/shipping-info.html">Shipping Info</a></li>
+                    <li><a href="products/support.html">Returns & Warranty</a></li>
+                    <li><a href="products/size-chart.html">Size Charts</a></li>
+                    <li><a href="products/care-Instructions.html">Care Instructions</a></li>
                 </ul>
             </div>
         </div>
@@ -430,10 +475,10 @@
                 <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" loading="lazy" alt="Payment Methods">
             </div>
             <div class="footer-links">
-                <a href="./products/privacy-policy.html">Privacy Policy</a>
-                <a href="./products/terms-of-service.html">Terms of Service</a>
-                <a href="#">Accessibility</a>
-                <a href="./products/visual-sitemap.html">Sitemap</a>
+                <a href="products/privacy-policy.html">Privacy Policy</a>
+                <a href="products/terms-of-service.html">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="alert('This feature is not available yet'); return false;">Accessibility</a>
+                <a href="products/visual-sitemap.html">Sitemap</a>
             </div>
             <div class="copyright">
                 <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>

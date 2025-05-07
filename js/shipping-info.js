@@ -1,5 +1,3 @@
-// Shipping Information Page JavaScript
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tabs for international shipping
     initTabs();
@@ -229,7 +227,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Mobile menu functionality
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+let mobileMenuBtn = document.querySelector('.mobile-menu-btn');
 
 if (mobileMenuBtn) {
     mobileMenuBtn.addEventListener('click', () => {

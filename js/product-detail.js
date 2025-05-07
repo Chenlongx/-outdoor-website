@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     const select = document.createElement('select');
                     select.id = `${variant.label}-select`;
                     select.name = variant.label;
+                    select.style.width = '150px'; // 设置宽度为 150px
 
                     // 填充选项
                     variant.options.forEach(option => {

@@ -2,7 +2,7 @@
 
 /* Page Banner */
 .page-banner {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/shipping-banner.jpg');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/size-chart/size-chart-background.webp');
     background-size: cover;
     background-position: center;
     padding: 4rem 2rem;
@@ -17,38 +17,6 @@
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-}
-
-.breadcrumb {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.breadcrumb ol {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.breadcrumb li:not(:last-child)::after {
-    content: '/';
-    margin-left: 0.5rem;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-.breadcrumb a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.breadcrumb a:hover {
-    color: var(--accent-color);
 }
 
 /* Main Container */
