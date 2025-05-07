@@ -489,6 +489,7 @@
     max-width: 600px;
     margin: 0 auto;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .blog-subscribe-form input {

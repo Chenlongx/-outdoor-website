@@ -1,30 +1,57 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
+    <!-- 元字符集和视口 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Outdoor Products | Camping, Hiking, Climbing Gear | WildGear</title>
+
+    <!-- 优化标题和元描述以达到 SEO 的效果 -->
+    <title>Shop Outdoor Gear | Camping, Hiking, Climbing Equipment | WildGear</title>
+    <meta name="description" content="Discover high-quality outdoor gear at WildGear. Browse tents, backpacks, hiking boots, camping supplies, and survival tools for your next adventure.">
+
+    <!-- 规范网址 -->
+    <link rel="canonical" href="https://summitgearhub.com/products/">
+
+    <!-- 样式表-->
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/product-styles.css">
-    <meta name="description" content="Browse WildGear's full selection of outdoor adventure products. Find tents, backpacks, apparel, and gear for camping, hiking, fishing, and more.">
-    <link rel="canonical" href="https://summitgearhub.com/products/">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- SEO的结构化数据：CollectionPage -->
     <script type="application/ld+json">
         {
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "All Products | WildGear",
-          "description": "Explore a wide variety of outdoor gear including tents, jackets, and survival kits.",
-          "url": "https://summitgearhub.com/products/"
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "WildGear Outdoor Products",
+            "description": "High-quality outdoor gear for camping, hiking, climbing, and fishing.",
+            "url": "https://summitgearhub.com/products/",
+            "breadcrumb": {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://summitgearhub.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Products",
+                        "item": "https://summitgearhub.com/products/"
+                    }
+                ]
+            }
         }
-    </script>
+        </script>
+        <!-- Supabase CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <!-- 头部导航 -->
     <header>
         <div class="announcement-bar">
-            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="products/summer-sale.html" class="btn-small">Shop Now</a></p>
             <div class="countdown" id="countdown">
                 <span class="time-unit">
                     <span id="days">00</span>d
@@ -124,16 +151,16 @@
             <div class="footer-column">
                 <h4>Products</h4>
                 <ul>
-                    <li><a href="./products/summer-sale.html">Sale</a></li>
-                    <li><a href="#">New Releases</a></li>
-                    <li><a href="#">Camping Gear</a></li>
-                    <li><a href="#">Hiking Equipment</a></li>
-                    <li><a href="#">Climbing Tools</a></li>
-                    <li><a href="#">Fishing Gear</a></li>
-                    <li><a href="#">Water Sports</a></li>
-                    <li><a href="#">Apparel</a></li>
-                    <li><a href="#">Footwear</a></li>
-                    <li><a href="#">Accessories</a></li>
+                    <li><a href="https://summitgearhub.com/products/summer-sale.html" aria-label="View products on sale">Sale</a></li>
+                    <li><a href="https://summitgearhub.com/products/index.html" aria-label="Check out the new releases">New Releases</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=Camping">Camping Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking Equipment</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing Tools</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Water Sports</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=apparel">Apparel</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=footwear">Footwear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=accessories">Accessories</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -161,22 +188,19 @@
             <div class="footer-column">
                 <h4>Learn</h4>
                 <ul>
-                    <li><a href="#">Outdoor Skills</a></li>
-                    <li><a href="#">Survival Techniques</a></li>
-                    <li><a href="#">Gear Guides</a></li>
-                    <li><a href="#">Trail Maps</a></li>
-                    <li><a href="#">Weather Preparation</a></li>
+                    <li><a href="products/skills.html">Outdoor Skills</a></li>
+                    <li><a href="products/survival Skills.html">Survival Techniques</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="./products/support.html">Contact Us</a></li>
-                    <li><a href="./products/faq.html">FAQ</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns & Warranty</a></li>
-                    <li><a href="#">Size Charts</a></li>
-                    <li><a href="#">Care Instructions</a></li>
+                    <li><a href="support.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="shipping-info.html">Shipping Info</a></li>
+                    <li><a href="support.html">Returns & Warranty</a></li>
+                    <li><a href="size-chart.html">Size Charts</a></li>
+                    <li><a href="care-Instructions.html">Care Instructions</a></li>
                 </ul>
             </div>
         </div>
@@ -185,10 +209,10 @@
                 <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
             </div>
             <div class="footer-links">
-                <a href="./products/privacy-policy.html">Privacy Policy</a>
-                <a href="./products/terms-of-service.html">Terms of Service</a>
-                <a href="#">Accessibility</a>
-                <a href="./products/visual-sitemap.html">Sitemap</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="alert('This feature is not available yet'); return false;">Accessibility</a>
+                <a href="visual-sitemap.html">Sitemap</a>
             </div>
             <div class="copyright">
                 <p>&copy; 2025 WildGear Outdoor Equipment. All Rights Reserved.</p>
