@@ -117,6 +117,10 @@
     max-height: 3em;               /* 2行 x 1.5em */
 }
 
+.variant-select {
+    width: 200px;
+}
+
 .item-attributes {
     font-size: 0.9rem;
     color: var(--gray-color);
