@@ -31,12 +31,15 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Selected option text:', this.options[this.selectedIndex].text); // 输出所选文本
     
             let cart = window.CartManager.getCartItems();
-            const item = cart.find(p => p.id === productId);
+            // const item = cart.find(p => p.id === productId);
+            const item = cart.find(p => String(p.id) === String(productId));
     
             if (item) {
                 if (variantLabel === 'color') {
                     item.selectedColor = selectedValue;
                     console.log(`Updated ${item.name} color to: ${selectedValue}`);
+                    window.CartManager.saveCartItems(cart);
+                    updateCartDisplay(); // 刷新购物车显示
                 }
     
                 window.CartManager.saveCartItems(cart);
@@ -45,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    
 
     // 渲染 PayPal 按钮
     async function renderPayPalButton() {
@@ -59,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: 'gold',
                 label: 'paypal',
             },
+            locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
             // 动态计算并传递总金额
             createOrder: async function(data, actions) {
                 const cart = getCart(); // 获取购物车信息
@@ -461,7 +467,6 @@ function createCartItemElement(item) {
         </div>
         <div class="item-total">$${(parseFloat(item.price) * item.quantity).toFixed(2)}</div>
     `;
-    
     return div;
 }
 
@@ -471,8 +476,6 @@ function updateOrderSummary() {
     const subtotal = calculateSubtotal(cart);
     const shipping = calculateShipping(subtotal);
     
-    // const tax = calculateTax(subtotal);
-    // const total = subtotal + shipping + tax;
     // 确保 subtotal 和 shipping 都是有效的数值
     if (isNaN(subtotal) || isNaN(shipping)) {
         console.error("Subtotal or shipping is invalid");
@@ -499,17 +502,61 @@ function updateOrderSummary() {
         console.warn('shipping element not found');
     }
 
-    // if (taxElement) {
-    //     taxElement.textContent = `$${tax.toFixed(2)}`;
-    // } else {
-    //     console.warn('tax element not found');
-    // }
-
     if (totalElement) {
         totalElement.textContent = `$${total.toFixed(2)}`;
     } else {
         console.warn('total element not found');
     }
+
+
+    // —— 同步每一行的“规格”显示 ——  
+    cart.forEach(item => {
+        const cartItemEl = document.querySelector(`.cart-item[data-product-id="${item.id}"]`);
+        if (!cartItemEl) return;
+
+        // 在这里判断是否已经有class="variant-group"，就跳过 ——  
+        if (cartItemEl.querySelector('.variant-group')) {
+            return;
+        }
+
+        const attrEl = cartItemEl.querySelector('.item-attributes');
+        if (!attrEl) return;
+
+        // 只有当还没有生成过 .variant-group 时，才去渲染下拉
+        if (
+            Array.isArray(item.variant_options) &&
+            item.variant_options.length &&
+            !attrEl.querySelector('.variant-group')
+        ) {
+            // 确保 item.selectedColor 有默认值（取第一项）
+            if (!item.selectedColor) {
+                const colorVariant = item.variant_options.find(v => v.label === 'color') 
+                                   || item.variant_options[0];
+                item.selectedColor = Array.isArray(colorVariant.options) && colorVariant.options.length
+                                   ? colorVariant.options[0]
+                                   : '';
+            }
+
+            // 渲染下拉菜单
+            attrEl.innerHTML = generateVariantSelectHTML(item);
+
+            // 重新绑定 change 事件
+            const select = attrEl.querySelector('.variant-select');
+            select.addEventListener('change', function() {
+                const productId   = this.dataset.productId;
+                const selectedVal = this.value;
+                const cartArr     = window.CartManager.getCartItems();
+                const cartItem    = cartArr.find(i => String(i.id) === String(productId));
+                if (cartItem) {
+                    cartItem.selectedColor = selectedVal;
+                    window.CartManager.saveCartItems(cartArr);
+                    // 可选：刷新 summary/规格显示
+                    updateOrderSummary();
+                }
+            });
+        }
+        // 如果没有 variant_options，或者已经生成过下拉，就保留现状
+    });
 }
 
 
@@ -564,12 +611,24 @@ function saveCart(cart) {
 
 // 从购物车中移除商品
 function removeFromCart(productId) {
+    // 过滤出移除的商品
     let cart = getCart();
     cart = cart.filter(item => item.id !== productId);
+    
+    console.log("点击移除商品：",cart)
+    // 保存本地
     saveCart(cart);
+
+    // 更新购物车显示
     updateCartDisplay();
+    
+    // 更新订单详细信息
     updateOrderSummary();
+
+    // 更新购物车按钮的数量
     updateCartCount();
+
+    // 调用输出方法
     showNotification('Item has been removed from cart');
 }
 
@@ -787,7 +846,7 @@ function generateVariantSelectHTML(item) {
 
 // 购物车管理核心功能
 window.CartManager = window.CartManager || {
-    // Get cart items from localStorage
+    // 从 localStorage 获取购物车商品
     getCartItems() {
         const cartItems = localStorage.getItem('cart');
         // console.log('Raw cart data from localStorage:', cartItems); // 调试输出
@@ -821,10 +880,12 @@ window.CartManager = window.CartManager || {
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
+            const defaultColor = product.variant_options?.find(v => v.label === 'color')?.options[0] || '';
             cartItems.push({
                 ...product,
                 price: discountedPrice,
-                quantity: 1
+                quantity: 1,
+                selectedColor: defaultColor // 设置默认颜色
             });
         }
 
@@ -1035,6 +1096,9 @@ window.CartManager = window.CartManager || {
     removeFromCart(itemId) {
         const cartItems = this.getCartItems();
         const updatedItems = cartItems.filter(item => item.id !== itemId);
+        updateCartDisplay();
+        updateOrderSummary();
+        updateCartCount();
         this.saveCartItems(updatedItems);
         // showNotification('Item has been removed from cart');
     },
