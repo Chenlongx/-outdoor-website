@@ -402,6 +402,8 @@
         width: 100%;
         margin-right: 0;
         margin-bottom: 20px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
     }
     
     .subcategories-list {
@@ -438,9 +440,9 @@
         padding: 0;
         margin: 0;
         display: flex; /* 启用弹性布局 */
-        flex-wrap: wrap;
-        justify-content: space-around;
-        /* overflow-x: auto; */
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow-x: auto;
         gap: 1rem; /* 项间距 */
         -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
         scrollbar-width: none; /* 隐藏滚动条 - Firefox */

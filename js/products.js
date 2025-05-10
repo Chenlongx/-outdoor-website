@@ -352,6 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productLink = document.createElement('a');
         productLink.href = `./product-detail.html?id=${product.id}-${productNameForUrl}`; // 生成带有简短 ID 和产品名称的 URL
         productLink.className = 'product-link';
+        productLink.setAttribute('aria-label', `View details of ${product.name}`);
     
         // 创建图片容器
         const productImage = document.createElement('div');
@@ -411,7 +412,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // 将跳转链接添加到卡片容器中
         card.appendChild(productLink);
-    
+        
+        // ✅ 插入产品级结构化数据
+        injectProductJsonLD(product);
+
         return card;
     }
     
@@ -511,6 +515,34 @@ document.addEventListener('DOMContentLoaded', function() {
         script.type = 'application/ld+json';
         script.id = 'jsonld-itemlist';
         script.textContent = JSON.stringify(itemList, null, 2); // 格式化方便调试
+        document.head.appendChild(script);
+    }
+    // 定义产品级结构化数据函数
+    function injectProductJsonLD(product) {
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+    
+        const productSchema = {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": product.name,
+            "image": product.image_url,
+            "description": product.description,
+            "sku": product.id,
+            "brand": {
+                "@type": "Brand",
+                "name": "WildGear"
+            },
+            "offers": {
+                "@type": "Offer",
+                "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`,
+                "priceCurrency": "USD",
+                "price": parseFloat(product.final_price).toFixed(2),
+                "availability": "https://schema.org/InStock"
+            }
+        };
+    
+        script.textContent = JSON.stringify(productSchema, null, 2);
         document.head.appendChild(script);
     }
 
