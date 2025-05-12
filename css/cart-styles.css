@@ -119,6 +119,7 @@
 
 .variant-select {
     width: 200px;
+    margin-left: 5px;
 }
 
 .item-attributes {
@@ -455,7 +456,10 @@
   #close-modal {
     background-color: #ccc;
   }
-  
+
+  .variant-group{
+    display: flex;
+  }
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
@@ -499,6 +503,7 @@
     .cart-item h2,.item-details h3{
         font-size: 1rem;
     }
+
 
     .item-price, .item-quantity, .item-total {
         grid-column: 1;
@@ -596,5 +601,8 @@
     .continue-shopping, .update-cart {
         width: 100%;
         text-align: center;
+    }
+    .variant-select {
+        width: 60%;
     }
 }

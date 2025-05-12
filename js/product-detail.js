@@ -169,6 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 渲染产品详细信息：规格，包含内容等
             renderProductDetails(product);
 
+            // 渲染产品将信息插入 <script type="application/ld+json"> 标签
+            injectItemListJsonLD([product]);
+
             // 渲染推荐产品区域
             renderRecommendedProducts();
 
@@ -684,4 +687,31 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
+    // 定义一个函数 injectItemListJsonLD(products)，生成 JSON-LD 并插入 <script type="application/ld+json"> 标签
+    function injectItemListJsonLD(products) {
+        // 移除旧的 JSON-LD（避免重复）
+        const oldScript = document.getElementById('jsonld-itemlist');
+        if (oldScript) oldScript.remove();
+    
+        // 创建结构化数据对象
+        const itemList = {
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "name": products[0]?.name || "Product Listing",
+            "url": window.location.href,
+            "numberOfItems": products.length,
+            "itemListElement": products.map((product, index) => ({
+                "@type": "ListItem",
+                "position": index + 1,
+                "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`
+            }))
+        };
+    
+        // 创建并插入新的 JSON-LD 脚本标签
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = 'jsonld-itemlist';
+        script.textContent = JSON.stringify(itemList, null, 2); // 格式化方便调试
+        document.head.appendChild(script);
+    }
 });
