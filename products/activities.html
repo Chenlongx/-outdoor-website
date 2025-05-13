@@ -32,7 +32,7 @@
             </div>
             <ul class="nav-links">
                 <li><a href="summer-sale.html">Summer Sale</a></li>
-                <li><a href="product-detail.html">Products</a></li>
+                <li><a href="index.html">Products</a></li>
                 <li><a href="activities.html" class="active">Activities</a></li>
                 <li><a href="guides.html">Guides</a></li>
                 <li><a href="support.html">Support</a></li>
@@ -51,7 +51,7 @@
         <div class="hero-content">
             <h1>Your Next Adventure Awaits</h1>
             <p>Discover outdoor activities for every season and skill level</p>
-            <a href="#activity-categories" class="btn-primary">Explore Activities</a>
+            <a href="javascript:void(0)" onclick="location.reload(); return false;" class="btn-primary">Explore Activities</a>
         </div>
     </section>
 
@@ -62,50 +62,15 @@
         </div>
         <div class="category-tabs">
             <button class="category-tab active" data-category="all">All Activities</button>
-            <button class="category-tab" data-category="summer">Summer</button>
+            <!-- <button class="category-tab" data-category="summer">Summer</button>
             <button class="category-tab" data-category="winter">Winter</button>
             <button class="category-tab" data-category="water">Water</button>
-            <button class="category-tab" data-category="mountain">Mountain</button>
+            <button class="category-tab" data-category="mountain">Mountain</button> -->
         </div>
 
         <div class="activity-grid">
-            <!-- Summer Activities -->
-            <div class="activity-card" data-category="summer mountain">
-                <div class="activity-image">
-                    <img src="https://media.istockphoto.com/id/1468908187/photo/man-relaxing-on-hiking-trip-in-the-mountains.jpg?s=612x612&w=0&k=20&c=umhe6pwL-8uSfuRkLCIGeKOnA_c6MfHtTMivdehw-9o=" alt="Hiking Adventure">
-                    <div class="activity-difficulty">
-                        <span class="difficulty-label">Moderate</span>
-                    </div>
-                </div>
-                <div class="activity-info">
-                    <h3>Hiking Adventures</h3>
-                    <p>Explore scenic trails and breathtaking views on foot with our guided hiking experiences.</p>
-                    <div class="activity-meta">
-                        <span><i class="fas fa-calendar"></i> Available April-October</span>
-                        <span><i class="fas fa-clock"></i> 2-8 hours</span>
-                    </div>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
-            </div>
 
-            <div class="activity-card" data-category="summer mountain">
-                <div class="activity-image">
-                    <img src="https://alpineairadventures.com/wp-content/uploads/elementor/thumbs/rock-climbing-Banff-ozp38lmlgsd8iu02fw1t32o8m459aw8bc4k8ehnseg.jpg" alt="Rock Climbing">
-                    <div class="activity-difficulty">
-                        <span class="difficulty-label">Challenging</span>
-                    </div>
-                </div>
-                <div class="activity-info">
-                    <h3>Rock Climbing</h3>
-                    <p>Scale natural rock formations with expert guides and premium climbing gear.</p>
-                    <div class="activity-meta">
-                        <span><i class="fas fa-calendar"></i> Available May-September</span>
-                        <span><i class="fas fa-clock"></i> 3-6 hours</span>
-                    </div>
-                    <a href="#" class="btn-secondary">Learn More</a>
-                </div>
-            </div>
-
+            <!-- 
             <div class="activity-card" data-category="summer">
                 <div class="activity-image">
                     <img src="https://crrhospitality.com/wp-content/uploads/2024/01/Outdoor-Adventure-Tourism-Market-1-1024x585.jpg" alt="Camping">
@@ -124,7 +89,6 @@
                 </div>
             </div>
 
-            <!-- Water Activities -->
             <div class="activity-card" data-category="summer water">
                 <div class="activity-image">
                     <img src="https://campusrecreation.illinoisstate.edu/images/adventure/adventure_hero2.jpg" alt="Kayaking">
@@ -161,7 +125,6 @@
                 </div>
             </div>
 
-            <!-- Winter Activities -->
             <div class="activity-card" data-category="winter mountain">
                 <div class="activity-image">
                     <img src="https://www.garmin.com/en-US/blog/wp-content/uploads/2024/12/winter-sports-header-image.jpg" alt="Skiing">
@@ -214,7 +177,7 @@
                     </div>
                     <a href="#" class="btn-secondary">Learn More</a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </section>
 
@@ -246,7 +209,7 @@
                             <span class="price">$349</span>
                             <span class="price-note">per person</span>
                         </div>
-                        <a href="#" class="btn-primary">Book Now</a>
+                        <a href="support.html" class="btn-primary">Book Now</a>
                     </div>
                 </div>
             </div>
@@ -281,34 +244,67 @@
                         </div>
                     </div>
                 </div>
-                <a href="#" class="btn-primary">Contact an Adventure Specialist</a>
+                <a href="https://wa.me/8613326425565" class="btn-primary">Contact an Adventure Specialist</a>
             </div>
             <div class="planning-image">
-                <img src="https://media.istockphoto.com/id/1468908187/photo/man-relaxing-on-hiking-trip-in-the-mountains.jpg?s=612x612&w=0&k=20&c=umhe6pwL-8uSfuRkLCIGeKOnA_c6MfHtTMivdehw-9o=" alt="Planning Your Adventure">
+                <img src="../img/activities/istockphoto.webp" alt="Planning Your Adventure">
             </div>
         </div>
     </section>
 
     <section class="testimonials">
         <h2 class="section-title">ADVENTURE TESTIMONIALS</h2>
-        <div class="testimonial-slider">
-            <div class="testimonial-slide">
-                <div class="testimonial-content">
-                    <div class="testimonial-quote">
-                        <i class="fas fa-quote-left"></i>
-                        <p>The guided hiking tour exceeded all our expectations. Our guide was knowledgeable about the local terrain and wildlife, making the experience both educational and exhilarating. The gear provided was top-notch, and we felt prepared for every part of the journey.</p>
-                        <div class="testimonial-author">
-                            <strong>Michael & Sarah</strong>
-                            <span>Hiking Enthusiasts</span>
+        <div class="testimonial-wrapper">
+            <div class="testimonial-slider">
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>The guided hiking tour exceeded all our expectations. Our guide was knowledgeable about the local terrain and wildlife, making the experience both educational and exhilarating. The gear provided was top-notch, and we felt prepared for every part of the journey.</p>
+                            <div class="testimonial-author">
+                                <strong>Michael & Sarah</strong>
+                                <span>Hiking Enthusiasts</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-image">
+                            <img src="../img/activities/story-hiking.webp" alt="Hiking Testimonial">
                         </div>
                     </div>
-                    <div class="testimonial-image">
-                        <img src="img/story-hiking.jpg" alt="Hiking Testimonial">
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>The overnight camping trek was a life-changing experience. Sleeping under the stars, sharing stories around the campfire, and waking up to misty mountain views was something we’ll never forget.</p>
+                            <div class="testimonial-author">
+                                <strong>Lena W.</strong>
+                                <span>Backpacking Adventurer</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-image">
+                            <img src="../img/activities/story-camping.webp" alt="Camping Testimonial">
+                        </div>
                     </div>
                 </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left"></i>
+                            <p>From river crossings to panoramic summit views, the trail challenged us in the best way. Our group felt like family by the end, and the guide’s energy kept us motivated every step of the way.</p>
+                            <div class="testimonial-author">
+                                <strong>Dev & Nora</strong>
+                                <span>Outdoor Explorers</span>
+                            </div>
+                        </div>
+                        <div class="testimonial-image">
+                            <img src="../img/activities/story-summit.webp" alt="Summit Adventure Testimonial">
+                        </div>
+                    </div>
+                </div>            
+                <!-- 额外的推荐将在这里添加并通过 JS 控制 -->
             </div>
-            <!-- Additional testimonials would be added here and controlled via JS -->
         </div>
+
         <div class="testimonial-controls">
             <button class="testimonial-prev"><i class="fas fa-chevron-left"></i></button>
             <div class="testimonial-dots">
@@ -446,13 +442,15 @@
             </div>
         </div>
     </footer>
-
-    <div class="chat-widget">
-        <div class="chat-icon">
-            <i class="fas fa-comments"></i>
+    <!-- 转whatsapp号码 -->
+    <a href="https://wa.me/8613326425565" aria-label="Contact support via WhatsApp">
+        <div class="chat-widget">
+            <div class="chat-icon">
+                <i class="fas fa-comments"></i>
+            </div>
+            <div class="chat-text">Chat with an Outdoor Expert</div>
         </div>
-        <div class="chat-text">Chat with an Outdoor Expert</div>
-    </div>
+    </a>
 
     <script src="../js/activities.js"></script>
 </body>

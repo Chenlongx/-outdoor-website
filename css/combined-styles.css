@@ -155,7 +155,7 @@ button {
 /* Header Styles */
 header {
     width: 100%;
-    position: sticky;
+    /* position: sticky; */
     top: 0;
     z-index: 1000;
 }
@@ -240,7 +240,7 @@ nav {
 /* Activity Hero Section */
 .activity-hero {
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-                url('https://crrhospitality.com/wp-content/uploads/2024/01/Outdoor-Adventure-Tourism-Market-1-1024x585.jpg');
+                url('https://exzbshteqangjyjflhlz.supabase.co/storage/v1/object/sign/productdetails/Outdoor-Adventure-Tourism-backgrounds.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwcm9kdWN0ZGV0YWlscy9PdXRkb29yLUFkdmVudHVyZS1Ub3VyaXNtLWJhY2tncm91bmRzLndlYnAiLCJpYXQiOjE3NDcwOTk5MDIsImV4cCI6MTkwNDc3OTkwMn0.FRTQfAI-4GMQYlT9dpiyMpqRkJPlWfNWhqioZWorJp8');
     background-size: cover;
     background-position: center;
     height: 600px;
@@ -581,9 +581,35 @@ nav {
     background-color: var(--light-gray);
 }
 
-.testimonial-slider {
+/* .testimonial-slider {
+    overflow: hidden;
+    overflow-x: hidden;
+    transition: transform 0.5s ease;
+    max-width: 900px;
+    max-height: 350px;
+    margin: 0 auto;
+}
+.testimonial-slider div{
+    margin: 10px 0px;
+} */
+
+
+.testimonial-wrapper {
+    overflow: hidden;
+    width: 100%;
     max-width: 900px;
     margin: 0 auto;
+  }
+  
+.testimonial-slider {
+    display: flex;
+    width: calc(100% * 3);      /* if you have 3 slides, or set dynamically via JS */
+    transition: transform 0.5s ease;
+}
+
+.testimonial-slide {
+    flex: 0 0 calc(100% / 3);   /* one third each if 3 slides */
+    box-sizing: border-box;
 }
 
 .testimonial-content {
