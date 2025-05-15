@@ -1,0 +1,266 @@
+/* 新版 Guide Article 独立美观样式 */
+:root {
+  --primary: #159cbb;
+  --secondary: #20cdaa;
+  --background: #f7fafd;
+  --text-dark: #222;
+  --text-light: #666;
+  --card-bg: #fff;
+  --card-shadow: 0 4px 24px 0 rgba(31, 120, 180, 0.10);
+  --radius: 14px;
+  --transition: all 0.25s cubic-bezier(.23,1,.32,1);
+}
+body {
+  background: var(--background);
+  color: var(--text-dark);
+  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  margin: 0;
+}
+header {
+  background: #fff;
+  box-shadow: 0 2px 10px 0 rgba(0,0,0,.04);
+}
+.guides-hero {
+  background: linear-gradient(to bottom right, var(--primary), var(--secondary));
+  color: #fff;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.guides-hero-content {
+  text-align: center;
+}
+.guides-hero h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  letter-spacing: 1.2px;
+}
+.guides-hero p {
+  font-size: 1.17rem;
+  font-weight: 400;
+  opacity: 0.95;
+}
+.article-main-content {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 2.5rem 2rem 2rem 2rem;
+  max-width: 800px;
+  margin: -60px auto 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* 信息栏 */
+.article-main-content > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.article-main-content img[alt*="Michael Torres"] {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(21,156,187,0.08);
+}
+.guide-level {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 20px;
+  font-size: 0.99rem;
+  font-weight: 600;
+  padding: 3px 18px;
+  letter-spacing: .5px;
+}
+.guide-category {
+  background: #e1f3f6;
+  color: var(--primary);
+  border-radius: 4px;
+  padding: 3px 13px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  margin-right: 5px;
+  margin-bottom: 3px;
+  display: inline-block;
+}
+
+/* 分享按钮条 */
+.article-main-content .resource-link, .article-main-content button.resource-link {
+  background: var(--background);
+  border: none;
+  border-radius: 7px;
+  color: var(--primary);
+  font-weight: 600;
+  padding: 6px 16px;
+  margin-right: 10px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+.article-main-content .resource-link i { margin-right: 7px; font-size: 1.1em; }
+.article-main-content .resource-link:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* 主图 */
+.article-main-content > div:nth-child(3) img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.article-main-content article {
+  font-size: 1.10rem;
+  line-height: 2.03;
+  color: var(--text-dark);
+  margin-top: 1.7rem;
+}
+.article-main-content h2 {
+  font-size: 1.32rem;
+  margin: 2.2rem 0 0.7rem 0;
+}
+.article-main-content ul, .article-main-content ol {
+  margin-left: 1.25rem;
+}
+.article-main-content a {
+  color: var(--primary);
+  text-decoration: underline;
+}
+.article-main-content blockquote {
+  background: #f0f8fa;
+  border-left: 4px solid var(--primary);
+  margin: 2rem 0;
+  padding: 1.1rem 1.4rem;
+  color: var(--primary);
+  font-weight: 500;
+  font-style: italic;
+  border-radius:6px;
+}
+
+/* Inline resources条 */
+.article-main-content > div:last-child {
+  margin-top:2.2rem;
+  padding: 1.15rem 1rem;
+  background: #f4fffe;
+  border-radius: 9px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem 2.2rem;
+  align-items: center;
+}
+.article-main-content > div:last-child a.resource-link {
+  background:#e1f3f6;
+  padding: 0.5rem 1.2rem;
+}
+.article-main-content > div:last-child a.resource-link:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* 相关文章推荐卡片 */
+section .guides-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+.guide-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:var(--transition);
+  min-height:370px;
+}
+.guide-card:hover { box-shadow: 0 8px 25px rgba(21,156,187,0.13); transform:translateY(-3px); }
+.guide-card-img {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+.guide-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display:block;
+}
+.guide-level {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  padding: 3px 13px;
+  font-size: 0.82rem;
+  background: var(--secondary);
+  color: #fff;
+  border-radius: 18px;
+  font-weight: 700;
+}
+.guide-card-content {
+  padding: 1.25rem 1.1rem 1.3rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+}
+.guide-card-content h4 {
+  margin:0.6rem 0 0.3rem 0;
+  font-size:1.14rem;
+}
+.guide-card-content p {
+  color: var(--text-light);
+  font-size:0.98rem;
+  line-height:1.6;
+  flex-grow:1;
+}
+.read-more {
+  margin-top:0.7rem;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  align-items:center;
+  font-size:0.99rem;
+  display:inline-flex;
+  gap:0.35rem;
+  transition:var(--transition);
+}
+.read-more:hover { color: var(--secondary); }
+
+.guide-meta {
+  color:var(--text-light);
+  font-size:0.87rem;
+  margin-bottom: 0.8rem;
+  gap:0.7rem;
+  display:flex;
+  flex-wrap:wrap;
+}
+.guide-meta span { display:flex;align-items:center;gap:5px; }
+
+@media (max-width:980px) {
+  .article-main-content {
+    padding: 2rem 0.8rem 1.6rem 0.8rem;
+  }
+}
+@media (max-width:700px) {
+  .article-main-content {
+    max-width: 99vw;
+    margin:-36px 4px 0 4px;
+    border-radius:8px;
+  }
+}
+@media (max-width:500px) {
+  .article-main-content {
+    padding: 1.1rem 1vw 1rem 1vw;
+    box-shadow: 0 1px 4px rgba(21,156,187,0.07);
+  }
+  .guides-hero h1 { font-size:1.43rem; }
+}
