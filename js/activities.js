@@ -197,7 +197,7 @@ function renderActivityCards(activityCategories) {
             <span><i class="fas fa-calendar"></i> ${start} – ${end}</span>
             <span><i class="fas fa-clock"></i> ${duration}</span>
           </div>
-          <a href="#" class="btn-secondary">Learn More</a>
+          <a href="activity-detail.html?id=${item.activity_id}" class="btn-secondary">Learn More</a>
         </div>
       `;
   
