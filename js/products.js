@@ -559,7 +559,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`,
                 "priceCurrency": "USD",
                 "price": parseFloat(product.final_price).toFixed(2),
-                "availability": "https://schema.org/InStock"
+                "availability": "https://schema.org/InStock",
+                "priceValidUntil": "2028-12-31",
+                "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingDestination": {
+                        "@type": "DefinedRegion",
+                        "addressCountry": "US"
+                    },
+                    "shippingRate": {
+                        "@type": "MonetaryAmount",
+                        "value": "0.00",
+                        "currency": "USD"
+                    },
+                    "shippingThreshold": {
+                        "@type": "MonetaryAmount",
+                        "value": "49.90",
+                        "currency": "USD"
+                    }
+                }
             }
         };
     
