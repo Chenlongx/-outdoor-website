@@ -164,6 +164,27 @@ document.addEventListener('DOMContentLoaded', function() {
                         return;
                     }
                 }
+
+                // 生成canonical链接（通过js生成）
+                // 获取当前完整 URL（不包含锚点）
+                const currentUrl = window.location.origin + window.location.pathname + window.location.search;
+                // 创建 canonical 标签
+                const canonical = document.createElement('link');
+                canonical.setAttribute('rel', 'canonical');
+
+                // 根据是否有 category 参数设置 canonical href
+                if (urlCategory) {
+                canonical.setAttribute('href', currentUrl);
+                } else {
+                canonical.setAttribute('href', 'https://summitgearhub.com/products/');
+                }
+
+                // 插入到 <head> 中（如果已有旧 canonical 可先删除）
+                const oldCanonical = document.querySelector('link[rel="canonical"]');
+                if (oldCanonical) {
+                oldCanonical.remove();
+                }
+                document.head.appendChild(canonical);
               
                 renderSubcategories();
                 renderProducts(getPaginatedProducts());

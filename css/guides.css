@@ -37,7 +37,7 @@
     display: flex;
     gap: 2rem;
     padding: 3rem 2rem;
-    max-width: 1400px;
+    max-width: 80%;
     margin: 0 auto;
 }
 
@@ -235,7 +235,7 @@
     background-color: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); */
 }
 
 .featured-guide-content {

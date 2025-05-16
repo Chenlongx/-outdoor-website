@@ -1,39 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all guide page functionality
+    // 初始化所有引导页功能
     initializeGuidesPage();
 });
 
 function initializeGuidesPage() {
-    // 1. Initialize category filters
-    initCategoryFilters();
+    // 1. 初始化类别过滤器
+    loadGuideCategories();
 
-    // 2. Initialize experience level filters
+    // 2. 初始化经验等级过滤器
     initExperienceFilters();
 
-    // 3. Initialize season filters
+    // 3. 初始化季节过滤器
     initSeasonFilters();
 
-    // 4. Initialize search functionality
+    // 4. 初始化搜索功能
     initSearchFunctionality();
 
-    // 5. Initialize sorting
+    // 5. 初始化排序
     initSorting();
 
-    // 6. Initialize pagination (mock functionality)
+    // 6. 初始化分页（模拟功能）
     initPagination();
 
-    // 7. Initialize reset filters button
+    // 7. 初始化重置过滤器按钮
     initResetFilters();
 }
 
-// Track active filters
+// 追踪活动过滤器
 const activeFilters = {
     category: 'all',
     experience: [],
     season: []
 };
 
-// Category filter functionality
+
+
+
+// 类别过滤功能
 function initCategoryFilters() {
     const categoryLinks = document.querySelectorAll('.category-list li a');
 
@@ -41,24 +44,108 @@ function initCategoryFilters() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
 
-            // Remove active class from all links
+            // 从所有链接中删除活动类
             categoryLinks.forEach(catLink => {
                 catLink.parentElement.classList.remove('active');
             });
 
-            // Add active class to clicked link
+            // 为点击的链接添加 active 类
             this.parentElement.classList.add('active');
 
-            // Update active filter
+            // 更新活动过滤器
             activeFilters.category = this.getAttribute('data-category');
 
-            // Apply filters
+            // 应用过滤器
             applyFilters();
         });
     });
 }
 
-// Experience level filter functionality
+
+// 精选文章渲染
+function renderFeaturedGuides(activityCategories) {
+    const featuredContainer = document.getElementById('featured-guides');
+    if (!featuredContainer) return;
+  
+    // 只获取第一个被标记为 is_featured 的文章
+    const featuredItem = activityCategories.find(
+      item => item["guide-article"]?.is_featured
+    );
+  
+    if (!featuredItem) return;
+  
+    const article = featuredItem["guide-article"];
+    const title = article.title;
+    const excerpt = article.content?.sections?.[0]?.body || '';
+    const imageUrl = article.content?.img || '';
+    const imageAlt = title;
+
+  
+    // 填充已有的 h3 和 p.guide-excerpt
+    const titleElement = featuredContainer.querySelector('h3');
+    const excerptElement = featuredContainer.querySelector('.guide-excerpt');
+  
+    if (titleElement) titleElement.textContent = title;
+    if (excerptElement) excerptElement.textContent = excerpt;
+
+    // 设置图片
+    const imageElement = featuredContainer.querySelector('.featured-guide-image img');
+    if (imageElement) {
+        imageElement.src = imageUrl;
+        imageElement.alt = imageAlt;
+    }
+
+}
+
+
+
+// 渲染普通文章
+
+
+
+
+// 美化分类名称
+function slugify(name) {
+    return name.trim().toLowerCase().replace(/\s+/g, '-'); // "Gear and Equipment" → "gear-and-equipment"
+}
+
+
+// 从后端获取分类并渲染 HTML
+async function loadGuideCategories() {
+    const categoryList = document.querySelector('.category-list');
+    if (!categoryList) return;
+
+    categoryList.innerHTML = `
+        <li class="active"><a href="#" data-category="all">All Guides</a></li>
+    `;
+
+    try {
+        const response = await fetch('/.netlify/functions/fetch-guides-categories');
+        const data = await response.json();
+        console.log(data)
+        const categories = data.categoryNames || [];
+
+        categories.forEach(category => {
+            const dataSlug = slugify(category);  // 用作 data-category
+            const label = category;              // 原样用于显示
+            const li = document.createElement('li');
+            li.innerHTML = `<a href="#" data-category="${dataSlug}">${label}</a>`;
+            categoryList.appendChild(li);
+        });
+
+        initCategoryFilters();
+
+        // 渲染精选文章
+        renderFeaturedGuides(data.activityCategories);
+
+    } catch (error) {
+        console.error('Error loading categories:', error);
+    }
+}
+
+
+
+// 经验级别过滤功能
 function initExperienceFilters() {
     const experienceCheckboxes = document.querySelectorAll('.filter-option input[type="checkbox"][value^="beginner"], .filter-option input[type="checkbox"][value^="intermediate"], .filter-option input[type="checkbox"][value^="advanced"], .filter-option input[type="checkbox"][value^="expert"]');
 
@@ -75,7 +162,10 @@ function initExperienceFilters() {
     });
 }
 
-// Season filter functionality
+
+
+
+// 季节过滤功能
 function initSeasonFilters() {
     const seasonCheckboxes = document.querySelectorAll('.filter-option input[type="checkbox"][value^="spring"], .filter-option input[type="checkbox"][value^="summer"], .filter-option input[type="checkbox"][value^="fall"], .filter-option input[type="checkbox"][value^="winter"], .filter-option input[type="checkbox"][value^="all-seasons"]');
 
@@ -92,7 +182,7 @@ function initSeasonFilters() {
     });
 }
 
-// Search functionality
+// 搜索功能
 function initSearchFunctionality() {
     const searchInput = document.getElementById('guides-search');
     const searchBtn = document.querySelector('.search-btn');
@@ -134,7 +224,7 @@ function performSearch(query) {
     toggleNoResultsMessage(!matchFound && query !== '');
 }
 
-// Sorting functionality
+// 排序功能
 function initSorting() {
     const sortSelect = document.getElementById('sort-guides');
 
@@ -175,19 +265,19 @@ function initSorting() {
     });
 }
 
-// Apply all active filters
+// 应用所有活动过滤器
 function applyFilters() {
     const guideCards = document.querySelectorAll('.guide-card');
     let visibleCount = 0;
 
     guideCards.forEach(card => {
-        // Get card attributes
+        // 获取卡牌属性
         const cardCategory = card.getAttribute('data-category');
         const cardExperience = card.getAttribute('data-level');
         const cardSeasons = card.getAttribute('data-season')?.split(' ') || [];
         const searchMatch = card.getAttribute('data-search-match') !== 'false';
 
-        // Check if card matches all active filters
+        // 检查卡是否与所有活动过滤器匹配
         const categoryMatch = activeFilters.category === 'all' || activeFilters.category === cardCategory;
 
         const experienceMatch = activeFilters.experience.length === 0 ||
@@ -197,7 +287,7 @@ function applyFilters() {
                            cardSeasons.some(season => activeFilters.season.includes(season)) ||
                            (cardSeasons.includes('all-seasons') && activeFilters.season.length > 0);
 
-        // Show/hide card based on filter matches
+        // 根据过滤器匹配显示/隐藏卡片
         if (categoryMatch && experienceMatch && seasonMatch && searchMatch) {
             card.style.display = 'flex';
             visibleCount++;
@@ -206,11 +296,11 @@ function applyFilters() {
         }
     });
 
-    // Show/hide no results message
+    // 显示/隐藏无结果消息
     toggleNoResultsMessage(visibleCount === 0);
 }
 
-// Toggle "No Results" message
+// 切换“无结果”消息
 function toggleNoResultsMessage(show) {
     const noResultsElement = document.querySelector('.no-results');
     if (noResultsElement) {
@@ -218,7 +308,7 @@ function toggleNoResultsMessage(show) {
     }
 }
 
-// Reset all filters
+// 重置所有过滤器
 function initResetFilters() {
     const resetButton = document.getElementById('reset-filters');
     if (resetButton) {
@@ -258,7 +348,7 @@ function initResetFilters() {
     }
 }
 
-// Mock pagination (for demonstration)
+// 模拟分页（用于演示）
 function initPagination() {
     const paginationLinks = document.querySelectorAll('.guides-pagination a');
 
@@ -285,7 +375,7 @@ function initPagination() {
     });
 }
 
-// Show a brief loading animation when changing pages (mock functionality)
+// 切换页面时显示简短的加载动画（模拟功能）
 function showLoadingAnimation() {
     const guidesList = document.getElementById('guides-list');
 
@@ -307,7 +397,7 @@ function showLoadingAnimation() {
     }, 500);
 }
 
-// Add animation to guide cards when scrolling into view
+// 在滚动到视图时为引导卡添加动画
 function animateOnScroll() {
     const elements = document.querySelectorAll('.guide-card, .expert-card, .resource-card');
 
@@ -326,15 +416,15 @@ function animateOnScroll() {
     });
 }
 
-// Set initial styles for animated elements and initialize scroll animation
+// 设置动画元素的初始样式并初始化滚动动画
 document.querySelectorAll('.guide-card, .expert-card, .resource-card').forEach(element => {
     element.style.opacity = '0';
     element.style.transform = 'translateY(20px)';
     element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
 });
 
-// Add scroll event listener
+// 添加滚动事件监听器
 window.addEventListener('scroll', animateOnScroll);
 
-// Run once on page load
+// 页面加载时运行一次
 window.addEventListener('load', animateOnScroll);
