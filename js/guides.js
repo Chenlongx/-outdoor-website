@@ -99,8 +99,58 @@ function renderFeaturedGuides(activityCategories) {
 
 
 
-// 渲染普通文章
-
+// 渲染普通文章（非精选）
+function renderRegularGuides(activityCategories) {
+    const regularItems = activityCategories.filter(
+      item => item["guide-article"] && item["guide-article"].is_featured === false
+    );
+  
+    const container = document.getElementById('guides-list');
+    if (!container) return;
+  
+    // 清空现有 guide-card 元素
+    container.innerHTML = '';
+  
+    // 遍历并动态创建每个 guide-card
+    regularItems.forEach(item => {
+      const article = item["guide-article"];
+      const title = article.title || '';
+      const excerpt = article.content?.sections?.[0]?.body || '';
+      const imageUrl = article.content?.img || '';
+      const articleUrl = article.url || '#';
+      const category = article.categories?.[0] || 'General';
+      const level = article.level || 'beginner';
+      const rawDate = article.created_at;
+        const date = rawDate ? rawDate.split('T')[0] : 'TBD';
+      const readTime = article.duration_minutes || '— min read';
+  
+      const cardHTML = `
+        <div class="guide-card animated" data-category="${category.toLowerCase()}" data-level="${level.toLowerCase()}" data-season="spring summer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
+          <div class="guide-card-img">
+              <img src="${imageUrl}" alt="${title}">
+              <span class="guide-level ${level.toLowerCase()}">${capitalize(level)}</span>
+          </div>
+          <div class="guide-card-content">
+              <span class="guide-category">${category}</span>
+              <h4>${title}</h4>
+              <p>${excerpt}</p>
+              <div class="guide-meta">
+                  <span><i class="far fa-clock"></i> ${readTime} min read</span>
+                  <span><i class="far fa-calendar-alt"></i> ${date}</span>
+              </div>
+              <a href="${articleUrl}" class="read-more" aria-label="Read guide: ${title}">Read Guide <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      `;
+  
+      container.insertAdjacentHTML('beforeend', cardHTML);
+    });
+  
+    // 辅助函数：首字母大写
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  }
 
 
 
@@ -137,6 +187,7 @@ async function loadGuideCategories() {
 
         // 渲染精选文章
         renderFeaturedGuides(data.activityCategories);
+        renderRegularGuides(data.activityCategories)
 
     } catch (error) {
         console.error('Error loading categories:', error);
