@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 渲染 PayPal 按钮
     async function renderPayPalButton() {
         if (!window.paypal) {
-            console.error("PayPal SDK has not loaded.");
+            // console.error("PayPal SDK has not loaded.");
             return;
         }
         const paypalButtons = window.paypal.Buttons({
