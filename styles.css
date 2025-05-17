@@ -532,7 +532,7 @@ nav {
     padding: 1.25rem;
 }
 
-.featured-info h4 {
+.featured-info h3 {
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 0.25rem;
@@ -1084,7 +1084,7 @@ footer {
         width: 120px;
         height: 100px;
     }
-    .category-item h3 {
+    .category-item h2 {
         font-size: 1rem;
         padding: 0.75rem;
     }
