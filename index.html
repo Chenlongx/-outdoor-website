@@ -11,7 +11,9 @@
     <link rel="manifest" href="img/icon/site.webmanifest">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> -->
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.0/css/all.min.css"></noscript>    
     <link rel="canonical" href="https://summitgearhub.com/">
     <meta name="description" content="Shop WildGear's premium selection of hiking, camping, and outdoor adventure equipment. Discover top deals on reliable gear for every journey.">
     <meta property="og:title" content="WildGear | Outdoor Adventure Equipment">
@@ -511,7 +513,7 @@
         </div>
     </div>
     <!-- 在 HTML head 中引入 Supabase 客户端 -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
     <script src="js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
