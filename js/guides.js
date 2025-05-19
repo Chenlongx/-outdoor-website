@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeGuidesPage() {
+    // 活动倒计时
+    startCountdown()
+
     // 1. 初始化类别过滤器
     loadGuideCategories();
 
@@ -24,6 +27,7 @@ function initializeGuidesPage() {
 
     // 7. 初始化重置过滤器按钮
     initResetFilters();
+
 }
 
 // 追踪活动过滤器
@@ -34,6 +38,52 @@ const activeFilters = {
 };
 
 
+// 倒计时器
+async function startCountdown() {
+    const countdownElement = document.getElementById('countdown');
+    if (!countdownElement) return;
+
+    try {
+        // Fetch the end time from the Netlify function
+        const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
+        const data = await response.json();
+        
+        // 获取从函数中返回的活动结束时间
+        const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+
+            // Calculate time units
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Update DOM
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+            // If countdown is over
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                countdownElement.innerHTML = 'Promotion Ended';
+            }
+        }
+
+        // Initial call to update the countdown immediately
+        updateCountdown();
+
+        // Update countdown every second
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+    } catch (error) {
+        console.error('Error fetching end time:', error);
+    }
+}
 
 
 // 类别过滤功能
@@ -76,11 +126,17 @@ function renderFeaturedGuides(activityCategories) {
   
     const article = featuredItem["guide-article"];
     const title = article.title;
-    const excerpt = article.content?.sections?.[0]?.body || '';
-    const imageUrl = article.content?.img || '';
+    const blocks = article.content?.blocks || [];
+    const firstParagraphBlock = blocks.find(block => block.type === 'paragraph');
+    const excerpt = firstParagraphBlock?.text || '';
+    const imageUrl = article.content?.cover || '';
     const imageAlt = title;
+    const slug = slugify(article.title || '');
+    const shortId = featuredItem.articles_id?.slice(0, 8) || '00000000';
+    const articleUrl = `guide-article.html?slug=${slug}-${shortId}`;
 
-  
+    console.log(activityCategories)
+    console.log("图片地址：",imageUrl)
     // 填充已有的 h3 和 p.guide-excerpt
     const titleElement = featuredContainer.querySelector('h3');
     const excerptElement = featuredContainer.querySelector('.guide-excerpt');
@@ -93,6 +149,26 @@ function renderFeaturedGuides(activityCategories) {
     if (imageElement) {
         imageElement.src = imageUrl;
         imageElement.alt = imageAlt;
+
+        // 包裹图片为链接（若还没包裹）
+        const parent = imageElement.parentElement;
+        if (!parent || parent.tagName.toLowerCase() !== 'a') {
+            const imageLink = document.createElement('a');
+            imageLink.href = articleUrl;
+            imageLink.setAttribute('aria-label', `Read guide: ${title}`);
+            imageLink.appendChild(imageElement.cloneNode(true)); // ✅ 用 cloneNode 避免 DOM 被移除
+            imageElement.replaceWith(imageLink); // ✅ 替换后再插入 clone
+        } else {
+            parent.href = articleUrl;
+            parent.setAttribute('aria-label', `Read guide: ${title}`);
+        }
+    }
+
+    // 设置按钮链接
+    const readButton = featuredContainer.querySelector('.btn-primary');
+    if (readButton) {
+        readButton.href = articleUrl;
+        readButton.setAttribute('aria-label', `Read guide: ${title}`);
     }
 
 }
@@ -115,11 +191,16 @@ function renderRegularGuides(activityCategories) {
     regularItems.forEach(item => {
       const article = item["guide-article"];
       const title = article.title || '';
-      const excerpt = article.content?.sections?.[0]?.body || '';
-      const imageUrl = article.content?.img || '';
-      const articleUrl = article.url || '#';
+      const blocks = article.content?.blocks || [];
+      const firstParagraphBlock = blocks.find(block => block.type === 'paragraph');
+      const excerpt = firstParagraphBlock?.text || '';
+      const imageUrl = article.content?.cover || '';
+    //   const articleUrl = article.url || '#';
+      const slug = slugify(title);
+      const shortId = item.articles_id?.slice(0, 8) || '00000000';
+      const articleUrl = `guide-article.html?slug=${slug}-${shortId}`;
       const category = article.categories?.[0] || 'General';
-      const level = article.level || 'beginner';
+      const level = article.guide_level || 'beginner';
       const rawDate = article.created_at;
         const date = rawDate ? rawDate.split('T')[0] : 'TBD';
       const readTime = article.duration_minutes || '— min read';
@@ -127,8 +208,10 @@ function renderRegularGuides(activityCategories) {
       const cardHTML = `
         <div class="guide-card animated" data-category="${category.toLowerCase()}" data-level="${level.toLowerCase()}" data-season="spring summer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s, transform 0.5s;">
           <div class="guide-card-img">
+            <a href="${articleUrl}" aria-label="Read guide: ${title}">
               <img src="${imageUrl}" alt="${title}">
               <span class="guide-level ${level.toLowerCase()}">${capitalize(level)}</span>
+            </a>
           </div>
           <div class="guide-card-content">
               <span class="guide-category">${category}</span>
@@ -150,7 +233,7 @@ function renderRegularGuides(activityCategories) {
     function capitalize(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
-  }
+}
 
 
 

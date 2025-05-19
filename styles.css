@@ -181,6 +181,7 @@ header {
 .announcement-bar p {
     margin-right: 1rem;
     white-space: nowrap;
+    color: #fff;
 }
 
 .countdown {
@@ -194,6 +195,9 @@ header {
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
     font-weight: 700;
+    color: #fff;
+}
+.time-unit span{
     color: #fff;
 }
 
@@ -315,7 +319,7 @@ nav {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.category-item h3 {
+.category-item h2 {
     font-size: 1rem;
     margin-bottom: 0;
     font-weight: 600;
@@ -1008,6 +1012,9 @@ footer {
 @media (max-width: 768px) {
     nav{
         justify-content: space-between;
+    }
+    .logo{
+        width: 50%;
     }
     .announcement-bar p{
         display: flex;

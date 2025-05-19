@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hiking Essentials Guide | WildGear</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/guide-article.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -53,7 +52,8 @@
     <!-- Article Main Section -->
     <section class="guides-hero" style="height:320px;">
         <div class="guides-hero-content">
-            <h1>Ultimate Hiking Essentials Guide</h1>
+            <!-- 标题 -->
+            <h1></h1>
             <p>Everything you need to know for a safe, enjoyable hiking adventure</p>
         </div>
     </section>
@@ -62,20 +62,20 @@
         <!-- Article Header Info -->
         <div style="display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:center; margin-bottom:1.5rem;">
             <div style="display:flex;align-items:center;gap:1rem;">
-                <img src="../img/guides/MICHAEL TORRES.webp" alt="Michael Torres" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
+                <!-- 头像 -->
+                <img class="author-avatar" src="" alt="Author Avatar" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
                 <div>
-                    <span style="font-weight:600;font-size:1.1rem;">By Michael Torres</span><br>
-                    <span style="color:var(--gray-color);font-size:0.95rem;"><i class="far fa-calendar-alt"></i> Apr 15, 2025</span>
+                    <!-- 作者姓名 -->
+                    <span class="author-name" style="font-weight:600;font-size:1.1rem;"></span><br>
+                    <!-- 发布时间 -->
+                    <span class="article-date" style="color:var(--gray-color);font-size:0.95rem;"><i class="far fa-calendar-alt"></i></span>
                 </div>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:center;">
-                <span class="guide-level beginner">Beginner</span>
+            <div class="guide-level-wrapper" style="display:flex;gap:0.5rem;align-items:center;">
+                <span class="guide-level">Loading...</span>
             </div>
-            <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;font-size:0.96rem;">
-                <span class="guide-category">Hiking</span>
-                <span class="guide-category" style="background:var(--light-gray); color:var(--primary-color); border-radius:4px; padding:2px 10px;">Essentials</span>
-                <span class="guide-category" style="background:var(--light-gray); color:var(--primary-color); border-radius:4px; padding:2px 10px;">Safety</span>
-                <span class="guide-category" style="background:var(--light-gray); color:var(--primary-color); border-radius:4px; padding:2px 10px;">Spring/Summer</span>
+            <!-- 标签 -->
+            <div class="guide-tags" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap;font-size:0.96rem;">
             </div>
             <div>
                 <button class="resource-link" onclick="copyLink()"><i class="fas fa-copy"></i> Copy Link</button>
@@ -83,43 +83,9 @@
                 <a class="resource-link" href="https://x.com/share?url=https://wildgear.com/guides/hiking-essentials.html" target="_blank"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
-        <!-- Main Image -->
-        <div style="border-radius:10px;overflow:hidden;margin-bottom:2.3rem;box-shadow:0 1px 7px rgba(0,0,0,0.07)">
-            <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" alt="Hiking Trail" style="width:100%;display:block;">
-        </div>
-
         <!-- Article Content -->
-        <article style="font-size:1.08rem; line-height:1.8; color:var(--dark-color);">
-            <h2 style="font-size:1.35rem;margin-top:0;">Why Preparation Matters</h2>
-            <p>Whether you’re planning your first day hike or venturing deeper into the backcountry, a safe, enjoyable trip starts with the right preparation. This guide covers the essentials: gear, safety, packing tips, and expert advice for hikers of all experience levels.</p>
-
-            <h2>Packing for Your Hike</h2>
-            <ul style="margin-bottom:1.3rem;">
-                <li><b>Proper Footwear:</b> Comfortable hiking shoes/boots suited to the terrain.</li>
-                <li><b>Navigation:</b> Map, compass, or GPS device (don’t rely solely on your phone).</li>
-                <li><b>Hydration & Nutrition:</b> Bring more water than you think you’ll need; pack calorie-dense snacks.</li>
-                <li><b>Weather-Appropriate Clothing:</b> Dress in layers, pack rain gear.</li>
-                <li><b>Safety kit:</b> Basic first aid kit, whistle, multi-tool, and headlamp.</li>
-                <li><b>Sun & Insect Protection:</b> Sunscreen, hat, sunglasses, bug spray.</li>
-            </ul>
-
-            <h2>Trail Safety: Tips from Experts</h2>
-            <ol>
-                <li>Research your route: Know trail conditions, regulations, and emergency access points.</li>
-                <li>Inform someone of your plans and expected return time.</li>
-                <li>Never leave marked trails unless absolutely necessary.</li>
-                <li>Watch for wildlife—keep a safe distance, do not feed animals.</li>
-                <li>Leave no trace: Carry out all waste, minimize impact on nature.</li>
-            </ol>
-
-            <h2>Recommended Hiking Resources</h2>
-            <ul>
-                <li><a href="https://www.alltrails.com" target="_blank">AllTrails – Trail Maps</a></li>
-                <li><a href="https://drive.google.com/file/d/1eiM10UAhP--PNS85doOIv3EbAZMQAxrJ/view?usp=sharing" target="_blank">Printable First Aid Guide (PDF)</a></li>
-                <li><a href="#">WildGear Day Hiking Checklist</a></li>
-            </ul>
-
-            <blockquote style="background:var(--light-gray); border-left:4px solid var(--primary-color); margin:2rem 0;padding:1.25rem 1.5rem;color:var(--gray-color);font-style:italic;">“The best view comes after the hardest climb. Preparation is key for every adventure.”</blockquote>
+        <article class="guide-detail-body" style="font-size:1.08rem; line-height:1.8; color:var(--dark-color);">
+            <!-- 内容将在这里通过 JS 动态插入 -->
         </article>
 
         <!-- Inline Extra Resources -->
@@ -305,7 +271,8 @@
         <div class="chat-text">Chat with an Outdoor Expert</div>
     </div>
 
-    <script src="../script.js"></script>
+    <!-- <script src="../script.js"></script> -->
+    <script src="../js/guide-article.js"></script>
     <script>
     function copyLink() {
         navigator.clipboard.writeText(window.location.href).then(function() {

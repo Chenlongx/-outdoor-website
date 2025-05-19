@@ -198,8 +198,7 @@ section .guides-grid {
 }
 .guide-level {
   position: absolute;
-  bottom: 10px;
-  right: 12px;
+  right: 20px;
   padding: 3px 13px;
   font-size: 0.82rem;
   background: var(--secondary);

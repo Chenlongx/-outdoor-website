@@ -13,7 +13,7 @@ exports.handler = async function (event, context) {
       .select(`
         articles_id,
         categories_id,
-        guide-article ( title, name, content, label, published_at, created_at, is_featured, featured_type, duration_minutes ),
+        guide-article ( title, name, content, label, published_at, created_at, is_featured, featured_type, duration_minutes, guide_level ),
         guide_categories ( name )
       `);
 
