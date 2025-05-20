@@ -1,49 +1,46 @@
-/* Global Styles */
-/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'); */
-
-/* Montserrat - 300 (Light) */
-  
-  /* Montserrat - 400 (Regular) */
-  @font-face {
+/* Montserrat - 400 (Regular) */
+@font-face {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 300;
     font-display: swap;
     src: url('/fonts/montserrat-v29-latin-300.woff2') format('woff2');
-  }
-  @font-face {
+}
+
+@font-face {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 400;
     font-display: swap;
     src: url('/fonts/montserrat-v29-latin-regular.woff2') format('woff2');
-  }
-  /* Montserrat - 500 (Medium) */
-  @font-face {
+}
+
+/* Montserrat - 500 (Medium) */
+@font-face {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 500;
     font-display: swap;
     src: url('/fonts/montserrat-v29-latin-500.woff2') format('woff2');
-  }
-  
-  /* Montserrat - 600 (SemiBold) */
-  @font-face {
+}
+
+/* Montserrat - 600 (SemiBold) */
+@font-face {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 600;
     font-display: swap;
     src: url('/fonts/montserrat-v29-latin-600.woff2') format('woff2');
-  }
-  
-  /* Montserrat - 700 (Bold) */
-  @font-face {
+}
+
+/* Montserrat - 700 (Bold) */
+@font-face {
     font-family: 'Montserrat';
     font-style: normal;
     font-weight: 700;
     font-display: swap;
     src: url('/fonts/montserrat-v29-latin-700.woff2') format('woff2');
-  }
+}
 
 
 :root {
@@ -74,10 +71,13 @@
     padding: 0;
     box-sizing: border-box;
 }
-html, body {
+
+html,
+body {
     width: 100%;
-    overflow-x: hidden; /* 防止横向滚动 */
-  }
+    overflow-x: hidden;
+    /* 防止横向滚动 */
+}
 
 body {
     font-family: var(--body-font);
@@ -86,7 +86,12 @@ body {
     background-color: var(--light-color);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--heading-font);
     font-weight: 700;
     line-height: 1.2;
@@ -242,7 +247,8 @@ header {
     font-weight: 700;
     color: #fff;
 }
-.time-unit span{
+
+.time-unit span {
     color: #fff;
 }
 
@@ -282,8 +288,9 @@ nav {
     font-size: 1.2rem;
     color: var(--dark-color);
 }
+
 /* 购物车样式 */
-.cart-count{
+.cart-count {
     position: absolute;
     top: -8px;
     right: -8px;
@@ -314,21 +321,22 @@ nav {
     color: white;
     text-align: center;
     overflow: hidden;
-  }
-  
-  .hero picture,
-  .hero img.hero-bg {
+}
+
+.hero picture,
+.hero img.hero-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover; /* 保证图片像背景一样铺满 */
+    object-fit: cover;
+    /* 保证图片像背景一样铺满 */
     object-position: center;
     z-index: 0;
-  }
-  
-  .hero-overlay {
+}
+
+.hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -336,28 +344,28 @@ nav {
     height: 100%;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     z-index: 1;
-  }
-  
-  .hero-content {
+}
+
+.hero-content {
     position: relative;
     z-index: 2;
     max-width: 800px;
     padding: 0 1rem;
-  }
-  
-  .hero h1 {
+}
+
+.hero h1 {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-  }
-  
-  .hero p {
+}
+
+.hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     opacity: 0.9;
-  }
+}
 
 
 
@@ -480,7 +488,8 @@ nav {
     margin: 0;
     font-size: 1.1rem;
     line-height: 1.4;
-    height: 3.08em; /* 限制标题高度为3行 */
+    height: 3.08em;
+    /* 限制标题高度为3行 */
     overflow: hidden;
     display: -webkit-box;
     /* -webkit-line-clamp: 3; */
@@ -531,7 +540,8 @@ nav {
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
 }
-.releases-grid h3{
+
+.releases-grid h3 {
     color: white;
 }
 
@@ -796,9 +806,12 @@ nav {
 .info-item:hover {
     background-color: var(--light-gray);
 }
+
 .info-item:hover h3 {
-    color: var(--primary-color); /* ← 悬浮时变字体颜色 */
-  }
+    color: var(--primary-color);
+    /* ← 悬浮时变字体颜色 */
+}
+
 .info-item i {
     font-size: 2.5rem;
     color: var(--primary-color);
@@ -999,6 +1012,7 @@ footer {
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
+
 .search-overlay {
     position: fixed;
     top: 0;
@@ -1013,6 +1027,7 @@ footer {
     /* z-index: 1000; */
     transition: var(--transition);
 }
+
 .search-container {
     background: #fff;
     width: 50%;
@@ -1020,6 +1035,7 @@ footer {
     overflow: hidden;
     box-shadow: var(--shadow);
 }
+
 .search-header {
     display: flex;
     align-items: center;
@@ -1027,13 +1043,18 @@ footer {
     border-bottom: 1px solid var(--light-gray);
     gap: 1rem;
 }
-.fa-solid, .fas {
+
+.fa-solid,
+.fas {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
 }
-.fa-magnifying-glass:before, .fa-search:before {
+
+.fa-magnifying-glass:before,
+.fa-search:before {
     content: "\f002";
 }
+
 .search-header input {
     flex: 1;
     border: none;
@@ -1041,6 +1062,7 @@ footer {
     font-size: 1.1rem;
     padding: 0.5rem;
 }
+
 .close-btn {
     background: none;
     border: none;
@@ -1050,16 +1072,19 @@ footer {
     border-radius: 50%;
     transition: var(--transition);
 }
+
 .search-results {
     max-height: 70vh;
     overflow-y: auto;
     padding: 1rem;
 }
+
 .initial-message {
     text-align: center;
     color: var(--gray);
     padding: 2rem;
 }
+
 /* .fas.fa-handshake{
     margin-right: 30px;
 } */
@@ -1080,28 +1105,34 @@ footer {
 }
 
 @media (max-width: 768px) {
-    nav{
+    nav {
         justify-content: space-between;
     }
-    .logo{
+
+    .logo {
         width: 50%;
     }
-    .announcement-bar p{
+
+    .announcement-bar p {
         display: flex;
         flex-direction: column;
     }
-    .btn-small{
+
+    .btn-small {
         font-size: 0.55rem;
     }
-    .countdown{
+
+    .countdown {
         margin-top: 10px;
     }
+
     .hero {
         height: 70vh;
         min-height: 400px;
     }
-    
-    .nav-links, .nav-actions {
+
+    .nav-links,
+    .nav-actions {
         display: none;
     }
 
@@ -1114,48 +1145,69 @@ footer {
     }
 
     .categories {
-        display: flex; /* 使用 flexbox 实现水平排列 */
+        display: flex;
+        /* 使用 flexbox 实现水平排列 */
         justify-content: flex-start;
-        overflow-x: auto; /* 允许水平滚动 */
-        overflow-y: hidden; /* 禁止垂直滚动 */
-        white-space: nowrap; /* 防止内容换行 */
-        grid-template-columns: none; /* 移除网格布局，使用 flex 替代 */
+        overflow-x: auto;
+        /* 允许水平滚动 */
+        overflow-y: hidden;
+        /* 禁止垂直滚动 */
+        white-space: nowrap;
+        /* 防止内容换行 */
+        grid-template-columns: none;
+        /* 移除网格布局，使用 flex 替代 */
         gap: 0.75rem;
         padding: 1.5rem 0.5rem;
-        scroll-snap-type: x mandatory; /* 可选：添加滑动吸附效果 */
-        -webkit-overflow-scrolling: touch; /* iOS 上优化滑动体验 */
+        scroll-snap-type: x mandatory;
+        /* 可选：添加滑动吸附效果 */
+        -webkit-overflow-scrolling: touch;
+        /* iOS 上优化滑动体验 */
     }
+
     .categories {
         /* 整体禁止选中 */
         user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
-        -webkit-overflow-scrolling: touch; /* iOS惯性滚动支持 */
+        -webkit-overflow-scrolling: touch;
+        /* iOS惯性滚动支持 */
     }
+
     .category-item {
-        flex: 0 0 auto; /* 固定宽度，不自动缩放 */
-        width: 130px; /* 设置每个项目固定宽度，可根据需求调整 */
-        scroll-snap-align: start; /* 可选：滑动时对齐到开头 */
+        flex: 0 0 auto;
+        /* 固定宽度，不自动缩放 */
+        width: 130px;
+        /* 设置每个项目固定宽度，可根据需求调整 */
+        scroll-snap-align: start;
+        /* 可选：滑动时对齐到开头 */
 
         /* 禁止文本选择 */
         user-select: none;
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none;    /* Firefox */
-        -ms-user-select: none;     /* IE10+ */
+        -webkit-user-select: none;
+        /* Safari */
+        -moz-user-select: none;
+        /* Firefox */
+        -ms-user-select: none;
+        /* IE10+ */
     }
+
     .category-item a {
-        display: block; /* 让a标签像块级元素，更好点整个区域 */
-        text-decoration: none; /* 取消下划线，如果你想的话 */
+        display: block;
+        /* 让a标签像块级元素，更好点整个区域 */
+        text-decoration: none;
+        /* 取消下划线，如果你想的话 */
         user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
     }
+
     .category-item img {
         width: 120px;
         height: 100px;
     }
+
     .category-item h2 {
         font-size: 1rem;
         padding: 0.75rem;
@@ -1196,19 +1248,24 @@ footer {
     .chat-icon {
         margin-right: 0;
     }
+
     .announcement-bar p {
         margin-right: 0.5rem;
         font-size: 0.85rem;
     }
+
     .countdown {
         gap: 0.25rem;
     }
+
     .time-unit {
         padding: 0.15rem 0.35rem;
         font-size: 0.85rem;
     }
+
     /* 首页商品容器 */
-    .product-grid,.featured-grid {
+    .product-grid,
+    .featured-grid {
         display: flex;
         justify-content: flex-start;
         overflow-x: auto;
@@ -1220,22 +1277,26 @@ footer {
         -webkit-overflow-scrolling: touch;
         width: 100%;
     }
-    
-    .product-card,.featured-item {
+
+    .product-card,
+    .featured-item {
         flex: 0 0 auto;
-        width: 250px; /* 固定宽度，可调整为 200px、300px 等 */
+        width: 250px;
+        /* 固定宽度，可调整为 200px、300px 等 */
         scroll-snap-align: start;
         text-align: center;
     }
-    
+
     /* 可选：美化滚动条（仅桌面端生效） */
     .product-grid::-webkit-scrollbar {
         height: 8px;
     }
+
     .product-grid::-webkit-scrollbar-thumb {
         background: #888;
         border-radius: 4px;
     }
+
     .product-grid::-webkit-scrollbar-thumb:hover {
         background: #555;
     }
@@ -1281,7 +1342,7 @@ footer {
         flex-direction: column;
         gap: 0.5rem;
     }
-    
+
     .announcement-bar p {
         margin-right: 0;
     }
@@ -1341,13 +1402,13 @@ footer {
     height: 100%;
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 #suggested-products .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 #suggested-products .product-card img {
