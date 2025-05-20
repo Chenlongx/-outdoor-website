@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
   
       renderGuide(data);
+
+
     } catch (err) {
       console.error(err);
       document.body.innerHTML = '<h2>Error loading guide.</h2>';
@@ -27,9 +29,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
   
   function renderGuide(article) {
-    document.title = article.title;
+    // document.title = article.title;
 
-        // 设置页面标题
+    // 设置页面标题
     document.title = `${article.title} | Summitgearhub`;
 
     // 移除已存在的动态 meta（避免重复）
@@ -153,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             html += `<p>${block.text}</p>`;
             break;
           case 'image':
-            html += `<img src="${block.src}" alt="${block.alt || ''}" style="margin: 1.5rem 0; max-width: 100%;">`;
+            html += `<img src="${block.src}" alt="${block.alt || ''}" loading="lazy" style="margin: 1.5rem 0; max-width: 100%;">`;
             break;
           case 'list':
             const tag = block.style === 'ordered' ? 'ol' : 'ul';
@@ -172,6 +174,39 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       
       contentContainer.innerHTML = html;
+
+    // ✅ 添加结构化数据 JSON-LD 到 <head>
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": window.location.href
+      },
+      "headline": article.title,
+      "description": description,
+      "image": seoImage,
+      "author": {
+        "@type": "Person",
+        "name": article.name || article.content?.author || "Summitgearhub"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Summitgearhub",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://summitgearhub.com/img/logo.svg"
+        }
+      },
+      "datePublished": article.published_at || article.created_at || new Date().toISOString(),
+      "dateModified": article.updated_at || article.created_at || new Date().toISOString()
+    };
+
+    const ldScript = document.createElement('script');
+    ldScript.type = 'application/ld+json';
+    ldScript.setAttribute('data-dynamic-meta', 'true');
+    ldScript.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(ldScript);
   }
 
 

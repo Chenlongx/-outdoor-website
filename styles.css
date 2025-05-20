@@ -1035,7 +1035,11 @@ footer {
         /* 移动端加载优化 */
         background-image: 
             linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url("./img/hero-mobile-background.webp");
+            url("./img/hero-background-blur.webp");
+    }
+    .hero.loaded {
+        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+        url('./img/hero-background.webp');
     }
     .nav-links, .nav-actions {
         display: none;

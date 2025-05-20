@@ -454,6 +454,21 @@ function initSearch() {
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // JavaScript 加载高清图
+    const isMobile = window.innerWidth <= 768; // 或用 640, 480，自行调整
+    if (isMobile) {
+        const hero = document.getElementById('hero');
+        const img = new Image();
+        img.src = './img/hero-background.webp';
+    
+        img.onload = () => {
+          hero.classList.add('loaded');
+        };
+      } else {
+        // 桌面端直接使用高清图，不加载 JS
+        document.getElementById('hero').classList.add('loaded');
+    }
+
     // 初始化购物车（不会重复定义）
     if (typeof CartManager !== 'undefined' && CartManager.init) {
         CartManager.init();
