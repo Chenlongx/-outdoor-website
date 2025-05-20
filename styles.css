@@ -1,6 +1,51 @@
 /* Global Styles */
 /* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap'); */
 
+/* Montserrat - 300 (Light) */
+  
+  /* Montserrat - 400 (Regular) */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('/fonts/montserrat-v29-latin-300.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/montserrat-v29-latin-regular.woff2') format('woff2');
+  }
+  /* Montserrat - 500 (Medium) */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/montserrat-v29-latin-500.woff2') format('woff2');
+  }
+  
+  /* Montserrat - 600 (SemiBold) */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/montserrat-v29-latin-600.woff2') format('woff2');
+  }
+  
+  /* Montserrat - 700 (Bold) */
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('/fonts/montserrat-v29-latin-700.woff2') format('woff2');
+  }
+
+
 :root {
     /* Main color palette */
     --primary-color: #2c6e49;
