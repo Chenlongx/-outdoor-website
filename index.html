@@ -142,10 +142,23 @@
     </header>
 
     <section id="hero" class="hero">
+        <!-- 可响应的背景图 -->
+        <picture>
+            <!-- 手机端优先匹配（max-width: 768px） -->
+          <source media="(max-width: 768px)" srcset="./img/hero-mobile-background.webp" type="image/webp">
+          
+          <!-- 默认是桌面端大图 -->
+          <img src="./img/hero-background.webp" alt="Explore the outdoors" class="hero-bg" loading="eager">
+        </picture>
+      
+        <!-- 黑色渐变遮罩 -->
+        <div class="hero-overlay"></div>
+      
+        <!-- 文本内容 -->
         <div class="hero-content">
-            <h1>Explore The Outdoors</h1>
-            <p>Premium gear for unforgettable adventures</p>
-            <a href="./products/" class="btn-primary">Shop Now</a>
+          <h1>Explore The Outdoors</h1>
+          <p>Premium gear for unforgettable adventures</p>
+          <a href="./products/" class="btn-primary">Shop Now</a>
         </div>
     </section>
 

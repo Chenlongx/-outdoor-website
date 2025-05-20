@@ -261,35 +261,60 @@ nav {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('./img/hero-background.webp');
-    background-size: cover;
-    background-position: center;
+    position: relative;
     height: 600px;
-    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
     text-align: center;
-}
-
-.hero-content {
+    overflow: hidden;
+  }
+  
+  .hero picture,
+  .hero img.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保证图片像背景一样铺满 */
+    object-position: center;
+    z-index: 0;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
     max-width: 800px;
     padding: 0 1rem;
-}
-
-.hero h1 {
+  }
+  
+  .hero h1 {
     font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-}
-
-.hero p {
+  }
+  
+  .hero p {
     font-size: 1.25rem;
     margin-bottom: 2rem;
     opacity: 0.9;
-}
+  }
+
+
 
 /* Categories Section */
 .categories {
@@ -1027,20 +1052,10 @@ footer {
         margin-top: 10px;
     }
     .hero {
-        max-width: 100%;
-        height: 70vh;     
-        min-height: 400px; 
-        background-position: 35% center;  /* 优化构图焦点 */
-        
-        /* 移动端加载优化 */
-        background-image: 
-            linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-            url("./img/hero-background-blur.webp");
+        height: 70vh;
+        min-height: 400px;
     }
-    .hero.loaded {
-        background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url('./img/hero-background.webp');
-    }
+    
     .nav-links, .nav-actions {
         display: none;
     }
