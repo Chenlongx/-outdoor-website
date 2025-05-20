@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const params = new URLSearchParams(window.location.search);
     const slug = params.get('slug');
-    
     startCountdown()
 
     if (!slug || !slug.includes('-')) {
@@ -14,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const res = await fetch(`/.netlify/functions/get-guide-by-short-id?short_id=${shortId}`);
       const data = await res.json();
+      console.log(data)
       if (!data || data.error) {
         document.body.innerHTML = '<h2>Guide not found.</h2>';
         return;

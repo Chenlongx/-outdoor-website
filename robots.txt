@@ -17,6 +17,9 @@ Allow: /products/shipping-info.html
 Allow: /products/terms-of-service.html
 Allow: /products/faq.html
 Allow: /products/visual-sitemap.html
+# 允许 Googlebot 等搜索引擎访问这两个函数接口
+Allow: /.netlify/functions/get-activities
+Allow: /.netlify/functions/get-guide-by-short-id
 
 
 
