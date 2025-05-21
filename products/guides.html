@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/guides.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preload" as="image" href="https://images.unsplash.com/photo-1501555088652-021faa106b9b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80" fetchpriority="high"
+  >
 </head>
 <body>
     <header>
@@ -39,8 +41,8 @@
                 <li><a href="support.html">Support</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
-                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i></a>
+                <a href="#" class="icon-link" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+                <a href="cart.html" class="icon-link" aria-label="View Cart"><i class="fas fa-shopping-cart" aria-hidden="true"></i></a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -58,7 +60,7 @@
     <div class="guides-container">
         <aside class="guides-sidebar">
             <div class="sidebar-widget">
-                <h3>Guide Categories</h3>
+                <h2>Guide Categories</h2>
                 <ul class="category-list">
                     <li class="active"><a href="#" data-category="all">All Guides</a></li>
                     <!-- <li><a href="#" data-category="hiking">Hiking</a></li>
@@ -143,7 +145,7 @@
                 <h2>Explore Our Adventure Guides</h2>
                 <div class="guides-search">
                     <input type="text" id="guides-search" placeholder="Search guides...">
-                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                    <button class="search-btn" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></button>
                 </div>
                 <div class="guides-sort">
                     <label for="sort-guides">Sort By:</label>
@@ -203,7 +205,7 @@
                 <div class="expert-card">
                     <img src="../img/guides/MICHAEL TORRES.webp" alt="Michael Torres">
                     <div class="expert-info">
-                        <h4>Michael Torres</h4>
+                        <h3>Michael Torres</h3>
                         <p class="expert-title">Trail Guide & Mountaineer</p>
                         <p class="expert-bio">15+ years guiding high-altitude expeditions across six continents.</p>
                     </div>
@@ -211,7 +213,7 @@
                 <div class="expert-card">
                     <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sarah Johnson">
                     <div class="expert-info">
-                        <h4>Sarah Johnson</h4>
+                        <h3>Sarah Johnson</h3>
                         <p class="expert-title">Wilderness Survival Instructor</p>
                         <p class="expert-bio">Former search & rescue team member and certified wilderness first responder.</p>
                     </div>
@@ -219,7 +221,7 @@
                 <div class="expert-card">
                     <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="David Chen">
                     <div class="expert-info">
-                        <h4>David Chen</h4>
+                        <h3>David Chen</h3>
                         <p class="expert-title">Outdoor Gear Specialist</p>
                         <p class="expert-bio">Product designer with a focus on innovative, sustainable outdoor equipment.</p>
                     </div>
@@ -227,7 +229,7 @@
                 <div class="expert-card">
                     <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Emma Rodriguez">
                     <div class="expert-info">
-                        <h4>Emma Rodriguez</h4>
+                        <h3>Emma Rodriguez</h3>
                         <p class="expert-title">Environmental Educator</p>
                         <p class="expert-bio">Specializes in teaching low-impact outdoor practices and wildlife identification.</p>
                     </div>
@@ -297,10 +299,10 @@
         <div class="social-links">
             <p>Follow Us</p>
             <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=100089727983737&mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/summitgearhub?igsh=MWZmb29iaXo2MWVzbw=="><i class="fab fa-instagram"></i></a>
-                <a href="https://x.com/summitgearhub"><i class="fab fa-twitter"></i></a>
-                <a href="https://youtube.com/@summitgearhub?si=8L46WJOF9V52lfkB"><i class="fab fa-youtube"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100089727983737&mibextid=ZbWKwL" aria-label="Follow us on Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/summitgearhub?igsh=MWZmb29iaXo2MWVzbw==" aria-label="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://x.com/summitgearhub"><i class="fab fa-twitter" aria-label="Follow us on Twitter"></i></a>
+                <a href="https://youtube.com/@summitgearhub?si=8L46WJOF9V52lfkB" aria-label="Subscribe to our YouTube channel"><i class="fab fa-youtube"></i></a>
             </div>
         </div>
     </section>
