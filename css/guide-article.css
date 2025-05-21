@@ -46,6 +46,9 @@ header {
   margin-bottom: 1rem;
   letter-spacing: 1.2px;
 } */
+.guides-hero h1 {
+  min-height: 3rem; /* 预留空间防抖动 */
+}
 .guides-hero p {
   font-size: 1.17rem;
   font-weight: 400;
