@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let currentProducts = []; // 存储当前产品数据
     let currentCategory = null; // 当前选中的分类
     let currentSubcategory = null; // 当前选中的子分类
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addToCart(product) {
             const items = this.getCartItems();
             const existingItem = items.find(item => item.id === product.id);
-            
+
             if (existingItem) {
                 existingItem.quantity += 1; // 如果已存在，增加数量
             } else {
@@ -46,11 +46,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     image: product.image_url, // 确保使用image_url作为image属性
                     quantity: 1 // 新增产品，默认数量为 1
                 };
-                
+
 
                 items.push(productToAdd);
             }
-            
+
             this.saveCartItems(items);
             this.updateCartCount();
             this.showNotification(`${product.name} Added to cart`);
@@ -74,19 +74,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 notificationContainer = document.createElement('div');
                 notificationContainer.classList.add('notification-container');
                 document.body.appendChild(notificationContainer);
-        
+
                 // Style notification container
                 notificationContainer.style.position = 'fixed';
                 notificationContainer.style.top = '20px';
                 notificationContainer.style.right = '20px';
                 notificationContainer.style.zIndex = '9999';
             }
-        
+
             // Create notification
             const notification = document.createElement('div');
             notification.classList.add('notification');
             notification.textContent = message;
-        
+
             // Style notification
             notification.style.backgroundColor = 'var(--primary-color)';
             notification.style.color = 'white';
@@ -96,15 +96,15 @@ document.addEventListener('DOMContentLoaded', function() {
             notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.15)';
             notification.style.transform = 'translateX(150%)';
             notification.style.transition = 'transform 0.3s ease';
-        
+
             // Add notification to container
             notificationContainer.appendChild(notification);
-        
+
             // Animate notification
             setTimeout(() => {
                 notification.style.transform = 'translateX(0)';
             }, 10);
-        
+
             // Remove notification after 3 seconds
             setTimeout(() => {
                 notification.style.transform = 'translateX(150%)';
@@ -134,26 +134,26 @@ document.addEventListener('DOMContentLoaded', function() {
             if (urlCategory) {
                 currentCategory = decodeURIComponent(urlCategory);
                 currentSubcategory = urlSubcategory ? decodeURIComponent(urlSubcategory) : null;
-              
+
                 // 使用 name 字段进行模糊匹配（忽略大小写）
                 const filteredByName = data.filter(product =>
-                  product.name.toLowerCase().includes(currentCategory.toLowerCase())
+                    product.name.toLowerCase().includes(currentCategory.toLowerCase())
                 );
-              
+
                 // 如果匹配到则用过滤后的数据渲染，否则默认按原分类字段过滤
                 if (filteredByName.length > 0) {
-                  currentProducts = filteredByName;
-                  console.log('按 name 模糊匹配后的产品:', currentProducts);
+                    currentProducts = filteredByName;
+                    console.log('按 name 模糊匹配后的产品:', currentProducts);
                 } else {
-                  currentProducts = data.filter(product =>
-                    product.category && product.category.toLowerCase().includes(currentCategory.toLowerCase())
-                  );
+                    currentProducts = data.filter(product =>
+                        product.category && product.category.toLowerCase().includes(currentCategory.toLowerCase())
+                    );
 
                     // ✅ 如果还是没匹配到，隐藏分类侧边栏
                     if (currentProducts.length === 0) {
                         const sidebar = document.querySelector('.categories-sidebar');
                         if (sidebar) sidebar.style.display = 'none';
-                        
+
                         // 隐藏分页
                         const paginationnone = document.querySelector('.pagination');
                         if (paginationnone) paginationnone.style.display = 'none';
@@ -174,25 +174,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 根据是否有 category 参数设置 canonical href
                 if (urlCategory) {
-                canonical.setAttribute('href', currentUrl);
+                    canonical.setAttribute('href', currentUrl);
                 } else {
-                canonical.setAttribute('href', 'https://summitgearhub.com/products/');
+                    canonical.setAttribute('href', 'https://summitgearhub.com/products/');
                 }
 
                 // 插入到 <head> 中（如果已有旧 canonical 可先删除）
                 const oldCanonical = document.querySelector('link[rel="canonical"]');
                 if (oldCanonical) {
-                oldCanonical.remove();
+                    oldCanonical.remove();
                 }
                 document.head.appendChild(canonical);
-              
+
                 renderSubcategories();
                 renderProducts(getPaginatedProducts());
                 highlightCategoryInSidebar();
-              } else {
+            } else {
                 currentProducts = data; // ✅ 缺失的这一行补上！
                 renderProducts(getPaginatedProducts());
-              }
+            }
 
             cart.updateCartCount(); // 初始化购物车计数
             setupCartEventListeners(); // 设置购物车事件监听器
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const mainCategories = [...new Set(currentProducts
             .map(product => product.category)
             .filter(category => category))];
-        
+
         // 点击选项项展示相关的产品
         mainCategories.forEach(category => {
             const categoryItem = document.createElement('li');
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!subcategoriesNav) return;
 
         subcategoriesNav.innerHTML = '';
-        
+
         if (currentCategory) {
             // 从产品数据中提取当前主分类下的所有子分类
             const subcategories = [...new Set(currentProducts
@@ -293,11 +293,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // 按分类和子分类过滤
         if (currentCategory && currentProducts === originalProducts) {
             filteredProducts = filteredProducts.filter(product =>
-              product.category === currentCategory
+                product.category === currentCategory
             );
-          }
+        }
         if (currentSubcategory) {
-            filteredProducts = filteredProducts.filter(product => 
+            filteredProducts = filteredProducts.filter(product =>
                 product.subcategory === currentSubcategory
             );
         }
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 添加排序事件监听器
     const sortSelect = document.getElementById('sort-select');
     if (sortSelect) {
-        sortSelect.addEventListener('change', function() {
+        sortSelect.addEventListener('change', function () {
             currentSort = this.value;
             currentPage = 1; // 重置页码
             renderProducts(getPaginatedProducts());
@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 排序函数
     function sortProducts(products, sortType) {
         const sortedProducts = [...products];
-        switch(sortType) {
+        switch (sortType) {
             case 'price-asc':
                 sortedProducts.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
                 break;
@@ -362,37 +362,46 @@ document.addEventListener('DOMContentLoaded', function() {
         injectItemListJsonLD(products);
     }
 
-    function createProductCard(product) {
+    function createProductCard(product, index) {
         const card = document.createElement('div');
         card.className = 'product-card';
-    
+
         // 使用产品名称生成友好的 URL 格式，去除空格并转换为小写字母
         const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
-    
+
         // 创建跳转到详情页的链接，包含简化后的 ID 和产品名称
         const productLink = document.createElement('a');
         productLink.href = `./product-detail.html?id=${product.id}-${productNameForUrl}`; // 生成带有简短 ID 和产品名称的 URL
         productLink.className = 'product-link';
         productLink.setAttribute('aria-label', `View details of ${product.name}`);
-    
+
         // 创建图片容器
         const productImage = document.createElement('div');
         productImage.className = 'product-image';
-    
+
         // 在图片容器中添加图片
         const img = document.createElement('img');
         img.src = product.image_url;
         img.alt = product.name;
         img.loading = 'lazy';
-    
+
+        // 页面首屏的前 3 张图片用高优先级、其余继续懒加载
+        if (index < 3) {
+            img.loading = 'eager';
+            img.setAttribute('fetchpriority', 'high');
+        } else {
+            img.loading = 'lazy';
+            img.setAttribute('fetchpriority', 'low');
+        }
+
         // 将图片添加到图片容器
         productImage.appendChild(img);
-    
+
         // 为图片容器添加点击事件，跳转到产品详情页
         productImage.addEventListener('click', (e) => {
             window.location.href = productLink.href; // 点击图片容器跳转到详情页
         });
-        
+
         // 计算折扣价，保证是数字类型
         // const price = parseFloat(product.price) || 0;
         // const discount = parseFloat(product.discount) || 1;
@@ -410,11 +419,11 @@ document.addEventListener('DOMContentLoaded', function() {
             <p class="product-description">${product.description}</p>
             <button class="add-to-cart-btn" data-product-id="${product.id}">add to the cart</button>
         `;
-    
+
         // 将图片和产品信息容器添加到跳转链接容器中
         productLink.appendChild(productImage);
         productLink.appendChild(productInfo);
-    
+
         // 为加入购物车按钮添加单独的点击事件
         const addToCartBtn = productInfo.querySelector('.add-to-cart-btn');
         if (addToCartBtn) {
@@ -430,17 +439,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 将产品
             });
         }
-    
+
         // 将跳转链接添加到卡片容器中
         card.appendChild(productLink);
-        
+
         // ✅ 插入产品级结构化数据
         injectProductJsonLD(product);
 
         return card;
     }
-    
-    
+
+
 
     // 渲染分页
     function renderPagination(totalProducts) {
@@ -516,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 移除旧的 JSON-LD（避免重复）
         const oldScript = document.getElementById('jsonld-itemlist');
         if (oldScript) oldScript.remove();
-    
+
         // 创建结构化数据对象
         const itemList = {
             "@context": "https://schema.org",
@@ -530,7 +539,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`
             }))
         };
-    
+
         // 创建并插入新的 JSON-LD 脚本标签
         const script = document.createElement('script');
         script.type = 'application/ld+json';
@@ -542,7 +551,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function injectProductJsonLD(product) {
         const script = document.createElement('script');
         script.type = 'application/ld+json';
-    
+
         const productSchema = {
             "@context": "https://schema.org",
             "@type": "Product",
@@ -580,7 +589,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         };
-    
+
         script.textContent = JSON.stringify(productSchema, null, 2);
         document.head.appendChild(script);
     }
