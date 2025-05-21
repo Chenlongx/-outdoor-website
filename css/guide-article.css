@@ -80,6 +80,20 @@ header {
   object-fit: cover;
   box-shadow: 0 2px 8px rgba(21,156,187,0.08);
 }
+.guide-detail-body {
+  min-height: 400px;
+  /* 也可以做渐变背景或骨架屏，提升体验 */
+}
+.guide-detail-body h2 {
+  min-height: 2em;
+}
+.guide-detail-body img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  margin: 1.5rem 0;
+}
 .guide-level {
   background: var(--primary);
   color: #fff;

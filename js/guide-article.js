@@ -380,15 +380,38 @@
       const blocks = article.content?.blocks || [];
       const html = blocks.map(block => {
         switch (block.type) {
-          case 'heading':   return `<h2>${block.text}</h2>`;
-          case 'paragraph': return `<p>${block.text}</p>`;
-          case 'image':     return `<img src="${block.src}" alt="${block.alt||''}" loading="lazy" decoding="async" style="margin:1.5rem 0;max-width:100%;">`;
+          case 'heading':
+            return `<h2>${block.text}</h2>`;
+  
+          case 'paragraph':
+            return `<p>${block.text}</p>`;
+  
+          case 'image':
+            // 在这里给 img 加宽高
+            return `
+              <img
+                src="${block.src}"
+                alt="${block.alt || ''}"
+                width="800"               /* 或者你的实际图片宽度 */
+                height="450"              /* 或者实际高度 */
+                loading="lazy"
+                decoding="async"
+                style="object-fit:cover; margin:1.5rem 0; max-width:100%;"
+              >
+            `;
+  
           case 'list':
-            const tag = block.style==='ordered'?'ol':'ul';
+            const tag = block.style === 'ordered' ? 'ol' : 'ul';
             return `<${tag}>${block.items.map(i=>`<li>${i}</li>`).join('')}</${tag}>`;
-          case 'quote':     return `<blockquote>${block.text}</blockquote>`;
-          case 'links':     return block.items.map(l=>`<p><a href="${l.url}" target="_blank">${l.label}</a></p>`).join('');
-          default:          return block.text?`<p>${block.text}</p>`:'';
+  
+          case 'quote':
+            return `<blockquote>${block.text}</blockquote>`;
+  
+          case 'links':
+            return block.items.map(l=>`<p><a href="${l.url}" target="_blank">${l.label}</a></p>`).join('');
+  
+          default:
+            return block.text ? `<p>${block.text}</p>` : '';
         }
       }).join('');
       body.innerHTML += html;
