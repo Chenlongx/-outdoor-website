@@ -212,6 +212,7 @@ exports.handler = async function(event, context) {
         name,
         price,
         discount,
+        description,
         image_url,
         product_categories (
           categories ( name )
@@ -241,7 +242,9 @@ exports.handler = async function(event, context) {
       return {
         id: p.id,
         name: p.name,
+        description: p.description || '',
         image_url: p.image_url,
+        price: price.toFixed(2), 
         final_price: finalPrice.toFixed(2),
         discount_percent: Math.round(discountPercent),
         categories: categoryList,

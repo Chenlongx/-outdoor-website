@@ -82,12 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (productGrid) {
                 // 渲染类别标签
                 renderCategoryTabs();
+                // 设置默认选中的折扣按钮
+                setDefaultDiscountFilter();
+                setupEventListeners();
                 const filteredProducts = filterProducts();
                 console.log('过滤后的产品数量:', filteredProducts.length);
                 renderProducts(filteredProducts);
-                setupEventListeners();
-                // 设置默认选中的折扣按钮
-                setDefaultDiscountFilter();
+                
+                
             } else {
                 console.error('未找到产品网格元素');
             }
@@ -192,7 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 按折扣过滤
         filteredProducts = filteredProducts.filter(product => 
-            (1 - parseFloat(product.discount)) * 100 >= currentDiscount
+            // (1 - parseFloat(product.discount)) * 100 >= currentDiscount
+            product.discount_percent >= currentDiscount
         );
         console.log('按折扣过滤后数量:', filteredProducts.length);
 
