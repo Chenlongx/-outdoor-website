@@ -73,19 +73,139 @@
 
 
 
+// const { createClient } = require('@supabase/supabase-js');
+// const zlib = require('zlib');
+
+// exports.handler = async function (event, context) {
+//   // 初始化 Supabase 客户端
+//   const supabase = createClient(
+//     process.env.SUPABASE_URL,
+//     process.env.SUPABASE_KEY
+//   );
+
+//   try {
+//     // 1. 查询产品并做处理（同你现有逻辑）
+//     const { data: products, error } = await supabase
+//       .from('products')
+//       .select(`
+//         id,
+//         name,
+//         price,
+//         discount,
+//         image_url,
+//         product_categories (
+//           categories ( name )
+//         )
+//       `);
+//     if (error) throw error;
+
+//     const processedProducts = products.map(product => {
+//       const categoryList =
+//         product.product_categories?.map(pc => pc.categories?.name).filter(Boolean) || [];
+//       const price = parseFloat(product.price) || 0;
+//       const discountRate = parseFloat(product.discount);
+//       let finalPrice = price;
+//       let discountPercent = 0;
+
+//       if (!isNaN(discountRate)) {
+//         if (discountRate > 1) {
+//           finalPrice = price * (1 - discountRate / 100);
+//           discountPercent = discountRate;
+//         } else {
+//           finalPrice = price * discountRate;
+//           discountPercent = (1 - discountRate) * 100;
+//         }
+//       }
+
+//       return {
+//         id: product.id,
+//         name: product.name,
+//         final_price: finalPrice.toFixed(2),
+//         discount_percent: Math.round(discountPercent),
+//         image_url: product.image_url,
+//         categories: categoryList,
+//         category: categoryList[0] || 'Uncategorized',
+//         subcategory: categoryList[1] || null,
+//       };
+//     });
+
+//     // 2. 序列化并 Gzip 压缩
+//     const json = JSON.stringify(processedProducts);
+//     const gzipped = zlib.gzipSync(json);
+
+//     // 3. 返回 base64 编码的压缩结果，并设置合适的头
+//     return {
+//       statusCode: 200,
+//       isBase64Encoded: true,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Content-Encoding': 'gzip',
+//         // 缓存 60 秒到浏览器，本地边缘节点缓存 300 秒
+//         'Cache-Control': 'public, max-age=60, s-maxage=300'
+//       },
+//       body: gzipped.toString('base64')
+//     };
+
+//   } catch (err) {
+//     console.error('Error fetching products:', err);
+//     // 错误情况下不压缩也可以，但这里示范一致返回 JSON
+//     const errorBody = JSON.stringify({ error: err.message });
+//     const gzippedErr = zlib.gzipSync(errorBody);
+
+//     return {
+//       statusCode: err.statusCode || 500,
+//       isBase64Encoded: true,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Content-Encoding': 'gzip',
+//         'Cache-Control': 'public, max-age=60, s-maxage=300'
+//       },
+//       body: gzippedErr.toString('base64')
+//     };
+//   }
+// };
+
+
+
+
+// netlify/functions/fetch-products.js
+
 const { createClient } = require('@supabase/supabase-js');
 const zlib = require('zlib');
 
-exports.handler = async function (event, context) {
-  // 初始化 Supabase 客户端
-  const supabase = createClient(
-    process.env.SUPABASE_URL,
-    process.env.SUPABASE_KEY
-  );
+// 1. 在模块顶层初始化 Supabase 客户端（冷启动时执行一次）
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+
+// 2. 简单内存缓存，30 秒内复用同一次查询结果 + 压缩体
+let cache = null;
+let cacheTs = 0;
+
+/**
+ * 异步 Gzip 压缩
+ * @param {Buffer|string} buf 
+ * @returns {Promise<Buffer>}
+ */
+function gzipAsync(buf) {
+  return new Promise((resolve, reject) => {
+    zlib.gzip(buf, (err, result) => {
+      if (err) reject(err);
+      else resolve(result);
+    });
+  });
+}
+
+exports.handler = async function(event, context) {
+  // 30 秒内直接返回缓存
+  if (cache && Date.now() - cacheTs < 30_000) {
+    return cache;
+  }
 
   try {
-    // 1. 查询产品并做处理（同你现有逻辑）
-    const { data: products, error } = await supabase
+    // 3. 从 Supabase 查询原始数据
+    const { data: rows, error } = await supabase
       .from('products')
       .select(`
         id,
@@ -99,61 +219,66 @@ exports.handler = async function (event, context) {
       `);
     if (error) throw error;
 
-    const processedProducts = products.map(product => {
-      const categoryList =
-        product.product_categories?.map(pc => pc.categories?.name).filter(Boolean) || [];
-      const price = parseFloat(product.price) || 0;
-      const discountRate = parseFloat(product.discount);
-      let finalPrice = price;
-      let discountPercent = 0;
+    // 4. 处理每条记录：分类、折后价、折扣百分比
+    const processed = rows.map(p => {
+      const categoryList = p.product_categories
+        ?.map(pc => pc.categories?.name)
+        .filter(Boolean) || [];
+      const price = parseFloat(p.price) || 0;
+      const dr = parseFloat(p.discount);
+      let finalPrice = price, discountPercent = 0;
 
-      if (!isNaN(discountRate)) {
-        if (discountRate > 1) {
-          finalPrice = price * (1 - discountRate / 100);
-          discountPercent = discountRate;
+      if (!isNaN(dr)) {
+        if (dr > 1) {
+          finalPrice = price * (1 - dr / 100);
+          discountPercent = dr;
         } else {
-          finalPrice = price * discountRate;
-          discountPercent = (1 - discountRate) * 100;
+          finalPrice = price * dr;
+          discountPercent = (1 - dr) * 100;
         }
       }
 
       return {
-        id: product.id,
-        name: product.name,
+        id: p.id,
+        name: p.name,
+        image_url: p.image_url,
         final_price: finalPrice.toFixed(2),
         discount_percent: Math.round(discountPercent),
-        image_url: product.image_url,
         categories: categoryList,
         category: categoryList[0] || 'Uncategorized',
-        subcategory: categoryList[1] || null,
+        subcategory: categoryList[1] || null
       };
     });
 
-    // 2. 序列化并 Gzip 压缩
-    const json = JSON.stringify(processedProducts);
-    const gzipped = zlib.gzipSync(json);
+    // 5. 序列化并异步 Gzip
+    const json = JSON.stringify(processed);
+    const gzipped = await gzipAsync(json);
 
-    // 3. 返回 base64 编码的压缩结果，并设置合适的头
-    return {
+    // 6. 构造响应并缓存
+    const response = {
       statusCode: 200,
       isBase64Encoded: true,
       headers: {
         'Content-Type': 'application/json',
         'Content-Encoding': 'gzip',
-        // 缓存 60 秒到浏览器，本地边缘节点缓存 300 秒
+        // 浏览器缓存 60s，CDN 边缘节点缓存 300s
         'Cache-Control': 'public, max-age=60, s-maxage=300'
       },
       body: gzipped.toString('base64')
     };
 
+    cache = response;
+    cacheTs = Date.now();
+    return response;
+
   } catch (err) {
     console.error('Error fetching products:', err);
-    // 错误情况下不压缩也可以，但这里示范一致返回 JSON
-    const errorBody = JSON.stringify({ error: err.message });
-    const gzippedErr = zlib.gzipSync(errorBody);
 
+    // 错误时也返回 gzip，但状态码改为 500
+    const errJson = JSON.stringify({ error: err.message });
+    const gzippedErr = await gzipAsync(errJson);
     return {
-      statusCode: err.statusCode || 500,
+      statusCode: 500,
       isBase64Encoded: true,
       headers: {
         'Content-Type': 'application/json',
