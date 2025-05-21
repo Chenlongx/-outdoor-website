@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../styles.css">
-    <link rel="stylesheet" href="../css/guide-article.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="preload" href="/fonts/montserrat-v29-latin-600.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="../styles.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="../css/guide-article.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="../styles.css">
+        <link rel="stylesheet" href="../css/guide-article.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </noscript>
+    <!-- <link rel="preload" href="/fonts/montserrat-v29-latin-600.woff2" as="font" type="font/woff2" crossorigin> -->
+    <style>
+        body { margin:0; font-family:'Montserrat', sans-serif; background:#f7fafd; color:#222; }
+        .guides-hero { background: linear-gradient(to bottom right, #159cbb, #20cdaa); height:260px; display:flex; align-items:center; justify-content:center; color:#fff; text-align:center; }
+        .guides-hero h1 { font-size:2.2rem; font-weight:800; margin-bottom:1rem; letter-spacing:1.2px; }
+    </style>
 </head>
 <body>
     <!-- Header/NAV START -->
@@ -64,7 +74,7 @@
         <div style="display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:center; margin-bottom:1.5rem;">
             <div style="display:flex;align-items:center;gap:1rem;">
                 <!-- 头像 -->
-                <img class="author-avatar" src="" alt="Author Avatar" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
+                <img class="author-avatar" src="" alt="Author Avatar" loading="lazy" style="width:56px;height:56px;border-radius:50%;object-fit:cover;">
                 <div>
                     <!-- 作者姓名 -->
                     <span class="author-name" style="font-weight:600;font-size:1.1rem;"></span><br>
@@ -273,7 +283,7 @@
     </div>
 
     <!-- <script src="../script.js"></script> -->
-    <script src="../js/guide-article.js"></script>
+    <script src="../js/guide-article.js" defer></script>
     <script>
     function copyLink() {
         navigator.clipboard.writeText(window.location.href).then(function() {
