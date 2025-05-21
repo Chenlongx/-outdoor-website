@@ -216,7 +216,7 @@ header {
 
 .announcement-bar {
     background-color: var(--accent-color);
-    color: white;
+    color: #212529;
     padding: 0.5rem 0;
     text-align: center;
     display: flex;
@@ -231,7 +231,7 @@ header {
 .announcement-bar p {
     margin-right: 1rem;
     white-space: nowrap;
-    color: #fff;
+    color: #212529;
 }
 
 .countdown {

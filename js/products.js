@@ -403,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const productInfo = document.createElement('div');
         productInfo.className = 'product-info';
         productInfo.innerHTML = `
-            <h3 class="product-name">${product.name}</h3>
+            <h2 class="product-name">${product.name}</h2>
             <p class="product-type">${product.producttype}</p>
             <p class="product-price">$${discountedPrice.toFixed(2)}</p>
             <p class="product-stock">stock items: ${product.stock}</p>

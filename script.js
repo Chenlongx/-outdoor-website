@@ -464,9 +464,13 @@ document.addEventListener('DOMContentLoaded', function() {
         img.onload = () => {
           hero.classList.add('loaded');
         };
-      } else {
+    } else {
         // 桌面端直接使用高清图，不加载 JS
-        document.getElementById('hero').classList.add('loaded');
+        // document.getElementById('hero').classList.add('loaded');
+        const hero = document.getElementById('hero');
+        if (hero) {
+            hero.classList.add('loaded'); // 将触发 CSS 中设置高清图
+        }
     }
 
     // 初始化购物车（不会重复定义）

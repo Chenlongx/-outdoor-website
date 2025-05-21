@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- 优化标题和元描述以达到 SEO 的效果 -->
-    <title>Shop Outdoor Gear | Camping, Hiking, Climbing Equipment | WildGear</title>
-    <meta name="description" content="Discover high-quality outdoor gear at WildGear. Browse tents, backpacks, hiking boots, camping supplies, and survival tools for your next adventure.">
+    <title>Shop Outdoor Gear | Camping, Hiking, Climbing Equipment | Summitgearhub</title>
+    <meta name="description" content="Discover high-quality outdoor gear at Summitgearhub. Browse tents, backpacks, hiking boots, camping supplies, and survival tools for your next adventure.">
 
     <!-- 规范网址 -->
     <link rel="canonical" href="https://summitgearhub.com/products/">
@@ -106,7 +106,8 @@
                     <div class="products-header">
                         <h1>All Outdoor Gear & Camping Equipment</h1>
                         <div class="products-filters">
-                            <select id="sort-select">
+                            <label for="sort-select">Sort by:</label>
+                            <select id="sort-select" name="sort">
                                 <option value="default">Default Sorting</option>
                                 <option value="price-asc">Price: Low to High</option>
                                 <option value="price-desc">Price: High to Low</option>
@@ -114,10 +115,10 @@
                                 <option value="name-desc">Name Z-A</option>
                             </select>
                             <div class="view-options">
-                                <button class="view-btn" data-view="grid">
+                                <button class="view-btn" data-view="grid" aria-label="Switch to grid view">
                                     <i class="fas fa-th"></i>
                                 </button>
-                                <button class="view-btn" data-view="list">
+                                <button class="view-btn" data-view="list" aria-label="Switch to list view">
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
