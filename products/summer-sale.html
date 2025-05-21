@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer Adventure Sale | WildGear</title>
+    <meta name="description" content="Join summitgearhub Summer Adventure Sale from June 15 to July 15, 2025 – save up to 40% on select hiking, camping, and climbing gear, plus enjoy free shipping on orders over $49!">
+    <link rel="preload" as="image" href="../img/summer-sale-background.webp" fetchpriority="high">
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/sale-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,7 +14,7 @@
 <body>
     <header>
         <div class="announcement-bar">
-            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="javascript:void(0);" class="btn-small">Shop Now</a></p>
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
             <div class="countdown" id="countdown">
                 <span class="time-unit">
                     <span id="days">00</span>d
@@ -69,7 +71,7 @@
             </div>
             <p class="sale-description">Get ready for your summer adventures with our biggest sale of the year! Save up to 40% on selected items, plus free shipping on orders over $49.</p>
             <div class="sale-cta">
-                <a href="javascript:void(0);" class="btn-primary">Shop Now</a>
+                <a href="summer-sale.html" class="btn-primary">Shop Now</a>
                 <div class="promo-code-box">
                     <p>Use code: <span id="promo-code"></span></p>
                     <button class="copy-code" id="copy-btn">Copy Code</button>
@@ -87,8 +89,8 @@
 
             <div class="sale-filters">
                 <div class="filter-group">
-                    <label>Sort By:</label>
-                    <select class="sort-select">
+                    <label for="sort-select" class="sr-only">Sort By</label>
+                    <select id="sort-select" name="sort" class="sort-select">
                         <option value="featured">Featured</option>
                         <option value="discount">Biggest Discount</option>
                         <option value="price-low">Price: Low to High</option>
