@@ -211,7 +211,7 @@ section .guides-grid {
   display: flex;
   flex-direction: column;
 }
-.guide-card-content h4 {
+.guide-card-content h3 {
   margin:0.6rem 0 0.3rem 0;
   font-size:1.14rem;
 }
