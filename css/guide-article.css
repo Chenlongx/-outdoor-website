@@ -3,7 +3,7 @@
   src: url('/fonts/montserrat-v29-latin-600.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
-  font-display: swap; /* ✅ 添加这一行 */
+  font-display: optional; /* ✅ 添加这一行 */
 }
 
 
