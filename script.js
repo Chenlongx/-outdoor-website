@@ -459,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (isMobile) {
         const hero = document.getElementById('hero');
         const img = new Image();
-        img.src = './img/hero-background.webp';
+        img.src = './img/hero-mobile-background.webp';
     
         img.onload = () => {
           hero.classList.add('loaded');
