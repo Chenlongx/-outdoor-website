@@ -202,7 +202,7 @@ section .guides-grid {
 .guide-card:hover { box-shadow: 0 8px 25px rgba(21,156,187,0.13); transform:translateY(-3px); }
 .guide-card-img {
   position: relative;
-  height: 180px;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 .guide-card-img img {
