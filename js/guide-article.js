@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             html += `<p>${block.text}</p>`;
             break;
           case 'image':
-            html += `<img src="${block.src}" alt="${block.alt || ''}" loading="lazy" style="margin: 1.5rem 0; max-width: 100%;">`;
+            html += `<img src="${block.src}" alt="${block.alt || ''}" loading="lazy" decoding="async" style="margin: 1.5rem 0; max-width: 100%;">`;
             break;
           case 'list':
             const tag = block.style === 'ordered' ? 'ol' : 'ul';

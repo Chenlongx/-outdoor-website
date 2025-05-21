@@ -1,3 +1,12 @@
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-v29-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap; /* ✅ 添加这一行 */
+}
+
+
 /* 新版 Guide Article 独立美观样式 */
 :root {
   --primary: #159cbb;
@@ -13,7 +22,7 @@
 body {
   background: var(--background);
   color: var(--text-dark);
-  font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+  font-family: 'Montserrat', 'Segoe UI', 'Roboto', sans-serif;
   margin: 0;
 }
 header {
@@ -79,7 +88,7 @@ header {
 }
 .guide-category {
   background: #e1f3f6;
-  color: var(--primary);
+  color: #085170;
   border-radius: 4px;
   padding: 3px 13px;
   font-size: 0.98rem;
