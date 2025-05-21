@@ -219,11 +219,17 @@
     white-space: nowrap;
 }
 
-.product-type {
+/* .product-type {
     color: #666;
     font-size: 0.85rem;
     margin-bottom: 0.5rem;
-}
+} */
+.product-original-price {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    text-decoration: line-through; /* 添加删除线 */
+  }
 
 .product-price {
     font-size: 1.1rem;

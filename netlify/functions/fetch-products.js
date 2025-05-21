@@ -168,7 +168,7 @@
 
 
 
-// netlify/functions/fetch-products.js
+
 
 const { createClient } = require('@supabase/supabase-js');
 const zlib = require('zlib');
@@ -214,6 +214,7 @@ exports.handler = async function(event, context) {
         discount,
         description,
         image_url,
+        stock,
         product_categories (
           categories ( name )
         )
@@ -247,6 +248,7 @@ exports.handler = async function(event, context) {
         price: price.toFixed(2), 
         final_price: finalPrice.toFixed(2),
         discount_percent: Math.round(discountPercent),
+        stock: p.stock, 
         categories: categoryList,
         category: categoryList[0] || 'Uncategorized',
         subcategory: categoryList[1] || null

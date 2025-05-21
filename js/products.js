@@ -413,7 +413,9 @@ document.addEventListener('DOMContentLoaded', function () {
         productInfo.className = 'product-info';
         productInfo.innerHTML = `
             <h2 class="product-name">${product.name}</h2>
-            <p class="product-type">${product.producttype}</p>
+            <p class="product-original-price">
+                Original Price: $${parseFloat(product.price).toFixed(2)}
+            </p>
             <p class="product-price">$${discountedPrice.toFixed(2)}</p>
             <p class="product-stock">stock items: ${product.stock}</p>
             <p class="product-description">${product.description}</p>
