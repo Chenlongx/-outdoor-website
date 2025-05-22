@@ -122,6 +122,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // —— 调用封装视图切换方法 —— 
+    setupViewToggle();
+
     // 从 Netlify 函数获取数据
     fetch('/.netlify/functions/fetch-products')
         .then(response => response.json())
@@ -451,8 +454,6 @@ document.addEventListener('DOMContentLoaded', function () {
         return card;
     }
 
-
-
     // 渲染分页
     function renderPagination(totalProducts) {
         const pagination = document.querySelector('.pagination');
@@ -563,7 +564,7 @@ document.addEventListener('DOMContentLoaded', function () {
             "sku": product.id,
             "brand": {
                 "@type": "Brand",
-                "name": "WildGear"
+                "name": "summitgearhub"
             },
             "offers": {
                 "@type": "Offer",
@@ -596,4 +597,42 @@ document.addEventListener('DOMContentLoaded', function () {
         document.head.appendChild(script);
     }
 
+    // 封装视图切换方法
+    function setupViewToggle(
+        gridSelector = '.products-grid',
+        btnSelector = '.view-btn',
+        mobileMaxWidth = 768
+    ) {
+        const viewBtns = document.querySelectorAll(btnSelector);
+        const productsGrid = document.querySelector(gridSelector);
+        if (!productsGrid || viewBtns.length === 0) return;
+    
+        // 初始状态：移动端默认两列网格
+        productsGrid.classList.remove('list-view');
+        productsGrid.classList.add('grid-view');
+        viewBtns.forEach(b => b.classList.remove('active'));
+        const defaultBtn = document.querySelector(`${btnSelector}[data-view="grid"]`);
+        if (defaultBtn) defaultBtn.classList.add('active');
+    
+        viewBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (window.innerWidth <= mobileMaxWidth) {
+            const view = btn.dataset.view;
+            productsGrid.classList.toggle('list-view', view === 'list');
+            productsGrid.classList.toggle('grid-view', view === 'grid');
+            }
+            // 切换按钮 active 样式
+            viewBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        });
+        });
+    
+        window.addEventListener('resize', () => {
+        if (window.innerWidth > mobileMaxWidth) {
+            // 桌面端重置，保持默认布局
+            productsGrid.classList.remove('list-view', 'grid-view');
+            viewBtns.forEach(b => b.classList.remove('active'));
+        }
+        });
+    }
 });

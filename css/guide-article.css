@@ -284,6 +284,7 @@ section .guides-grid {
     margin:-36px 4px 0 4px;
     border-radius:8px;
   }
+  
 }
 @media (max-width:500px) {
   .article-main-content {
