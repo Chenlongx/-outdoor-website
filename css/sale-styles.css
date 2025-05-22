@@ -3,7 +3,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1rem;
-    overflow-x: hidden; /* 防止横向溢出 */
+    overflow-x: hidden;
+    /* 防止横向溢出 */
 }
 
 /* Active nav link */
@@ -27,7 +28,8 @@
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/summer-sale-background.webp');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* 可选：视差滚动效果 */
+    background-attachment: fixed;
+    /* 可选：视差滚动效果 */
     padding: 5rem 2rem;
     color: white;
     text-align: center;
@@ -35,7 +37,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  
+
     min-height: 60vh;
     width: 100%;
     box-sizing: border-box;
@@ -110,9 +112,11 @@
     0% {
         transform: scale(1) rotate(-5deg);
     }
+
     50% {
         transform: scale(1.05) rotate(-5deg);
     }
+
     100% {
         transform: scale(1) rotate(-5deg);
     }
@@ -126,9 +130,11 @@
     0% {
         transform: scale(1) rotate(5deg);
     }
+
     50% {
         transform: scale(1.05) rotate(5deg);
     }
+
     100% {
         transform: scale(1) rotate(5deg);
     }
@@ -142,9 +148,11 @@
     0% {
         transform: scale(1) rotate(-3deg);
     }
+
     50% {
         transform: scale(1.05) rotate(-3deg);
     }
+
     100% {
         transform: scale(1) rotate(-3deg);
     }
@@ -310,15 +318,18 @@
     /* grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));  */
     gap: 1.5rem;
     padding: 1rem 0;
-  }
+}
 
 .product-card {
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
-    width: 100%; /* 强制宽度适应网格 */
-    border: 1px solid rgba(0,0,0,0.05); /* 添加边界 */
-    border-radius: 8px; /* 与动效协调 */
+    width: 100%;
+    /* 强制宽度适应网格 */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    /* 添加边界 */
+    border-radius: 8px;
+    /* 与动效协调 */
 }
 
 .product-card:hover {
@@ -348,7 +359,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.product-card.animated h3{
+
+.product-card.animated h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -514,8 +526,10 @@
 /* 悬浮购物车按钮样式 */
 .floating-cart-btn {
     position: fixed;
-    bottom: 15%; /* 距离底部 20px */
-    right: 5%; /* 距离右边 20px */
+    bottom: 15%;
+    /* 距离底部 20px */
+    right: 5%;
+    /* 距离右边 20px */
     background-color: #d68c45;
     color: white;
     border-radius: 50%;
@@ -525,7 +539,8 @@
     justify-content: center;
     align-items: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    z-index: 1000; /* 确保按钮在最上层 */
+    z-index: 1000;
+    /* 确保按钮在最上层 */
     transition: all 0.3s ease;
 }
 
@@ -539,7 +554,8 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background-color: #f00; /* 红色背景 */
+    background-color: #f00;
+    /* 红色背景 */
     color: white;
     font-size: 0.8rem;
     font-weight: bold;
@@ -551,7 +567,8 @@
 
 /* 悬浮按钮悬停时的效果 */
 .floating-cart-btn:hover {
-    background-color: #db7515; /* 更改按钮颜色 */
+    background-color: #db7515;
+    /* 更改按钮颜色 */
     cursor: pointer;
 }
 
@@ -571,7 +588,7 @@
     .sale-hero {
         padding: 3rem 1rem;
         background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                    url('../img/summer-sale-background-Mobile.webp');
+            url('../img/summer-sale-background-Mobile.webp');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -597,15 +614,19 @@
     .sale-badge .text {
         font-size: 0.9rem;
     }
-    .product-grid{
+
+    .product-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    .product-card img{
+
+    .product-card img {
         height: 150px;
     }
-    .product-card h3{
+
+    .product-card h3 {
         font-size: 0.7rem;
     }
+
     .sale-filters {
         flex-direction: column;
         align-items: flex-start;
@@ -624,12 +645,56 @@
         grid-template-columns: 1fr;
         gap: 1rem;
     }
+
     .rating {
         margin-left: 5%;
     }
+
     .floating-cart-btn {
         bottom: 15%;
         right: 9%;
+    }
+
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: white;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+    }
+    
+    /* 展开时 */
+    .mobile-menu.active {
+        transform: translateX(0);
+    }
+
+    /* 关闭按钮 */
+    .mobile-menu .close-btn {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    /* 克隆过来的链接垂直排列 */
+    .mobile-menu .nav-links {
+        display: flex;
+        flex-direction: column;
+        margin-top: 3rem;
+        gap: 1rem;
+    }
+
+    /* 额外动作区 */
+    .mobile-menu .mobile-actions {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 2rem;
     }
 }
 

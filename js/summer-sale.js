@@ -5,10 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSort = 'featured'; // 当前排序方式
 
     // 初始化购物车
-
-    console.log('页面加载完成，开始获取数据...');
     startCountdown()
     updateFloatingCartCount();
+    // 调用移动菜单栏
+    setupMobileMenuToggle()
 
     // 从Netlify 函数获取数据（获取优惠码）
     fetch('/.netlify/functions/get-unused-codes')  // 调用你定义的Netlify函数
@@ -97,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .catch(error => {
             console.error('获取数据失败:', error);
         });
+    
 
     // 倒计时器
     async function startCountdown() {
@@ -501,7 +502,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 3300);
     }
     
-
     // 添加到购物车
     function addToCart(product) {
         // 获取购物车数据
@@ -541,9 +541,6 @@ document.addEventListener('DOMContentLoaded', function() {
         showNotification(product.name +'Item has been added to cart');
     }
 
-
-
-
     // 更新购物车数量显示
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -570,4 +567,115 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // 封装移动端菜单切换方法
+    function setupMobileMenuToggle(
+        btnSelector = '.mobile-menu-btn',
+        linksSelector = '.nav-links',
+        actionsSelector = '.nav-actions',
+        menuClass = 'mobile-menu',
+        closeBtnClass = 'close-btn'
+    ) {
+        const mobileMenuBtn = document.querySelector(btnSelector);
+        const navLinks = document.querySelector(linksSelector);
+        const navActions = document.querySelector(actionsSelector);
+    
+        if (!mobileMenuBtn || !navLinks || !navActions) return;
+    
+        mobileMenuBtn.addEventListener('click', () => {
+            let mobileMenu = document.querySelector(`.${menuClass}`);
+            if (!mobileMenu) {
+                mobileMenu = document.createElement('div');
+                mobileMenu.classList.add(menuClass);
+    
+                // 关闭按钮
+                const closeBtn = document.createElement('div');
+                closeBtn.classList.add(closeBtnClass);
+                closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                closeBtn.addEventListener('click', hideMenu);
+    
+                // 克隆链接和动作区
+                const navLinksClone = navLinks.cloneNode(true);
+                const actionsContainer = document.createElement('div');
+                actionsContainer.classList.add('mobile-actions');
+                actionsContainer.appendChild(navActions.cloneNode(true));
+    
+                // 点击菜单项后自动隐藏
+                navLinksClone.querySelectorAll('a').forEach(a => a.addEventListener('click', hideMenu));
+    
+                // 构建菜单结构
+                mobileMenu.append(closeBtn, navLinksClone, actionsContainer);
+                document.body.appendChild(mobileMenu);
+    
+                // 初始行内样式
+                Object.assign(mobileMenu.style, {
+                    position: 'fixed',
+                    top: '0', left: '0',
+                    width: '100%', height: '100vh',
+                    background: '#fff',
+                    zIndex: '2000',
+                    padding: '2rem',
+                    transform: 'translateX(-100%)',
+                    transition: 'transform 0.3s ease-in-out'
+                });
+    
+                // 关闭按钮样式
+                Object.assign(closeBtn.style, {
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    fontSize: '1.5rem',
+                    cursor: 'pointer'
+                });
+    
+                // 链接区域排版
+                Object.assign(navLinksClone.style, {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    marginTop: '3rem'
+                });
+    
+                // 给每个 <li> 添加样式
+                navLinksClone.querySelectorAll('li').forEach(li => {
+                    Object.assign(li.style, {
+                        margin: '0.75rem 0',
+                        padding: '0.5rem 0',
+                        borderBottom: '1px solid #eee',
+                        listStyle: 'none'
+                    });
+                });
+    
+                // 给每个 <a> 设置更大点击区域
+                navLinksClone.querySelectorAll('a').forEach(a => {
+                    Object.assign(a.style, {
+                        display: 'block',
+                        padding: '0.5rem 1rem',
+                        color: 'var(--dark-color)',
+                        textDecoration: 'none'
+                    });
+                });
+    
+                // 动作区排版
+                Object.assign(actionsContainer.style, {
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    marginTop: 'auto'
+                });
+            }
+    
+            // 切换显示/隐藏
+            const isActive = mobileMenu.classList.toggle('active');
+            mobileMenu.style.transform = isActive ? 'translateX(0)' : 'translateX(-100%)';
+            document.body.style.overflow = isActive ? 'hidden' : 'auto';
+    
+            function hideMenu() {
+                mobileMenu.classList.remove('active');
+                mobileMenu.style.transform = 'translateX(-100%)';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    }
+  
+
 }); 
