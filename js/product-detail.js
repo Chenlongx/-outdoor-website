@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+
     // // 从 URL 获取产品 ID
     const urlParams = new URLSearchParams(window.location.search);
     const productParam = urlParams.get('id'); // 获取 URL 中的 id 参数
@@ -49,8 +50,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const productTitle = document.querySelector('.product-header h1');
             const productType = document.querySelector('.product-type');
             const productPrice = document.querySelector('.current-price');
-            const originalPrice =  document.querySelector('.original-price');
-            const discountBadge =  document.querySelector('.discount-badge');
+            const originalPrice = document.querySelector('.original-price');
+            const discountBadge = document.querySelector('.discount-badge');
             const productStock = document.querySelector('.product-stock');
             const productDescription = document.querySelector('.product-description');
 
@@ -68,8 +69,8 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 productPrice.textContent = `$${product.price}`; // 如果 final_price 无效，显示原价
             }
-            if(originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
-            if(discountBadge) discountBadge.textContent = `${product.discount_percent}% OFF`;
+            if (originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
+            if (discountBadge) discountBadge.textContent = `${product.discount_percent}% OFF`;
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
             if (productDescription) productDescription.textContent = product.description;
 
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 添加到 group
                     group.appendChild(label);
                     group.appendChild(select);
-            
+
                     // 添加到页面容器
                     productVariants.appendChild(group);
 
@@ -128,15 +129,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (product.details && product.details.length > 0) {
                 const details = product.details;
-            
+
                 const descriptionHeader = document.querySelector('.tab-pane.active .product-description-header');
                 const productFeaturesContainer = document.querySelector('.tab-pane.active .product-features');
-            
+
                 if (descriptionHeader) descriptionHeader.innerHTML = '';
                 if (productFeaturesContainer) productFeaturesContainer.innerHTML = '';
-            
+
                 let featureIndex = 0; // 用来控制 feature-highlight 和 reverse
-            
+
                 details.forEach(detail => {
                     if (detail.type === 'heading') {
                         const h2 = document.createElement('h2');
@@ -150,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else if (detail.type === 'image') {
                         const featureDiv = document.createElement('div');
                         featureDiv.className = featureIndex % 2 === 0 ? 'feature-highlight' : 'feature-highlight reverse';
-            
+
                         featureDiv.innerHTML = `
                             <div class="highlight-image">
                                 <img src="${detail.url}" alt="${detail.alt || 'Feature Image'}">
@@ -159,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <!-- 图片部分没有特定 title/description，这里可以补充 -->
                             </div>
                         `;
-            
+
                         productFeaturesContainer.appendChild(featureDiv);
                         featureIndex++;
                     }
@@ -213,24 +214,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const setThumbnailClickEvent = () => {
                 const thumbnails = document.querySelectorAll('.thumbnail');
                 const mainImages = document.querySelectorAll('.image-track img');
-            
+
                 thumbnails.forEach((thumbnail, index) => {
                     // 移除旧的事件监听器（可选，防止重复绑定）
                     thumbnail.removeEventListener('pointerdown', handleThumbnailClick);
                     thumbnail.addEventListener('pointerdown', handleThumbnailClick);
-            
+
                     function handleThumbnailClick() {
                         // 移除所有缩略图的 'active' 类
                         thumbnails.forEach(t => t.classList.remove('active'));
                         // 为当前缩略图添加 'active' 类
                         this.classList.add('active');
-            
+
                         // 确保滚动到对应的主图
                         if (mainImages[index]) {
                             const targetImage = mainImages[index];
                             // 使用 scrollIntoView 确保滚动
                             targetImage.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-            
+
                             // 可选：强制触发滚动（如果 scrollIntoView 不生效）
                             const container = targetImage.closest('.image-track');
                             if (container) {
@@ -241,32 +242,32 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             };
-            
+
             // 调用函数
             setThumbnailClickEvent();
-        
+
             // 数量选择器
             const quantityInput = document.getElementById('quantity');
             const decreaseBtn = document.getElementById('decrease-quantity');
             const increaseBtn = document.getElementById('increase-quantity');
-        
+
             if (decreaseBtn && increaseBtn && quantityInput) {
-                decreaseBtn.addEventListener('click', function() {
+                decreaseBtn.addEventListener('click', function () {
                     let currentValue = parseInt(quantityInput.value);
                     if (currentValue > 1) {
                         quantityInput.value = currentValue - 1;
                     }
                 });
-        
-                increaseBtn.addEventListener('click', function() {
+
+                increaseBtn.addEventListener('click', function () {
                     let currentValue = parseInt(quantityInput.value);
                     if (currentValue < 10) {
                         quantityInput.value = currentValue + 1;
                     }
                 });
-        
+
                 // 确保输入有效
-                quantityInput.addEventListener('change', function() {
+                quantityInput.addEventListener('change', function () {
                     let value = parseInt(this.value);
                     if (isNaN(value) || value < 1) {
                         this.value = 1;
@@ -275,15 +276,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-        
-        
+
+
             // 愿望清单按钮切换
             const wishlistBtn = document.querySelector('.wishlist-btn');
-        
+
             if (wishlistBtn) {
-                wishlistBtn.addEventListener('click', function() {
+                wishlistBtn.addEventListener('click', function () {
                     const icon = this.querySelector('i');
-        
+
                     if (icon.classList.contains('far')) {
                         icon.classList.remove('far');
                         icon.classList.add('fas');
@@ -301,44 +302,176 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
             }
-        
+
             // 产品详情标签
             const tabs = document.querySelectorAll('.tab');
             const tabPanes = document.querySelectorAll('.tab-pane');
-        
+
             tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
+                tab.addEventListener('click', function () {
                     // 获取选项卡的 data-tab 属性
                     const targetTab = this.getAttribute('data-tab');
-        
+
                     // 从所有选项卡和选项卡窗格中删除活动类
                     tabs.forEach(t => t.classList.remove('active'));
                     tabPanes.forEach(pane => pane.classList.remove('active'));
-        
+
                     // 为点击的选项卡和相应的选项卡窗格添加 active 类
                     this.classList.add('active');
                     document.getElementById(targetTab).classList.add('active');
+
+                    // 点击调用loadReviews方法 渲染评论
+                    if (targetTab === 'reviews') {
+                        loadReviews(productId);
+                    }
                 });
             });
-        
+
+            // 写评论按钮：点击展开评论表单
+            const writeReviewBtn = document.querySelector('#reviews .btn-secondary');
+
+            // 2. 点击按钮：显示/隐藏或创建表单
+            writeReviewBtn.addEventListener('click', () => {
+              // 如果表单不存在，就创建
+              if (!document.getElementById('review-form')) {
+                const formContainer = document.createElement('div');
+                formContainer.id = 'review-form';
+                formContainer.classList.add('review-form'); // 用于CSS定位/样式
+                formContainer.innerHTML = `
+                  <button type="button" class="review-form-close">❌</button>
+                  <h3>Write a Review</h3>
+                  <div class="form-row">
+                    <label for="review-rating">Rating:</label>
+                    <select id="review-rating">
+                      <option value="5">⭐⭐⭐⭐⭐</option>
+                      <option value="4">⭐⭐⭐⭐</option>
+                      <option value="3">⭐⭐⭐</option>
+                      <option value="2">⭐⭐</option>
+                      <option value="1">⭐</option>
+                    </select>
+                  </div>
+                  <div class="form-row">
+                    <label for="review-body">Your Review:</label>
+                    <textarea id="review-body" rows="4" placeholder="Write your review here…"></textarea>
+                  </div>
+                  <div class="form-row">
+                    <label for="review-images-input">Add Images (max 5):</label>
+                    <input type="file" id="review-images-input" accept="image/*" multiple>
+                  </div>
+                  <div class="form-actions">
+                    <button id="submit-review" class="btn-primary">Send</button>
+                  </div>
+                `;
+                // 插入到“Write a Review”按钮后面
+                writeReviewBtn.parentNode.insertBefore(formContainer, writeReviewBtn.nextSibling);
+            
+                // 关闭按钮
+                formContainer.querySelector('.review-form-close')
+                  .addEventListener('click', () => formContainer.remove());
+            
+                // 回车提交（不含 Shift+Enter）
+                formContainer.querySelector('#review-body')
+                  .addEventListener('keypress', e => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      submitReview();
+                    }
+                  });
+            
+                // 点击“Send”提交
+                formContainer.querySelector('#submit-review')
+                  .addEventListener('click', submitReview);
+            
+              } else {
+                // 已经创建过表单：切换显示/隐藏
+                document.getElementById('review-form').classList.toggle('hidden');
+              }
+            });
+            
+            
+            // 3. 提交评论的函数（示例）
+            async function submitReview() {
+                const form = document.getElementById('review-form');
+                const rating = form.querySelector('#review-rating').value;
+                const body = form.querySelector('#review-body').value.trim();
+                // 最多上传 5 张图片
+                const files = Array.from(form.querySelector('#review-images-input').files).slice(0, 5);
+              
+                // 1) 用 FormData 构造 multipart/form-data
+                const formData = new FormData();
+                console.log('productId:', productId);
+                formData.append('productId', productId);
+                formData.append('rating', rating);
+                formData.append('body', body);
+                files.forEach(file => formData.append('images', file));
+              
+                console.log('获取到的图片:', files);
+              
+                for (let [key, value] of formData.entries()) {
+                  console.log(`FormData ${key}:`, value);
+                }
+              
+                try {
+                  // 2) 直接 POST 到 reviews 函数
+                  const res = await fetch('/.netlify/functions/get-reviews', {
+                    method: 'POST',
+                    body: formData
+                  });
+              
+                  // 检查响应状态
+                  if (!res.ok) {
+                    const errorText = await res.text();
+                    throw new Error(`Server error: ${res.status} - ${errorText}`);
+                  }
+              
+                  // 解析响应
+                  let json;
+                  try {
+                    json = await res.json();
+                  } catch (parseErr) {
+                    console.error('Failed to parse response as JSON:', parseErr);
+                    throw new Error('Invalid server response: Unable to parse JSON');
+                  }
+              
+                  // 检查是否有错误
+                  if (json === null || typeof json !== 'object') {
+                    throw new Error('Invalid server response: Empty or non-object response');
+                  }
+                  if (json.error) {
+                    throw new Error(json.error);
+                  }
+              
+                  // 3) 上传成功后，刷新评论列表并关闭表单
+                  console.log('Review submitted successfully:', json);
+                  loadReviews(productId);
+                  form.remove();
+                  // 评论成功发送消息
+                  showNotification("Comment sent successfully")
+                } catch (err) {
+                  console.error('Submit review failed:', err);
+                  alert('Failed to submit review: ' + err.message);
+                }
+              }
+
+
             // 移动端分类导航
             const categoryItems = document.querySelectorAll('.category-item');
-        
+
             categoryItems.forEach(item => {
                 const itemLink = item.querySelector('a');
-        
+
                 // 对于移动设备，添加切换子类别/超级菜单显示的功能
                 if (window.innerWidth <= 768) {
-                    itemLink.addEventListener('click', function(e) {
+                    itemLink.addEventListener('click', function (e) {
                         const parent = this.parentElement;
-        
+
                         // 检查此项目是否有子类别下拉菜单或超级菜单
                         const hasDropdown = parent.querySelector('.subcategory-dropdown') !== null;
                         const hasMegaMenu = parent.querySelector('.mega-menu') !== null;
-        
+
                         if (hasDropdown || hasMegaMenu) {
                             e.preventDefault();
-        
+
                             // 切换公开课
                             if (parent.classList.contains('open')) {
                                 parent.classList.remove('open');
@@ -349,33 +482,33 @@ document.addEventListener('DOMContentLoaded', function() {
                                         openItem.classList.remove('open');
                                     }
                                 });
-        
+
                                 parent.classList.add('open');
                             }
                         }
                     });
                 }
             });
-        
+
             // 查看图像预览
             const reviewImages = document.querySelectorAll('.review-images img');
-        
+
             reviewImages.forEach(img => {
-                img.addEventListener('click', function() {
+                img.addEventListener('click', function () {
                     const modal = document.createElement('div');
                     modal.classList.add('image-preview-modal');
-        
+
                     const modalImg = document.createElement('img');
                     modalImg.src = this.src;
-        
+
                     const closeBtn = document.createElement('span');
                     closeBtn.classList.add('close-preview');
                     closeBtn.innerHTML = '&times;';
-        
+
                     modal.appendChild(closeBtn);
                     modal.appendChild(modalImg);
                     document.body.appendChild(modal);
-        
+
                     // 样式模式
                     modal.style.position = 'fixed';
                     modal.style.top = '0';
@@ -387,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     modal.style.alignItems = 'center';
                     modal.style.justifyContent = 'center';
                     modal.style.zIndex = '2000';
-        
+
                     closeBtn.style.position = 'absolute';
                     closeBtn.style.top = '20px';
                     closeBtn.style.right = '30px';
@@ -395,109 +528,109 @@ document.addEventListener('DOMContentLoaded', function() {
                     closeBtn.style.fontSize = '40px';
                     closeBtn.style.fontWeight = 'bold';
                     closeBtn.style.cursor = 'pointer';
-        
+
                     modalImg.style.maxWidth = '90%';
                     modalImg.style.maxHeight = '90%';
                     modalImg.style.objectFit = 'contain';
-        
-                    closeBtn.addEventListener('click', function() {
+
+                    closeBtn.addEventListener('click', function () {
                         modal.remove();
                     });
-        
-                    modal.addEventListener('click', function(e) {
+
+                    modal.addEventListener('click', function (e) {
                         if (e.target === modal) {
                             modal.remove();
                         }
                     });
                 });
             });
-        
+
             // 点击购物车转跳到购物车页面
             const checkoutButton = document.querySelector('.proceed-checkout');
-        
+
             if (checkoutButton) {
-                checkoutButton.addEventListener('click', function() {
+                checkoutButton.addEventListener('click', function () {
                     // 点击按钮跳转到 cart.html
                     window.location.href = '../products/cart.html';
                 });
             }
-        
+
             // 点击查看更多
             const btn = document.querySelector('.read-more-btn');
             const desc = document.querySelector('.product-description');
-        
+
             btn.addEventListener('click', () => {
-            desc.classList.toggle('expanded');
-            if (desc.classList.contains('expanded')) {
-                btn.textContent = 'Close';
-            } else {
-                btn.textContent = 'See more';
-            }
+                desc.classList.toggle('expanded');
+                if (desc.classList.contains('expanded')) {
+                    btn.textContent = 'Close';
+                } else {
+                    btn.textContent = 'See more';
+                }
             });
-        
+
             // 主图滑动
             const mainImage = document.querySelector('.main-image');
-        
+
             let isDown = false;
             let startX;
             let scrollLeft;
             let velocity = 0;
             let momentumID = null;
-            
+
             mainImage.addEventListener('mousedown', (e) => {
-              isDown = true;
-              startX = e.pageX - mainImage.offsetLeft;
-              scrollLeft = mainImage.scrollLeft;
-              velocity = 0;
-              cancelMomentumTracking();
+                isDown = true;
+                startX = e.pageX - mainImage.offsetLeft;
+                scrollLeft = mainImage.scrollLeft;
+                velocity = 0;
+                cancelMomentumTracking();
             });
-            
+
             mainImage.addEventListener('mouseleave', () => {
-              if (isDown) {
-                isDown = false;
-                beginMomentumTracking();
-              }
+                if (isDown) {
+                    isDown = false;
+                    beginMomentumTracking();
+                }
             });
-            
+
             mainImage.addEventListener('mouseup', () => {
-              if (isDown) {
-                isDown = false;
-                beginMomentumTracking();
-              }
+                if (isDown) {
+                    isDown = false;
+                    beginMomentumTracking();
+                }
             });
-            
+
             mainImage.addEventListener('mousemove', (e) => {
-              if (!isDown) return;
-              e.preventDefault();
-              const x = e.pageX - mainImage.offsetLeft;
-              const walk = (x - startX);
-              const prevScrollLeft = mainImage.scrollLeft;
-              mainImage.scrollLeft = scrollLeft - walk;
-              velocity = mainImage.scrollLeft - prevScrollLeft;
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - mainImage.offsetLeft;
+                const walk = (x - startX);
+                const prevScrollLeft = mainImage.scrollLeft;
+                mainImage.scrollLeft = scrollLeft - walk;
+                velocity = mainImage.scrollLeft - prevScrollLeft;
             });
-            
+
             // 惯性动效
             function beginMomentumTracking() {
-              cancelMomentumTracking();
-              momentumID = requestAnimationFrame(momentumLoop);
-            }
-            
-            function cancelMomentumTracking() {
-              if (momentumID) {
-                cancelAnimationFrame(momentumID);
-                momentumID = null;
-              }
-            }
-            
-            function momentumLoop() {
-              mainImage.scrollLeft += velocity;
-              velocity *= 0.95; // 摩擦力，逐渐停下来，越小滑越远
-              if (Math.abs(velocity) > 0.5) {
+                cancelMomentumTracking();
                 momentumID = requestAnimationFrame(momentumLoop);
-              }
             }
-        
-        
+
+            function cancelMomentumTracking() {
+                if (momentumID) {
+                    cancelAnimationFrame(momentumID);
+                    momentumID = null;
+                }
+            }
+
+            function momentumLoop() {
+                mainImage.scrollLeft += velocity;
+                velocity *= 0.95; // 摩擦力，逐渐停下来，越小滑越远
+                if (Math.abs(velocity) > 0.5) {
+                    momentumID = requestAnimationFrame(momentumLoop);
+                }
+            }
+
+
             // 获取 image-track 中的所有图片
             const imagesInTrack = document.querySelectorAll('.image-track img');
             // 获取模态框及相关元素
@@ -505,25 +638,25 @@ document.addEventListener('DOMContentLoaded', function() {
             const modalImage = document.getElementById('modalImage');
             const caption = document.getElementById('caption');
             const closeModal = document.getElementById('closeModal');
-        
+
             // 为 image-track 中的每张图片添加点击事件监听器
             imagesInTrack.forEach((image) => {
-                image.addEventListener('click', function() {
+                image.addEventListener('click', function () {
                     const imageUrl = this.src; // 获取点击的图片的 src 属性值
                     modalImage.src = imageUrl; // 设置模态框中的大图
                     caption.textContent = this.alt || "Product Image"; // 可选：设置大图的描述
-                    
+
                     modal.style.display = 'block'; // 显示模态框
                 });
             });
-        
+
             // 关闭模态框
-            closeModal.addEventListener('click', function() {
+            closeModal.addEventListener('click', function () {
                 modal.style.display = 'none'; // 隐藏模态框
             });
-        
+
             // 点击模态框外部区域时关闭模态框
-            modal.addEventListener('click', function(e) {
+            modal.addEventListener('click', function (e) {
                 if (e.target === modal) {
                     modal.style.display = 'none'; // 隐藏模态框
                 }
@@ -531,35 +664,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-            })
+        })
         .catch(error => {
             console.error('获取产品信息失败:', error);
             showNotification('Failed to obtain product information, please try again later');
-    });
+        });
 
 
     // 封装显示消息方法
     function showNotification(message) {
         // Check if notification container exists
         let notificationContainer = document.querySelector('.notification-container');
-    
+
         if (!notificationContainer) {
             notificationContainer = document.createElement('div');
             notificationContainer.classList.add('notification-container');
             document.body.appendChild(notificationContainer);
-    
+
             // Style notification container
             notificationContainer.style.position = 'fixed';
             notificationContainer.style.top = '20px';
             notificationContainer.style.right = '20px';
             notificationContainer.style.zIndex = '9999';
         }
-    
+
         // Create notification
         const notification = document.createElement('div');
         notification.classList.add('notification');
         notification.textContent = message;
-    
+
         // Style notification
         notification.style.backgroundColor = 'var(--primary-color)';
         notification.style.color = 'white';
@@ -569,15 +702,15 @@ document.addEventListener('DOMContentLoaded', function() {
         notification.style.boxShadow = '0 3px 10px rgba(0,0,0,0.15)';
         notification.style.transform = 'translateX(150%)';
         notification.style.transition = 'transform 0.3s ease';
-    
+
         // Add notification to container
         notificationContainer.appendChild(notification);
-    
+
         // Animate notification
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 10);
-    
+
         // Remove notification after 3 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(150%)';
@@ -662,7 +795,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedColor = document.getElementById('color-select')?.value || '';
 
         const existingItem = cart.find(item => item.id === product.id);
-        
+
         if (existingItem) {
             // 如果产品已在购物车中，增加数量
             existingItem.quantity += 1;
@@ -680,10 +813,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             cart.push(productToCart);
         }
-        
+
         // 保存购物车数据
         console.log(product)
-        
+
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
@@ -692,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 移除旧的 JSON-LD（避免重复）
         const oldScript = document.getElementById('jsonld-itemlist');
         if (oldScript) oldScript.remove();
-    
+
         // 创建结构化数据对象
         const itemList = {
             "@context": "https://schema.org",
@@ -706,7 +839,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`
             }))
         };
-    
+
         // 创建并插入新的 JSON-LD 脚本标签
         const script = document.createElement('script');
         script.type = 'application/ld+json';
@@ -714,4 +847,72 @@ document.addEventListener('DOMContentLoaded', function() {
         script.textContent = JSON.stringify(itemList, null, 2); // 格式化方便调试
         document.head.appendChild(script);
     }
+
+    /**
+     * 拉取并渲染评论
+     * @param {string} productId 
+     */
+    async function loadReviews(productId) {
+        const listEl = document.querySelector('#reviews .reviews-list');
+        if (!listEl) return;
+        listEl.innerHTML = '<p>加载中…</p>';
+
+        try {
+            const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
+            if (!res.ok) throw new Error('网络错误');
+            const reviews = await res.json();  // 假定返回一个数组
+
+            if (reviews.length === 0) {
+                listEl.innerHTML = '<p>还没有评论，快来抢沙发！</p>';
+                return;
+            }
+
+            listEl.innerHTML = reviews.map(r => `
+            <div class="review-item">
+            <div class="reviewer-info">
+                <div class="reviewer-name">${r.user_name || '匿名用户'}</div>
+                <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
+            </div>
+            <div class="review-rating">
+                ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
+            </div>
+            <p class="review-body">${r.body}</p>
+            ${r.image_urls && r.image_urls.length
+                    ? `<div class="review-images">
+                    ${r.image_urls.map(url => `<img src="${url}" alt="评论图片">`).join('')}
+                </div>`
+                    : ''}
+            </div>
+        `).join('');
+
+        } catch (err) {
+            console.error(err);
+            listEl.innerHTML = '<p>评论加载失败，请稍后重试。</p>';
+        }
+    }
+
+    // 上传图片
+    async function uploadImages(files, productId) {
+        const urls = []
+        const bucket = 'review-images' // 你在 Supabase 控制台新建的 Bucket
+      
+        for (let i = 0; i < Math.min(files.length, 5); i++) {
+          const file = files[i]
+          const path = `reviews/${productId}/${crypto.randomUUID()}_${file.name}`
+          const { data, error } = await supabase
+            .storage
+            .from(bucket)
+            .upload(path, file, { cacheControl: '3600', upsert: false })
+      
+          if (error) throw error
+      
+          const { publicURL } = supabase
+            .storage
+            .from(bucket)
+            .getPublicUrl(data.path)
+      
+          urls.push(publicURL)
+        }
+        return urls
+      }
 });
