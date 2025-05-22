@@ -677,7 +677,7 @@ function saveForLater(productId) {
         updateCartDisplay();
         updateOrderSummary();
         updateCartCount();
-        showNotification('商品已保存到稍后购买');
+        showNotification('Item saved for later purchase.');
     }
 }
 

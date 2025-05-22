@@ -516,6 +516,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (addToCartBtn) {
                 addToCartBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
+                    console.log("将产品加入到购物车前的数据：", product)
                     addToCart(product);
                 });
             }
