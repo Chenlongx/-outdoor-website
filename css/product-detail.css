@@ -1261,15 +1261,34 @@
         overflow-x: auto;       /* 允许横向滚动 */
         padding-bottom: 0.5rem; /* 给滚动条留空间 */
         scroll-snap-type: x mandatory; /* 可选：增强滑动体验 */
+    }
+      
+    .review-images img {
+    flex: 0 0 calc(50% - 0.5rem); /* 每行两个图，减去 gap 的一半 */
+    max-width: 100%;
+    height: auto;
+    scroll-snap-align: start; /* 滑动对齐 */
+    border-radius: 8px;       /* 可选：圆角美化 */
+    }
+    .image-preview-modal {
+        flex-direction: column;
+    }
+
+    .nav-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 30px;
+        background: rgba(0,0,0,0.5);
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
       }
       
-      .review-images img {
-        flex: 0 0 calc(50% - 0.5rem); /* 每行两个图，减去 gap 的一半 */
-        max-width: 100%;
-        height: auto;
-        scroll-snap-align: start; /* 滑动对齐 */
-        border-radius: 8px;       /* 可选：圆角美化 */
-      }
+    #prevImage { left: 20px; }
+    #nextImage { right: 20px; }
+
 }
 
 @media (max-width: 480px) {
