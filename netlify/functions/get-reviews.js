@@ -123,16 +123,16 @@ async function verifyRecaptchaToken(token) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   try {
     const res = await fetch(
-      'https://recaptcha.net/recaptcha/api/siteverify',
+      'https://www.google.com/recaptcha/api/siteverify',
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `secret=${secret}&response=${token}`
+        body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`
       }
     );
     const data = await res.json();
-    console.log('reCAPTCHA result:', data);
-    return data.success && data.score >= 0.5 && data.action === 'submit_review';
+    console.log('reCAPTCHA v2 result:', data);
+    return data.success === true;
   } catch (err) {
     console.error('reCAPTCHA validation error:', err);
     return false;

@@ -500,8 +500,16 @@
             }
         });
     </script>
+    <script>
+        // 这个函数会在 reCAPTCHA 库真正加载完成后被调用
+        function onloadRecaptcha() {
+          console.log('reCAPTCHA API 已加载');
+          // 标记一下，让业务代码知道可以渲染了
+          window.recaptchaReady = true;
+        }
+      </script>
+    <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=en" async defer></script>
     <script src="../js/product-detail.js"></script>
     <script src="../script.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js?render=6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y"></script>
 </body>
 </html>

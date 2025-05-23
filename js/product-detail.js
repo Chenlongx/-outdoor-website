@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // // 从 URL 获取产品 ID
@@ -331,15 +333,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 写评论按钮：点击展开评论表单
             const writeReviewBtn = document.querySelector('#reviews .btn-secondary');
+            let reviewRecaptchaWidgetId = null;
 
             // 2. 点击按钮：显示/隐藏或创建表单
             writeReviewBtn.addEventListener('click', () => {
-              // 如果表单不存在，就创建
-              if (!document.getElementById('review-form')) {
-                const formContainer = document.createElement('div');
-                formContainer.id = 'review-form';
-                formContainer.classList.add('review-form'); // 用于CSS定位/样式
-                formContainer.innerHTML = `
+                // 如果表单不存在，就创建
+                if (!document.getElementById('review-form')) {
+                    const formContainer = document.createElement('div');
+                    formContainer.id = 'review-form';
+                    formContainer.classList.add('review-form'); // 用于CSS定位/样式
+                    formContainer.innerHTML = `
                   <button type="button" class="review-form-close">❌</button>
                   <h3>Write a Review</h3>
                   <div class="form-row">
@@ -360,37 +363,57 @@ document.addEventListener('DOMContentLoaded', function () {
                     <label for="review-images-input">Add Images (max 5):</label>
                     <input type="file" id="review-images-input" accept="image/*" multiple>
                   </div>
+                  <!-- ←—— 这里插入 reCAPTCHA 容器 -->
+                  <div class="form-row">
+                      <label>reCAPTCHA 验证：</label>
+                      <div id="recaptcha-container"
+                          class="g-recaptcha"
+                          data-sitekey="6Le7QUYrAAAAAMSKBLj8a8b49jeXWzsCSe0lANbG">
+                      </div>
+                  </div>
                   <div class="form-actions">
                     <button id="submit-review" class="btn-primary">Send</button>
                   </div>
                 `;
-                // 插入到“Write a Review”按钮后面
-                writeReviewBtn.parentNode.insertBefore(formContainer, writeReviewBtn.nextSibling);
-            
-                // 关闭按钮
-                formContainer.querySelector('.review-form-close')
-                  .addEventListener('click', () => formContainer.remove());
-            
-                // 回车提交（不含 Shift+Enter）
-                formContainer.querySelector('#review-body')
-                  .addEventListener('keypress', e => {
-                    if (e.key === 'Enter' && !e.shiftKey) {
-                      e.preventDefault();
-                      submitReview();
-                    }
-                  });
-            
-                // 点击“Send”提交
-                formContainer.querySelector('#submit-review')
-                  .addEventListener('click', submitReview);
-                  
-              } else {
-                // 已经创建过表单：切换显示/隐藏
-                document.getElementById('review-form').classList.toggle('hidden');
-              }
+                    // 插入到“Write a Review”按钮后面
+                    writeReviewBtn.parentNode.insertBefore(formContainer, writeReviewBtn.nextSibling);
+
+                    // 关闭按钮
+                    formContainer.querySelector('.review-form-close')
+                        .addEventListener('click', () => formContainer.remove());
+
+                    // 回车提交（不含 Shift+Enter）
+                    formContainer.querySelector('#review-body')
+                        .addEventListener('keypress', e => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                submitReview();
+                            }
+                        });
+                    
+                    // 在容器插入后，手动渲染 reCAPTCHA
+                    if (window.grecaptcha && grecaptcha.ready) {
+                        grecaptcha.ready(() => {
+                          reviewRecaptchaWidgetId = grecaptcha.render(
+                            'recaptcha-container',
+                            { sitekey: '6Le7QUYrAAAAAMSKBLj8a8b49jeXWzsCSe0lANbG' }
+                          );
+                        });
+                      } else {
+                        console.error('reCAPTCHA 库尚未加载');
+                      }
+
+                    // 点击“Send”提交
+                    formContainer.querySelector('#submit-review')
+                        .addEventListener('click', submitReview);
+
+                } else {
+                    // 已经创建过表单：切换显示/隐藏
+                    document.getElementById('review-form').classList.toggle('hidden');
+                }
             });
-            
-            
+
+
             // 3. 提交评论的函数（示例）
             async function submitReview() {
                 const form = document.getElementById('review-form');
@@ -398,19 +421,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 const body = form.querySelector('#review-body').value.trim();
                 // 最多上传 5 张图片
                 const files = Array.from(form.querySelector('#review-images-input').files).slice(0, 5);
-                
-                if (!window.grecaptcha) {
-                    alert('reCAPTCHA 未加载，请稍后再试');
-                    return;
-                }
 
-                // 获取 reCAPTCHA token
-                // 2. 请求一次性 token
-                const token = await grecaptcha.execute(
-                    '6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y',
-                    { action: 'submit_review' }
-                );
                 
+
+                const token = grecaptcha.getResponse(reviewRecaptchaWidgetId);
+                if (!token) {
+                  alert('请先完成 reCAPTCHA 验证');
+                  return;
+                }
+                 
+
+                // 先等 API 加载完
                 // 1) 用 FormData 构造 multipart/form-data
                 const formData = new FormData();
                 console.log('productId:', productId);
@@ -419,55 +440,59 @@ document.addEventListener('DOMContentLoaded', function () {
                 formData.append('body', body);
                 formData.append('recaptcha', token); // 添加 token
                 files.forEach(file => formData.append('images', file));
-              
+
                 console.log('获取到的图片:', files);
-              
+
                 for (let [key, value] of formData.entries()) {
-                  console.log(`FormData ${key}:`, value);
+                    console.log(`FormData ${key}:`, value);
                 }
 
 
-              
+
                 try {
-                  // 2) 直接 POST 到 reviews 函数
-                  const res = await fetch('/.netlify/functions/get-reviews', {
-                    method: 'POST',
-                    body: formData
-                  });
-              
-                  // 检查响应状态
-                  if (!res.ok) {
-                    const errorText = await res.text();
-                    throw new Error(`Server error: ${res.status} - ${errorText}`);
-                  }
-              
-                  // 解析响应
-                  let json;
-                  try {
-                    json = await res.json();
-                  } catch (parseErr) {
-                    console.error('Failed to parse response as JSON:', parseErr);
-                    throw new Error('Invalid server response: Unable to parse JSON');
-                  }
-              
-                  // 检查是否有错误
-                  if (json === null || typeof json !== 'object') {
-                    throw new Error('Invalid server response: Empty or non-object response');
-                  }
-                  if (json.error) {
-                    throw new Error(json.error);
-                  }
-              
-                  // 3) 上传成功后，刷新评论列表并关闭表单
-                  console.log('Review submitted successfully:', json);
-                  loadReviews(productId);
-                  showNotification("Comment sent successfully")
-                  form.remove();
-                  // 评论成功发送消息
+                    // 2) 直接 POST 到 reviews 函数
+                    const res = await fetch('/.netlify/functions/get-reviews', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    // 检查响应状态
+                    if (!res.ok) {
+                        const errorText = await res.text();
+                        throw new Error(`Server error: ${res.status} - ${errorText}`);
+                    }
+
+                    // 解析响应
+                    let json;
+                    try {
+                        json = await res.json();
+                    } catch (parseErr) {
+                        console.error('Failed to parse response as JSON:', parseErr);
+                        throw new Error('Invalid server response: Unable to parse JSON');
+                    }
+
+                    // 检查是否有错误
+                    if (json === null || typeof json !== 'object') {
+                        throw new Error('Invalid server response: Empty or non-object response');
+                    }
+                    if (json.error) {
+                        throw new Error(json.error);
+                    }
+
+                    // 3) 上传成功后，刷新评论列表并关闭表单
+                    console.log('Review submitted successfully:', json);
+                    loadReviews(productId);
+                    showNotification("Comment sent successfully")
+                    form.remove();
+                    // 评论成功发送消息
+
+                    grecaptcha.reset(reviewRecaptchaWidgetId);
                 } catch (err) {
-                  console.error('Submit review failed:', err);
-                  alert('Failed to submit review: ' + err.message);
+                    console.error('Submit review failed:', err);
+                    alert('Failed to submit review: ' + err.message);
                 }
+
+
             }
 
 
@@ -873,25 +898,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const listEl = document.querySelector('#reviews .reviews-list');
         const paginationEl = document.querySelector('#reviews .pagination');
         if (!listEl || !paginationEl) return;
-    
+
         listEl.innerHTML = '<p>Loading...…</p>';
-    
+
         try {
             const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
             if (!res.ok) throw new Error('Network Error');
             const allReviews = await res.json();
-    
+
             const totalReviews = allReviews.length;
             const totalPages = Math.ceil(totalReviews / perPage);
             const start = (page - 1) * perPage;
             const pagedReviews = allReviews.slice(start, start + perPage);
-    
+
             if (pagedReviews.length === 0) {
                 listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
                 paginationEl.innerHTML = '';
                 return;
             }
-    
+
             listEl.innerHTML = pagedReviews.map(r => `
                 <div class="review-item">
                     <div class="reviewer-info">
@@ -905,9 +930,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     ${r.image_urls?.length ? `<div class="review-images">${r.image_urls.map(url => `<img src="${url}" alt="Review">`).join('')}</div>` : ''}
                 </div>
             `).join('');
-    
+
             renderPagination(page, totalPages, productId); // 分页导航
-    
+
             // 加载汇总信息（平均评分等）
             const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
             if (ratingRes.ok) {
@@ -927,17 +952,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const ratingNumber = document.querySelector('.reviews-summary .rating-number');
         const totalReviews = document.querySelector('.reviews-summary .total-reviews');
         const starsContainer = document.querySelector('.reviews-summary .rating-stars');
-    
+
         if (ratingNumber) ratingNumber.textContent = average.toFixed(1);
         if (totalReviews) totalReviews.textContent = `Based on ${count} review${count !== 1 ? 's' : ''}`;
-    
+
         if (starsContainer) {
             // 根据平均值更新星星（最多5颗）
             starsContainer.innerHTML = '';
             const fullStars = Math.floor(average);
             const halfStar = average - fullStars >= 0.5;
             const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
-    
+
             for (let i = 0; i < fullStars; i++) {
                 starsContainer.innerHTML += '<i class="fas fa-star"></i>';
             }
@@ -953,15 +978,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateRatingBreakdown({ stars = {}, count = 0 }) {
         const breakdown = document.querySelector('.rating-breakdown');
         if (!breakdown) return;
-    
+
         [5, 4, 3, 2, 1].forEach(star => {
             const row = breakdown.querySelector(`.rating-row:nth-child(${6 - star})`);
             const bar = row.querySelector('.progress');
             const percent = row.querySelector('.percent');
-    
+
             const value = stars[star] || 0;
             const percentage = count > 0 ? Math.round((value / count) * 100) : 0;
-    
+
             bar.style.width = `${percentage}%`;
             percent.textContent = `${percentage}%`;
         });
@@ -971,11 +996,11 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderPagination(currentPage, totalPages, productId) {
         const container = document.querySelector('#reviews .pagination');
         if (!container) return;
-    
+
         container.innerHTML = '';
-    
+
         if (totalPages <= 1) return; // 不显示分页
-    
+
         const createPageLink = (page, label = page, isActive = false) => {
             const a = document.createElement('a');
             a.href = '#';
@@ -987,38 +1012,38 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             return a;
         };
-    
+
         // always show first page
         container.appendChild(createPageLink(1, '1', currentPage === 1));
-    
+
         // show second and third if applicable
         if (totalPages >= 2) {
             container.appendChild(createPageLink(2, '2', currentPage === 2));
         }
-    
+
         if (totalPages >= 3) {
             container.appendChild(createPageLink(3, '3', currentPage === 3));
         }
-    
+
         // 如果还有更多页，显示 "..." 和最后一页
         if (totalPages > 3) {
             if (currentPage > 3 && currentPage < totalPages) {
                 const span = document.createElement('span');
                 span.textContent = '...';
                 container.appendChild(span);
-    
+
                 container.appendChild(createPageLink(currentPage, currentPage, true));
             }
-    
+
             if (currentPage < totalPages - 1) {
                 const span = document.createElement('span');
                 span.textContent = '...';
                 container.appendChild(span);
             }
-    
+
             container.appendChild(createPageLink(totalPages, totalPages, currentPage === totalPages));
         }
-    
+
         // Next 按钮
         if (currentPage < totalPages) {
             const next = document.createElement('a');
@@ -1040,45 +1065,45 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (e) {
         // 打开模态框并记录当前图片
         if (e.target.matches('.review-images img')) {
-          // 找到当前点击图片所在的评论项
-          const reviewItem = e.target.closest('.review-item');
-          const images = Array.from(reviewItem.querySelectorAll('.review-images img'));
-          currentReviewImages = images.map(img => img.src);
-          currentImageIndex = images.indexOf(e.target);
-      
-          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
-          document.getElementById('reviewImageModal').style.display = 'flex';
+            // 找到当前点击图片所在的评论项
+            const reviewItem = e.target.closest('.review-item');
+            const images = Array.from(reviewItem.querySelectorAll('.review-images img'));
+            currentReviewImages = images.map(img => img.src);
+            currentImageIndex = images.indexOf(e.target);
+
+            document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
+            document.getElementById('reviewImageModal').style.display = 'flex';
         }
-      
+
         // 关闭模态框
         if (
-          e.target.matches('#closeReviewModal') ||
-          e.target.id === 'reviewImageModal'
+            e.target.matches('#closeReviewModal') ||
+            e.target.id === 'reviewImageModal'
         ) {
-          document.getElementById('reviewImageModal').style.display = 'none';
+            document.getElementById('reviewImageModal').style.display = 'none';
         }
-      
+
         // 切换上一张图片
         if (e.target.id === 'prevImage') {
-          if (currentReviewImages.length === 0) return;
-          currentImageIndex = (currentImageIndex - 1 + currentReviewImages.length) % currentReviewImages.length;
-          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
+            if (currentReviewImages.length === 0) return;
+            currentImageIndex = (currentImageIndex - 1 + currentReviewImages.length) % currentReviewImages.length;
+            document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
         }
-      
+
         // 切换下一张图片
         if (e.target.id === 'nextImage') {
-          if (currentReviewImages.length === 0) return;
-          currentImageIndex = (currentImageIndex + 1) % currentReviewImages.length;
-          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
+            if (currentReviewImages.length === 0) return;
+            currentImageIndex = (currentImageIndex + 1) % currentReviewImages.length;
+            document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
         }
     });
-    
+
 
     // 上传图片
     // async function uploadImages(files, productId) {
     //     const urls = []
     //     const bucket = 'review-images' // 你在 Supabase 控制台新建的 Bucket
-      
+
     //     for (let i = 0; i < Math.min(files.length, 5); i++) {
     //       const file = files[i]
     //       const path = `reviews/${productId}/${crypto.randomUUID()}_${file.name}`
@@ -1086,14 +1111,14 @@ document.addEventListener('DOMContentLoaded', function () {
     //         .storage
     //         .from(bucket)
     //         .upload(path, file, { cacheControl: '3600', upsert: false })
-      
+
     //       if (error) throw error
-      
+
     //       const { publicURL } = supabase
     //         .storage
     //         .from(bucket)
     //         .getPublicUrl(data.path)
-      
+
     //       urls.push(publicURL)
     //     }
     //     return urls
