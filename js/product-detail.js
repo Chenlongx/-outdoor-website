@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   </div>
                   <!-- ←—— 这里插入 reCAPTCHA 容器 -->
                   <div class="form-row">
-                      <label>reCAPTCHA 验证：</label>
+                      <label>reCAPTCHA Verification：</label>
                       <div id="recaptcha-container"
                           class="g-recaptcha"
                           data-sitekey="6Le7QUYrAAAAAMSKBLj8a8b49jeXWzsCSe0lANbG">
