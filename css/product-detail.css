@@ -1032,6 +1032,7 @@
     justify-content: center;
     background-color: rgba(0,0,0,0.9);
     z-index: 9999;
+    flex-direction: column;
   }
   
   .image-preview-modal img {
@@ -1049,6 +1050,20 @@
     font-weight: bold;
     cursor: pointer;
   }
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  
+#prevImage { left: 20px; }
+#nextImage { right: 20px; }
 
 
 /* Responsive Styles */
@@ -1270,11 +1285,11 @@
     scroll-snap-align: start; /* 滑动对齐 */
     border-radius: 8px;       /* 可选：圆角美化 */
     }
-    .image-preview-modal {
+    /* .image-preview-modal {
         flex-direction: column;
-    }
+    } */
 
-    .nav-btn {
+    /* .nav-btn {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -1287,7 +1302,7 @@
       }
       
     #prevImage { left: 20px; }
-    #nextImage { right: 20px; }
+    #nextImage { right: 20px; } */
 
 }
 
