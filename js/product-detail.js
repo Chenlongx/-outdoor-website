@@ -893,20 +893,41 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    let currentReviewImages = [];
+    let currentImageIndex = 0;
+
     // 点击放大图片
     document.addEventListener('click', function (e) {
+        // 打开模态框并记录当前图片
         if (e.target.matches('.review-images img')) {
-          const modal = document.getElementById('reviewImageModal');
-          const modalImg = document.getElementById('reviewModalImg');
-          modalImg.src = e.target.src;
-          modal.style.display = 'flex';
+          const images = Array.from(document.querySelectorAll('.review-images img'));
+          currentReviewImages = images.map(img => img.src);
+          currentImageIndex = images.indexOf(e.target);
+      
+          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
+          document.getElementById('reviewImageModal').style.display = 'flex';
         }
       
+        // 关闭模态框
         if (
           e.target.matches('#closeReviewModal') ||
           e.target.id === 'reviewImageModal'
         ) {
           document.getElementById('reviewImageModal').style.display = 'none';
+        }
+      
+        // 切换上一张图片
+        if (e.target.id === 'prevImage') {
+          if (currentReviewImages.length === 0) return;
+          currentImageIndex = (currentImageIndex - 1 + currentReviewImages.length) % currentReviewImages.length;
+          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
+        }
+      
+        // 切换下一张图片
+        if (e.target.id === 'nextImage') {
+          if (currentReviewImages.length === 0) return;
+          currentImageIndex = (currentImageIndex + 1) % currentReviewImages.length;
+          document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
         }
       });
     
