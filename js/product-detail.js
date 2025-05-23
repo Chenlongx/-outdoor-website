@@ -323,6 +323,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 点击调用loadReviews方法 渲染评论
                     if (targetTab === 'reviews') {
                         loadReviews(productId);
+
+
                     }
                 });
             });
@@ -855,22 +857,22 @@ document.addEventListener('DOMContentLoaded', function () {
     async function loadReviews(productId) {
         const listEl = document.querySelector('#reviews .reviews-list');
         if (!listEl) return;
-        listEl.innerHTML = '<p>加载中…</p>';
+        listEl.innerHTML = '<p>Loading...…</p>';
 
         try {
             const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
-            if (!res.ok) throw new Error('网络错误');
+            if (!res.ok) throw new Error('Network Error');
             const reviews = await res.json();  // 假定返回一个数组
 
             if (reviews.length === 0) {
-                listEl.innerHTML = '<p>还没有评论，快来抢沙发！</p>';
+                listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
                 return;
             }
 
             listEl.innerHTML = reviews.map(r => `
             <div class="review-item">
             <div class="reviewer-info">
-                <div class="reviewer-name">${r.user_name || '匿名用户'}</div>
+                <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
                 <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
             </div>
             <div class="review-rating">
@@ -879,7 +881,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <p class="review-body">${r.body}</p>
             ${r.image_urls && r.image_urls.length
                     ? `<div class="review-images">
-                    ${r.image_urls.map(url => `<img src="${url}" alt="评论图片">`).join('')}
+                    ${r.image_urls.map(url => `<img src="${url}" alt="Review Images">`).join('')}
                 </div>`
                     : ''}
             </div>
@@ -887,32 +889,50 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } catch (err) {
             console.error(err);
-            listEl.innerHTML = '<p>评论加载失败，请稍后重试。</p>';
+            listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
         }
     }
 
-    // 上传图片
-    async function uploadImages(files, productId) {
-        const urls = []
-        const bucket = 'review-images' // 你在 Supabase 控制台新建的 Bucket
-      
-        for (let i = 0; i < Math.min(files.length, 5); i++) {
-          const file = files[i]
-          const path = `reviews/${productId}/${crypto.randomUUID()}_${file.name}`
-          const { data, error } = await supabase
-            .storage
-            .from(bucket)
-            .upload(path, file, { cacheControl: '3600', upsert: false })
-      
-          if (error) throw error
-      
-          const { publicURL } = supabase
-            .storage
-            .from(bucket)
-            .getPublicUrl(data.path)
-      
-          urls.push(publicURL)
+    // 点击放大图片
+    document.addEventListener('click', function (e) {
+        if (e.target.matches('.review-images img')) {
+          const modal = document.getElementById('reviewImageModal');
+          const modalImg = document.getElementById('reviewModalImg');
+          modalImg.src = e.target.src;
+          modal.style.display = 'flex';
         }
-        return urls
-      }
+      
+        if (
+          e.target.matches('#closeReviewModal') ||
+          e.target.id === 'reviewImageModal'
+        ) {
+          document.getElementById('reviewImageModal').style.display = 'none';
+        }
+      });
+    
+
+    // 上传图片
+    // async function uploadImages(files, productId) {
+    //     const urls = []
+    //     const bucket = 'review-images' // 你在 Supabase 控制台新建的 Bucket
+      
+    //     for (let i = 0; i < Math.min(files.length, 5); i++) {
+    //       const file = files[i]
+    //       const path = `reviews/${productId}/${crypto.randomUUID()}_${file.name}`
+    //       const { data, error } = await supabase
+    //         .storage
+    //         .from(bucket)
+    //         .upload(path, file, { cacheControl: '3600', upsert: false })
+      
+    //       if (error) throw error
+      
+    //       const { publicURL } = supabase
+    //         .storage
+    //         .from(bucket)
+    //         .getPublicUrl(data.path)
+      
+    //       urls.push(publicURL)
+    //     }
+    //     return urls
+    // }
 });
