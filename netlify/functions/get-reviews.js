@@ -122,11 +122,14 @@ async function deleteReview(id) {
 async function verifyRecaptchaToken(token) {
   const secret = process.env.RECAPTCHA_SECRET_KEY;
   try {
-    const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: `secret=${secret}&response=${token}`
-    });
+    const res = await fetch(
+      'https://recaptcha.net/recaptcha/api/siteverify',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `secret=${secret}&response=${token}`
+      }
+    );
     const data = await res.json();
     console.log('reCAPTCHA result:', data);
     return data.success && data.score >= 0.5 && data.action === 'submit_review';

@@ -405,18 +405,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 // 获取 reCAPTCHA token
-                let token = '6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y';
-                grecaptcha.ready(() => {
-                    grecaptcha.execute('6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y', { action: 'submit_review' })
-                      .then(token => {
-                        // 拿到 token 以后再发请求
-                        submitReviewWithToken(token);
-                      })
-                      .catch(err => {
-                        console.error('grecaptcha.execute 失败:', err);
-                        alert('reCAPTCHA 校验失败，请稍后再试');
-                      });
-                  });
+                // 2. 请求一次性 token
+                const token = await grecaptcha.execute(
+                    '6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y',
+                    { action: 'submit_review' }
+                );
+                
                 // 1) 用 FormData 构造 multipart/form-data
                 const formData = new FormData();
                 console.log('productId:', productId);
