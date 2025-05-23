@@ -6,6 +6,9 @@ const path = require('path');
 const crypto = require('crypto');
 const sharp = require('sharp');
 const { createClient } = require('@supabase/supabase-js');
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+
+
 
 // 初始化 Supabase 客户端
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
@@ -114,6 +117,26 @@ async function deleteReview(id) {
     .eq('id', id);
 }
 
+
+// 添加 reCAPTCHA 验证函数
+async function verifyRecaptchaToken(token) {
+  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  try {
+    const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: `secret=${secret}&response=${token}`
+    });
+    const data = await res.json();
+    console.log('reCAPTCHA result:', data);
+    return data.success && data.score >= 0.5 && data.action === 'submit_review';
+  } catch (err) {
+    console.error('reCAPTCHA validation error:', err);
+    return false;
+  }
+}
+
+
 // Lambda Handler
 exports.handler = async (event) => {
   try {
@@ -146,6 +169,17 @@ exports.handler = async (event) => {
 
         if (contentType.includes('multipart/form-data')) {
           const { fields, files } = await parseMultipartForm(event);
+
+          const recaptchaToken = fields.recaptcha;
+          const isValid = await verifyRecaptchaToken(recaptchaToken);
+          if (!isValid) {
+            return {
+              statusCode: 403,
+              body: JSON.stringify({ error: 'reCAPTCHA verification failed' })
+            };
+          }
+
+
           // console.log('Parsed fields:', fields);
           // console.log('Parsed files:', files);
 
@@ -220,6 +254,16 @@ exports.handler = async (event) => {
         } else {
           const bodyData = JSON.parse(event.body);
           console.log('Parsed JSON body:', bodyData);
+
+          const recaptchaToken = bodyData.recaptcha;
+          const isValid = await verifyRecaptchaToken(recaptchaToken);
+          if (!isValid) {
+            return {
+              statusCode: 403,
+              body: JSON.stringify({ error: 'reCAPTCHA verification failed' })
+            };
+          }
+
           if (!bodyData.productId || !bodyData.rating || !bodyData.body) {
             return {
               statusCode: 400,

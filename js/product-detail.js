@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 点击“Send”提交
                 formContainer.querySelector('#submit-review')
                   .addEventListener('click', submitReview);
-            
+                  
               } else {
                 // 已经创建过表单：切换显示/隐藏
                 document.getElementById('review-form').classList.toggle('hidden');
@@ -398,13 +398,32 @@ document.addEventListener('DOMContentLoaded', function () {
                 const body = form.querySelector('#review-body').value.trim();
                 // 最多上传 5 张图片
                 const files = Array.from(form.querySelector('#review-images-input').files).slice(0, 5);
-              
+                
+                if (!window.grecaptcha) {
+                    alert('reCAPTCHA 未加载，请稍后再试');
+                    return;
+                }
+
+                // 获取 reCAPTCHA token
+                let token = '6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y';
+                grecaptcha.ready(() => {
+                    grecaptcha.execute('6Lck6UUrAAAAAMuU39OoG4NV3Z-MKT7E802stk8y', { action: 'submit_review' })
+                      .then(token => {
+                        // 拿到 token 以后再发请求
+                        submitReviewWithToken(token);
+                      })
+                      .catch(err => {
+                        console.error('grecaptcha.execute 失败:', err);
+                        alert('reCAPTCHA 校验失败，请稍后再试');
+                      });
+                  });
                 // 1) 用 FormData 构造 multipart/form-data
                 const formData = new FormData();
                 console.log('productId:', productId);
                 formData.append('productId', productId);
                 formData.append('rating', rating);
                 formData.append('body', body);
+                formData.append('recaptcha', token); // 添加 token
                 files.forEach(file => formData.append('images', file));
               
                 console.log('获取到的图片:', files);
@@ -412,6 +431,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 for (let [key, value] of formData.entries()) {
                   console.log(`FormData ${key}:`, value);
                 }
+
+
               
                 try {
                   // 2) 直接 POST 到 reviews 函数
@@ -453,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function () {
                   console.error('Submit review failed:', err);
                   alert('Failed to submit review: ' + err.message);
                 }
-              }
+            }
 
 
             // 移动端分类导航
@@ -854,52 +875,6 @@ document.addEventListener('DOMContentLoaded', function () {
      * 拉取并渲染评论
      * @param {string} productId 
      */
-    // async function loadReviews(productId, page = 1, perPage = 5) {
-    //     const listEl = document.querySelector('#reviews .reviews-list');
-    //     if (!listEl) return;
-    //     listEl.innerHTML = '<p>Loading...…</p>';
-
-    //     try {
-    //         const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
-    //         if (!res.ok) throw new Error('Network Error');
-    //         const reviews = await res.json();  // 假定返回一个数组
-
-    //         if (reviews.length === 0) {
-    //             listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
-    //             return;
-    //         }
-
-    //         listEl.innerHTML = reviews.map(r => `
-    //         <div class="review-item">
-    //         <div class="reviewer-info">
-    //             <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
-    //             <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
-    //         </div>
-    //         <div class="review-rating">
-    //             ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
-    //         </div>
-    //         <p class="review-body">${r.body}</p>
-    //         ${r.image_urls && r.image_urls.length
-    //                 ? `<div class="review-images">
-    //                 ${r.image_urls.map(url => `<img src="${url}" alt="Review Images">`).join('')}
-    //             </div>`
-    //                 : ''}
-    //         </div>
-    //     `).join('');
-
-    //     // 再获取评分统计（平均评分 + 总数）
-    //     const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
-    //     if (!ratingRes.ok) throw new Error('Rating fetch failed');
-    //     const ratingData = await ratingRes.json();
-
-    //     updateReviewSummary(ratingData); // 调用更新 summary 的方法
-    //     updateRatingBreakdown(ratingData);     // 更新星级分布
-
-    //     } catch (err) {
-    //         console.error(err);
-    //         listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
-    //     }
-    // }
     async function loadReviews(productId, page = 1, perPage = 5) {
         const listEl = document.querySelector('#reviews .reviews-list');
         const paginationEl = document.querySelector('#reviews .pagination');

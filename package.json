@@ -12,6 +12,7 @@
     "express": "^5.1.0",
     "formidable": "^3.5.4",
     "lambda-multipart-parser": "^1.0.1",
+    "node-fetch": "^3.3.2",
     "sharp": "^0.34.2"
   }
 }
