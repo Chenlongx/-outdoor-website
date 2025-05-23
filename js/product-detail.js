@@ -854,50 +854,102 @@ document.addEventListener('DOMContentLoaded', function () {
      * 拉取并渲染评论
      * @param {string} productId 
      */
-    async function loadReviews(productId) {
-        const listEl = document.querySelector('#reviews .reviews-list');
-        if (!listEl) return;
-        listEl.innerHTML = '<p>Loading...…</p>';
+    // async function loadReviews(productId, page = 1, perPage = 5) {
+    //     const listEl = document.querySelector('#reviews .reviews-list');
+    //     if (!listEl) return;
+    //     listEl.innerHTML = '<p>Loading...…</p>';
 
+    //     try {
+    //         const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
+    //         if (!res.ok) throw new Error('Network Error');
+    //         const reviews = await res.json();  // 假定返回一个数组
+
+    //         if (reviews.length === 0) {
+    //             listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
+    //             return;
+    //         }
+
+    //         listEl.innerHTML = reviews.map(r => `
+    //         <div class="review-item">
+    //         <div class="reviewer-info">
+    //             <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
+    //             <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
+    //         </div>
+    //         <div class="review-rating">
+    //             ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
+    //         </div>
+    //         <p class="review-body">${r.body}</p>
+    //         ${r.image_urls && r.image_urls.length
+    //                 ? `<div class="review-images">
+    //                 ${r.image_urls.map(url => `<img src="${url}" alt="Review Images">`).join('')}
+    //             </div>`
+    //                 : ''}
+    //         </div>
+    //     `).join('');
+
+    //     // 再获取评分统计（平均评分 + 总数）
+    //     const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
+    //     if (!ratingRes.ok) throw new Error('Rating fetch failed');
+    //     const ratingData = await ratingRes.json();
+
+    //     updateReviewSummary(ratingData); // 调用更新 summary 的方法
+    //     updateRatingBreakdown(ratingData);     // 更新星级分布
+
+    //     } catch (err) {
+    //         console.error(err);
+    //         listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
+    //     }
+    // }
+    async function loadReviews(productId, page = 1, perPage = 5) {
+        const listEl = document.querySelector('#reviews .reviews-list');
+        const paginationEl = document.querySelector('#reviews .pagination');
+        if (!listEl || !paginationEl) return;
+    
+        listEl.innerHTML = '<p>Loading...…</p>';
+    
         try {
             const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
             if (!res.ok) throw new Error('Network Error');
-            const reviews = await res.json();  // 假定返回一个数组
-
-            if (reviews.length === 0) {
+            const allReviews = await res.json();
+    
+            const totalReviews = allReviews.length;
+            const totalPages = Math.ceil(totalReviews / perPage);
+            const start = (page - 1) * perPage;
+            const pagedReviews = allReviews.slice(start, start + perPage);
+    
+            if (pagedReviews.length === 0) {
                 listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
+                paginationEl.innerHTML = '';
                 return;
             }
-
-            listEl.innerHTML = reviews.map(r => `
-            <div class="review-item">
-            <div class="reviewer-info">
-                <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
-                <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
-            </div>
-            <div class="review-rating">
-                ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
-            </div>
-            <p class="review-body">${r.body}</p>
-            ${r.image_urls && r.image_urls.length
-                    ? `<div class="review-images">
-                    ${r.image_urls.map(url => `<img src="${url}" alt="Review Images">`).join('')}
-                </div>`
-                    : ''}
-            </div>
-        `).join('');
-
-        // 再获取评分统计（平均评分 + 总数）
-        const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
-        if (!ratingRes.ok) throw new Error('Rating fetch failed');
-        const ratingData = await ratingRes.json();
-
-        updateReviewSummary(ratingData); // 调用更新 summary 的方法
-        updateRatingBreakdown(ratingData);     // 更新星级分布
-
+    
+            listEl.innerHTML = pagedReviews.map(r => `
+                <div class="review-item">
+                    <div class="reviewer-info">
+                        <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
+                        <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
+                    </div>
+                    <div class="review-rating">
+                        ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
+                    </div>
+                    <p class="review-body">${r.body}</p>
+                    ${r.image_urls?.length ? `<div class="review-images">${r.image_urls.map(url => `<img src="${url}" alt="Review">`).join('')}</div>` : ''}
+                </div>
+            `).join('');
+    
+            renderPagination(page, totalPages, productId); // 分页导航
+    
+            // 加载汇总信息（平均评分等）
+            const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
+            if (ratingRes.ok) {
+                const ratingData = await ratingRes.json();
+                updateReviewSummary(ratingData);
+                updateRatingBreakdown(ratingData);
+            }
         } catch (err) {
             console.error(err);
             listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
+            paginationEl.innerHTML = '';
         }
     }
 
@@ -944,6 +996,72 @@ document.addEventListener('DOMContentLoaded', function () {
             bar.style.width = `${percentage}%`;
             percent.textContent = `${percentage}%`;
         });
+    }
+
+    // renderPagination 函数（ 分页逻辑目标）
+    function renderPagination(currentPage, totalPages, productId) {
+        const container = document.querySelector('#reviews .pagination');
+        if (!container) return;
+    
+        container.innerHTML = '';
+    
+        if (totalPages <= 1) return; // 不显示分页
+    
+        const createPageLink = (page, label = page, isActive = false) => {
+            const a = document.createElement('a');
+            a.href = '#';
+            a.textContent = label;
+            if (isActive) a.classList.add('active');
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadReviews(productId, page);
+            });
+            return a;
+        };
+    
+        // always show first page
+        container.appendChild(createPageLink(1, '1', currentPage === 1));
+    
+        // show second and third if applicable
+        if (totalPages >= 2) {
+            container.appendChild(createPageLink(2, '2', currentPage === 2));
+        }
+    
+        if (totalPages >= 3) {
+            container.appendChild(createPageLink(3, '3', currentPage === 3));
+        }
+    
+        // 如果还有更多页，显示 "..." 和最后一页
+        if (totalPages > 3) {
+            if (currentPage > 3 && currentPage < totalPages) {
+                const span = document.createElement('span');
+                span.textContent = '...';
+                container.appendChild(span);
+    
+                container.appendChild(createPageLink(currentPage, currentPage, true));
+            }
+    
+            if (currentPage < totalPages - 1) {
+                const span = document.createElement('span');
+                span.textContent = '...';
+                container.appendChild(span);
+            }
+    
+            container.appendChild(createPageLink(totalPages, totalPages, currentPage === totalPages));
+        }
+    
+        // Next 按钮
+        if (currentPage < totalPages) {
+            const next = document.createElement('a');
+            next.href = '#';
+            next.className = 'next';
+            next.innerHTML = `Next <i class="fas fa-chevron-right"></i>`;
+            next.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadReviews(productId, currentPage + 1);
+            });
+            container.appendChild(next);
+        }
     }
 
     let currentReviewImages = [];
