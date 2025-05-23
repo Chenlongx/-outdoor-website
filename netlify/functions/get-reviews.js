@@ -117,21 +117,62 @@ async function deleteReview(id) {
     .eq('id', id);
 }
 
+// 顶部加一个常量，根据环境决定用哪个域名
+const RECAPTCHA_VERIFY_URL =
+  process.env.RECAPTCHA_USE_NETLAND === 'true'
+    ? 'https://recaptcha.net/recaptcha/api/siteverify'
+    : 'https://www.google.com/recaptcha/api/siteverify';
 
 // 添加 reCAPTCHA 验证函数
+// async function verifyRecaptchaToken(token) {
+//   const secret = process.env.RECAPTCHA_SECRET_KEY;
+//   try {
+//     const res = await fetch(
+//       'https://www.google.com/recaptcha/api/siteverify',
+//       {
+//         method: 'POST',
+//         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+//         body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`
+//       }
+//     );
+//     const data = await res.json();
+//     console.log('reCAPTCHA v2 result:', data);
+//     return data.success === true;
+//   } catch (err) {
+//     console.error('reCAPTCHA validation error:', err);
+//     return false;
+//   }
+// }
 async function verifyRecaptchaToken(token) {
+  // 本地开发模式直接跳过
+  if (process.env.NODE_ENV !== 'production') {
+    console.log('[DEV] skip reCAPTCHA check');
+    return true;
+  }
+
   const secret = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secret) {
+    console.warn('Missing RECAPTCHA_SECRET_KEY, skipping verification');
+    return true;
+  }
+
   try {
-    const res = await fetch(
-      'https://www.google.com/recaptcha/api/siteverify',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`
-      }
-    );
+    // 5 秒超时
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 5000);
+
+    const res = await fetch(RECAPTCHA_VERIFY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ secret, response: token }).toString(),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
     const data = await res.json();
-    console.log('reCAPTCHA v2 result:', data);
+    console.log('reCAPTCHA v2 verify result:', data);
+
+    // v2 checkbox 只要 success === true 就算过
     return data.success === true;
   } catch (err) {
     console.error('reCAPTCHA validation error:', err);
