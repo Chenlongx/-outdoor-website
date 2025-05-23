@@ -446,9 +446,9 @@ document.addEventListener('DOMContentLoaded', function () {
                   // 3) 上传成功后，刷新评论列表并关闭表单
                   console.log('Review submitted successfully:', json);
                   loadReviews(productId);
+                  showNotification("Comment sent successfully")
                   form.remove();
                   // 评论成功发送消息
-                  showNotification("Comment sent successfully")
                 } catch (err) {
                   console.error('Submit review failed:', err);
                   alert('Failed to submit review: ' + err.message);
@@ -887,10 +887,63 @@ document.addEventListener('DOMContentLoaded', function () {
             </div>
         `).join('');
 
+        // 再获取评分统计（平均评分 + 总数）
+        const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
+        if (!ratingRes.ok) throw new Error('Rating fetch failed');
+        const ratingData = await ratingRes.json();
+
+        updateReviewSummary(ratingData); // 调用更新 summary 的方法
+        updateRatingBreakdown(ratingData);     // 更新星级分布
+
         } catch (err) {
             console.error(err);
             listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
         }
+    }
+
+    // 更新评论星级
+    function updateReviewSummary({ average, count }) {
+        const ratingNumber = document.querySelector('.reviews-summary .rating-number');
+        const totalReviews = document.querySelector('.reviews-summary .total-reviews');
+        const starsContainer = document.querySelector('.reviews-summary .rating-stars');
+    
+        if (ratingNumber) ratingNumber.textContent = average.toFixed(1);
+        if (totalReviews) totalReviews.textContent = `Based on ${count} review${count !== 1 ? 's' : ''}`;
+    
+        if (starsContainer) {
+            // 根据平均值更新星星（最多5颗）
+            starsContainer.innerHTML = '';
+            const fullStars = Math.floor(average);
+            const halfStar = average - fullStars >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    
+            for (let i = 0; i < fullStars; i++) {
+                starsContainer.innerHTML += '<i class="fas fa-star"></i>';
+            }
+            if (halfStar) {
+                starsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsContainer.innerHTML += '<i class="far fa-star"></i>';
+            }
+        }
+    }
+
+    function updateRatingBreakdown({ stars = {}, count = 0 }) {
+        const breakdown = document.querySelector('.rating-breakdown');
+        if (!breakdown) return;
+    
+        [5, 4, 3, 2, 1].forEach(star => {
+            const row = breakdown.querySelector(`.rating-row:nth-child(${6 - star})`);
+            const bar = row.querySelector('.progress');
+            const percent = row.querySelector('.percent');
+    
+            const value = stars[star] || 0;
+            const percentage = count > 0 ? Math.round((value / count) * 100) : 0;
+    
+            bar.style.width = `${percentage}%`;
+            percent.textContent = `${percentage}%`;
+        });
     }
 
     let currentReviewImages = [];
@@ -900,7 +953,9 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (e) {
         // 打开模态框并记录当前图片
         if (e.target.matches('.review-images img')) {
-          const images = Array.from(document.querySelectorAll('.review-images img'));
+          // 找到当前点击图片所在的评论项
+          const reviewItem = e.target.closest('.review-item');
+          const images = Array.from(reviewItem.querySelectorAll('.review-images img'));
           currentReviewImages = images.map(img => img.src);
           currentImageIndex = images.indexOf(e.target);
       
@@ -929,7 +984,7 @@ document.addEventListener('DOMContentLoaded', function () {
           currentImageIndex = (currentImageIndex + 1) % currentReviewImages.length;
           document.getElementById('reviewModalImg').src = currentReviewImages[currentImageIndex];
         }
-      });
+    });
     
 
     // 上传图片
