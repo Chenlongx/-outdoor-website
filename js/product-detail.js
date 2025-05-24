@@ -35,6 +35,12 @@ document.addEventListener('DOMContentLoaded', function () {
         breadcrumbContainer.appendChild(productBreadcrumb);
     }
 
+    // 监听本地存储的变化
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'cart') {
+            updateCartCount();  // 更新购物车数量
+        }   
+    });
 
     // 通过 API 获取产品信息
     fetch(`/.netlify/functions/fetch-product-by-id?id=${productId}`)
@@ -126,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     console.log("储存前的数据：", product)
                     addToCart(product);
                     showNotification(`${product.name} Added to cart`);
+                    updateCartCount()
                 });
             }
 
@@ -177,6 +184,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 渲染推荐产品区域
             renderRecommendedProducts();
+
+            updateCartCount()
 
             // 生成主图滑动区
             const mainImageTrack = document.querySelector('.image-track');
@@ -1174,6 +1183,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    function getCart() {
+        return JSON.parse(localStorage.getItem('cart')) || [];
+    }
+
+    // 更新购物车计数徽章
+    function updateCartCount() {
+        const cart = getCart();
+        if (!Array.isArray(cart)) {
+            console.warn('Cart is not an array:', cart);
+            return;
+        }
+        const totalItems = cart.reduce((total, item) => total + (parseInt(item.quantity || 1)), 0);
+        const cartCountElements = document.querySelectorAll('.cart-count');
+        
+        cartCountElements.forEach(element => {
+            element.textContent = totalItems.toString();
+        });
+    }
 
     // 上传图片
     // async function uploadImages(files, productId) {

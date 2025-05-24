@@ -448,6 +448,8 @@ document.addEventListener('DOMContentLoaded', function () {
         // 将跳转链接添加到卡片容器中
         card.appendChild(productLink);
 
+        console.log("插入的数据格式",product)
+
         // ✅ 插入产品级结构化数据
         injectProductJsonLD(product);
 
