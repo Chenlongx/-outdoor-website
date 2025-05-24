@@ -705,7 +705,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
 
-
         })
         .catch(error => {
             console.error('获取产品信息失败:', error);
