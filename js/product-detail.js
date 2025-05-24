@@ -245,8 +245,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             };
 
+            // ✅ 添加鼠标拖动滑动功能（适配 desktop）
+            const enableThumbnailDragging = () => {
+                const container = document.querySelector('.thumbnail-images');
+                if (!container) return;
+            
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+            
+                container.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    container.classList.add('dragging');
+                    startX = e.pageX - container.offsetLeft;
+                    scrollLeft = container.scrollLeft;
+                });
+            
+                document.addEventListener('mouseup', () => {
+                    if (isDown) {
+                        isDown = false;
+                        container.classList.remove('dragging');
+                    }
+                });
+            
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - container.offsetLeft;
+                    const walk = (x - startX) * 1.5;
+                    container.scrollLeft = scrollLeft - walk;
+                });
+            
+                // 防止拖动时选中文本
+                container.addEventListener('dragstart', (e) => e.preventDefault());
+            };
+
             // 调用函数
             setThumbnailClickEvent();
+            enableThumbnailDragging();
 
             // 数量选择器
             const quantityInput = document.getElementById('quantity');
@@ -680,16 +716,48 @@ document.addEventListener('DOMContentLoaded', function () {
             const modalImage = document.getElementById('modalImage');
             const caption = document.getElementById('caption');
             const closeModal = document.getElementById('closeModal');
+            const prevBtn = document.getElementById('prevImage');
+            const nextBtn = document.getElementById('nextImage');
+
+            let currentIndex = 0;
+
+            function showImage(index) {
+                const image = imagesInTrack[index];
+                modalImage.src = image.src;
+                caption.textContent = image.alt || 'Product Image';
+                currentIndex = index;
+            }
+
 
             // 为 image-track 中的每张图片添加点击事件监听器
-            imagesInTrack.forEach((image) => {
-                image.addEventListener('click', function () {
-                    const imageUrl = this.src; // 获取点击的图片的 src 属性值
-                    modalImage.src = imageUrl; // 设置模态框中的大图
-                    caption.textContent = this.alt || "Product Image"; // 可选：设置大图的描述
+            // imagesInTrack.forEach((image) => {
+            //     image.addEventListener('click', function () {
+            //         const imageUrl = this.src; // 获取点击的图片的 src 属性值
+            //         modalImage.src = imageUrl; // 设置模态框中的大图
+            //         caption.textContent = this.alt || "Product Image"; // 可选：设置大图的描述
 
-                    modal.style.display = 'block'; // 显示模态框
+            //         modal.style.display = 'block'; // 显示模态框
+            //     });
+            // });
+            imagesInTrack.forEach((image, index) => {
+                image.addEventListener('click', () => {
+                    showImage(index);
+                    modal.style.display = 'block';
                 });
+            });
+            
+            
+            // 左右切换按钮
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex - 1 + imagesInTrack.length) % imagesInTrack.length;
+                showImage(currentIndex);
+            });
+
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentIndex = (currentIndex + 1) % imagesInTrack.length;
+                showImage(currentIndex);
             });
 
             // 关闭模态框
@@ -703,6 +771,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal.style.display = 'none'; // 隐藏模态框
                 }
             });
+
+            // 可选：支持键盘方向键左右切图
+            // document.addEventListener('keydown', (e) => {
+            //     if (modal.style.display === 'block') {
+            //         if (e.key === 'ArrowLeft') prevBtn.click();
+            //         if (e.key === 'ArrowRight') nextBtn.click();
+            //         if (e.key === 'Escape') modal.style.display = 'none';
+            //     }
+            // });
 
 
         })
