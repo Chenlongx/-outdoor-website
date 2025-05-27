@@ -356,6 +356,9 @@ function initCart() {
     updateCartDisplay();
     updateOrderSummary();
     updateCartCount();
+
+    // 传入 Netlify 函数地址、推荐商品数量、渲染函数
+    fetchAndRenderSuggestedProducts('/.netlify/functions/fetch-products', 3, renderProducts);
 }
 
 
@@ -833,7 +836,6 @@ function generateVariantSelectHTML(item) {
     }).join('');
 }
 
-
 // 申请折扣
 function applyDiscount(percentage) {
     const cart = getCart();
@@ -862,5 +864,101 @@ function updateShipping(cost) {
     document.getElementById('total').textContent = `$${total.toFixed(2)}`;
 }
 
+// 猜你喜欢（产品）
+function renderProducts(products) {
+    const productsGrid = document.getElementById('suggested-products');
+    if (!productsGrid) return;
+
+    productsGrid.innerHTML = '';
+    products.forEach((product, index) => {
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card animated';
+        productCard.style.opacity = '0';
+        productCard.style.transform = 'translateY(20px)';
+        productCard.style.transitionDelay = `${index * 100}ms`;
+
+        productCard.innerHTML = `
+            <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
+            <h3>${product.name}</h3>
+            <div class="price">
+                <span class="current-price">$${product.final_price}</span>
+                <span class="original-price">$${parseFloat(product.price).toFixed(2)}</span>
+            </div>
+            <button class="add-to-cart">ADD TO CART</button>
+        `;
+
+        // 点击跳转到详情页
+        productCard.addEventListener('click', (e) => {
+            if (e.target.classList.contains('add-to-cart')) {
+                return;
+            }
+            localStorage.setItem('currentProduct', JSON.stringify(product));
+            const productUUID = product.id;
+            const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
+            window.location.href = `../products/product-detail.html?id=${productUUID}-${productNameForUrl}`;
+        }); 
+
+        // 加入购物车按钮单独处理
+        const addToCartBtn = productCard.querySelector('.add-to-cart');
+        if (addToCartBtn) {
+            addToCartBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                console.log("将产品加入到购物车前的数据：", product)
+                addToCart(product);
+                // 更新购物车显示
+                updateCartDisplay();
+                
+                // 更新订单详细信息
+                updateOrderSummary();
+
+                // 更新购物车按钮的数量
+                updateCartCount();
+            });
+        }
+
+        productsGrid.appendChild(productCard);
+
+        // 启动动画
+        setTimeout(() => {
+            productCard.style.opacity = '1';
+            productCard.style.transform = 'translateY(0)';
+        }, 50);
+    });
+}
 
 
+// 添加商品到购物车
+function addToCart(product) {
+    const productToAdd = {
+        ...product,
+        quantity: 1,  // 默认数量
+        price: parseFloat(product.final_price || product.price) || 0,
+    };
+
+    const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+    cartItems.push(productToAdd);
+    localStorage.setItem('cart', JSON.stringify(cartItems));
+    showNotification(`${product.name} Added to cart`);
+}
+
+
+// 从后端（Netlify 函数）获取所有商品，随机选出 3 个，并调用回调函数渲染
+async function fetchAndRenderSuggestedProducts(endpoint, count = 3, renderFn = renderProducts) {
+    try {
+        const response = await fetch(endpoint);
+        const products = await response.json();
+
+        console.log("获取到的产品数据：", products)
+
+        if (!Array.isArray(products)) {
+            throw new Error('产品数据格式无效');
+        }
+
+        const shuffled = products.sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, count);
+
+        renderFn(selected); // 渲染推荐商品
+    } catch (error) {
+        console.error('加载推荐产品出错:', error);
+    }
+}
