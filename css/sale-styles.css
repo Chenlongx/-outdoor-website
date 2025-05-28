@@ -70,8 +70,8 @@
 }
 
 .sale-badge {
-    background-color: var(--accent-color);
-    color: #e6d6b8;;
+    background-color: #7F1E05;
+    color: #ffff;;
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -188,7 +188,7 @@
 
 .promo-code-box span {
     font-weight: 700;
-    color: #e6d6b8;
+    color: #ffffff;
     background-color: var(--accent-color);
     padding: 0.2rem 0.5rem;
     border-radius: 2px;
