@@ -1,0 +1,2 @@
+/images/*  https://exzbshteqangjyjflhlz.supabase.co/storage/v1/object/sign/productdetails/:splat  200
+/images/websitedata/*     https://exzbshteqangjyjflhlz.supabase.co/storage/v1/object/public/websitedata/:splat   200

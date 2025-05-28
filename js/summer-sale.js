@@ -340,6 +340,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('产品渲染完成');
     }
 
+    // 提取 Supabase 图片文件名
+    function getImageProxyUrl(originalUrl) {
+        const match = originalUrl.match(/\/(productdetails|websitedata)\/([^?]+)/);
+        if (match && match[1] && match[2]) {
+            const folder = match[1];
+            const filename = match[2].replace(/^\/+/, '');
+            return `/images/${folder}/${filename}`;
+        }
+        return originalUrl; // fallback for unmatched URLs
+    }
+    
+
     // 创建产品卡片
     function createProductCard(product) {
         const card = document.createElement('div');
@@ -347,10 +359,27 @@ document.addEventListener('DOMContentLoaded', function() {
         card.setAttribute('data-category', product.category);
         card.setAttribute('data-discount', product.discount);
 
+        const imageUrl = getImageProxyUrl(product.image_url);
+        
         // 处理 price 和 discount
+        // card.innerHTML = `
+        //     <div class="discount-tag">-${product.discount_percent}%</div>
+        //     <img src="${product.image_url}" alt="${product.name}" class="product-image">
+        //     <h3>${product.name}</h3>
+        //     <p class="product-description">${product.description}</p>
+        //     <div class="price">
+        //         <span class="current-price">$${parseFloat(product.final_price).toFixed(2)}</span>
+        //         <span class="original-price">$${parseFloat(product.price).toFixed(2)}</span>
+        //     </div>
+        //     <div class="rating">
+        //         ${generateRatingStars(product.rating)}
+        //         <span class="rating-count">(${product.rating_count})</span>
+        //     </div>
+        //     <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+        // `;
         card.innerHTML = `
             <div class="discount-tag">-${product.discount_percent}%</div>
-            <img src="${product.image_url}" alt="${product.name}" class="product-image">
+            <img src="${imageUrl}" alt="${product.name}" class="product-image" loading="lazy" width="176" height="176">
             <h3>${product.name}</h3>
             <p class="product-description">${product.description}</p>
             <div class="price">
