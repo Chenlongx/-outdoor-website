@@ -48,6 +48,7 @@
     --primary-color: #2c6e49;
     --secondary-color: #4c956c;
     --accent-color: #d68c45;
+    --accent-color-dark: #864818;
     --dark-color: #2d3142;
     --light-color: #f8f9fa;
     --gray-color: #6c757d;
@@ -509,7 +510,7 @@ nav {
 
 .product-card .original-price {
     font-size: 0.9rem;
-    color: #999;
+    color: #595959;
     text-decoration: line-through;
     margin-left: 0.5rem;
 }
