@@ -92,7 +92,7 @@
 }
 
 .sale-badge:nth-child(3) {
-    background-color: var(--secondary-color);
+    background-color: #30503E;
     transform: rotate(-3deg);
     animation-delay: 1.4s;
 }
@@ -189,7 +189,7 @@
 .promo-code-box span {
     font-weight: 700;
     color: #ffffff;
-    background-color: var(--accent-color);
+    background-color: #634427;
     padding: 0.2rem 0.5rem;
     border-radius: 2px;
     margin-left: 0.5rem;
