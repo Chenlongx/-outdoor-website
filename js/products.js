@@ -154,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // ✅ 如果还是没匹配到，隐藏分类侧边栏
                     if (currentProducts.length === 0) {
-                        const sidebar = document.querySelector('.categories-sidebar');
-                        if (sidebar) sidebar.style.display = 'none';
+                        // const sidebar = document.querySelector('.categories-sidebar');
+                        // if (sidebar) sidebar.style.display = 'none';
 
                         // 隐藏分页
                         const paginationnone = document.querySelector('.pagination');
