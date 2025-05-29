@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
     <!-- Meta Pixel Code -->
-    <script async>
+    <!-- <script async>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
         n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -25,8 +25,31 @@
         </script>
         <noscript><img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1"
-        /></noscript>
+        /></noscript> -->
         <!-- End Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){
+        n.callMethod? n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n; n.push=n; n.loaded=!0; n.version='2.0';
+        n.queue=[];}(window, document);
+    
+        window.addEventListener('load', function () {
+            const script = document.createElement('script');
+            script.src = 'https://connect.facebook.net/en_US/fbevents.js';
+            script.async = true;
+            script.onload = function () {
+                fbq('init', '1345745506686997');
+                fbq('track', 'PageView');
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+    
+    <noscript>
+        <img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1" />
+    </noscript>
 </head>
 <body>
     <header>
