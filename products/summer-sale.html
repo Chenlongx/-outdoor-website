@@ -5,9 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summer Adventure Sale | WildGear</title>
     <meta name="description" content="Join summitgearhub Summer Adventure Sale from June 15 to July 15, 2025 – save up to 40% on select hiking, camping, and climbing gear, plus enjoy free shipping on orders over $49!">
+    <!-- 桌面端背景图优先加载 -->
     <link rel="preload" as="image" href="../img/summer-sale-background.webp" fetchpriority="high">
-    <!-- 移动端背景图预加载 -->
-    <link rel="preload" as="image" href="../img/summer-sale-background-Mobile.webp" media="(max-width: 767px)" fetchpriority="high">
+
+    <!-- 移动端背景图动态加载 -->
+    <script>
+    if (window.matchMedia('(max-width: 767px)').matches) {
+        const preloadMobile = document.createElement('link');
+        preloadMobile.rel = 'preload';
+        preloadMobile.as = 'image';
+        preloadMobile.href = '../img/summer-sale-background-Mobile.webp';
+        preloadMobile.fetchPriority = 'high';
+        document.head.appendChild(preloadMobile);
+    }
+    </script>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/sale-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
