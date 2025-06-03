@@ -43,6 +43,7 @@
     font-weight: 500;
     color: var(--dark-color);
     border-left: 3px solid transparent;
+    font-family: Arial, sans-serif;
 }
 
 .category-item:hover {
@@ -72,8 +73,9 @@
 }
 
 .products-header h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     color: var(--dark-color);
+    font-family: Amazon Ember, Arial, sans-serif;
 }
 
 .products-filters {
