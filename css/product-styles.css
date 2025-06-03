@@ -24,7 +24,8 @@
     margin-bottom: 1rem;
     color: var(--dark-color);
     font-size: 1.2rem;
-    text-align: center;
+    font-family: Arial, sans-serif;
+    /* text-align: center; */
 }
 
 .categories-list {
@@ -34,7 +35,7 @@
 }
 
 .category-item {
-    padding: 12px 15px;
+    padding: 12px 0px;
     margin-bottom: 8px;
     cursor: pointer;
     border-radius: 4px;
