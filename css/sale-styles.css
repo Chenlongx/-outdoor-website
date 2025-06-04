@@ -564,6 +564,17 @@
     min-width: 20px;
     text-align: center;
 }
+.nav-cart-count {
+    position: absolute;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 50%;
+    min-width: 20px;
+    margin-left: -5px;
+    text-align: center;
+}
 
 /* 悬浮按钮悬停时的效果 */
 .floating-cart-btn:hover {
