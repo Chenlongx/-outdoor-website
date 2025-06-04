@@ -411,6 +411,7 @@ function initSearch() {
     const searchInput = document.getElementById('search-input');
     const closeSearch = document.getElementById('close-search');
     const headerSearch = document.getElementById('header-search');
+    const heroOverlay = document.querySelector('.hero-overlay');
 
     // 打开搜索框
     if (headerSearch && searchOverlay && searchInput) {
@@ -419,6 +420,11 @@ function initSearch() {
             e.preventDefault();
             searchOverlay.style.display = 'flex';
             searchInput.focus();
+
+            // ✅ 隐藏 hero-overlay
+            if (heroOverlay) {
+                heroOverlay.style.display = 'none';
+            }
         });
     }
 
@@ -426,6 +432,10 @@ function initSearch() {
     if (closeSearch) {
         closeSearch.addEventListener('click', () => {
             searchOverlay.style.display = 'none';
+
+            if (heroOverlay) {
+                heroOverlay.style.display = 'block';
+            }
         });
     }
 

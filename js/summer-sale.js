@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 调用移动菜单栏
     setupMobileMenuToggle()
 
+    // 搜索框
+    initSearch()
+
     // 从Netlify 函数获取数据（获取优惠码）
     fetch('/.netlify/functions/get-unused-codes')  // 调用你定义的Netlify函数
     .then(response => {
@@ -706,5 +709,61 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
   
+    // 搜索功能
+    function initSearch() {
+        const searchOverlay = document.getElementById('search-overlay');
+        const searchInput = document.getElementById('search-input');
+        const closeSearch = document.getElementById('close-search');
+        const headerSearch = document.getElementById('header-search');
+        const heroOverlay = document.querySelector('.hero-overlay');
 
+        // 打开搜索框
+        if (headerSearch && searchOverlay && searchInput) {
+            // 打开搜索框
+            headerSearch.addEventListener('click', (e) => {
+                console.log("打开搜索框")
+                e.preventDefault();
+                searchOverlay.style.display = 'flex';
+                searchInput.focus();
+
+                // ✅ 隐藏 hero-overlay
+                if (heroOverlay) {
+                    heroOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        // 关闭搜索框
+        if (closeSearch) {
+            closeSearch.addEventListener('click', () => {
+                searchOverlay.style.display = 'none';
+
+                if (heroOverlay) {
+                    heroOverlay.style.display = 'block';
+                }
+            });
+        }
+
+        // 点击遮罩层关闭搜索框
+        if(searchOverlay){
+            searchOverlay.addEventListener('click', (e) => {
+                if (e.target === searchOverlay) {
+                    searchOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        // 处理搜索
+        if(searchInput){
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const searchQuery = searchInput.value.trim();
+                    if (searchQuery) {
+                        window.location.href = `../products/search.html?q=${encodeURIComponent(searchQuery)}`;
+                    }
+                }
+            });
+        }
+
+    }
 }); 
