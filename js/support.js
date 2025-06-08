@@ -1,7 +1,7 @@
 // Support Page JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize FAQ Accordion
+    // 初始化常见问题解答手风琴
     initFaqAccordion();
 
     // Initialize FAQ Category tabs
@@ -31,42 +31,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// FAQ Accordion functionality
+// 常见问题解答手风琴功能
 function initFaqAccordion() {
     const faqItems = document.querySelectorAll('.faq-item');
-
+  
     faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        const answer = item.querySelector('.faq-answer');
-        const icon = item.querySelector('.faq-question i');
-
-        if (question && answer && icon) {
-            question.addEventListener('click', () => {
-                // Close all other FAQ items
-                faqItems.forEach(otherItem => {
-                    if (otherItem !== item) {
-                        const otherAnswer = otherItem.querySelector('.faq-answer');
-                        const otherIcon = otherItem.querySelector('.faq-question i');
-
-                        if (otherAnswer && otherIcon) {
-                            otherAnswer.style.display = 'none';
-                            otherIcon.className = 'fas fa-chevron-down';
-                        }
-                    }
-                });
-
-                // Toggle current item
-                if (answer.style.display === 'block') {
-                    answer.style.display = 'none';
-                    icon.className = 'fas fa-chevron-down';
-                } else {
-                    answer.style.display = 'block';
-                    icon.className = 'fas fa-chevron-up';
-                }
-            });
-        }
+      const question = item.querySelector('.faq-question');
+      const icon = item.querySelector('.faq-question i');
+  
+      if (question && icon) {
+        question.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
+  
+          // 关闭其他所有项
+          faqItems.forEach(otherItem => {
+            otherItem.classList.remove('active');
+            const otherIcon = otherItem.querySelector('.faq-question i');
+            if (otherIcon) {
+              otherIcon.className = 'fas fa-chevron-down';
+            }
+          });
+  
+          if (!isActive) {
+            item.classList.add('active');
+            icon.className = 'fas fa-chevron-up';
+          } else {
+            icon.className = 'fas fa-chevron-down';
+          }
+        });
+      }
     });
-}
+  }
 
 // FAQ Category Tabs
 function initFaqCategories() {

@@ -1,11 +1,12 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initCart();
     renderPayPalButton();
+    let appliedPromoCode = null;  // 用于记录当前应用的优惠码
 
     // 继续购物按钮
     const continueShoppingBtn = document.querySelector('.continue-shopping');
     if (continueShoppingBtn) {
-        continueShoppingBtn.addEventListener('click', function() {
+        continueShoppingBtn.addEventListener('click', function () {
             window.location.href = '../index.html';
         });
     }
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新购物车按钮
     const updateCartBtn = document.querySelector('.update-cart');
     if (updateCartBtn) {
-        updateCartBtn.addEventListener('click', function() {
+        updateCartBtn.addEventListener('click', function () {
             updateCartDisplay();
             updateOrderSummary();
             showNotification('Shopping cart updated');
@@ -25,15 +26,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const productId = this.dataset.productId;
             const variantLabel = this.dataset.variant;
             const selectedValue = this.value;
-    
+
             console.log('Clicked select element:', this); // 输出完整 select 元素
             console.log('Selected option value:', selectedValue); // 输出所选值
             console.log('Selected option text:', this.options[this.selectedIndex].text); // 输出所选文本
-    
+
             let cart = window.CartManager.getCartItems();
             // const item = cart.find(p => p.id === productId);
             const item = cart.find(p => String(p.id) === String(productId));
-    
+
             if (item) {
                 if (variantLabel === 'color') {
                     item.selectedColor = selectedValue;
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.CartManager.saveCartItems(cart);
                     updateCartDisplay(); // 刷新购物车显示
                 }
-    
+
                 window.CartManager.saveCartItems(cart);
             } else {
                 console.warn(`Product with id ${productId} not found in cart.`);
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    
+
 
     // 渲染 PayPal 按钮
     async function renderPayPalButton() {
@@ -57,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // console.error("PayPal SDK has not loaded.");
             return;
         }
+
         const paypalButtons = window.paypal.Buttons({
             style: {
                 shape: 'rect',
@@ -66,35 +68,108 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
             // 动态计算并传递总金额
-            createOrder: async function(data, actions) {
+            // createOrder: async function (data, actions) {
+            //     const cart = getCart(); // 获取购物车信息
+            //     console.log("购物车的信息:", cart)
+            //     const selectedShipping = parseFloat(document.getElementById('shipping-options').value); // ⬅️ 获取选中的运费金额
+            //     console.log("选择的运费金额:", selectedShipping);
+            //     // 在客户端发送价格请求到后端进行验证
+            //     const response = await fetch('/.netlify/functions/validate-price', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/json',
+            //         },
+            //         body: JSON.stringify({
+            //             cart: cart,
+            //             promoCode: appliedPromoCode, // ⬅️ 传当前的优惠码（可以为 null）
+            //             selectedShipping: selectedShipping // ⬅️ 添加此字段
+            //         })
+            //     });
+
+            //     const result = await response.json();
+
+            //     if (!response.ok) {
+            //         throw new Error('无法获取价格');
+            //     }
+
+            //     // 获取从后端返回的价格
+            //     const subtotal = result.subtotal;  // 从后端返回的小计
+            //     const shipping = result.shipping;  // 从后端返回的运费
+            //     const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
+                
+
+            //     console.log("后端返回小计:", subtotal);
+            //     console.log("后端返回运费:", shipping);
+            //     console.log("后端返回的金额总价：", totalAmount)
+            //     // 将 totalAmount 存入 actions 中，供 onApprove 使用
+            //     // actions.totalAmount = totalAmount;
+
+            //     // 创建订单并返回给 PayPal
+            //     return actions.order.create({
+            //         purchase_units: [{
+            //             amount: {
+            //                 currency_code: 'USD',
+            //                 value: totalAmount, // 订单总金额
+            //                 breakdown: {
+            //                     item_total: {
+            //                         currency_code: 'USD',
+            //                         value: subtotal.toFixed(2), // 小计
+            //                     },
+            //                     shipping: {
+            //                         currency_code: 'USD',
+            //                         value: shipping.toFixed(2), // 运费
+            //                     },
+            //                 },
+            //             },
+            //             // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
+            //             custom_id: totalAmount,
+            //             items: cart.map(item => ({
+            //                 name: item.name,
+            //                 unit_amount: {
+            //                     currency_code: 'USD',
+            //                     value: parseFloat(item.price).toFixed(2), // 商品单价
+            //                 },
+            //                 quantity: item.quantity,
+            //             })),
+            //         }],
+            //     });
+            // },
+
+            createOrder: async function (data, actions) {
                 const cart = getCart(); // 获取购物车信息
                 console.log("购物车的信息:", cart)
-                // 在客户端发送价格请求到后端进行验证
+                const selectedShipping = parseFloat(document.getElementById('shipping-options').value); // ⬅️ 获取选中的运费金额
+                console.log("选择的运费金额:", selectedShipping);
+    
+                // 向后端发送请求，验证价格并获取折扣后的商品信息
                 const response = await fetch('/.netlify/functions/validate-price', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({ cart: cart }) // 将购物车信息发送到后端
+                    body: JSON.stringify({
+                        cart: cart,
+                        promoCode: appliedPromoCode, // ⬅️ 传递当前的优惠码（可以为 null）
+                        selectedShipping: selectedShipping // ⬅️ 添加此字段
+                    })
                 });
-
+    
                 const result = await response.json();
-
+    
                 if (!response.ok) {
                     throw new Error('无法获取价格');
                 }
-
-                // 获取从后端返回的价格
-                const subtotal = result.subtotal;  // 从后端返回的小计
-                const shipping = result.shipping;  // 从后端返回的运费
-                const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
-
+    
+                const subtotal = result.subtotal;  // 从后端获取折扣后的小计
+                const shipping = result.shipping;  // 从后端获取运费
+                const totalAmount = result.total; // 从后端获取总金额
+                const processedItems = result.items; // ⬅️ 从后端获取包含折扣价格的商品列表
+    
                 console.log("后端返回小计:", subtotal);
                 console.log("后端返回运费:", shipping);
                 console.log("后端返回的金额总价：", totalAmount)
-                // 将 totalAmount 存入 actions 中，供 onApprove 使用
-                // actions.totalAmount = totalAmount;
-
+                console.log("后端返回的商品列表（包含折扣）:", processedItems);
+    
                 // 创建订单并返回给 PayPal
                 return actions.order.create({
                     purchase_units: [{
@@ -104,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             breakdown: {
                                 item_total: {
                                     currency_code: 'USD',
-                                    value: subtotal.toFixed(2), // 小计
+                                    value: subtotal.toFixed(2), // 小计（折扣后）
                                 },
                                 shipping: {
                                     currency_code: 'USD',
@@ -113,23 +188,44 @@ document.addEventListener('DOMContentLoaded', function() {
                             },
                         },
                         // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
-                        custom_id: totalAmount,
-                        items: cart.map(item => ({
+                        custom_id: totalAmount, 
+                        // ⬅️ 使用后端返回的 processedItems 来构建 PayPal 的 items 数组
+                        items: processedItems.map(item => ({ 
                             name: item.name,
                             unit_amount: {
                                 currency_code: 'USD',
-                                value: parseFloat(item.price).toFixed(2), // 商品单价
+                                value: item.unit_amount.toFixed(2), // ⬅️ 使用后端计算的折扣后的 unit_amount
                             },
                             quantity: item.quantity,
                         })),
                     }],
                 });
             },
-    
+
             // 支付成功后的处理
-            onApprove: async function(data, actions) {
+            onApprove: async function (data, actions) {
                 // 处理支付成功的情况
-                return actions.order.capture().then(async function(details) {
+                return actions.order.capture().then(async function (details) {
+                    // ⬇️ 添加这段处理优惠码
+                    if (appliedPromoCode) {
+                        try {
+                            const res = await fetch('/.netlify/functions/consume-promo-code', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ promoCode: appliedPromoCode }),
+                            });
+                            const result = await res.json();
+                            if (result.success) {
+                                console.log('优惠码成功标记为已使用');
+                                appliedPromoCode = null; // 清除变量，避免重复
+                            } else {
+                                console.warn('优惠码标记失败:', result.message);
+                            }
+                        } catch (err) {
+                            console.error('消费优惠码失败:', err);
+                        }
+                    }
+
                     // 在 capture 完成后，从 details 中获取 totalAmount
                     const totalAmount = details.purchase_units[0].custom_id;  // 这里获取 custom_id，即 totalAmount
                     console.log("支付成功后的处理总金额", totalAmount);
@@ -137,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // console.log("Payment details: ", JSON.stringify(details, null, 2));
                     // 获取完整的收货地址信息
                     const shippingAddress = details.purchase_units[0].shipping.address;
-            
+
                     // 打印完整的收货地址信息
                     // console.log('Shipping Address:', shippingAddress);
 
@@ -150,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Full Name:', fullName);
                     console.log('given_name:', given_name)
                     console.log('surname:', surname)
-                    
+
                     // 获取并打印各个字段
                     const streetAddress = shippingAddress.address_line_1 || 'Address not provided';
                     const city = shippingAddress.admin_area_2 || 'City not provided';
@@ -163,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('街道地址:', streetAddress);
                     console.log('邮政编码:', postalCode);
                     console.log('状态:', state);
-                    
+
                     // alert('交易完成 ' + details.payer.name.given_name);
 
                     // 存储客户订单数据到数据库中（发送到后端进行存储）
@@ -179,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         country: countryCode,  // 客户的国家
                         total_amount: totalAmount, // 总金额
                     };
-                    
+
                     const items = cart.map(item => ({
                         id: item.id,   // 订单id
                         name: item.name,    // 产品名称
@@ -206,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         if (result.orderId) {
                             localStorage.setItem('orderId', result.orderId);
                         }
-                    }else {
+                    } else {
                         console.error('保存订单时出错:', result);
                         showNotification('处理订单时出错。请重试。');
                     }
@@ -219,15 +315,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = '../products/checkout.html';
                 });
             },
-    
+
             // 支付失败的处理
-            onCancel: function(data) {
+            onCancel: function (data) {
                 // 交易已取消
                 showNotification('Transaction Cancelled');
             },
-            
+
             // 错误处理
-            onError: function(error) {
+            onError: function (error) {
                 // 付款失败转跳到whatsapp客户联系页面
                 console.error('付款处理过程中出现错误:', error);
                 // alert('付款过程中出现问题');
@@ -235,7 +331,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 // window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
             }
         });
-    
+
         // 渲染 PayPal 按钮
         paypalButtons.render('#paypal-button-container');
     }
@@ -251,7 +347,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 应用促销代码按钮
     const promoBtn = document.querySelector('.promo-input button');
     if (promoBtn) {
-        promoBtn.addEventListener('click', function() {
+        promoBtn.addEventListener('click', function () {
             const promoInput = document.querySelector('.promo-input input');
             if (promoInput && promoInput.value.trim()) {
                 // 获取用户输入的优惠码
@@ -277,7 +373,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
 
                 // 发送优惠码到后端进行校验
-                fetch('/.netlify/functions/verify-promo-code', {
+                fetch('/.netlify/functions/consume-promo-code', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -286,24 +382,36 @@ document.addEventListener('DOMContentLoaded', function() {
                         promoCode: promoCode,
                     }),
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // 如果优惠码有效，应用折扣
-                        applyDiscount(data.discount); // 假设后端返回折扣值
-                        showNotification(`Coupon code applied: ${data.discount}% off!`, 'success');
-
-                        // 使用优惠码优惠百分之25%
-
-                    } else {
-                        // 如果优惠码无效
-                        showNotification('Invalid coupon code, please try again.', 'error');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    showNotification('There was an error with coupon code validation.', 'error');
-                });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // 如果优惠码有效，应用折扣
+                            applyDiscount(data.discount); // 假设后端返回折扣值
+                            showNotification(`Coupon code applied: ${data.discount}% off!`, 'success');
+                            appliedPromoCode = promoCode; // 保存当前有效优惠码
+                        } else {
+                            switch (data.error_code) {
+                                case 1001:
+                                    showNotification('Please enter a promo code.', 'error');
+                                    break;
+                                case 1003:
+                                    showNotification('This promo code does not exist.', 'error');
+                                    break;
+                                case 1004:
+                                    showNotification('This promo code has already been used.', 'error');
+                                    break;
+                                case 1005:
+                                    showNotification('This promo code has expired.', 'error');
+                                    break;
+                                default:
+                                    showNotification(data.message || 'An error occurred. Please try again.', 'error');
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        showNotification('There was an error with coupon code validation.', 'error');
+                    });
             } else {
                 showNotification('Please enter the discount code。', 'error');
             }
@@ -321,7 +429,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.style.display = 'flex';
         });
     }
-    
+
     // document.getElementById('close-modal').addEventListener('click', function() {
     //     document.getElementById('custom-modal').style.display = 'none'; // 关闭弹窗
     // });
@@ -373,17 +481,17 @@ function updateCartDisplay() {
         console.warn('cart-items-container not found');
         return; // 直接返回，不执行后面
     }
-    
+
     cartItemsContainer.innerHTML = '';
     if (cartItemCount) {
         cartItemCount.textContent = Array.isArray(cart) ? cart.length : 0;
     }
-    
+
     if (!Array.isArray(cart) || cart.length === 0) {
         cartItemsContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
         return;
     }
-    
+
     cart.forEach(item => {
         const cartItem = createCartItemElement(item);
         cartItemsContainer.appendChild(cartItem);
@@ -435,7 +543,7 @@ function createCartItemElement(item) {
     const div = document.createElement('div');
     div.className = 'cart-item';
     div.dataset.productId = item.id;
-    
+
     div.innerHTML = `
         <div class="item-image">
             <img src="${item.image_url || 'https://via.placeholder.com/150'}" alt="${item.name}" 
@@ -469,7 +577,7 @@ function updateOrderSummary() {
     const cart = getCart();
     const subtotal = calculateSubtotal(cart);
     const shipping = calculateShipping(subtotal);
-    
+
     // 确保 subtotal 和 shipping 都是有效的数值
     if (isNaN(subtotal) || isNaN(shipping)) {
         console.error("Subtotal or shipping is invalid");
@@ -524,11 +632,11 @@ function updateOrderSummary() {
         ) {
             // 确保 item.selectedColor 有默认值（取第一项）
             if (!item.selectedColor) {
-                const colorVariant = item.variant_options.find(v => v.label === 'color') 
-                                   || item.variant_options[0];
+                const colorVariant = item.variant_options.find(v => v.label === 'color')
+                    || item.variant_options[0];
                 item.selectedColor = Array.isArray(colorVariant.options) && colorVariant.options.length
-                                   ? colorVariant.options[0]
-                                   : '';
+                    ? colorVariant.options[0]
+                    : '';
             }
 
             // 渲染下拉菜单
@@ -536,11 +644,11 @@ function updateOrderSummary() {
 
             // 重新绑定 change 事件
             const select = attrEl.querySelector('.variant-select');
-            select.addEventListener('change', function() {
-                const productId   = this.dataset.productId;
+            select.addEventListener('change', function () {
+                const productId = this.dataset.productId;
                 const selectedVal = this.value;
-                const cartArr     = window.CartManager.getCartItems();
-                const cartItem    = cartArr.find(i => String(i.id) === String(productId));
+                const cartArr = window.CartManager.getCartItems();
+                const cartItem = cartArr.find(i => String(i.id) === String(productId));
                 if (cartItem) {
                     cartItem.selectedColor = selectedVal;
                     window.CartManager.saveCartItems(cartArr);
@@ -578,7 +686,7 @@ function getCart() {
     const cart = localStorage.getItem('cart');
     try {
         const parsedCart = cart ? JSON.parse(cart) : [];
-        
+
         console.log('购物车中的商品如下:');
         parsedCart.forEach((item, index) => {
             console.log(`第 ${index + 1} 个商品:`);
@@ -608,14 +716,14 @@ function removeFromCart(productId) {
     // 过滤出移除的商品
     let cart = getCart();
     cart = cart.filter(item => item.id !== productId);
-    
-    console.log("点击移除商品：",cart)
+
+    console.log("点击移除商品：", cart)
     // 保存本地
     saveCart(cart);
 
     // 更新购物车显示
     updateCartDisplay();
-    
+
     // 更新订单详细信息
     updateOrderSummary();
 
@@ -660,12 +768,12 @@ function updateQuantityInput(productId, value) {
 function saveForLater(productId) {
     let cart = getCart();
     let savedItems = JSON.parse(localStorage.getItem('savedItems') || '[]');
-    
+
     const item = cart.find(item => item.id === productId);
     if (item) {
         savedItems.push(item);
         cart = cart.filter(item => item.id !== productId);
-        
+
         saveCart(cart);
         localStorage.setItem('savedItems', JSON.stringify(savedItems));
         updateCartDisplay();
@@ -684,7 +792,7 @@ function updateCartCount() {
     }
     const totalItems = cart.reduce((total, item) => total + (parseInt(item.quantity || 1)), 0);
     const cartCountElements = document.querySelectorAll('.cart-count');
-    
+
     cartCountElements.forEach(element => {
         element.textContent = totalItems.toString();
     });
@@ -759,7 +867,7 @@ function showNotification(message, type = 'success') {
 
     // Create icon based on type
     let icon;
-    switch(type) {
+    switch (type) {
         case 'success':
             icon = 'fa-check-circle';
             notification.style.backgroundColor = 'var(--primary-color)';
@@ -845,7 +953,7 @@ function applyDiscount(percentage) {
     // const tax = calculateTax(subtotal);
     // const total = subtotal + shipping + tax - discount;
     const total = subtotal + shipping - discount;  // 计算总金额时不涉及税费
-    
+
     document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('shipping').textContent = `$${shipping.toFixed(2)}`;
     // document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
@@ -859,7 +967,7 @@ function updateShipping(cost) {
     // const tax = calculateTax(subtotal);
     // const total = subtotal + cost + tax;
     const total = subtotal + cost;  // 不再涉及税费
-    
+
     document.getElementById('shipping').textContent = cost === 0 ? 'FREE' : `$${cost.toFixed(2)}`;
     document.getElementById('total').textContent = `$${total.toFixed(2)}`;
 }
@@ -896,7 +1004,7 @@ function renderProducts(products) {
             const productUUID = product.id;
             const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
             window.location.href = `../products/product-detail.html?id=${productUUID}-${productNameForUrl}`;
-        }); 
+        });
 
         // 加入购物车按钮单独处理
         const addToCartBtn = productCard.querySelector('.add-to-cart');
@@ -907,7 +1015,7 @@ function renderProducts(products) {
                 addToCart(product);
                 // 更新购物车显示
                 updateCartDisplay();
-                
+
                 // 更新订单详细信息
                 updateOrderSummary();
 

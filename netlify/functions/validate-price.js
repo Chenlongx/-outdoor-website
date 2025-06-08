@@ -1,3 +1,86 @@
+// const { createClient } = require('@supabase/supabase-js');
+
+// // 创建 Supabase 客户端
+// const supabase = createClient(
+//     process.env.SUPABASE_URL,
+//     process.env.SUPABASE_KEY
+// );
+
+// exports.handler = async (event) => {
+//     if (event.httpMethod !== 'POST') {
+//         return {
+//             statusCode: 405,
+//             body: JSON.stringify({ message: 'Method Not Allowed' }),
+//         };
+//     }
+
+//     try {
+//         const { cart, promoCode } = JSON.parse(event.body);
+
+//         // 计算小计
+//         let subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+//         console.log("原始小计:", subtotal);
+
+//         let discount = 0;
+
+//         // 如果传入了有效的 promoCode，则检查并计算折扣
+//         if (promoCode) {
+//             const { data: promoData, error } = await supabase
+//                 .from('activation_codes')
+//                 .select('*')
+//                 .eq('code', promoCode)
+//                 .single();
+
+//             if (error) {
+//                 console.warn('优惠码查询失败:', error.message);
+//             } else if (promoData && !promoData.used && new Date(promoData.expires_at) > new Date()) {
+//                 discount = promoData.discount_percentage || 0;
+//                 console.log(`优惠码 ${promoCode} 有效，折扣为: ${discount}%`);
+//                 subtotal = subtotal * (1 - discount / 100);
+//             } else {
+//                 console.warn('优惠码无效、已使用或已过期');
+//             }
+//         }
+
+//         subtotal = parseFloat(subtotal.toFixed(2)); // 保留两位小数
+
+//         // 运费逻辑
+//         // let shipping = 10.0;
+//         // if (subtotal >= 49) {
+//         //     shipping = 0.0;
+//         // }
+
+//         // 如果用户传递了自定义运费，就使用它；否则默认逻辑
+//         let shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9;
+
+//         const total = parseFloat((subtotal + shipping).toFixed(2));
+      
+//         console.log("返回前端的总价格:", total); // ✅ 输出总价
+
+//         return {
+//             statusCode: 200,
+//             body: JSON.stringify({
+//                 subtotal,
+//                 shipping,
+//                 total,
+//                 discount,
+//             }),
+//         };
+
+//     } catch (error) {
+//         console.error('后端错误:', error);
+
+//         return {
+//             statusCode: 500,
+//             body: JSON.stringify({ message: 'Server Error' }),
+//         };
+//     }
+// };
+
+
+
+
+
 const { createClient } = require('@supabase/supabase-js');
 
 // 创建 Supabase 客户端
@@ -6,54 +89,88 @@ const supabase = createClient(
     process.env.SUPABASE_KEY
 );
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
     if (event.httpMethod !== 'POST') {
-      return {
-        statusCode: 405,
-        body: JSON.stringify({ message: 'Method Not Allowed' }),
-      };
+        return {
+            statusCode: 405,
+            body: JSON.stringify({ message: 'Method Not Allowed' }),
+        };
     }
-  
-    try {
-      // 获取请求体中的数据（购物车）
-      const { cart } = JSON.parse(event.body);
 
-      // 计算小计
-      const subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-        
-      console.log(subtotal)
-      // 这里假设运费为固定费用，或者根据某些规则进行计算
-      let shipping = 10.00; // 假设运费为 5.00 USD
-      if (subtotal < 49) {
-        shipping = 10.00; // 如果小计少于 49 美元，运费为 10.00 USD
-      }
-      // 计算总价格
-      const total = (subtotal + shipping).toFixed(2);
-      console.log("商品总价格:",total)
-      // 从 Supabase 获取商品信息（如果需要）
-      // 例如你可以从 Supabase 获取商品价格或其他数据
-      // const { data, error } = await supabase.from('products').select('*');
-      // if (error) {
-      //     throw new Error('Error fetching data from Supabase');
-      // }
-      // 获取当前时间用于 `created_at` 和 `updated_at`
-      const currentTime = new Date().toISOString();
-  
-      // 返回计算后的价格
-      return {
-        statusCode: 200,
-        body: JSON.stringify({
-          subtotal,
-          shipping,
-          total,
-        }),
-      };
+    try {
+        const { cart, promoCode, selectedShipping } = JSON.parse(event.body); // 解构出 selectedShipping
+
+        let discountPercentage = 0;
+        let promoCodeApplied = false; // 标记优惠码是否成功应用
+
+        // 如果提供了 promoCode，则验证它
+        if (promoCode) {
+            const { data: promoData, error } = await supabase
+                .from('activation_codes')
+                .select('*')
+                .eq('code', promoCode)
+                .single();
+
+            if (error) {
+                console.warn('优惠码查询失败:', error.message);
+            } else if (promoData && !promoData.used && new Date(promoData.expires_at) > new Date()) {
+                discountPercentage = promoData.discount_percentage || 0;
+                promoCodeApplied = true;
+                console.log(`优惠码 ${promoCode} 有效，折扣为: ${discountPercentage}%`);
+            } else {
+                console.warn('优惠码无效、已使用或已过期');
+            }
+        }
+
+        // 计算小计和折扣后的商品列表
+        let subtotal = 0;
+        const processedItems = cart.map(item => {
+            let itemPrice = parseFloat(item.price);
+            let discountedItemPrice = itemPrice;
+
+            // 如果优惠码有效且有折扣，则计算每个商品的折扣价格
+            if (promoCodeApplied && discountPercentage > 0) {
+                discountedItemPrice = itemPrice * (1 - discountPercentage / 100);
+            }
+            
+            // 确保价格格式正确，保留两位小数
+            discountedItemPrice = parseFloat(discountedItemPrice.toFixed(2)); 
+
+            // 累加计算小计（使用折扣后的价格）
+            subtotal += discountedItemPrice * item.quantity;
+
+            return {
+                ...item, // 保留原始商品属性
+                unit_amount: discountedItemPrice, // 存储每个商品的折扣价格
+            };
+        });
+
+        subtotal = parseFloat(subtotal.toFixed(2)); // 最终的小计（应用所有商品级折扣后）
+
+        // 确定运费
+        let shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9; // 如果提供了 selectedShipping 就用它，否则使用默认值
+
+        const total = parseFloat((subtotal + shipping).toFixed(2));
+
+        console.log("返回前端的总价格:", total); 
+
+        return {
+            statusCode: 200,
+            body: JSON.stringify({
+                subtotal,
+                shipping,
+                total,
+                discount: discountPercentage, // 返回应用的折扣百分比
+                items: processedItems, // 返回包含折扣价格的商品列表
+            }),
+        };
+
     } catch (error) {
-      console.error('Error:', error);
-  
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ message: 'Server Error' }),
-      };
+        console.error('后端错误:', error);
+
+        return {
+            statusCode: 500,
+            body: JSON.stringify({ message: 'Server Error' }),
+        };
     }
-  };
+};
