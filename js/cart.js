@@ -457,6 +457,13 @@ document.addEventListener('DOMContentLoaded', function () {
             updateCartCount();  // 更新购物车数量
         }
     });
+
+    const userIconLink = document.getElementById('userIconLink');
+    if (userIconLink) {
+        userIconLink.addEventListener('click', function (event) {
+            showRegistrationComingSoon(event); // Call your function
+        });
+    }
 });
 
 // 初始化购物车功能
@@ -469,6 +476,11 @@ function initCart() {
     fetchAndRenderSuggestedProducts('/.netlify/functions/fetch-products', 3, renderProducts);
 }
 
+// 用户注册功能
+function showRegistrationComingSoon(event) {
+    event.preventDefault(); // Prevents the default link behavior (e.g., navigating to '#')
+    showNotification("Hi there! Our registration feature isn't quite ready yet, but it's coming soon. Thanks for your patience!");
+}
 
 // 更新购物车显示
 function updateCartDisplay() {
