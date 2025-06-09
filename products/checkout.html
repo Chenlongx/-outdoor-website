@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,24 +8,25 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/cart-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <!-- Meta Pixel Code -->
     <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1345745506686997');
         fbq('track', 'PageView');
-        </script>
-        <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1"
-        /></noscript>
-        <!-- End Meta Pixel Code -->
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1" /></noscript>
 </head>
+
 <body>
     <header>
         <nav>
@@ -38,11 +40,6 @@
                 <li><a href="guides.html">Guides</a></li>
                 <li><a href="support.html">Support</a></li>
             </ul>
-            <div class="nav-actions">
-                <a href="#" class="icon-link"><i class="fas fa-search"></i></a>
-                <a href="#" class="icon-link"><i class="fas fa-user"></i></a>
-                <a href="cart.html" class="icon-link"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
-            </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
             </div>
@@ -61,64 +58,71 @@
     <section class="cart-section">
         <div class="container">
             <div class="cart-container">
-                <!-- 收货信息表单区 -->
                 <div class="cart-items">
                     <h2>Confirm delivery information</h2>
                     <form id="checkout-form" autocomplete="on" novalidate>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="name" style="display:block; font-weight:600; margin-bottom:8px;">Full Name <span style="color:red">*</span></label>
-                            <input type="text" id="name" name="name" required placeholder="Full Name" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="name" style="display:block; font-weight:600; margin-bottom:8px;">Full Name <span
+                                        style="color:red">*</span></label>
+                            <input type="text" id="name" name="name" required placeholder="Full Name"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="phone" style="display:block; font-weight:600; margin-bottom:8px;">Phone Number <span style="color:red">*</span></label>
-                            <input type="tel" id="phone" name="phone" placeholder="Phone Number" pattern="[0-9\-\+\s]{6,}" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="phone" style="display:block; font-weight:600; margin-bottom:8px;">Phone Number
+                                <span style="color:red">*</span></label>
+                            <input type="tel" id="phone" name="phone" required placeholder="Phone Number"
+                                pattern="[0-9\-\+\s]{6,}"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="email" style="display:block; font-weight:600; margin-bottom:8px;">Email <span style="color:red">*</span></label>
-                            <input type="email" id="email" name="email" required placeholder="Email Address" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="email" style="display:block; font-weight:600; margin-bottom:8px;">Email <span
+                                        style="color:red">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="Email Address"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="country" style="display:block; font-weight:600; margin-bottom:8px;">Country <span style="color:red">*</span></label>
-                            <input type="text" id="country" name="country" required placeholder="Country" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="country" style="display:block; font-weight:600; margin-bottom:8px;">Country
+                                <span style="color:red">*</span></label>
+                            <input type="text" id="country" name="country" required placeholder="Country"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="province" style="display:block; font-weight:600; margin-bottom:8px;">State/Province <span style="color:red">*</span></label>
-                            <input type="text" id="province" name="province" required placeholder="State / Province" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="province"
+                                style="display:block; font-weight:600; margin-bottom:8px;">State/Province <span
+                                        style="color:red">*</span></label>
+                            <input type="text" id="province" name="province" required placeholder="State / Province"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="city" style="display:block; font-weight:600; margin-bottom:8px;">City <span style="color:red">*</span></label>
-                            <input type="text" id="city" name="city" required placeholder="City" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="city" style="display:block; font-weight:600; margin-bottom:8px;">City <span
+                                        style="color:red">*</span></label>
+                            <input type="text" id="city" name="city" required placeholder="City"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="address" style="display:block; font-weight:600; margin-bottom:8px;">Street Address <span style="color:red">*</span></label>
-                            <input type="text" id="address" name="address" required placeholder="Street Address" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="address" style="display:block; font-weight:600; margin-bottom:8px;">Street
+                                Address <span style="color:red">*</span></label>
+                            <input type="text" id="address" name="address" required placeholder="Street Address"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
-                            <label for="postcode" style="display:block; font-weight:600; margin-bottom:8px;">Zip / Postal Code <span style="color:red">*</span></label>
-                            <input type="text" id="postcode" name="postcode" required placeholder="Zip / Postal Code" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                            <label for="postcode" style="display:block; font-weight:600; margin-bottom:8px;">Zip /
+                                Postal Code <span style="color:red">*</span></label>
+                            <input type="text" id="postcode" name="postcode" required placeholder="Zip / Postal Code"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom:2rem;">
-                            <label for="notes" style="display:block;font-weight:600;margin-bottom:8px;">Order Notes (Optional)</label>
-                            <textarea id="notes" name="notes" rows="3" placeholder="Anything else we should know? (e.g. delivery preference)" style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;"></textarea>
+                            <label for="notes" style="display:block;font-weight:600;margin-bottom:8px;">Order Notes
+                                (Optional)</label>
+                            <textarea id="notes" name="notes" rows="3"
+                                placeholder="Anything else we should know? (e.g. delivery preference)"
+                                style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;"></textarea>
                         </div>
-                        <button type="submit" class="checkout-btn" style="margin-top:1rem;width:100%;">submit</button>
+                        <button type="submit" class="checkout-btn" style="margin-top:1rem;width:100%;">Submit</button>
                     </form>
                 </div>
-                <!-- 订单摘要 -->
                 <div class="cart-summary">
                     <h2>Order Summary</h2>
-                    <div class="summary-row">
-                        <span>Subtotal</span>
-                        <span id="summary-subtotal">$129.80</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Shipping</span>
-                        <span id="summary-shipping">$0.00</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Tax</span>
-                        <span id="summary-tax">$0.00</span>
-                    </div>
                     <div class="summary-total">
                         <span>Total</span>
                         <span id="summary-total">$129.80</span>
@@ -221,111 +225,177 @@
         <div class="chat-text">Contact support</div>
     </div>
 
-    <!-- 下单成功弹窗 -->
     <div id="order-modal" class="custom-modal">
         <div class="custom-modal-content">
-            <h2>Order Submitted!</h2>
-            <p>Thank you for your order. Your order is now confirmed and awaiting shipment. We will send you the tracking number via email once your order is dispatched.</p>
+            <h2>Confirm Your Order</h2>
+            <p>Please double-check your details before confirming your order.</p>
             <div class="modal-buttons">
-                <button id="close-order-modal">Confirm</button>
+                <button id="confirm-order-modal">Confirm</button>
+                <button id="cancel-order-modal">Cancel</button>
             </div>
         </div>
     </div>
 
     <script>
-    // 简单表单校验+弹窗示范
-    document.getElementById('checkout-form').addEventListener('submit', function(e) {
-        e.preventDefault();
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkoutForm = document.getElementById('checkout-form');
+            const orderModal = document.getElementById('order-modal');
+            const confirmOrderBtn = document.getElementById('confirm-order-modal');
+            const cancelOrderBtn = document.getElementById('cancel-order-modal');
 
-        // 获取修改后的数据
-        const updatedOrder = {
-            full_name: document.getElementById('name').value,
-            phone_number: document.getElementById('phone').value,
-            email: document.getElementById('email').value,
-            country: document.getElementById('country').value,
-            state: document.getElementById('province').value,
-            city: document.getElementById('city').value,
-            address_line_1: document.getElementById('address').value,
-            postal_code: document.getElementById('postcode').value,
-            order_notes: document.getElementById('notes').value
-        };
-
-        var valid = this.checkValidity();
-        if(valid){
-          document.getElementById('order-modal').style.display = 'flex';
-          window.scrollTo({top:0});
-        }else{
-          this.reportValidity();
-        }
-
-        const orderId = localStorage.getItem('orderId');
-        if (orderId) {
-            // 提交修改后的订单信息到后端
-            fetch(`/.netlify/functions/update_store-order`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                orderId: orderId,  // 订单ID
-                order: updatedOrder // 修改后的订单信息
-            })
-            })
-            .then(response => response.json())
-            .then(data => {
-            console.log('Order updated:', data);
-            // 根据返回的信息可以显示成功通知或跳转页面
-            alert('Order updated successfully!');
-            })
-            .catch(error => {
-            console.error('Error updating order:', error);
-            alert('Failed to update order. Please try again.');
-            });
-        }
-    });
-    document.getElementById('close-order-modal').onclick = function(){
-      document.getElementById('order-modal').style.display = 'none';
-      window.location.href = "../index.html";
-    }
-
-    window.onload = function() {
-        // 从 localStorage 获取订单信息和商品信息
-        const orderData = JSON.parse(localStorage.getItem('orderData'));
-        const orderItems = JSON.parse(localStorage.getItem('orderItems'));
-        console.log("localStorage orderData: ", orderData)
-        if (orderData && orderItems) {
-            // 填充表单字段
-            document.getElementById('name').value = orderData.full_name;
-            document.getElementById('email').value = orderData.email;
-            document.getElementById('country').value = orderData.country;
-            document.getElementById('province').value = orderData.state;
-            document.getElementById('city').value = orderData.city;
-            document.getElementById('address').value = orderData.address_line_1;
-            document.getElementById('postcode').value = orderData.postal_code;
-
-            // 更新订单摘要
-            document.getElementById('summary-subtotal').textContent = `$${orderData.total_amount}`;
-            document.getElementById('summary-shipping').textContent = `$0.00`;  // 如果有运费，可以替换
-            document.getElementById('summary-tax').textContent = `$0.00`;  // 如果有税费，可以替换
-            document.getElementById('summary-total').textContent = `$${orderData.total_amount}`;
-
-            // 在订单摘要中显示商品列表
-            let itemsList = '';
-            orderItems.forEach(item => {
-                itemsList += `
-                    <div class="summary-row">
-                        <span>${item.name} (${item.quantity})</span>
-                        <span>$${(item.price * item.quantity).toFixed(2)}</span>
-                    </div>
-                `;
+            // ✅ 修改：在页面加载时替换当前历史记录状态，这样用户无法直接后退到上一个页面
+            history.replaceState(null, null, location.href);
+            window.addEventListener('popstate', function (event) {
+                // 如果用户尝试后退，强制重定向回当前页面，阻止导航
+                window.location.replace(location.href);
             });
 
-            // 添加商品到摘要区域
-            document.querySelector('.cart-summary').insertAdjacentHTML('beforeend', itemsList);
-        } else {
-            console.error('No order data found in localStorage');
-        }
-    };
+
+            // 处理表单提交事件：进行验证并显示模态框
+            checkoutForm.addEventListener('submit', function (e) {
+                e.preventDefault(); // 阻止表单默认提交行为
+
+                if (this.checkValidity()) {
+                    // 表单验证通过，显示确认订单模态框
+                    orderModal.style.display = 'flex';
+                    window.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到页面顶部
+                } else {
+                    // 表单验证不通过，报告验证错误（浏览器会显示内置提示）
+                    this.reportValidity();
+                }
+            });
+
+            // 处理模态框中“确认”按钮的点击事件
+            confirmOrderBtn.addEventListener('click', function () {
+                // 从表单中获取更新后的订单数据
+                const updatedOrder = {
+                    full_name: document.getElementById('name').value,
+                    phone_number: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    country: document.getElementById('country').value,
+                    state: document.getElementById('province').value,
+                    city: document.getElementById('city').value,
+                    address_line_1: document.getElementById('address').value,
+                    postal_code: document.getElementById('postcode').value,
+                    order_notes: document.getElementById('notes').value
+                };
+
+                const orderId = localStorage.getItem('orderId');
+
+                if (orderId) {
+                    // 提交更新后的订单信息到后端
+                    fetch(`/.netlify/functions/update_store-order`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            orderId: orderId, // 订单ID
+                            order: updatedOrder // 更新后的订单信息
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log('Order updated:', data);
+                            alert('Order submitted successfully!'); // 显示成功通知
+                            orderModal.style.display = 'none'; // 隐藏模态框
+                            window.location.href = "../index.html"; // 成功后跳转到主页
+                        })
+                        .catch(error => {
+                            console.error('更新订单时出错:', error);
+                            alert('Order submission failed, please try again.'); // 显示失败通知
+                            orderModal.style.display = 'none'; // 发生错误时也隐藏模态框
+                        });
+                } else {
+                    console.error('在 localStorage 中未找到 Order ID。无法更新订单。');
+                    alert('Error: Order could not be processed. Please try again from the cart.');
+                    orderModal.style.display = 'none'; // 如果没有 Order ID，也隐藏模态框
+                }
+            });
+
+            // 处理模态框中“取消”按钮的点击事件
+            cancelOrderBtn.addEventListener('click', function () {
+                orderModal.style.display = 'none'; // 仅仅隐藏模态框，不进行任何操作
+            });
+
+
+            // 加载并显示订单数据和商品详情的函数
+            function loadOrderDetails() {
+                const orderData = JSON.parse(localStorage.getItem('orderData'));
+                const orderItems = JSON.parse(localStorage.getItem('orderItems'));
+
+                console.log("localStorage orderData: ", orderData);
+                console.log("localStorage orderItems: ", orderItems);
+
+                if (orderData && orderItems) {
+                    // 填充表单字段
+                    document.getElementById('name').value = orderData.full_name || '';
+                    document.getElementById('email').value = orderData.email || '';
+                    document.getElementById('country').value = orderData.country || '';
+                    document.getElementById('province').value = orderData.state || '';
+                    document.getElementById('city').value = orderData.city || '';
+                    document.getElementById('address').value = orderData.address_line_1 || '';
+                    document.getElementById('postcode').value = orderData.postal_code || '';
+                    if (orderData.phone_number) {
+                        document.getElementById('phone').value = orderData.phone_number;
+                    }
+
+                    // 更新订单摘要 (Subtotal, Shipping, Tax 已移除，只保留 Total)
+                    document.getElementById('summary-total').textContent = `$${parseFloat(orderData.total_amount).toFixed(2)}`;
+
+                    // 在订单摘要中显示商品列表
+                    let itemsList = '';
+                    orderItems.forEach(item => {
+                        let specificationsParts = [];
+
+                        // 优先使用 PayPal 返回的 description（如果存在且不是默认值）
+                        if (item.description && item.description !== 'No specifications') {
+                            specificationsParts.push(item.description);
+                        } else {
+                            // 如果没有 description 或 description 是默认值，尝试从其他属性构建
+                            if (item.selectedColor) {
+                                specificationsParts.push(`颜色: ${item.selectedColor}`);
+                            }
+                            if (item.selectedSpecifications) {
+                                specificationsParts.push(`规格: ${item.selectedSpecifications}`);
+                            }
+                        }
+
+                        // 将所有规格部分用逗号和空格连接起来，并在前面加上括号
+                        const specificationsString = specificationsParts.length > 0 ? ` (${specificationsParts.join(', ')})` : '';
+
+                        // 获取商品单价，使用 PayPal 返回的 unit_amount.value 或保存的 price
+                        const itemPrice = parseFloat(item.unit_amount?.value || item.price || 0);
+
+                        itemsList += `
+                            <div class="summary-row product-item-summary">
+                                <span>${item.name}${specificationsString} (${item.quantity})</span>
+                                <span>$${(itemPrice * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `;
+                    });
+
+                    const summaryTotalElement = document.querySelector('.summary-total');
+                    if (summaryTotalElement) {
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = itemsList;
+                        // 将生成的商品列表插入到总计元素之前
+                        summaryTotalElement.parentNode.insertBefore(tempDiv, summaryTotalElement);
+                    } else {
+                        console.warn('未找到 summary-total 元素，无法插入商品列表。');
+                    }
+
+                } else {
+                    console.error('在 localStorage 中未找到订单数据');
+                    // 如果没有订单数据，可以选择重定向回购物车页面或显示提示信息
+                    // window.location.href = 'cart.html'; 
+                }
+            }
+
+            // 页面加载完成后调用函数加载订单详情
+            loadOrderDetails();
+        });
     </script>
 </body>
+
 </html>

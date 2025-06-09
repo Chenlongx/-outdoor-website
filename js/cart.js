@@ -77,6 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        let currentOrderItemsForStorage = []; 
+
         const paypalButtons = window.paypal.Buttons({
             style: {
                 shape: 'rect',
@@ -86,73 +88,6 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
             // 动态计算并传递总金额
-            // createOrder: async function (data, actions) {
-            //     const cart = getCart(); // 获取购物车信息
-            //     console.log("购物车的信息:", cart)
-            //     const selectedShipping = parseFloat(document.getElementById('shipping-options').value); // ⬅️ 获取选中的运费金额
-            //     console.log("选择的运费金额:", selectedShipping);
-            //     // 在客户端发送价格请求到后端进行验证
-            //     const response = await fetch('/.netlify/functions/validate-price', {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type': 'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             cart: cart,
-            //             promoCode: appliedPromoCode, // ⬅️ 传当前的优惠码（可以为 null）
-            //             selectedShipping: selectedShipping // ⬅️ 添加此字段
-            //         })
-            //     });
-
-            //     const result = await response.json();
-
-            //     if (!response.ok) {
-            //         throw new Error('无法获取价格');
-            //     }
-
-            //     // 获取从后端返回的价格
-            //     const subtotal = result.subtotal;  // 从后端返回的小计
-            //     const shipping = result.shipping;  // 从后端返回的运费
-            //     const totalAmount = (subtotal + shipping).toFixed(2); // 总金额 = 小计 + 运费
-                
-
-            //     console.log("后端返回小计:", subtotal);
-            //     console.log("后端返回运费:", shipping);
-            //     console.log("后端返回的金额总价：", totalAmount)
-            //     // 将 totalAmount 存入 actions 中，供 onApprove 使用
-            //     // actions.totalAmount = totalAmount;
-
-            //     // 创建订单并返回给 PayPal
-            //     return actions.order.create({
-            //         purchase_units: [{
-            //             amount: {
-            //                 currency_code: 'USD',
-            //                 value: totalAmount, // 订单总金额
-            //                 breakdown: {
-            //                     item_total: {
-            //                         currency_code: 'USD',
-            //                         value: subtotal.toFixed(2), // 小计
-            //                     },
-            //                     shipping: {
-            //                         currency_code: 'USD',
-            //                         value: shipping.toFixed(2), // 运费
-            //                     },
-            //                 },
-            //             },
-            //             // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
-            //             custom_id: totalAmount,
-            //             items: cart.map(item => ({
-            //                 name: item.name,
-            //                 unit_amount: {
-            //                     currency_code: 'USD',
-            //                     value: parseFloat(item.price).toFixed(2), // 商品单价
-            //                 },
-            //                 quantity: item.quantity,
-            //             })),
-            //         }],
-            //     });
-            // },
-
             createOrder: async function (data, actions) {
                 const cart = getCart(); // 获取购物车信息
                 console.log("购物车的信息:", cart)
@@ -181,13 +116,59 @@ document.addEventListener('DOMContentLoaded', function () {
                 const subtotal = result.subtotal;  // 从后端获取折扣后的小计
                 const shipping = result.shipping;  // 从后端获取运费
                 const totalAmount = result.total; // 从后端获取总金额
-                const processedItems = result.items; // ⬅️ 从后端获取包含折扣价格的商品列表
+                let processedItems = result.items; // ⬅️ 从后端获取包含折扣价格的商品列表
     
                 console.log("后端返回小计:", subtotal);
                 console.log("后端返回运费:", shipping);
                 console.log("后端返回的金额总价：", totalAmount)
                 console.log("后端返回的商品列表（包含折扣）:", processedItems);
+                
+
+                // ✅ 新增部分：从页面中获取最新的 selectedColor
+                const updatedProcessedItems = processedItems.map(item => {
+                    // 修正：根据购物车 HTML，商品项的类是 'cart-item'，而不是 'product-item-summary'
+                    const productElement = document.querySelector(`.cart-item[data-product-id="${item.id}"]`);
+                    let itemVariants = {}; // 用于存储所有找到的变体
     
+                    if (productElement) {
+                        // 找到该商品行内所有的 .variant-select 元素
+                        const variantSelects = productElement.querySelectorAll('.variant-select');
+                        variantSelects.forEach(selectElement => {
+                            const variantLabel = selectElement.dataset.variant; // 获取 data-variant (例如 'Color', 'Specifications')
+                            const selectedValue = selectElement.value;        // 获取选中的值
+    
+                            if (variantLabel) {
+                                // 将变体信息存储到 itemVariants 对象中
+                                // 例如：{ Color: 'Black', Specifications: 'JZK-D12-3' }
+                                itemVariants[variantLabel] = selectedValue;
+                            }
+                        });
+                    }
+    
+                    // 构建描述字符串，用于 PayPal 的 item.description
+                    let descriptionParts = [];
+                    // 遍历所有获取到的变体并添加到 descriptionParts
+                    for (const label in itemVariants) {
+                        if (itemVariants.hasOwnProperty(label)) {
+                            // 格式化输出，例如 "Color: Black", "Specifications: JZK-D12-3"
+                            descriptionParts.push(`${label}: ${itemVariants[label]}`);
+                        }
+                    }
+    
+                    const combinedDescription = descriptionParts.length > 0 ? descriptionParts.join(', ') : 'No specifications';
+    
+                    // 返回一个新对象，保留后端数据，并添加所有找到的变体和最终描述
+                    return {
+                        ...item,
+                        ...itemVariants, // 将所有获取到的变体属性直接添加到 item 对象中
+                                       // 这样在 onApprove 和 localStorage 中也能访问到 item.Color, item.Specifications 等
+                        description: combinedDescription // 更新 description 字段，用于 PayPal
+                    };
+                });
+                // 2. 将包含最新变体信息的商品列表赋值给外部变量
+                currentOrderItemsForStorage = updatedProcessedItems; 
+                console.log("合并页面变体后的商品列表:", currentOrderItemsForStorage); // 打印新变量
+
                 // 创建订单并返回给 PayPal
                 return actions.order.create({
                     purchase_units: [{
@@ -208,13 +189,24 @@ document.addEventListener('DOMContentLoaded', function () {
                         // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
                         custom_id: totalAmount, 
                         // ⬅️ 使用后端返回的 processedItems 来构建 PayPal 的 items 数组
-                        items: processedItems.map(item => ({ 
+                        // items: processedItems.map(item => ({ 
+                        //     name: item.name,
+                        //     unit_amount: {
+                        //         currency_code: 'USD',
+                        //         value: item.unit_amount.toFixed(2), // ⬅️ 使用后端计算的折扣后的 unit_amount
+                        //     },
+                        //     quantity: item.quantity,
+                        //     description: item.description, 
+                        // })),
+
+                        items: currentOrderItemsForStorage.map(item => ({ 
                             name: item.name,
                             unit_amount: {
                                 currency_code: 'USD',
-                                value: item.unit_amount.toFixed(2), // ⬅️ 使用后端计算的折扣后的 unit_amount
+                                value: item.unit_amount.toFixed(2),
                             },
                             quantity: item.quantity,
+                            description: item.description, 
                         })),
                     }],
                 });
@@ -250,7 +242,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     // 获取客户的昵称
                     // console.log("Payment details: ", JSON.stringify(details, null, 2));
                     // 获取完整的收货地址信息
-                    const shippingAddress = details.purchase_units[0].shipping.address;
+                    // const shippingAddress = details.purchase_units[0].shipping.address;
+
+
+                    // **关键修改开始**
+                    const shippingDetails = details.purchase_units[0].shipping;
+                    const shippingAddress = shippingDetails?.address; // 使用可选链
 
                     // 打印完整的收货地址信息
                     // console.log('Shipping Address:', shippingAddress);
@@ -294,15 +291,28 @@ document.addEventListener('DOMContentLoaded', function () {
                         total_amount: totalAmount, // 总金额
                     };
 
-                    const items = cart.map(item => ({
-                        id: item.id,   // 订单id
-                        name: item.name,    // 产品名称
-                        price: item.price,  // 产品价格
-                        description: item.description,  // 产品短语
-                        quantity: item.quantity, // 产品数量
-                    }));
+                    
 
-                    console.log("发送前，获取一下信息:", order)
+                    // const items = cart.map(item => ({
+                    //     id: item.id,   // 订单id
+                    //     name: item.name,    // 产品名称
+                    //     price: item.price,  // 产品价格
+                    //     description: item.description,  // 产品短语
+                    //     quantity: item.quantity, // 产品数量
+                    //     selectedColor: item.selectedColor, // 关键修改
+                    // }));
+                    const itemsToSave = currentOrderItemsForStorage.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        price: item.price, // 使用 item.price 或 item.unit_amount.value，取决于您希望保存哪个
+                        description: item.description, 
+                        quantity: item.quantity,
+                        // 将所有变体属性都保存下来，而不仅仅是 selectedColor
+                        // 例如，如果 itemVariants 中有 { Color: 'Red', Size: 'M' }
+                        // 那么这里会变成 item.Color, item.Size
+                        // 这样在 checkout.html 中就可以更灵活地访问
+                        ...item // 包含所有原始属性以及 createOrder 中添加的变体属性
+                    }));
 
                     // 将订单信息发送到后端（Netlify Function）
                     const response = await fetch('/.netlify/functions/store-order', {
@@ -310,7 +320,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ order: order, items: items })
+                        body: JSON.stringify({ order: order, items: itemsToSave })
                     });
                     const result = await response.json(); // 获取返回的结果
 
@@ -328,7 +338,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // 将订单和商品信息存储到 localStorage
                     localStorage.setItem('orderData', JSON.stringify(order));
-                    localStorage.setItem('orderItems', JSON.stringify(items));
+                    localStorage.setItem('orderItems', JSON.stringify(itemsToSave));
                     // 携带信息转跳至另一个页面，如果客户有相关的地址信息，自动填写进去，并且让客户确认是否正确，如错误可以自行修改
                     window.location.href = '../products/checkout.html';
                 });
@@ -404,8 +414,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     .then(data => {
                         if (data.success) {
                             // 如果优惠码有效，应用折扣
-                            applyDiscount(data.discount); // 假设后端返回折扣值
-                            showNotification(`Coupon code applied: ${data.discount}% off!`, 'success');
+                            applyDiscount(data.discount_percentage); // 假设后端返回折扣值
+                            showNotification(`Coupon code applied: ${data.discount_percentage}% off!`, 'success');
                             appliedPromoCode = promoCode; // 保存当前有效优惠码
                         } else {
                             switch (data.error_code) {
