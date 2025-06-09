@@ -185,11 +185,11 @@ exports.handler = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        success: true,
-        discount: data.discount_percentage,
-        message: 'Promo code is valid',
+          success: true,
+          discount_percentage: data.discount_percentage, // ✅ 明确返回的是百分比
+          message: 'Promo code is valid',
       }),
-    };
+  };
   } catch (err) {
     return {
       statusCode: 500,

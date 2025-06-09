@@ -1,3 +1,21 @@
+// ✅ 添加：在 cart.js 的最顶部或一个单独的文件中定义 window.CartManager
+window.CartManager = {
+    getCartItems: function() {
+        const cart = localStorage.getItem('cart');
+        try {
+            const parsedCart = cart ? JSON.parse(cart) : [];
+            return parsedCart;
+        } catch (e) {
+            console.error('Error parsing cart data:', e);
+            return [];
+        }
+    },
+    saveCartItems: function(cart) {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    },
+};
+
+
 document.addEventListener('DOMContentLoaded', function () {
     initCart();
     renderPayPalButton();
@@ -944,6 +962,8 @@ function generateVariantSelectHTML(item) {
             const selected = (option === item.selectedColor) ? 'selected' : '';
             return `<option value="${option}" ${selected}>${option}</option>`;
         }).join('');
+
+        console.log(optionsHTML)
 
         return `
             <div class="variant-group">
