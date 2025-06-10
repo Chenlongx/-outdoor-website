@@ -1,86 +1,3 @@
-// const { createClient } = require('@supabase/supabase-js');
-
-// // 创建 Supabase 客户端
-// const supabase = createClient(
-//     process.env.SUPABASE_URL,
-//     process.env.SUPABASE_KEY
-// );
-
-// exports.handler = async (event) => {
-//     if (event.httpMethod !== 'POST') {
-//         return {
-//             statusCode: 405,
-//             body: JSON.stringify({ message: 'Method Not Allowed' }),
-//         };
-//     }
-
-//     try {
-//         const { cart, promoCode } = JSON.parse(event.body);
-
-//         // 计算小计
-//         let subtotal = cart.reduce((total, item) => total + item.price * item.quantity, 0);
-//         console.log("原始小计:", subtotal);
-
-//         let discount = 0;
-
-//         // 如果传入了有效的 promoCode，则检查并计算折扣
-//         if (promoCode) {
-//             const { data: promoData, error } = await supabase
-//                 .from('activation_codes')
-//                 .select('*')
-//                 .eq('code', promoCode)
-//                 .single();
-
-//             if (error) {
-//                 console.warn('优惠码查询失败:', error.message);
-//             } else if (promoData && !promoData.used && new Date(promoData.expires_at) > new Date()) {
-//                 discount = promoData.discount_percentage || 0;
-//                 console.log(`优惠码 ${promoCode} 有效，折扣为: ${discount}%`);
-//                 subtotal = subtotal * (1 - discount / 100);
-//             } else {
-//                 console.warn('优惠码无效、已使用或已过期');
-//             }
-//         }
-
-//         subtotal = parseFloat(subtotal.toFixed(2)); // 保留两位小数
-
-//         // 运费逻辑
-//         // let shipping = 10.0;
-//         // if (subtotal >= 49) {
-//         //     shipping = 0.0;
-//         // }
-
-//         // 如果用户传递了自定义运费，就使用它；否则默认逻辑
-//         let shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9;
-
-//         const total = parseFloat((subtotal + shipping).toFixed(2));
-      
-//         console.log("返回前端的总价格:", total); // ✅ 输出总价
-
-//         return {
-//             statusCode: 200,
-//             body: JSON.stringify({
-//                 subtotal,
-//                 shipping,
-//                 total,
-//                 discount,
-//             }),
-//         };
-
-//     } catch (error) {
-//         console.error('后端错误:', error);
-
-//         return {
-//             statusCode: 500,
-//             body: JSON.stringify({ message: 'Server Error' }),
-//         };
-//     }
-// };
-
-
-
-
-
 const { createClient } = require('@supabase/supabase-js');
 
 // 创建 Supabase 客户端
@@ -148,7 +65,15 @@ exports.handler = async (event) => {
         subtotal = parseFloat(subtotal.toFixed(2)); // 最终的小计（应用所有商品级折扣后）
 
         // 确定运费
-        let shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9; // 如果提供了 selectedShipping 就用它，否则使用默认值
+        // let shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9; // 如果提供了 selectedShipping 就用它，否则使用默认值
+
+        // 确定运费
+        let shipping;
+        if (subtotal > 49.9) {
+            shipping = 0; // 订单大于49.9，免运费
+        } else {
+            shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9; // 否则使用提供的运费或默认运费
+        }
 
         const total = parseFloat((subtotal + shipping).toFixed(2));
 

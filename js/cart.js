@@ -400,6 +400,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     return; // 如果不符合条件，直接返回，不再执行后续代码
                 }
 
+                // 在发送请求前显示加载遮罩
+                showLoadingOverlay()
+
                 // 发送优惠码到后端进行校验
                 fetch('/.netlify/functions/consume-promo-code', {
                     method: 'POST',
@@ -412,11 +415,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                     .then(response => response.json())
                     .then(data => {
+                        // 请求成功或失败后隐藏加载遮罩
+                        hideLoadingOverlay();
                         if (data.success) {
                             // 如果优惠码有效，应用折扣
                             applyDiscount(data.discount_percentage); // 假设后端返回折扣值
                             showNotification(`Coupon code applied: ${data.discount_percentage}% off!`, 'success');
                             appliedPromoCode = promoCode; // 保存当前有效优惠码
+
+                            // ✅ 计算并更新优惠金额显示
+                            const discountAmountElement = document.getElementById('discount-amount');
+                            if (discountAmountElement) {
+                                const discountValue = totalProductPrice * (data.discount_percentage / 100);
+                                console.log("促销优惠金额：----------", discountValue)
+                                discountAmountElement.textContent = `-$${discountValue.toFixed(2)}`;
+                            }
                         } else {
                             switch (data.error_code) {
                                 case 1001:
@@ -437,11 +450,27 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     })
                     .catch(error => {
+                        // 请求失败后隐藏加载遮罩
+                        hideLoadingOverlay();
                         console.error('Error:', error);
                         showNotification('There was an error with coupon code validation.', 'error');
+                        //如果请求失败，重置优惠金额显示
+                        const discountAmountElement = document.getElementById('discount-amount');
+                        if (discountAmountElement) {
+                            discountAmountElement.textContent = '-$0.00';
+                        }
+                        appliedPromoCode = null; // 清除已应用的优惠码
+                        updateOrderSummary(); // 重新计算并更新订单总价
                     });
             } else {
                 showNotification('Please enter the discount code。', 'error');
+                // ✅ 如果输入为空，重置优惠金额显示
+                const discountAmountElement = document.getElementById('discount-amount');
+                if (discountAmountElement) {
+                    discountAmountElement.textContent = '-$0.00';
+                }
+                appliedPromoCode = null; // 清除已应用的优惠码
+                updateOrderSummary(); // 重新计算并更新订单总价
             }
         });
     }
@@ -502,6 +531,22 @@ function initCart() {
 
     // 传入 Netlify 函数地址、推荐商品数量、渲染函数
     fetchAndRenderSuggestedProducts('/.netlify/functions/fetch-products', 3, renderProducts);
+}
+
+// 加载遮罩的辅助函数（显示）
+function showLoadingOverlay() {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.add('active');
+    }
+}
+
+// 加载遮罩的辅助函数（隐藏）
+function hideLoadingOverlay() {
+    const overlay = document.getElementById('loading-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
 }
 
 // 用户注册功能

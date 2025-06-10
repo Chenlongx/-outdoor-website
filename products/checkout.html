@@ -8,6 +8,161 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../css/cart-styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Custom Modal Enhancements */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            /* 半透明黑色背景 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            /* 确保模态框在最上层 */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            /* 过渡效果 */
+        }
+
+        .custom-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-modal-content {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(-20px);
+            /* 初始位置略微向上，用于动画 */
+            transition: transform 0.3s ease;
+        }
+
+        .custom-modal.active .custom-modal-content {
+            transform: translateY(0);
+            /* 模态框出现时回到正常位置 */
+        }
+
+        .custom-modal-content h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 2em;
+            /* 标题更大 */
+        }
+
+        .custom-modal-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .custom-modal-content strong {
+            color: #007bff;
+            /* 突出显示订单号 */
+            font-size: 1.1em;
+            word-break: break-all;
+            /* 防止长UUID撑开布局 */
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            /* 按钮间距 */
+            margin-top: 30px;
+        }
+
+        .modal-buttons button,
+        #go-home-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        #confirm-order-modal {
+            background-color: #007bff;
+            /* 确认按钮蓝色 */
+            color: white;
+        }
+
+        #confirm-order-modal:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        #cancel-order-modal {
+            background-color: #6c757d;
+            /* 取消按钮灰色 */
+            color: white;
+        }
+
+        #cancel-order-modal:hover {
+            background-color: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        /* Success State Specific Styles */
+        .success-icon {
+            font-size: 4em;
+            /* 成功图标大小 */
+            color: #28a745;
+            /* 绿色 */
+            margin-bottom: 20px;
+            animation: bounceIn 0.8s ease-out;
+            /* 弹跳动画 */
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        #go-home-btn {
+            background-color: #28a745;
+            /* 返回首页按钮绿色 */
+            color: white;
+            margin-top: 30px;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            display: block;
+            /* 独占一行 */
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #go-home-btn:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+    </style>
     <script>
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
@@ -63,7 +218,7 @@
                     <form id="checkout-form" autocomplete="on" novalidate>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="name" style="display:block; font-weight:600; margin-bottom:8px;">Full Name <span
-                                        style="color:red">*</span></label>
+                                    style="color:red">*</span></label>
                             <input type="text" id="name" name="name" required placeholder="Full Name"
                                 style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
@@ -76,7 +231,7 @@
                         </div>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="email" style="display:block; font-weight:600; margin-bottom:8px;">Email <span
-                                        style="color:red">*</span></label>
+                                    style="color:red">*</span></label>
                             <input type="email" id="email" name="email" required placeholder="Email Address"
                                 style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
@@ -89,13 +244,13 @@
                         <div style="margin-bottom: 1.5rem;">
                             <label for="province"
                                 style="display:block; font-weight:600; margin-bottom:8px;">State/Province <span
-                                        style="color:red">*</span></label>
+                                    style="color:red">*</span></label>
                             <input type="text" id="province" name="province" required placeholder="State / Province"
                                 style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
                         <div style="margin-bottom: 1.5rem;">
                             <label for="city" style="display:block; font-weight:600; margin-bottom:8px;">City <span
-                                        style="color:red">*</span></label>
+                                    style="color:red">*</span></label>
                             <input type="text" id="city" name="city" required placeholder="City"
                                 style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
                         </div>
@@ -147,59 +302,49 @@
             <div class="footer-column">
                 <h4>Products</h4>
                 <ul>
-                    <li><a href="summer-sale.html">Sale</a></li>
-                    <li><a href="#">New Releases</a></li>
-                    <li><a href="#">Camping Gear</a></li>
-                    <li><a href="#">Hiking Equipment</a></li>
-                    <li><a href="#">Climbing Tools</a></li>
-                    <li><a href="#">Fishing Gear</a></li>
-                    <li><a href="#">Water Sports</a></li>
-                    <li><a href="#">Apparel</a></li>
-                    <li><a href="#">Footwear</a></li>
-                    <li><a href="#">Accessories</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h4>Activities</h4>
-                <ul>
-                    <li><a href="#">Camping</a></li>
-                    <li><a href="#">Hiking</a></li>
-                    <li><a href="#">Climbing</a></li>
-                    <li><a href="#">Fishing</a></li>
-                    <li><a href="#">Kayaking</a></li>
-                    <li><a href="#">Mountaineering</a></li>
-                    <li><a href="#">Trail Running</a></li>
+                    <li><a href="https://summitgearhub.com/products/summer-sale.html"
+                            aria-label="View products on sale">Sale</a></li>
+                    <li><a href="https://summitgearhub.com/products/index.html"
+                            aria-label="Check out the new releases">New Releases</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=Camping">Camping Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking Equipment</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing Tools</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Water Sports</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=apparel">Apparel</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=footwear">Footwear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=accessories">Accessories</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Adventures</h4>
                 <ul>
-                    <li><a href="#">Weekend Trips</a></li>
-                    <li><a href="#">Expedition Planning</a></li>
-                    <li><a href="#">Guided Tours</a></li>
-                    <li><a href="#">National Parks</a></li>
-                    <li><a href="#">International Treks</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=camping">Camping</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Kayaking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=mountaineering">Mountaineering</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=trail running">Trail Running</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Learn</h4>
                 <ul>
-                    <li><a href="#">Outdoor Skills</a></li>
-                    <li><a href="#">Survival Techniques</a></li>
-                    <li><a href="#">Gear Guides</a></li>
-                    <li><a href="#">Trail Maps</a></li>
-                    <li><a href="#">Weather Preparation</a></li>
+                    <li><a href="products/skills.html">Outdoor Skills</a></li>
+                    <li><a href="products/survival Skills.html">Survival Techniques</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Support</h4>
                 <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQ</a></li>
-                    <li><a href="#">Shipping Info</a></li>
-                    <li><a href="#">Returns & Warranty</a></li>
-                    <li><a href="#">Size Charts</a></li>
-                    <li><a href="#">Care Instructions</a></li>
+                    <li><a href="products/support.html">Contact Us</a></li>
+                    <li><a href="products/faq.html">FAQ</a></li>
+                    <li><a href="products/shipping-info.html">Shipping Info</a></li>
+                    <li><a href="products/track-order.html">Track Order</a></li>
+                    <li><a href="products/support.html">Returns & Warranty</a></li>
+                    <li><a href="products/size-chart.html">Size Charts</a></li>
+                    <li><a href="products/care-Instructions.html">Care Instructions</a></li>
                 </ul>
             </div>
         </div>
@@ -208,10 +353,10 @@
                 <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
             </div>
             <div class="footer-links">
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
-                <a href="#">Accessibility</a>
-                <a href="#">Sitemap</a>
+                <a href="products/privacy-policy.html">Privacy Policy</a>
+                <a href="products/terms-of-service.html">Terms of Service</a>
+                <a href="index.html">Accessibility</a>
+                <a href="products/visual-sitemap.html">Sitemap</a>
             </div>
             <div class="copyright">
                 <p>&copy; 2025 Summitgearhub Outdoor Equipment. All Rights Reserved.</p>
@@ -227,11 +372,21 @@
 
     <div id="order-modal" class="custom-modal">
         <div class="custom-modal-content">
-            <h2>Confirm Your Order</h2>
-            <p>Please double-check your details before confirming your order.</p>
-            <div class="modal-buttons">
-                <button id="confirm-order-modal">Confirm</button>
-                <button id="cancel-order-modal">Cancel</button>
+            <div id="confirmation-content">
+                <h2>Confirm Your Order</h2>
+                <p>Please double-check your details before confirming your order.</p>
+                <div class="modal-buttons">
+                    <button id="confirm-order-modal">Confirm</button>
+                    <button id="cancel-order-modal">Cancel</button>
+                </div>
+            </div>
+            <div id="success-content" style="display: none;">
+                <i class="fas fa-check-circle success-icon"></i>
+                <h2>Order Confirmed!</h2>
+                <p>Thank you for your purchase. Your order has been successfully placed.</p>
+                <p>Your Order ID: <strong id="display-order-id"></strong></p>
+                <p>You can use this Order ID to track your shipment on our <a href="track-order.html">Order Tracking</a> page.</p>
+                <button id="go-home-btn" class="modal-button primary-button">Go to Order Tracking</button>
             </div>
         </div>
     </div>
@@ -240,8 +395,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             const checkoutForm = document.getElementById('checkout-form');
             const orderModal = document.getElementById('order-modal');
+            const confirmationContent = document.getElementById('confirmation-content');
+            const successContent = document.getElementById('success-content');
             const confirmOrderBtn = document.getElementById('confirm-order-modal');
             const cancelOrderBtn = document.getElementById('cancel-order-modal');
+            const displayOrderId = document.getElementById('display-order-id');
+            const goHomeBtn = document.getElementById('go-home-btn'); // 新增的返回首页按钮
 
             // ✅ 修改：在页面加载时替换当前历史记录状态，这样用户无法直接后退到上一个页面
             history.replaceState(null, null, location.href);
@@ -250,15 +409,34 @@
                 window.location.replace(location.href);
             });
 
+            // 控制模态框显示和内容切换的函数
+            function showModal(isSuccess = false, orderId = null) {
+                if (isSuccess) {
+                    confirmationContent.style.display = 'none'; // 隐藏确认内容
+                    successContent.style.display = 'block';    // 显示成功内容
+                    if (orderId) {
+                        displayOrderId.textContent = orderId; // 设置订单号
+                    }
+                } else {
+                    confirmationContent.style.display = 'block'; // 显示确认内容
+                    successContent.style.display = 'none';    // 隐藏成功内容
+                }
+                orderModal.classList.add('active'); // 添加 active 类以触发 CSS 动画
+                window.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到页面顶部
+            }
+
+            // 隐藏模态框的函数
+            function hideModal() {
+                orderModal.classList.remove('active'); // 移除 active 类以隐藏模态框
+            }
 
             // 处理表单提交事件：进行验证并显示模态框
             checkoutForm.addEventListener('submit', function (e) {
                 e.preventDefault(); // 阻止表单默认提交行为
 
                 if (this.checkValidity()) {
-                    // 表单验证通过，显示确认订单模态框
-                    orderModal.style.display = 'flex';
-                    window.scrollTo({ top: 0, behavior: 'smooth' }); // 平滑滚动到页面顶部
+                    // 表单验证通过，显示确认订单模态框 (确认状态)
+                    showModal(false);
                 } else {
                     // 表单验证不通过，报告验证错误（浏览器会显示内置提示）
                     this.reportValidity();
@@ -297,25 +475,42 @@
                         .then(response => response.json())
                         .then(data => {
                             console.log('Order updated:', data);
-                            alert('Order submitted successfully!'); // 显示成功通知
-                            orderModal.style.display = 'none'; // 隐藏模态框
-                            window.location.href = "../index.html"; // 成功后跳转到主页
+                            if (data.orderId) {
+                                // 订单更新成功，显示成功模态框 (成功状态，并传入订单号)
+                                showModal(true, data.orderId);
+                                // 清空购物车和订单相关数据，防止重复购买或信息残留
+                                localStorage.removeItem('cart');
+                                localStorage.removeItem('orderData');
+                                localStorage.removeItem('orderItems');
+                                // localStorage.removeItem('orderId');
+                            } else {
+                                // 后端成功响应但未返回 orderId，作为通用成功或错误处理
+                                alert('Order submitted successfully, but no order ID returned.');
+                                hideModal(); // 隐藏模态框
+                                window.location.href = "../index.html"; // 回退到主页
+                            }
                         })
                         .catch(error => {
                             console.error('更新订单时出错:', error);
                             alert('Order submission failed, please try again.'); // 显示失败通知
-                            orderModal.style.display = 'none'; // 发生错误时也隐藏模态框
+                            hideModal(); // 发生错误时也隐藏模态框
                         });
                 } else {
                     console.error('在 localStorage 中未找到 Order ID。无法更新订单。');
                     alert('Error: Order could not be processed. Please try again from the cart.');
-                    orderModal.style.display = 'none'; // 如果没有 Order ID，也隐藏模态框
+                    hideModal(); // 如果没有 Order ID，也隐藏模态框
                 }
             });
 
             // 处理模态框中“取消”按钮的点击事件
             cancelOrderBtn.addEventListener('click', function () {
-                orderModal.style.display = 'none'; // 仅仅隐藏模态框，不进行任何操作
+                hideModal(); // 仅仅隐藏模态框，不进行任何操作
+            });
+
+            // 处理成功模态框中“返回首页”按钮的点击事件
+            goHomeBtn.addEventListener('click', function () {
+                hideModal(); // 隐藏模态框
+                window.location.href = "track-order.html"; // 重定向到主页
             });
 
 

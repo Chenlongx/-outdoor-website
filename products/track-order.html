@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Tracking | WildGear</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/cart-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+</head>
+<style>
+    /* styles.css 或 cart-styles.css */
+    .notification {
+        position: fixed;
+        top: 20px;
+        /* 调整位置 */
+        right: 20px;
+        /* 调整位置 */
+        padding: 15px 20px;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        opacity: 0;
+        /* 默认隐藏 */
+        transform: translateY(-20px);
+        /* 默认偏上 */
+        transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+        /* 过渡动画 */
+        z-index: 1000;
+        /* 确保在其他元素之上 */
+    }
+
+    .notification.show {
+        opacity: 1;
+        /* 显示 */
+        transform: translateY(0);
+        /* 恢复到正常位置 */
+    }
+
+    .notification.error {
+        background-color: #dc3545;
+        /* 错误通知的背景颜色 */
+    }
+
+    /* 加载遮罩样式 */
+    .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .loading-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .spinner-icon {
+        font-size: 3em;
+        color: #333;
+    }
+</style>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html">Summer Sale</a></li>
+                <li><a href="./">Products</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Order Tracking</h1>
+            <div class="breadcrumb">
+                <a href="../index.html">Home</a> / <span>Order Tracking</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="cart-section">
+        <div class="container">
+            <div class="cart-container">
+                <div class="cart-items">
+                    <h2>Enter Your Order ID</h2>
+                    <div style="margin-bottom: 1.5rem;">
+                        <label for="orderIdInput" style="display:block; font-weight:600; margin-bottom:8px;">
+                            Order ID <span style="color:red">*</span>
+                        </label>
+                        <input type="text" id="orderIdInput" name="orderIdInput" required placeholder="Your Order ID"
+                            style="width:100%;padding:0.75rem;border:1px solid #ececec;border-radius:4px;">
+                    </div>
+                    <button id="trackOrderBtn" class="checkout-btn" style="width:100%; margin-bottom: 2rem;">Track
+                        Order</button>
+
+                    <input type="hidden" id="YQNum" maxlength="50" />
+                    <div id="YQContainer"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://summitgearhub.com/products/summer-sale.html"
+                                aria-label="View products on sale">Sale</a></li>
+                    <li><a href="https://summitgearhub.com/products/index.html"
+                                aria-label="Check out the new releases">New Releases</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=Camping">Camping Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking Equipment</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing Tools</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Water Sports</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=apparel">Apparel</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=footwear">Footwear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="https://summitgearhub.com/products/?category=camping">Camping</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Kayaking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=mountaineering">Mountaineering</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=trail running">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="skills.html">Outdoor Skills</a></li>
+                    <li><a href="survival Skills.html">Survival Techniques</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="support.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="shipping-info.html">Shipping Info</a></li>
+                    <li><a href="support.html">Returns & Warranty</a></li>
+                    <li><a href="size-chart.html">Size Charts</a></li>
+                    <li><a href="care-Instructions.html">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="index.html">Accessibility</a>
+                <a href="visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Summitgearhub Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <div class="chat-widget">
+        <div class="chat-icon">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-text">Contact support</div>
+    </div>
+
+    <div id="loading-overlay" class="loading-overlay">
+        <i class="fas fa-spinner fa-spin spinner-icon"></i>
+    </div>
+
+    <script type="text/javascript" src="//www.17track.net/externalcall.js"></script>
+    <script type="text/javascript">
+        // 通知提示函数
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.classList.add('notification', type);
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            requestAnimationFrame(() => {
+                notification.classList.add('show');
+            });
+
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.classList.add('hide');
+                notification.addEventListener('transitionend', () => {
+                    notification.remove();
+                }, { once: true });
+            }, 5000);
+        }
+
+        // 加载遮罩函数
+        function showLoadingOverlay() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.add('active');
+            }
+        }
+
+        function hideLoadingOverlay() {
+            const overlay = document.getElementById('loading-overlay');
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        // 17TRACK 官方示例的追踪函数，保持不变
+        function doTrack() {
+            var num = document.getElementById("YQNum").value;
+            if (num === "") {
+                // 使用您提供的 showNotification 函数替代 alert
+                showNotification("请输入您的快递单号。", "error");
+                return;
+            }
+            YQV5.trackSingle({
+                // Required, Specify the container ID of the carrier content.
+                YQ_ContainerId: "YQContainer",
+                // Optional, specify tracking result height, max height 800px, default is 560px.
+                YQ_Height: 560,
+                // Optional, select carrier, default to auto identify.
+                YQ_Fc: "0",
+                // Optional, specify UI language, default language is automatically detected based on the browser settings.
+                YQ_Lang: "en", // 保持为英文，与您提供的官方示例一致
+                // Required, specify the number needed to be tracked.
+                YQ_Num: num
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const trackOrderBtn = document.getElementById('trackOrderBtn');
+            const orderIdInput = document.getElementById('orderIdInput');
+            const YQNumInput = document.getElementById('YQNum'); // 隐藏的输入框，用于存放从后端获取的快递单号
+
+            // 尝试从 localStorage 获取订单号并自动填充
+            let storedOrderId = localStorage.getItem('orderId') || localStorage.getItem('lastOrderId'); // 尝试从两个可能的键获取
+            console.log("storedOrderId的值为-----", storedOrderId);
+            if (storedOrderId) {
+                try {
+                    // 尝试解析为 JSON 对象，如果成功且有 id 属性，则使用 id
+                    const parsedId = JSON.parse(storedOrderId);
+                    if (parsedId && typeof parsedId === 'object' && parsedId.id) {
+                        storedOrderId = parsedId.id;
+                    }
+                } catch (e) {
+                    // 如果解析失败，说明 storedOrderId 本身就是字符串，不做处理
+                    console.log("storedOrderId is not a JSON object, using as is.");
+                }
+
+                if (storedOrderId) {
+                    orderIdInput.value = storedOrderId;
+                    // 自动触发查询
+                    trackOrderBtn.click();
+                }
+            }
+
+
+            trackOrderBtn.addEventListener('click', async function () {
+                const orderId = orderIdInput.value.trim();
+
+                if (!orderId) {
+                    showNotification("请输入订单号。", "error");
+                    return;
+                }
+
+                showLoadingOverlay(); // 显示加载遮罩
+
+                try {
+                    const response = await fetch(`/.netlify/functions/get-tracking-number?orderId=${orderId}`);
+
+                    if (response.ok) { // Check if the response status is 200 OK
+                        const data = await response.json(); // Try parsing response as JSON
+
+                        if (data.success && data.trackingNumber) {
+                            hideLoadingOverlay(); // 隐藏加载遮罩
+                            YQNumInput.value = data.trackingNumber; // 将后端返回的快递单号设置到隐藏的输入框
+                            console.log("快递单号已设置到 YQNumInput:", data.trackingNumber); // 更明确的日志
+                            doTrack(); // 调用 17TRACK 的追踪函数 (不带参数)
+                            showNotification(`Tracking number found: ${data.trackingNumber}`, "success"); // 弹出通知
+                        } else {
+                            hideLoadingOverlay(); // 隐藏加载遮罩
+                            // 后端成功响应但未返回 trackingNumber，或 success 为 false
+                            const errorMessage = data.message || 'Tracking number not found for this order. It may not have been shipped yet. Please wait or verify the order ID.';
+                            showNotification(errorMessage, "error");
+                            document.getElementById("YQContainer").innerHTML = ''; // 清除之前可能存在的追踪结果
+                        }
+                    } else {
+                        // 响应不是 200 OK，尝试读取非 JSON 错误信息
+                        hideLoadingOverlay(); // 隐藏加载遮罩
+                        const errorText = await response.text(); // 读取原始文本
+                        console.error('Backend returned an error:', response.status, errorText); // 后端返回错误
+                        const errorMessage = `Order query failed: ${errorText || `Server error (${response.status})`}`;
+                        showNotification(errorMessage, "error");
+                        document.getElementById("YQContainer").innerHTML = ''; // 清除之前可能存在的追踪结果
+                    }
+                } catch (error) {
+                    hideLoadingOverlay(); // 隐藏加载遮罩
+                    console.error('Error occurred while retrieving tracking number:', error); // 获取快递单号时出错
+                    let displayMessage = 'An error occurred while retrieving the tracking number. Please try again later.';
+                    if (error.message && error.message.includes('JSON')) {
+                        displayMessage = 'The server returned an invalid data format. Please contact customer service.'; // 服务器返回数据格式不正确，请联系客服
+                    }
+                    showNotification(displayMessage, "error");
+                    document.getElementById("YQContainer").innerHTML = ''; // 清除之前可能存在的追踪结果
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
