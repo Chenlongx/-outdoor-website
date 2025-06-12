@@ -1065,7 +1065,7 @@ document.addEventListener('DOMContentLoaded', function () {
             listEl.innerHTML = pagedReviews.map(r => `
                 <div class="review-item">
                     <div class="reviewer-info">
-                        <div class="reviewer-name">${r.user_name || '匿名用户'}</div>
+                        <div class="reviewer-name">${r.user_name || 'Anonymous User'}</div>
                         <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
                     </div>
                     <div class="review-rating">
