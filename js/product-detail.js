@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (mainImages[index]) {
                             const targetImage = mainImages[index];
                             // 使用 scrollIntoView 确保滚动
-                            targetImage.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+                            // targetImage.scrollIntoView({ behavior: 'smooth', inline: 'center' });
 
                             // 可选：强制触发滚动（如果 scrollIntoView 不生效）
                             const container = targetImage.closest('.image-track');
