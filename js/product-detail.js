@@ -1,6 +1,8 @@
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    // 页面加载时，立即显示一个默认的0星和0评论占位符
+    updateMainProductRating({ average: 0, count: 0 });
 
     // // 从 URL 获取产品 ID
     const urlParams = new URLSearchParams(window.location.search);
@@ -39,13 +41,15 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('storage', (e) => {
         if (e.key === 'cart') {
             updateCartCount();  // 更新购物车数量
-        }   
+        }
     });
 
     // 通过 API 获取产品信息
     fetch(`/.netlify/functions/fetch-product-by-id?id=${productId}`)
         .then(response => response.json())
         .then(product => {
+
+            loadReviews(productId, 1, 5, 'mostRecent');
 
             // 更新页面标题
             document.title = `${product.name} | WildGear`;
@@ -258,25 +262,25 @@ document.addEventListener('DOMContentLoaded', function () {
             const enableThumbnailDragging = () => {
                 const container = document.querySelector('.thumbnail-images');
                 if (!container) return;
-            
+
                 let isDown = false;
                 let startX;
                 let scrollLeft;
-            
+
                 container.addEventListener('mousedown', (e) => {
                     isDown = true;
                     container.classList.add('dragging');
                     startX = e.pageX - container.offsetLeft;
                     scrollLeft = container.scrollLeft;
                 });
-            
+
                 document.addEventListener('mouseup', () => {
                     if (isDown) {
                         isDown = false;
                         container.classList.remove('dragging');
                     }
                 });
-            
+
                 document.addEventListener('mousemove', (e) => {
                     if (!isDown) return;
                     e.preventDefault();
@@ -284,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const walk = (x - startX) * 1.5;
                     container.scrollLeft = scrollLeft - walk;
                 });
-            
+
                 // 防止拖动时选中文本
                 container.addEventListener('dragstart', (e) => e.preventDefault());
             };
@@ -353,28 +357,70 @@ document.addEventListener('DOMContentLoaded', function () {
             // 产品详情标签
             const tabs = document.querySelectorAll('.tab');
             const tabPanes = document.querySelectorAll('.tab-pane');
+            // 获取评论筛选下拉菜单
+            const reviewFilterDropdown = document.querySelector('.filter-dropdown');
 
+            // tabs.forEach(tab => {
+            //     tab.addEventListener('click', function () {
+            //         // 获取选项卡的 data-tab 属性
+            //         const targetTab = this.getAttribute('data-tab');
+
+            //         // 从所有选项卡和选项卡窗格中删除活动类
+            //         tabs.forEach(t => t.classList.remove('active'));
+            //         tabPanes.forEach(pane => pane.classList.remove('active'));
+
+            //         // 为点击的选项卡和相应的选项卡窗格添加 active 类
+            //         this.classList.add('active');
+            //         document.getElementById(targetTab).classList.add('active');
+
+            //         // 点击调用loadReviews方法 渲染评论
+            //         if (targetTab === 'reviews') {
+            //             loadReviews(productId);
+            //         }
+            //     });
+            // });
             tabs.forEach(tab => {
                 tab.addEventListener('click', function () {
-                    // 获取选项卡的 data-tab 属性
                     const targetTab = this.getAttribute('data-tab');
 
-                    // 从所有选项卡和选项卡窗格中删除活动类
                     tabs.forEach(t => t.classList.remove('active'));
                     tabPanes.forEach(pane => pane.classList.remove('active'));
 
-                    // 为点击的选项卡和相应的选项卡窗格添加 active 类
                     this.classList.add('active');
                     document.getElementById(targetTab).classList.add('active');
 
-                    // 点击调用loadReviews方法 渲染评论
+                    // 点击评论选项卡时加载评论，并考虑当前的排序方式
                     if (targetTab === 'reviews') {
-                        loadReviews(productId);
-
-
+                        let initialSortKey = 'mostRecent'; // 默认排序
+                        if (reviewFilterDropdown) {
+                            const selectedOption = reviewFilterDropdown.value;
+                            if (selectedOption === 'Highest Rated') {
+                                initialSortKey = 'highestRated';
+                            } else if (selectedOption === 'Lowest Rated') {
+                                initialSortKey = 'lowestRated';
+                            }
+                        }
+                        loadReviews(productId, 1, 5, initialSortKey);
                     }
                 });
             });
+
+            // 添加评论筛选下拉菜单的事件监听器
+            if (reviewFilterDropdown) {
+                reviewFilterDropdown.addEventListener('change', function () {
+                    const selectedSortOrder = this.value;
+                    let sortKey;
+                    if (selectedSortOrder === 'Most Recent') {
+                        sortKey = 'mostRecent';
+                    } else if (selectedSortOrder === 'Highest Rated') {
+                        sortKey = 'highestRated';
+                    } else if (selectedSortOrder === 'Lowest Rated') {
+                        sortKey = 'lowestRated';
+                    }
+                    loadReviews(productId, 1, 5, sortKey); // 重新加载评论，从第一页开始
+                });
+            }
+
 
             // 写评论按钮：点击展开评论表单
             const writeReviewBtn = document.querySelector('#reviews .btn-secondary');
@@ -435,18 +481,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                 submitReview();
                             }
                         });
-                    
+
                     // 在容器插入后，手动渲染 reCAPTCHA
                     if (window.grecaptcha && grecaptcha.ready) {
                         grecaptcha.ready(() => {
-                          reviewRecaptchaWidgetId = grecaptcha.render(
-                            'recaptcha-container',
-                            { sitekey: '6Le7QUYrAAAAAMSKBLj8a8b49jeXWzsCSe0lANbG' }
-                          );
+                            reviewRecaptchaWidgetId = grecaptcha.render(
+                                'recaptcha-container',
+                                { sitekey: '6Le7QUYrAAAAAMSKBLj8a8b49jeXWzsCSe0lANbG' }
+                            );
                         });
-                      } else {
+                    } else {
                         console.error('reCAPTCHA 库尚未加载');
-                      }
+                    }
 
                     // 点击“Send”提交
                     formContainer.querySelector('#submit-review')
@@ -467,14 +513,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 最多上传 5 张图片
                 const files = Array.from(form.querySelector('#review-images-input').files).slice(0, 5);
 
-                
+
 
                 const token = grecaptcha.getResponse(reviewRecaptchaWidgetId);
                 if (!token) {
-                  alert('请先完成 reCAPTCHA 验证');
-                  return;
+                    alert('请先完成 reCAPTCHA 验证');
+                    return;
                 }
-                 
+
 
                 // 先等 API 加载完
                 // 1) 用 FormData 构造 multipart/form-data
@@ -754,8 +800,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     modal.style.display = 'block';
                 });
             });
-            
-            
+
+
             // 左右切换按钮
             prevBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -979,17 +1025,27 @@ document.addEventListener('DOMContentLoaded', function () {
      * 拉取并渲染评论
      * @param {string} productId 
      */
-    async function loadReviews(productId, page = 1, perPage = 5) {
+    async function loadReviews(productId, page = 1, perPage = 5, sortOrder = 'mostRecent') {
         const listEl = document.querySelector('#reviews .reviews-list');
         const paginationEl = document.querySelector('#reviews .pagination');
+        const reviewsSection = document.getElementById('reviews'); // 获取评论区的父元素
         if (!listEl || !paginationEl) return;
 
-        listEl.innerHTML = '<p>Loading...…</p>';
+        listEl.innerHTML = '<p>loading...…</p>'; // 修改加载提示为中文
 
         try {
             const res = await fetch(`/.netlify/functions/get-reviews?productId=${productId}`);
-            if (!res.ok) throw new Error('Network Error');
-            const allReviews = await res.json();
+            if (!res.ok) throw new Error('网络错误'); // 修改错误信息为中文
+            let allReviews = await res.json();
+
+            // 根据 sortOrder 对评论进行排序
+            if (sortOrder === 'highestRated') {
+                allReviews.sort((a, b) => b.rating - a.rating); // 评分从高到低
+            } else if (sortOrder === 'lowestRated') {
+                allReviews.sort((a, b) => a.rating - b.rating); // 评分从低到高
+            } else { // 'mostRecent' (默认)
+                allReviews.sort((a, b) => new Date(b.created_at) - new Date(a.created_at)); // 日期从新到旧
+            }
 
             const totalReviews = allReviews.length;
             const totalPages = Math.ceil(totalReviews / perPage);
@@ -997,38 +1053,44 @@ document.addEventListener('DOMContentLoaded', function () {
             const pagedReviews = allReviews.slice(start, start + perPage);
 
             if (pagedReviews.length === 0) {
-                listEl.innerHTML = '<p>No reviews yet — be the first to leave one!</p>';
+                listEl.innerHTML = '<p>No comments yet — Be the first to leave a review!</p>'; // 修改提示为中文
                 paginationEl.innerHTML = '';
+                reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });  
+
+                // 如果没有评论，产品顶部的评分也显示为0
+                updateMainProductRating({ average: 0, count: 0 }); // <-- 在这里调用
                 return;
             }
 
             listEl.innerHTML = pagedReviews.map(r => `
                 <div class="review-item">
                     <div class="reviewer-info">
-                        <div class="reviewer-name">${r.user_name || 'Anonymous'}</div>
+                        <div class="reviewer-name">${r.user_name || '匿名用户'}</div>
                         <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
                     </div>
                     <div class="review-rating">
                         ${'★'.repeat(r.rating) + '☆'.repeat(5 - r.rating)}
                     </div>
                     <p class="review-body">${r.body}</p>
-                    ${r.image_urls?.length ? `<div class="review-images">${r.image_urls.map(url => `<img src="${url}" alt="Review">`).join('')}</div>` : ''}
+                    ${r.image_urls?.length ? `<div class="review-images">${r.image_urls.map(url => `<img src="${url}" alt="评论图片">`).join('')}</div>` : ''}
                 </div>
             `).join('');
 
             renderPagination(page, totalPages, productId); // 分页导航
 
-            // 加载汇总信息（平均评分等）
             const ratingRes = await fetch(`/.netlify/functions/get-reviews?productId=${productId}&rating=true`);
             if (ratingRes.ok) {
                 const ratingData = await ratingRes.json();
                 updateReviewSummary(ratingData);
                 updateRatingBreakdown(ratingData);
+                updateMainProductRating(ratingData); // <-- 在这里调用更新主产品评分的函数
             }
+            reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } catch (err) {
             console.error(err);
-            listEl.innerHTML = '<p>Failed to load reviews. Please try again later.</p>';
+            listEl.innerHTML = '<p>Failed to load comments, please try again later。</p>'; // 修改错误信息为中文
             paginationEl.innerHTML = '';
+            updateMainProductRating({ average: 0, count: 0 }); // 失败时也更新为0
         }
     }
 
@@ -1057,6 +1119,33 @@ document.addEventListener('DOMContentLoaded', function () {
             for (let i = 0; i < emptyStars; i++) {
                 starsContainer.innerHTML += '<i class="far fa-star"></i>';
             }
+        }
+    }
+
+    // ============== 新增函数：更新产品顶部的星级和评论数量 ==============
+    function updateMainProductRating({ average, count }) {
+        const mainStarsContainer = document.querySelector('.product-main-stars'); // 使用新的类名
+        const mainReviewsCount = document.querySelector('.product-main-reviews-count'); // 使用新的类名
+
+        if (mainStarsContainer) {
+            mainStarsContainer.innerHTML = ''; // 清空现有星级
+            const fullStars = Math.floor(average);
+            const halfStar = average - fullStars >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+            for (let i = 0; i < fullStars; i++) {
+                mainStarsContainer.innerHTML += '<i class="fas fa-star"></i>';
+            }
+            if (halfStar) {
+                mainStarsContainer.innerHTML += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                mainStarsContainer.innerHTML += '<i class="far fa-star"></i>';
+            }
+        }
+
+        if (mainReviewsCount) {
+            mainReviewsCount.textContent = `${average.toFixed(1)} (${count} reviews)`; // 显示如 "4.5 (128 reviews)"
         }
     }
 
@@ -1093,7 +1182,17 @@ document.addEventListener('DOMContentLoaded', function () {
             if (isActive) a.classList.add('active');
             a.addEventListener('click', (e) => {
                 e.preventDefault();
-                loadReviews(productId, page);
+                // 重新加载评论时，保留当前的排序方式
+                const currentSortOrder = document.querySelector('.filter-dropdown')?.value || 'Most Recent';
+                let sortKey;
+                if (currentSortOrder === 'Most Recent') {
+                    sortKey = 'mostRecent';
+                } else if (currentSortOrder === 'Highest Rated') {
+                    sortKey = 'highestRated';
+                } else if (currentSortOrder === 'Lowest Rated') {
+                    sortKey = 'lowestRated';
+                }
+                loadReviews(productId, page, 5, sortKey);
             });
             return a;
         };
@@ -1134,10 +1233,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const next = document.createElement('a');
             next.href = '#';
             next.className = 'next';
-            next.innerHTML = `Next <i class="fas fa-chevron-right"></i>`;
+            next.innerHTML = `下一页 <i class="fas fa-chevron-right"></i>`; // 修改为中文
             next.addEventListener('click', (e) => {
                 e.preventDefault();
-                loadReviews(productId, currentPage + 1);
+                const currentSortOrder = document.querySelector('.filter-dropdown')?.value || 'Most Recent';
+                let sortKey;
+                if (currentSortOrder === 'Most Recent') {
+                    sortKey = 'mostRecent';
+                } else if (currentSortOrder === 'Highest Rated') {
+                    sortKey = 'highestRated';
+                } else if (currentSortOrder === 'Lowest Rated') {
+                    sortKey = 'lowestRated';
+                }
+                loadReviews(productId, currentPage + 1, 5, sortKey);
             });
             container.appendChild(next);
         }
@@ -1196,34 +1304,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const totalItems = cart.reduce((total, item) => total + (parseInt(item.quantity || 1)), 0);
         const cartCountElements = document.querySelectorAll('.cart-count');
-        
+
         cartCountElements.forEach(element => {
             element.textContent = totalItems.toString();
         });
     }
-
-    // 上传图片
-    // async function uploadImages(files, productId) {
-    //     const urls = []
-    //     const bucket = 'review-images' // 你在 Supabase 控制台新建的 Bucket
-
-    //     for (let i = 0; i < Math.min(files.length, 5); i++) {
-    //       const file = files[i]
-    //       const path = `reviews/${productId}/${crypto.randomUUID()}_${file.name}`
-    //       const { data, error } = await supabase
-    //         .storage
-    //         .from(bucket)
-    //         .upload(path, file, { cacheControl: '3600', upsert: false })
-
-    //       if (error) throw error
-
-    //       const { publicURL } = supabase
-    //         .storage
-    //         .from(bucket)
-    //         .getPublicUrl(data.path)
-
-    //       urls.push(publicURL)
-    //     }
-    //     return urls
-    // }
 });

@@ -124,25 +124,6 @@ const RECAPTCHA_VERIFY_URL =
     : 'https://www.google.com/recaptcha/api/siteverify';
 
 // 添加 reCAPTCHA 验证函数
-// async function verifyRecaptchaToken(token) {
-//   const secret = process.env.RECAPTCHA_SECRET_KEY;
-//   try {
-//     const res = await fetch(
-//       'https://www.google.com/recaptcha/api/siteverify',
-//       {
-//         method: 'POST',
-//         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-//         body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`
-//       }
-//     );
-//     const data = await res.json();
-//     console.log('reCAPTCHA v2 result:', data);
-//     return data.success === true;
-//   } catch (err) {
-//     console.error('reCAPTCHA validation error:', err);
-//     return false;
-//   }
-// }
 async function verifyRecaptchaToken(token) {
   // 本地开发模式直接跳过
   if (process.env.NODE_ENV !== 'production') {
