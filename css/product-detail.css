@@ -101,6 +101,59 @@
 }
 
 
+/* 新增：图片轨道导航按钮样式 */
+.image-track-nav-button {
+    position: absolute; /* 绝对定位 */
+    top: 50%; /* 垂直居中 */
+    transform: translateY(-50%);
+    font-size: 24px; /* 图标大小 */
+    background: rgba(0, 0, 0, 0.4); /* 半透明背景 */
+    color: white; /* 字体颜色 */
+    border: none;
+    cursor: pointer; /* 鼠标指针 */
+    padding: 10px 15px;
+    border-radius: 50%; /* 圆形按钮 */
+    z-index: 10; /* 确保按钮在图片上方 */
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* 默认隐藏 */
+    transition: opacity 0.3s ease; /* 动画效果 */
+
+    /* ⚡️ 关键修改：默认在非PC端隐藏按钮 ⚡️ */
+    display: none; /* 在默认情况下（手机端）隐藏按钮 */
+}
+
+/* 鼠标悬停在 .main-image 上时显示按钮 */
+.main-image:hover .image-track-nav-button {
+    opacity: 1;
+}
+
+/* 按钮悬停效果 */
+.image-track-nav-button:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* 左侧按钮位置 */
+.image-track-nav-button.left {
+    left: 10px;
+}
+
+/* 右侧按钮位置 */
+.image-track-nav-button.right {
+    right: 10px;
+}
+
+/* 确保 image-track 能够被点击到 */
+.image-track {
+    position: relative; /* 确保 z-index 工作正常 */
+}
+
+
+/* 默认在所有屏幕上隐藏按钮（包括手机） */
+.image-track-nav-button {
+    display: none; /* 默认隐藏 */
+}
+
 .thumbnail-images {
     display: flex;
     gap: 0.75rem;
@@ -1158,8 +1211,17 @@
     .mega-menu-column {
         margin-bottom: 1.5rem;
     }
+}
 
+@media (min-width: 992px) {
+    .image-track-nav-button {
+        display: flex; /* 在PC端恢复显示 */
+        opacity: 0; /* PC端默认隐藏，只在hover时显示 */
+    }
 
+    .main-image:hover .image-track-nav-button {
+        opacity: 1; /* PC端hover时显示 */
+    }
 }
 
 @media (max-width: 768px) {
@@ -1225,6 +1287,9 @@
         /* 优化 iOS 滚动 */
         /* touch-action: pan-x; */
     }
+
+
+
 
     .thumbnail {
         cursor: pointer;

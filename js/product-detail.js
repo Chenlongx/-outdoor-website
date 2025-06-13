@@ -193,6 +193,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 生成主图滑动区
             const mainImageTrack = document.querySelector('.image-track');
+            const imageTrackPrevBtn = document.getElementById('imageTrackPrev');
+            const imageTrackNextBtn = document.getElementById('imageTrackNext');
             if (mainImageTrack && Array.isArray(product.product_details_url)) {
                 mainImageTrack.innerHTML = ''; // 清空
 
@@ -202,6 +204,32 @@ document.addEventListener('DOMContentLoaded', function () {
                     img.alt = `Product Main Image ${index + 1}`;
                     mainImageTrack.appendChild(img);
                 });
+            }
+            // 图片轨道滑动功能
+            if (imageTrackPrevBtn && imageTrackNextBtn && mainImageTrack) {
+                // 判断当前屏幕宽度是否大于等于 992px
+                // 这里的 992px 应该与CSS媒体查询中的 min-width 保持一致
+                if (window.innerWidth >= 992) {
+                    // 点击“下一个”按钮时
+                    imageTrackNextBtn.addEventListener('click', () => {
+                        const currentScrollLeft = mainImageTrack.scrollLeft; // 获取当前滚动位置
+                        const imageWidth = mainImageTrack.offsetWidth; // 获取 image-track 的可视宽度，即单张图片的宽度
+                        mainImageTrack.scrollTo({
+                            left: currentScrollLeft + imageWidth, // 向右滚动一个图片宽度
+                            behavior: 'smooth' // 平滑滚动
+                        });
+                    });
+
+                    // 点击“上一个”按钮时
+                    imageTrackPrevBtn.addEventListener('click', () => {
+                        const currentScrollLeft = mainImageTrack.scrollLeft; // 获取当前滚动位置
+                        const imageWidth = mainImageTrack.offsetWidth; // 获取 image-track 的可视宽度，即单张图片的宽度
+                        mainImageTrack.scrollTo({
+                            left: currentScrollLeft - imageWidth, // 向左滚动一个图片宽度
+                            behavior: 'smooth' // 平滑滚动
+                        });
+                    });
+                }
             }
 
             // 动态生成缩略图
