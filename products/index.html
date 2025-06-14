@@ -112,18 +112,59 @@
     <main class="products-page">
         <div class="container">
             <div class="products-layout">
+                <!-- 优惠栏 -->
+                <div class="hero-bg"></div>
+                <div class="hero-content">
+                  <h1 class="hero-title">
+                    Premium <span class="highlight-text">Outdoor Gear</span>
+                  </h1>
+                  <p class="hero-subtitle">
+                    Discover high-quality equipment for your next adventure.
+                    From camping essentials to hiking gear, we have everything
+                    you need to explore the great outdoors.
+                  </p>
+                  <div class="hero-features">
+                    <div class="feature">
+                      <span class="dot green"></span> Free Shipping Over $50
+                    </div>
+                    <div class="feature">
+                      <span class="dot blue"></span> 30-Day Returns
+                    </div>
+                    <div class="feature">
+                      <span class="dot purple"></span> Expert Support
+                    </div>
+                  </div>
+                </div>
                 <!-- 分类侧边栏 -->
                 <aside class="categories-sidebar">
-                    <h3>Product Categories</h3>
+                    <!-- <h3>Product Categories</h3> -->
+                    <div class="sidebar-right"></div>
                     <!-- 分类列表将通过JavaScript动态生成 -->
+                    <div class="products-filters">
+                        <select id="sort-select" name="sort">
+                            <option value="default">Default Sorting</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="name-asc">Name A-Z</option>
+                            <option value="name-desc">Name Z-A</option>
+                        </select>
+                        <div class="view-options">
+                            <button class="view-btn" data-view="grid" aria-label="Switch to grid view">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="view-btn" data-view="list" aria-label="Switch to list view">
+                                <i class="fas fa-list"></i>
+                            </button>
+                        </div>
+                    </div>
                 </aside>
 
                 <!-- 产品内容区域 -->
                 <div class="products-content">
                     <!-- 产品头部 -->
                     <div class="products-header">
-                        <h1>All Outdoor Gear & Camping Equipment</h1>
-                        <div class="products-filters">
+                        <!-- <h1>All Outdoor Gear & Camping Equipment</h1> -->
+                        <!-- <div class="products-filters">
                             <label for="sort-select">Sort by:</label>
                             <select id="sort-select" name="sort">
                                 <option value="default">Default Sorting</option>
@@ -140,12 +181,7 @@
                                     <i class="fas fa-list"></i>
                                 </button>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- 子分类导航 -->
-                    <div class="subcategories-nav">
-                        <!-- 子分类按钮将通过JavaScript动态生成 -->
+                        </div> -->
                     </div>
 
                     <!-- 产品网格 -->

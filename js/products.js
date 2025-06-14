@@ -206,14 +206,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 渲染分类侧边栏
     function renderCategories() {
-        const categoriesSidebar = document.querySelector('.categories-sidebar');
+        const categoriesSidebar = document.querySelector('.sidebar-right');
         if (!categoriesSidebar) return;
 
         const categoriesList = document.createElement('ul');
         categoriesList.className = 'categories-list';
 
+        // --- START: 添加 All Products 选项 ---
+        const allProductsItem = document.createElement('li'); //
+        allProductsItem.className = 'category-item all-products-item active'; // 默认选中 All Products
+        allProductsItem.textContent = 'All Products'; //
+        allProductsItem.addEventListener('click', () => { //
+            currentCategory = null; // 清除当前分类
+            currentSubcategory = null; // 清除当前子分类
+            currentPage = 1; // 重置页码
+            renderSubcategories(); // 渲染子分类（此时应该为空或提示）
+            renderProducts(getPaginatedProducts()); // 渲染所有产品
+            updateActiveCategory(allProductsItem); // 更新激活状态
+        });
+        categoriesList.appendChild(allProductsItem); //
+        // --- END: 添加 All Products 选项 ---
+
         // 从产品数据中提取所有主分类
-        const mainCategories = [...new Set(currentProducts
+        const mainCategories = [...new Set(originalProducts
             .map(product => product.category)
             .filter(category => category))];
 
@@ -235,6 +250,17 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         categoriesSidebar.appendChild(categoriesList);
+
+        // 如果没有从 URL 获取到分类，则默认选中 All Products
+        if (!urlCategory) {
+            updateActiveCategory(allProductsItem);
+        } else {
+            // 如果有 urlCategory，则高亮对应的分类
+            const initialCategoryItem = document.querySelector(`.category-item[data-category="${currentCategory}"]`);
+            if (initialCategoryItem) {
+                updateActiveCategory(initialCategoryItem);
+            }
+        }
     }
 
     // 渲染子分类导航
@@ -291,10 +317,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 获取分页后的产品
     function getPaginatedProducts() {
-        let filteredProducts = [...currentProducts];
+        let filteredProducts = [...originalProducts];
 
         // 按分类和子分类过滤
-        if (currentCategory && currentProducts === originalProducts) {
+        if (currentCategory) {
             filteredProducts = filteredProducts.filter(product =>
                 product.category === currentCategory
             );
@@ -400,6 +426,11 @@ document.addEventListener('DOMContentLoaded', function () {
         // 将图片添加到图片容器
         productImage.appendChild(img);
 
+        // ✅ 添加遮罩层
+        const overlay = document.createElement('div');
+        overlay.className = 'image-overlay';
+        productImage.appendChild(overlay);
+
         // 为图片容器添加点击事件，跳转到产品详情页
         productImage.addEventListener('click', (e) => {
             window.location.href = productLink.href; // 点击图片容器跳转到详情页
@@ -416,13 +447,22 @@ document.addEventListener('DOMContentLoaded', function () {
         productInfo.className = 'product-info';
         productInfo.innerHTML = `
             <h2 class="product-name">${product.name}</h2>
-            <p class="product-original-price">
-                Original Price: $${parseFloat(product.price).toFixed(2)}
-            </p>
-            <p class="product-price">$${discountedPrice.toFixed(2)}</p>
             <p class="product-stock">stock items: ${product.stock}</p>
             <p class="product-description">${product.description}</p>
-            <button class="add-to-cart-btn" data-product-id="${product.id}">add to the cart</button>
+            <div class="product-items-center">
+                <p class="product-price">$${discountedPrice.toFixed(2)}</p>
+                <p class="product-original-price">
+                    $${parseFloat(product.price).toFixed(2)}
+                </p>
+            </div>
+            <button class="btn-primary add-to-cart-btn" data-product-id="${product.id}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart" aria-hidden="true" style="vertical-align: middle; margin-right: 6px;">
+                    <circle cx="8" cy="21" r="1"></circle>
+                    <circle cx="19" cy="21" r="1"></circle>
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                </svg>
+                ADD TO CART
+            </button>
         `;
 
         // 将图片和产品信息容器添加到跳转链接容器中
