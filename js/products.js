@@ -147,6 +147,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (filteredByName.length > 0) {
                     currentProducts = filteredByName;
                     console.log('按 name 模糊匹配后的产品:', currentProducts);
+                    currentCategory = null;
                 } else {
                     currentProducts = data.filter(product =>
                         product.category && product.category.toLowerCase().includes(currentCategory.toLowerCase())
@@ -317,7 +318,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 获取分页后的产品
     function getPaginatedProducts() {
-        let filteredProducts = [...originalProducts];
+        let filteredProducts = [...currentProducts]; // ✅ 修改此处
 
         // 按分类和子分类过滤
         if (currentCategory) {
