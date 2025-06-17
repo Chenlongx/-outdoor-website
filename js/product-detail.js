@@ -950,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // 渲染推荐产品区域
+    // 渲染推荐产品区域（猜你喜欢）
     function renderRecommendedProducts() {
         let currentProducts = [];
 
@@ -966,13 +966,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     productGrid.innerHTML = ''; // 先清空旧的 grid 内容
 
                     selectedProducts.forEach(product => {
+                        console.log("product", product)
                         const card = document.createElement('div');
                         card.className = 'product-card';
                         card.innerHTML = `
                             <img src="${product.image_url}" alt="Product Image">
                             <h3>${product.producttype || product.name}</h3>
                             <div class="price">
-                                <span class="current-price">$${product.price}</span>
+                                <span class="current-price">$${product.final_price}</span>
                                 <span class="original-price" style="display:none;"></span>
                             </div>
                             <button class="add-to-cart">ADD TO CART</button>
