@@ -489,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // 将跳转链接添加到卡片容器中
         card.appendChild(productLink);
 
-        console.log("插入的数据格式",product)
+        console.log("插入的数据格式", product)
 
         // ✅ 插入产品级结构化数据
         injectProductJsonLD(product);
@@ -631,8 +631,44 @@ document.addEventListener('DOMContentLoaded', function () {
                         "@type": "MonetaryAmount",
                         "value": "49.90",
                         "currency": "USD"
+                    },
+                    "deliveryTime": {
+                        "@type": "DeliveryTime",
+                        "hasDeliveryMethod": "https://schema.org/ShippingDelivery", // 或者 "https://schema.org/ParcelService"
+                        "transitTime": {
+                            "@type": "QuantitativeValue",
+                            "minValue": 5,
+                            "maxValue": 7,
+                            "unitCode": "day"
+                        },
+                        "businessDays": {
+                            "@type": "OpeningHoursSpecification",
+                            "dayOfWeek": [
+                                "https://schema.org/Monday",
+                                "https://schema.org/Tuesday",
+                                "https://schema.org/Wednesday",
+                                "https://schema.org/Thursday",
+                                "https://schema.org/Friday"
+                            ]
+                        }
                     }
                 }
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "appliesToProduct": { // 表明政策适用于所有商品，或者某个特定类型的商品
+                    "@type": "Product" // 或者 ProductGroup, Offer
+                },
+                "merchantReturnDays": 30, // 30天内可退货
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow", // 有限退货窗口
+                "returnMethod": "https://schema.org/ReturnByMail", // 通过邮寄退货
+                "returnShippingFees": "https://schema.org/ReturnFeesCustomerResponsibility", // 表明退货运费由客户承担
+                "restockingFee": { // 如果有重新入库费用
+                    "@type": "MonetaryAmount",
+                    "value": 0.00, // 如果没有，则设置为0
+                    "currency": "USD"
+                },
+                "url": `https://summitgearhub.com/products/support` // 指向您网站上详细退货政策页面的URL
             }
         };
 
@@ -649,33 +685,33 @@ document.addEventListener('DOMContentLoaded', function () {
         const viewBtns = document.querySelectorAll(btnSelector);
         const productsGrid = document.querySelector(gridSelector);
         if (!productsGrid || viewBtns.length === 0) return;
-    
+
         // 初始状态：移动端默认两列网格
         productsGrid.classList.remove('list-view');
         productsGrid.classList.add('grid-view');
         viewBtns.forEach(b => b.classList.remove('active'));
         const defaultBtn = document.querySelector(`${btnSelector}[data-view="grid"]`);
         if (defaultBtn) defaultBtn.classList.add('active');
-    
+
         viewBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            if (window.innerWidth <= mobileMaxWidth) {
-            const view = btn.dataset.view;
-            productsGrid.classList.toggle('list-view', view === 'list');
-            productsGrid.classList.toggle('grid-view', view === 'grid');
-            }
-            // 切换按钮 active 样式
-            viewBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+            btn.addEventListener('click', () => {
+                if (window.innerWidth <= mobileMaxWidth) {
+                    const view = btn.dataset.view;
+                    productsGrid.classList.toggle('list-view', view === 'list');
+                    productsGrid.classList.toggle('grid-view', view === 'grid');
+                }
+                // 切换按钮 active 样式
+                viewBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
         });
-        });
-    
+
         window.addEventListener('resize', () => {
-        if (window.innerWidth > mobileMaxWidth) {
-            // 桌面端重置，保持默认布局
-            productsGrid.classList.remove('list-view', 'grid-view');
-            viewBtns.forEach(b => b.classList.remove('active'));
-        }
+            if (window.innerWidth > mobileMaxWidth) {
+                // 桌面端重置，保持默认布局
+                productsGrid.classList.remove('list-view', 'grid-view');
+                viewBtns.forEach(b => b.classList.remove('active'));
+            }
         });
     }
 });
