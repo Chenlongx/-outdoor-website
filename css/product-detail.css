@@ -235,7 +235,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgb(203 203 203 / 90%);
     /* 背景遮罩 */
     text-align: center;
 }

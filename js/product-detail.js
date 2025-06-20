@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 productPrice.textContent = `$${product.price}`; // 如果 final_price 无效，显示原价
             }
             if (originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
-            if (discountBadge) discountBadge.textContent = `${product.discount_percent}% OFF`;
+            if (discountBadge) discountBadge.textContent = `Limited Time ${product.discount_percent}% OFF`;
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
             if (productDescription) productDescription.textContent = product.description;
 

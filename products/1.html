@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>产品详情</title>
+</head>
+<style>
+/* --- 产品主视频容器样式 --- */
+.product-main-video {
+    width: 100%; /* 视频容器宽度占满父元素 */
+    max-width: 700px; /* 限制视频的最大宽度，防止在大屏幕上过大 */
+    margin: 0 auto 25px auto; /* 上方无外边距，左右自动居中，下方有25px外边距与下方内容隔开 */
+    background-color: #000; /* 视频背景色，防止加载时或视频边缘有白色间隙 */
+    border-radius: 8px; /* 轻微圆角，与页面整体风格保持一致 */
+    overflow: hidden; /* 确保视频内容不会溢出容器 */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* 添加柔和的阴影效果 */
+}
+
+.product-main-video iframe { /* 修改选择器，针对 iframe */
+    width: 100%; /* 视频本身宽度占满容器 */
+    height: auto; /* 高度自动调整以保持视频比例 */
+    display: block; /* 移除视频元素下方可能出现的额外空间 */
+}
+
+/* --- 响应式调整（针对手机或小屏幕设备） --- */
+@media screen and (max-width: 768px) {
+    .product-main-video {
+        margin: 15px 0; /* 在小屏幕上，视频容器左右不再居中，而是贴边 */
+        border-radius: 0; /* 移除圆角，让视频在小屏幕上实现全宽显示 */
+        box-shadow: none; /* 移除阴影，减少视觉噪音，使界面更简洁 */
+    }
+}
+</style>
+<body>
+    <section class="product-detail">
+        <div class="container">
+            <div class="product-gallery">
+                </div>
+
+            <div class="product-info">
+                <div class="product-main-video">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/emxJBhNfYbQ?si=3MpxHUTueRiTQ0st" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="product-header">
+                    <h1></h1>
+                    <div class="product-rating">
+                        </div>
+                </div>
+                </div>
+        </div>
+    </section>
+</body>
+</html>
