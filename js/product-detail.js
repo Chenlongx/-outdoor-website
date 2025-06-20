@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
             if (discountBadge) discountBadge.textContent = `Limited Time ${product.discount_percent}% OFF`;
             if (productStock) productStock.textContent = `库存: ${product.stock}`;
+            
             if (productDescription) productDescription.textContent = product.description;
 
             if (productVariants && Array.isArray(product.variant_options) && product.variant_options.length > 0) {
