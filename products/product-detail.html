@@ -98,7 +98,45 @@
         </div>
     </div>
 
-    <section class="product-detail">
+    <!-- 骨架屏 -->
+    <div id="product-skeleton" class="product-skeleton">
+        <div class="container">
+            <div class="skeleton-grid">
+                <div class="skeleton-image"></div>
+                <div class="skeleton-details">
+                    <div class="skeleton-line skeleton-title"></div>
+                    <div class="skeleton-line skeleton-rating"></div>
+                    <div class="skeleton-line skeleton-price"></div>
+                    <div class="skeleton-line skeleton-description short"></div>
+                    <div class="skeleton-line skeleton-description long"></div>
+                    <div class="skeleton-line skeleton-button"></div>
+                </div>
+            </div>
+            <div class="skeleton-section">
+                <div class="skeleton-line skeleton-heading"></div>
+                <div class="skeleton-line skeleton-text short"></div>
+                <div class="skeleton-line skeleton-text medium"></div>
+                <div class="skeleton-line skeleton-text long"></div>
+            </div>
+            <div class="skeleton-section">
+                <div class="skeleton-line skeleton-heading"></div>
+                <div class="skeleton-review-grid">
+                    <div class="skeleton-review-card">
+                        <div class="skeleton-line skeleton-avatar"></div>
+                        <div class="skeleton-line skeleton-review-text short"></div>
+                        <div class="skeleton-line skeleton-review-text medium"></div>
+                    </div>
+                    <div class="skeleton-review-card">
+                        <div class="skeleton-line skeleton-avatar"></div>
+                        <div class="skeleton-line skeleton-review-text short"></div>
+                        <div class="skeleton-line skeleton-review-text medium"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="product-detail" id="product-content" style="display: none;">
         <div class="container">
             <div class="product-gallery">
                 <!-- <div class="main-image">
@@ -548,6 +586,13 @@
             if (typeof CartManager !== 'undefined') {
                 CartManager.init();
             }
+
+            setTimeout(() => {
+                document.getElementById('product-skeleton').style.display = 'none';
+                document.getElementById('product-content').style.display = 'block';
+                // 这里可以放置实际的产品数据加载和渲染逻辑
+                // 例如，如果你从后端获取数据，可以在这里调用函数来填充 product-content 中的元素
+            }, 2000); // 模拟 2 秒钟的加载时间
         });
     </script>
     <script>

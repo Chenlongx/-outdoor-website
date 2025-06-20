@@ -1447,3 +1447,167 @@
         justify-content: center;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 骨架屏 */
+
+/* Skeleton Screen Styles */
+.product-skeleton {
+    padding: 2rem 0 4rem;
+    /* Keep consistent padding with .product-detail */
+}
+
+.skeleton-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 768px) {
+    .skeleton-grid {
+        grid-template-columns: 2fr 3fr;
+    }
+}
+
+.skeleton-image {
+    background-color: var(--light-gray); /* 使用你定义好的浅灰色变量 */
+    min-height: 300px;
+    border-radius: 8px;
+    animation: pulse-bg 1.5s infinite;
+}
+
+.skeleton-details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.skeleton-line {
+    background-color: var(--light-gray); /* 使用你定义好的浅灰色变量 */
+    border-radius: 4px;
+    animation: pulse-bg 1.5s infinite;
+    height: 20px; /* 默认行高 */
+}
+
+.skeleton-title {
+    width: 80%;
+    height: 30px; /* 标题行高 */
+}
+
+.skeleton-rating {
+    width: 40%;
+    height: 20px;
+}
+
+.skeleton-price {
+    width: 30%;
+    height: 25px;
+}
+
+.skeleton-description.short {
+    width: 90%;
+}
+
+.skeleton-description.long {
+    width: 70%;
+}
+
+.skeleton-button {
+    width: 150px;
+    height: 45px;
+    margin-top: 1rem;
+}
+
+.skeleton-section {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-gray); /* 与你页面的分割线保持一致 */
+}
+
+.skeleton-heading {
+    width: 40%;
+    height: 25px;
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-text {
+    height: 18px;
+    margin-bottom: 0.8rem;
+}
+
+.skeleton-text.short {
+    width: 95%;
+}
+
+.skeleton-text.medium {
+    width: 85%;
+}
+
+.skeleton-text.long {
+    width: 75%;
+}
+
+.skeleton-review-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .skeleton-review-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.skeleton-review-card {
+    background-color: var(--white-color); /* 骨架卡片背景色 */
+    border: 1px solid var(--light-gray);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.skeleton-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--light-gray);
+    animation: pulse-bg 1.5s infinite;
+}
+
+.skeleton-review-text.short {
+    width: 90%;
+    height: 18px;
+}
+
+.skeleton-review-text.medium {
+    width: 70%;
+    height: 18px;
+}
+
+/* Animation for skeleton screen */
+@keyframes pulse-bg {
+    0% {
+        background-color: #eee; /* 浅灰色 */
+    }
+    50% {
+        background-color: #ddd; /* 稍深一点的灰色 */
+    }
+    100% {
+        background-color: #eee;
+    }
+}
