@@ -66,16 +66,16 @@ async function parseMultipartForm(event) {
 }
 
 // 数据库操作函数
-async function addReview(productId, rating, body, imageUrls) {
+async function addReview(productId, rating, body, imageUrls, username) {
   return supabase
     .from('reviews')
-    .insert([{ product_id: productId, rating, body, image_urls: imageUrls }]);
+    .insert([{ product_id: productId, rating, body, image_urls: imageUrls, username }]);
 }
 
 async function getReviewsByProduct(productId) {
   return supabase
     .from('reviews')
-    .select('id,rating,body,image_urls,created_at')
+    .select('id,rating,body,image_urls,created_at,username')
     .eq('product_id', productId)
     .order('created_at', { ascending: false });
 }
@@ -190,7 +190,9 @@ exports.handler = async (event) => {
         const contentType = (event.headers['content-type'] || event.headers['Content-Type'] || '').toLowerCase();
         // console.log('Content-Type:', contentType);
 
-        let productId, rating, text, imageUrls = [];
+        
+        
+        let productId, rating, text, imageUrls = [], username = 'Anonymous'; // ✅ 初始化 username
 
         if (contentType.includes('multipart/form-data')) {
           const { fields, files } = await parseMultipartForm(event);
@@ -218,6 +220,7 @@ exports.handler = async (event) => {
           productId = fields.productId;
           rating = parseInt(fields.rating, 10);
           text = fields.body;
+          username = fields.username || 'Anonymous'; // ✅ 提取 username 字段
 
           const incoming = files.filter(f => f.fieldname === 'images').slice(0, 5);
           for (let file of incoming) {
@@ -299,6 +302,7 @@ exports.handler = async (event) => {
           rating = parseInt(bodyData.rating, 10);
           text = bodyData.body;
           imageUrls = bodyData.imageUrls || [];
+          username = bodyData.username || 'Anonymous'; // ✅ JSON 提取 username
         }
 
         console.log('Saving review:', { productId, rating, text, imageUrls });
