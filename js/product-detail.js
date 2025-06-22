@@ -1096,6 +1096,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="review-item">
                     <div class="reviewer-info">
                         <div class="reviewer-name">${r.username || 'Anonymous User'}</div>
+                        ${r.is_verified ? '<span class="verified-badge">Verified Buyer</span>' : ''}
                         <div class="review-date">${new Date(r.created_at).toLocaleDateString()}</div>
                     </div>
                     <div class="review-rating">

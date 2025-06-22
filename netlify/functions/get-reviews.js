@@ -75,7 +75,7 @@ async function addReview(productId, rating, body, imageUrls, username) {
 async function getReviewsByProduct(productId) {
   return supabase
     .from('reviews')
-    .select('id,rating,body,image_urls,created_at,username')
+    .select('id,rating,body,image_urls,created_at,username,is_verified')
     .eq('product_id', productId)
     .order('created_at', { ascending: false });
 }

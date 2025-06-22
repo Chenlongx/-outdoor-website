@@ -788,6 +788,34 @@
     font-weight: 600;
 }
 
+.reviewer-info {
+    display: flex; /* 让名称和徽章在同一行 */
+    align-items: center; /* 垂直居中对齐 */
+    gap: 8px; /* 名称和徽章之间的间距 */
+    margin-bottom: 5px; /* 与日期之间的距离 */
+}
+
+.verified-badge {
+    background-color: #4CAF50; /* 绿色背景 */
+    color: white; /* 白色文字 */
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.75em; /* 小一点的字体 */
+    font-weight: 600;
+    text-transform: uppercase; /* 大写 */
+    display: inline-flex; /* 保持内容和背景紧密 */
+    align-items: center; /* 文本垂直居中 */
+    gap: 4px; /* 如果有图标，图标和文本的间距 */
+}
+
+/* 如果你想要一个勾号图标，可以添加伪元素 */
+.verified-badge::before {
+    content: '✓'; /* Unicode 勾号 */
+    font-size: 1em; /* 调整图标大小 */
+    line-height: 1; /* 确保垂直对齐 */
+}
+
+
 .review-date {
     color: var(--gray-color);
     font-size: 0.9rem;
