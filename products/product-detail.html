@@ -257,6 +257,7 @@
         <div class="container">
             <div class="tabs">
                 <div class="tab active" data-tab="description">Description</div>
+                <div class="tab" data-tab="video">Video</div>
                 <div class="tab" data-tab="specifications">Specifications</div>
                 <div class="tab" data-tab="reviews">Reviews</div>
                 <div class="tab" data-tab="shipping">Shipping & Returns</div>
@@ -270,6 +271,20 @@
                     <div class="product-features">
                         <!-- JS动态插入图片和内容 -->
                     </div>
+                </div>
+                <div class="tab-pane" id="video">
+                    <div class="product-video-section">
+                        <h3>Product Demonstration Video</h3>
+                        <div class="video-wrapper">
+                            <div class="video-preview" id="videoPreview">
+                                <img src="https://youtu.be/t99crVdtHNE" alt="Product Video Thumbnail">
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                            <iframe id="youtubeVideo" width="100%" height="auto" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display: none;"></iframe>
+                        </div>
+                </div>
                 </div>
                 <div class="tab-pane" id="specifications">
                     <h2>Technical Specifications</h2>

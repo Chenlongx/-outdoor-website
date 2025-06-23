@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 更新页面标题
             document.title = `${product.name} | WildGear`;
 
-            // console.log("获取到的数据: " + JSON.stringify(product, null, 2));
+            console.log("获取到的数据: " + JSON.stringify(product, null, 2));
             console.log(parseFloat(product.final_price).toFixed(2))
             // 更新产品信息
             const productImage = document.querySelector('.main-image img');
@@ -81,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 展示型号选择
             const productVariants = document.querySelector('.product-variants');
-
 
             if (productImage) productImage.src = product.image_url;
             if (productName) productName.textContent = product.name;
@@ -191,6 +190,39 @@ document.addEventListener('DOMContentLoaded', function () {
                         featureIndex++;
                     }
                 });
+            }
+
+            if (product.video_url) {
+                const videoId = getYouTubeVideoId(product.video_url);
+                if (videoId) {
+                    const videoPreview = document.getElementById('videoPreview');
+                    const youtubeIframe = document.getElementById('youtubeVideo'); // Corrected ID
+            
+                    if (videoPreview && youtubeIframe) {
+                        // Set the thumbnail for the video preview
+                        const videoThumbnailImg = videoPreview.querySelector('img');
+                        if (videoThumbnailImg) {
+                            videoThumbnailImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // Use maxresdefault for best quality
+                            videoThumbnailImg.alt = `Product Video Thumbnail for ${product.name}`;
+                        }
+            
+                        // Add click listener to the preview to play the video
+                        videoPreview.addEventListener('click', () => {
+                            videoPreview.style.display = 'none'; // Hide the preview
+                            youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; // Set iframe src with autoplay
+                            youtubeIframe.style.display = 'block'; // Show the iframe
+                        });
+            
+                        // Ensure iframe is hidden initially and preview is shown
+                        youtubeIframe.style.display = 'none';
+                        videoPreview.style.display = 'block';
+            
+                    } else {
+                        console.warn("HTML 中未找到 ID 为“videoPreview”或“youtubeVideo”的元素。");
+                    }
+                } else {
+                    console.warn("无法从提供的 URL 中提取 YouTube 视频 ID：", product.video_url);
+                }
             }
 
             // 渲染产品详细信息：规格，包含内容等
@@ -395,6 +427,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
 
+
+            
             // 产品详情标签
             const tabs = document.querySelectorAll('.tab');
             const tabPanes = document.querySelectorAll('.tab-pane');
@@ -410,6 +444,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     this.classList.add('active');
                     document.getElementById(targetTab).classList.add('active');
+
+                    // --- NEW: Video Tab Specific Logic ---
+                    // 获取视频元素，确保它们存在
+                    const youtubeVideo = document.getElementById('youtubeVideo');
+                    const videoPreview = document.getElementById('videoPreview');
+
+                    if (targetTab !== 'video') {
+                        // 并且视频正在播放（即iframe是可见的）
+                        if (youtubeVideo && youtubeVideo.style.display === 'block') {
+                            youtubeVideo.src = ''; // 停止视频播放 (清空 src 会停止 YouTube 视频)
+                            youtubeVideo.style.display = 'none'; // 隐藏 iframe
+                            if (videoPreview) {
+                                videoPreview.classList.remove('hidden'); // 重新显示视频预览图
+                            }
+                        }
+                    }
 
                     // 点击评论选项卡时加载评论，并考虑当前的排序方式
                     if (targetTab === 'reviews') {
@@ -1324,5 +1374,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // 从各种 YouTube URL 中提取视频 ID 的函数
+    function getYouTubeVideoId(url) {
+        if (!url) {
+            return null;
+        }
+        const regExp = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|embed\/|v\/|)([\w-]{11})(?:\S+)?/i;
+        const match = url.match(regExp);
+        return (match && match[1]) ? match[1] : null;
+    }
 
 });
