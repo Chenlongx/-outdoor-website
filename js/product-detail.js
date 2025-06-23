@@ -76,8 +76,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const productPrice = document.querySelector('.current-price');
             const originalPrice = document.querySelector('.original-price');
             const discountBadge = document.querySelector('.discount-badge');
-            const productStock = document.querySelector('.product-stock');
+            const stockStatusElement = document.getElementById('stock-status'); 
             const productDescription = document.querySelector('.product-description');
+            
 
             // 展示型号选择
             const productVariants = document.querySelector('.product-variants');
@@ -94,7 +95,38 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (originalPrice) originalPrice.textContent = parseFloat(product.price).toFixed(2);
             if (discountBadge) discountBadge.textContent = `Limited Time ${product.discount_percent}% OFF`;
-            if (productStock) productStock.textContent = `库存: ${product.stock}`;
+            // if (productStock) productStock.textContent = `库存: ${product.stock}`;
+
+            const productQuantityInput = document.getElementById('quantity');
+            const addToCartButton = document.getElementById('add-to-cart');
+            const stock = product.stock; // 假设 product.stock 是从后端获取到的库存数量
+            if (stock <= 0) {
+                stockStatusElement.textContent = 'Sorry, this item is out of stock!';
+                stockStatusElement.classList.add('out-of-stock');
+                // 售罄时禁用加入购物车按钮和数量选择
+                addToCartButton.disabled = true;
+                addToCartButton.textContent = 'Out of Stock';
+                productQuantityInput.disabled = true;
+                productQuantityInput.value = 0;
+            } else if (stock > 0 && stock <= 10) { // 假设库存小于等于10件为低库存
+                stockStatusElement.textContent = `Only ${stock} left in stock! Grab yours before it's gone!`;
+                stockStatusElement.classList.add('low-stock');
+                addToCartButton.disabled = false;
+                addToCartButton.textContent = 'Add to Cart';
+                productQuantityInput.disabled = false;
+                // 确保用户不能选择超过库存的数量
+                productQuantityInput.max = stock;
+                if (parseInt(productQuantityInput.value) > stock) {
+                    productQuantityInput.value = stock; // 如果已选数量大于库存，则设置为库存量
+                }
+            } else {
+                stockStatusElement.textContent = `In stock: ${stock} units available.`;
+                stockStatusElement.classList.remove('low-stock', 'out-of-stock'); // 移除低库存和售罄样式
+                addToCartButton.disabled = false;
+                addToCartButton.textContent = 'Add to Cart';
+                productQuantityInput.disabled = false;
+                productQuantityInput.max = null; // 移除最大数量限制
+            }
             
             if (productDescription) productDescription.textContent = product.description;
 

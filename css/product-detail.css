@@ -1,3 +1,9 @@
+/* 假设你有一个 --danger-color 变量，如果没有，请定义或使用具体的颜色值 */
+:root {
+    --danger-color: #dc3545; /* 例如，红色 */
+    /* ... 其他颜色变量 ... */
+}
+
 /* Product Detail Page Styles */
 
 .container {
@@ -387,6 +393,41 @@
     gap: 20px;
     flex-wrap: wrap;
 }
+
+
+
+/* 库存信息样式 */
+.product-stock-info {
+    font-size: 0.8rem;
+}
+
+.stock-status {
+    font-weight: 600;
+    color: var(--gray-color); /* 默认颜色 */
+}
+
+/* 低库存时的特殊样式 - 营造紧迫感 */
+.stock-status.low-stock {
+    color: var(--danger-color); /* 示例：红色 */
+    font-weight: 700;
+    animation: pulse 1.5s infinite; /* 添加跳动动画 */
+}
+
+/* 售罄时的特殊样式 */
+.stock-status.out-of-stock {
+    color: var(--gray-color);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* 定义跳动动画 */
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.02); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+
 
 .variant-group {
     display: flex;
