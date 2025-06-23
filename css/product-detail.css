@@ -4,6 +4,7 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
 }
 
 /* Breadcrumb Navigation */
@@ -328,6 +329,54 @@
     align-items: center;
     gap: 1rem;
 }
+
+.Browse-bubble { /* 确保这里是 'Browse-bubble' */
+    /* ... (气泡主样式保持不变，例如 absolute 定位、透明度、边框等) ... */
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(230, 247, 255, 0.15);
+    border: 1px solid rgba(145, 213, 255, 0.3);
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    color: #003a8c;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    white-space: nowrap;
+    transition: all 0.3s ease-in-out;
+}
+
+
+/* <<<<<<<<<<<<<<<< 新的图标样式（针对 SVG 人物图标） >>>>>>>>>>>>>>>> */
+.Browse-bubble .Browse-icon { /* 注意：这里是新的类名 Browse-icon */
+    /* SVG 图标通常使用 width 和 height 来控制大小 */
+    width: 1rem;   /* 可以根据需要调整图标大小 */
+    height: 1rem;  /* 保持与宽度一致，确保比例 */
+    color: #1890ff; /* 设置图标颜色。SVG 会通过 fill: currentColor 继承此颜色 */
+    display: flex; /* 确保它是一个 flex 容器，方便内部 SVG 对齐 */
+    align-items: center; /* 垂直居中 SVG */
+    justify-content: center; /* 水平居中 SVG */
+}
+
+/* 确保 SVG 元素继承父级的颜色 */
+.Browse-bubble .Browse-icon svg {
+    fill: currentColor; /* 让 SVG 填充色继承其父元素 (Browse-icon) 的 color 属性 */
+    display: block; /* 移除 SVG 默认的内联元素间距 */
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .Browse-bubble { /* 确保这里是 'Browse-bubble' */
+        top: 10px;
+        right: 10px;
+        /* 移除 transform 相关调整，因为不再有动画 */
+    }
+}
+
 .text-sm{
     font-size: 0.875rem;
 }

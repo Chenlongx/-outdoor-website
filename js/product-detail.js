@@ -37,6 +37,18 @@ document.addEventListener('DOMContentLoaded', function () {
         breadcrumbContainer.appendChild(productBreadcrumb);
     }
 
+    const BrowseCountEl = document.getElementById('BrowseCount');
+
+    function updateBrowseCount() {
+        const randomCount = Math.floor(Math.random() * 5) + 1;
+        if (BrowseCountEl) {
+            BrowseCountEl.textContent = randomCount;
+        }
+    }
+
+    updateBrowseCount();
+    setInterval(updateBrowseCount, 10000);
+
     // 监听本地存储的变化
     window.addEventListener('storage', (e) => {
         if (e.key === 'cart') {
@@ -389,25 +401,6 @@ document.addEventListener('DOMContentLoaded', function () {
             // 获取评论筛选下拉菜单
             const reviewFilterDropdown = document.querySelector('.filter-dropdown');
 
-            // tabs.forEach(tab => {
-            //     tab.addEventListener('click', function () {
-            //         // 获取选项卡的 data-tab 属性
-            //         const targetTab = this.getAttribute('data-tab');
-
-            //         // 从所有选项卡和选项卡窗格中删除活动类
-            //         tabs.forEach(t => t.classList.remove('active'));
-            //         tabPanes.forEach(pane => pane.classList.remove('active'));
-
-            //         // 为点击的选项卡和相应的选项卡窗格添加 active 类
-            //         this.classList.add('active');
-            //         document.getElementById(targetTab).classList.add('active');
-
-            //         // 点击调用loadReviews方法 渲染评论
-            //         if (targetTab === 'reviews') {
-            //             loadReviews(productId);
-            //         }
-            //     });
-            // });
             tabs.forEach(tab => {
                 tab.addEventListener('click', function () {
                     const targetTab = this.getAttribute('data-tab');
@@ -792,7 +785,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-
             // 获取 image-track 中的所有图片
             const imagesInTrack = document.querySelectorAll('.image-track img');
             // 获取模态框及相关元素
@@ -814,15 +806,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             // 为 image-track 中的每张图片添加点击事件监听器
-            // imagesInTrack.forEach((image) => {
-            //     image.addEventListener('click', function () {
-            //         const imageUrl = this.src; // 获取点击的图片的 src 属性值
-            //         modalImage.src = imageUrl; // 设置模态框中的大图
-            //         caption.textContent = this.alt || "Product Image"; // 可选：设置大图的描述
-
-            //         modal.style.display = 'block'; // 显示模态框
-            //     });
-            // });
             imagesInTrack.forEach((image, index) => {
                 image.addEventListener('click', () => {
                     showImage(index);
@@ -1340,4 +1323,6 @@ document.addEventListener('DOMContentLoaded', function () {
             element.textContent = totalItems.toString();
         });
     }
+
+
 });

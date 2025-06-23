@@ -101,6 +101,7 @@
     <!-- 骨架屏 -->
     <div id="product-skeleton" class="product-skeleton">
         <div class="container">
+
             <div class="skeleton-grid">
                 <div class="skeleton-image"></div>
                 <div class="skeleton-details">
@@ -138,6 +139,15 @@
 
     <section class="product-detail" id="product-content" style="display: none;">
         <div class="container">
+            <!-- 气泡消息 -->
+            <div class="Browse-bubble" id="BrowseIndicator">
+                <span class="Browse-icon"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0m-2 0a2 2 0 1 0-4 0 2 2 0 0 0 4 0"/>
+                        <path d="M2 12c0 1 1 1 1 1h10s1 0 1-1-1-4-6-4-6 3-6 4m.062 0c0-.625.35-1.782 1.879-3.111C4.78 7.375 6.45 7 8 7s3.22.375 4.143 1.889c1.529 1.329 1.879 2.486 1.879 3.111z"/>
+                    </svg>
+                </span>
+                <span id="BrowseCount"></span>
+            </div>
             <div class="product-gallery">
                 <!-- <div class="main-image">
                     <div class="image-track">
@@ -186,6 +196,8 @@
                     </div>
                     <div class="text-sm">Free shipping over $49 • 30-day returns</div>
                 </div>
+
+
                 <!-- 规格 -->
                 <div class="product-variants">
                     <!-- 由js生成，用于选择颜色、尺寸等选项 -->
