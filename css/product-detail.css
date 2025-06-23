@@ -793,6 +793,46 @@
     }
 }
 
+/* 加载指示器容器 */
+.video-loading-spinner {
+    position: absolute; /* 相对于 .video-wrapper 定位 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* 覆盖整个视频区域 */
+    background-color: rgba(0, 0, 0, 0.7); /* 半透明黑色背景 */
+    display: flex; /* 使用 flexbox 居中子元素 */
+    justify-content: center;
+    align-items: center;
+    z-index: 20; /* 确保它在视频预览和视频播放器之上 */
+    /* 默认隐藏，JavaScript 会控制显示 */
+    display: none; 
+}
+
+/* 转圈圈的样式 */
+.loader {
+    border: 6px solid #f3f3f3; /* 浅灰色背景 */
+    border-top: 6px solid var(--primary-color, #ff0000); /* 顶部边框为主题色，例如红色 */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* 旋转动画 */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 确保 iframe 和 video-preview 的父容器 .video-wrapper 具有相对定位 */
+.video-wrapper {
+    position: relative; 
+    width: 100%;
+    /* 可以添加一个最小高度以防内容未加载时高度为0 */
+    min-height: 200px; /* 示例高度 */
+}
+
+
 /* Feature Highlights */
 .feature-highlight {
     display: flex;

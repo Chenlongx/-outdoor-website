@@ -197,23 +197,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (videoId) {
                     const videoPreview = document.getElementById('videoPreview');
                     const youtubeIframe = document.getElementById('youtubeVideo'); // Corrected ID
+                    const videoLoadingSpinner = document.getElementById('videoLoadingSpinner'); // 获取加载指示器元素
             
                     if (videoPreview && youtubeIframe) {
-                        // Set the thumbnail for the video preview
+                        // 设置视频预览的缩略图
                         const videoThumbnailImg = videoPreview.querySelector('img');
-                        if (videoThumbnailImg) {
+                        if (videoThumbnailImg) {    
                             videoThumbnailImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // Use maxresdefault for best quality
                             videoThumbnailImg.alt = `Product Video Thumbnail for ${product.name}`;
                         }
             
-                        // Add click listener to the preview to play the video
+                        // 在预览中添加点击监听器来播放视频
                         videoPreview.addEventListener('click', () => {
-                            videoPreview.style.display = 'none'; // Hide the preview
-                            youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`; // Set iframe src with autoplay
-                            youtubeIframe.style.display = 'block'; // Show the iframe
+                            videoPreview.style.display = 'none'; // 隐藏预览
+                            videoLoadingSpinner.style.display = 'flex'; // 显示加载指示器
+        
+                            // 设置 iframe src，一旦设置，iframe就会开始加载视频
+                            youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        
+                            // 监听 iframe 的加载完成事件
+                            // 'load' 事件在 iframe 的内容完全加载后触发
+                            youtubeIframe.onload = () => {
+                                videoLoadingSpinner.style.display = 'none'; // 隐藏加载指示器
+                                youtubeIframe.style.display = 'block'; // 显示 iframe
+                                youtubeIframe.onload = null; // 移除事件监听器，防止重复触发
+                            };
                         });
             
-                        // Ensure iframe is hidden initially and preview is shown
+                        // 确保 iframe 最初是隐藏的并且显示预览
                         youtubeIframe.style.display = 'none';
                         videoPreview.style.display = 'block';
             
@@ -223,6 +234,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 } else {
                     console.warn("无法从提供的 URL 中提取 YouTube 视频 ID：", product.video_url);
                 }
+            }else{
+                // 如果 product.video_url 是 null，隐藏视频标签和视频内容区域
+                const videoTab = document.querySelector('.tab[data-tab="video"]');
+                const videoTabPane = document.getElementById('video'); // 这个ID对应 <div class="tab-pane" id="video">
+
+                if (videoTab) {
+                    videoTab.style.display = 'none'; // 隐藏视频标签
+                }
+                if (videoTabPane) {
+                    videoTabPane.style.display = 'none'; // 隐藏视频内容区域
+                }
+
             }
 
             // 渲染产品详细信息：规格，包含内容等
