@@ -382,29 +382,29 @@ document.addEventListener('DOMContentLoaded', function () {
         productsGrid.innerHTML = '';
 
         // ✅ 新增：收集当前页所有产品的 ID
-        const productIds = products.map(p => p.id);
+        // const productIds = products.map(p => p.id);
 
-        // ✅ 新增：发起单个批量请求获取所有产品的评分数据
-        let allRatings = {}; // 存储所有产品的评分数据，格式如 { productId1: { average: X, count: Y }, productId2: { average: A, count: B } }
-        if (productIds.length > 0) { // 确保有产品 ID 才发起请求
-            try {
-                // 修改请求URL，使用 productIds 参数
-                const response = await fetch(`/.netlify/functions/review-api?rating=true&productIds=${productIds.join(',')}`);
-                if (response.ok) {
-                    allRatings = await response.json();
-                    console.log('批量获取的产品评分数据:', allRatings);
-                } else {
-                    console.error('批量获取产品评分失败:', response.statusText);
-                }
-            } catch (error) {
-                console.error('批量获取产品评分时出错:', error);
-            }
-        }
+        // // ✅ 新增：发起单个批量请求获取所有产品的评分数据
+        // let allRatings = {}; // 存储所有产品的评分数据，格式如 { productId1: { average: X, count: Y }, productId2: { average: A, count: B } }
+        // if (productIds.length > 0) { // 确保有产品 ID 才发起请求
+        //     try {
+        //         // 修改请求URL，使用 productIds 参数
+        //         const response = await fetch(`/.netlify/functions/review-api?rating=true&productIds=${productIds.join(',')}`);
+        //         if (response.ok) {
+        //             allRatings = await response.json();
+        //             console.log('批量获取的产品评分数据:', allRatings);
+        //         } else {
+        //             console.error('批量获取产品评分失败:', response.statusText);
+        //         }
+        //     } catch (error) {
+        //         console.error('批量获取产品评分时出错:', error);
+        //     }
+        // }
 
         // 使用 Promise.all 等待所有产品卡片创建完成
         // ✅ 修改：将 allRatings 传递给 createProductCard
         const productCardPromises = products.map((product, index) =>
-            createProductCard(product, index, allRatings) // 传递 allRatings
+            createProductCard(product, index) // 传递 allRatings
         );
 
         const productCards = await Promise.all(productCardPromises); // 等待所有卡片promise完成
@@ -514,12 +514,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // ✅ 从 allRatings 对象中查找当前产品的评分数据
         // 如果没有找到（例如，该产品没有评论），则返回默认的 { average: 0, count: 0 }
-        const ratingData = allRatings[product.id] || { average: 0, count: 0 };
-        console.log(`产品 ${product.id} 的评分数据 (从批量结果中获取):`, ratingData);
+        // const ratingData = allRatings[product.id] || { average: 0, count: 0 };
+        // console.log(`产品 ${product.id} 的评分数据 (从批量结果中获取):`, ratingData);
 
 
         // ✅ 注入产品级结构化数据，并传入评分数据
-        injectProductJsonLD(product, ratingData);
+        injectProductJsonLD(product, { average: 0, count: 0 }); // 传递默认的评分数据
+        // injectProductJsonLD(product, ratingData);
 
         return card;
     }
