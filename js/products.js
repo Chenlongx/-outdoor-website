@@ -375,24 +375,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 渲染产品到页面
-    function renderProducts(products) {
+    async function renderProducts(products) { // 标记为 async
         const productsGrid = document.querySelector('.products-grid');
         if (!productsGrid) return;
 
         productsGrid.innerHTML = '';
 
-        products.forEach(product => {
-            const productCard = createProductCard(product);
-            productsGrid.appendChild(productCard);
+        // ✅ 新增：收集当前页所有产品的 ID
+        const productIds = products.map(p => p.id);
+
+        // ✅ 新增：发起单个批量请求获取所有产品的评分数据
+        let allRatings = {}; // 存储所有产品的评分数据，格式如 { productId1: { average: X, count: Y }, productId2: { average: A, count: B } }
+        if (productIds.length > 0) { // 确保有产品 ID 才发起请求
+            try {
+                // 修改请求URL，使用 productIds 参数
+                const response = await fetch(`/.netlify/functions/review-api?rating=true&productIds=${productIds.join(',')}`);
+                if (response.ok) {
+                    allRatings = await response.json();
+                    console.log('批量获取的产品评分数据:', allRatings);
+                } else {
+                    console.error('批量获取产品评分失败:', response.statusText);
+                }
+            } catch (error) {
+                console.error('批量获取产品评分时出错:', error);
+            }
+        }
+
+        // 使用 Promise.all 等待所有产品卡片创建完成
+        // ✅ 修改：将 allRatings 传递给 createProductCard
+        const productCardPromises = products.map((product, index) =>
+            createProductCard(product, index, allRatings) // 传递 allRatings
+        );
+
+        const productCards = await Promise.all(productCardPromises); // 等待所有卡片promise完成
+        productCards.forEach(card => {
+            productsGrid.appendChild(card);
         });
 
         // 更新分页
         renderPagination(currentProducts.length);
 
+        // 注入 ItemList 结构化数据 (如果您的页面需要)
         injectItemListJsonLD(products);
     }
 
-    function createProductCard(product, index) {
+    async function createProductCard(product, index, allRatings) { // ✅ 添加 allRatings 参数
         const card = document.createElement('div');
         card.className = 'product-card';
 
@@ -438,9 +465,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // 计算折扣价，保证是数字类型
-        // const price = parseFloat(product.price) || 0;
-        // const discount = parseFloat(product.discount) || 1;
-        // const discountedPrice = (price * discount).toFixed(2);
         const discountedPrice = parseFloat(product.final_price) || 0; // 使用 final_price 而不是手动计算
 
         // 创建产品信息容器
@@ -474,25 +498,28 @@ document.addEventListener('DOMContentLoaded', function () {
         const addToCartBtn = productInfo.querySelector('.add-to-cart-btn');
         if (addToCartBtn) {
             addToCartBtn.addEventListener('click', (e) => {
-                e.stopPropagation(); // 阻止事件冒泡，确保按钮点击不触发跳转
-                e.preventDefault();  // 阻止默认行为
+                e.stopPropagation();
+                e.preventDefault();
                 const productId = e.target.getAttribute('data-product-id');
-                const product = currentProducts.find(p => p.id === productId); // 查找对应的产品
-                // cart.addToCart(productId);
-                if (product) {
-                    cart.addToCart(product); // 调用 cart 对象的 addToCart 方法
+                // 查找 currentProducts 中与 productId 匹配的产品
+                const productToAddToCart = currentProducts.find(p => p.id === productId);
+                if (productToAddToCart) {
+                    cart.addToCart(productToAddToCart);
                 }
-                // 将产品
             });
         }
 
         // 将跳转链接添加到卡片容器中
         card.appendChild(productLink);
 
-        console.log("插入的数据格式", product)
+        // ✅ 从 allRatings 对象中查找当前产品的评分数据
+        // 如果没有找到（例如，该产品没有评论），则返回默认的 { average: 0, count: 0 }
+        const ratingData = allRatings[product.id] || { average: 0, count: 0 };
+        console.log(`产品 ${product.id} 的评分数据 (从批量结果中获取):`, ratingData);
 
-        // ✅ 插入产品级结构化数据
-        injectProductJsonLD(product);
+
+        // ✅ 注入产品级结构化数据，并传入评分数据
+        injectProductJsonLD(product, ratingData);
 
         return card;
     }
@@ -594,7 +621,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.head.appendChild(script);
     }
     // 定义产品级结构化数据函数
-    function injectProductJsonLD(product) {
+    function injectProductJsonLD(product, ratingData = { average: 0, count: 0 }) { // 添加 ratingData 参数
         const script = document.createElement('script');
         script.type = 'application/ld+json';
 
@@ -603,7 +630,8 @@ document.addEventListener('DOMContentLoaded', function () {
             "@type": "Product",
             "name": product.name,
             "image": product.image_url,
-            "description": product.description,
+            // 确保 product.description 存在，否则提供空字符串或默认描述
+            "description": product.description || `Explore ${product.name} at SummitGearHub.`,
             "sku": product.id,
             "brand": {
                 "@type": "Brand",
@@ -613,7 +641,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 "@type": "Offer",
                 "url": `${window.location.origin}/products/product-detail.html?id=${product.id}-${product.name.replace(/\s+/g, '-').toLowerCase()}`,
                 "priceCurrency": "USD",
-                "price": parseFloat(product.final_price).toFixed(2),
+                // 确保 final_price 存在，否则使用 price
+                "price": parseFloat(product.final_price || product.price).toFixed(2),
                 "availability": "https://schema.org/InStock",
                 "priceValidUntil": "2028-12-31",
                 "shippingDetails": {
@@ -634,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     },
                     "deliveryTime": {
                         "@type": "DeliveryTime",
-                        "hasDeliveryMethod": "https://schema.org/ShippingDelivery", // 或者 "https://schema.org/ParcelService"
+                        "hasDeliveryMethod": "https://schema.org/ShippingDelivery",
                         "transitTime": {
                             "@type": "QuantitativeValue",
                             "minValue": 5,
@@ -656,25 +685,30 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             "hasMerchantReturnPolicy": {
                 "@type": "MerchantReturnPolicy",
-                "appliesToProduct": { // 表明政策适用于所有商品，或者某个特定类型的商品
-                    "@type": "Product" // 或者 ProductGroup, Offer
-                },
-                "merchantReturnDays": 30, // 30天内可退货
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow", // 有限退货窗口
-                "returnMethod": "https://schema.org/ReturnByMail", // 通过邮寄退货
-                "returnShippingFees": "https://schema.org/ReturnFeesCustomerResponsibility", // 表明退货运费由客户承担
-                "restockingFee": { // 如果有重新入库费用
+                "merchantReturnDays": 30,
+                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                "returnMethod": "https://schema.org/ReturnByMail",
+                "returnShippingFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+                "restockingFee": {
                     "@type": "MonetaryAmount",
-                    "value": 0.00, // 如果没有，则设置为0
+                    "value": 0.00,
                     "currency": "USD"
                 },
-                "url": `https://summitgearhub.com/products/support` // 指向您网站上详细退货政策页面的URL
+                "url": `https://summitgearhub.com/products/support`
+            },
+            // --- 添加 aggregateRating 字段 ---
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": ratingData.average ? ratingData.average.toFixed(1) : "0", // 保留一位小数，如果为0则显示"0"
+                "reviewCount": ratingData.count ? String(ratingData.count) : "0" // 确保是字符串
             }
+            // ---------------------------------
         };
 
         script.textContent = JSON.stringify(productSchema, null, 2);
         document.head.appendChild(script);
     }
+
 
     // 封装视图切换方法
     function setupViewToggle(
