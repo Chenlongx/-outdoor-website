@@ -206,130 +206,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     // 渲染分类侧边栏
-    // function renderCategories() {
-    //     const categoriesSidebar = document.querySelector('.sidebar-right');
-    //     if (!categoriesSidebar) return;
-
-    //     const categoriesList = document.createElement('ul');
-    //     categoriesList.className = 'categories-list';
-
-    //     // --- START: 添加 All Products 选项 ---
-    //     const allProductsItem = document.createElement('li');
-    //     allProductsItem.className = 'category-item all-products-item active'; // 默认选中 All Products
-    //     allProductsItem.textContent = 'All Products';
-    //     allProductsItem.addEventListener('click', () => {
-    //         currentCategory = null; // 清除当前分类
-    //         currentSubcategory = null; // 清除当前子分类
-    //         currentPage = 1; // 重置页码
-    //         renderSubcategories(); // 渲染子分类（此时应该为空或提示）
-    //         renderProducts(getPaginatedProducts()); // 渲染所有产品
-    //         updateActiveCategory(allProductsItem); // 更新激活状态
-
-    //         // **新增代码：点击 All Products 后隐藏手机端浮动菜单**
-    //         if (window.innerWidth <= 768 && isMobileMenuOpen) {
-    //             categoriesList.classList.remove('is-floating');
-    //             showAllButton.classList.remove('active');
-    //             isMobileMenuOpen = false;
-    //             document.removeEventListener('click', closeFloatingMobileMenu);
-    //         }
-    //     });
-    //     categoriesList.appendChild(allProductsItem);
-    //     // --- END: 添加 All Products 选项 ---
-
-    //     // 从产品数据中提取所有主分类
-    //     const mainCategories = [...new Set(originalProducts
-    //         .map(product => product.category)
-    //         .filter(category => category))];
-
-    //     // 点击选项项展示相关的产品
-    //     mainCategories.forEach(category => {
-    //         const categoryItem = document.createElement('li');
-    //         categoryItem.className = 'category-item';
-    //         categoryItem.textContent = category;
-    //         categoryItem.addEventListener('click', () => {
-    //             console.log(categoryItem)
-    //             currentCategory = category;
-    //             currentSubcategory = null;
-    //             currentPage = 1;
-    //             renderSubcategories();
-    //             renderProducts(getPaginatedProducts());
-    //             updateActiveCategory(categoryItem);
-
-    //             // **新增代码：点击某个分类项后隐藏手机端浮动菜单**
-    //             if (window.innerWidth <= 768 && isMobileMenuOpen) {
-    //                 categoriesList.classList.remove('is-floating');
-    //                 showAllButton.classList.remove('active');
-    //                 isMobileMenuOpen = false;
-    //                 document.removeEventListener('click', closeFloatingMobileMenu);
-    //             }
-    //         });
-    //         categoriesList.appendChild(categoryItem);
-    //     });
-
-    //     // 添加 "Show All" 按钮
-    //     const showAllButton = document.createElement('button');
-    //     showAllButton.className = 'show-all-btn';
-    //     showAllButton.innerHTML = 'Show All <i class="fas fa-chevron-down"></i>';
-
-    //     let isMobileMenuOpen = false; // 添加一个变量来跟踪手机菜单的打开状态
-
-    //     // Event listener for the "Show All" button
-    //     showAllButton.addEventListener('click', (event) => {
-    //         event.stopPropagation(); // 阻止事件冒泡，防止点击按钮后立即触发 document click 关闭菜单
-
-    //         if (window.innerWidth <= 768) { // **判断是否为手机端** (768px 为常用断点，可根据需要调整)
-    //             isMobileMenuOpen = !isMobileMenuOpen; // 切换菜单打开状态
-
-    //             categoriesList.classList.toggle('is-floating', isMobileMenuOpen); // 切换 'is-floating' 类
-    //             showAllButton.classList.toggle('active', isMobileMenuOpen); // 切换按钮的激活状态（可用于旋转箭头等）
-
-    //             if (isMobileMenuOpen) {
-    //                 // 如果菜单打开，监听 document 的点击事件，用于点击外部关闭菜单
-    //                 document.addEventListener('click', closeFloatingMobileMenu);
-    //             } else {
-    //                 // 如果菜单关闭，移除 document 的点击事件监听器
-    //                 document.removeEventListener('click', closeFloatingMobileMenu);
-    //             }
-    //         } else { // **电脑端行为保持不变**
-    //             categoriesList.classList.toggle('expanded'); // 切换 'expanded' 类
-    //             showAllButton.classList.toggle('active');
-    //         }
-    //     });
-
-    //     // 添加一个函数用于关闭浮动菜单（手机端）
-    //     function closeFloatingMobileMenu(event) {
-    //         // 检查点击事件是否发生在菜单列表或 "Show All" 按钮之外
-    //         if (categoriesList && showAllButton && !categoriesList.contains(event.target) && !showAllButton.contains(event.target)) {
-    //             if (isMobileMenuOpen) {
-    //                 categoriesList.classList.remove('is-floating');
-    //                 showAllButton.classList.remove('active');
-    //                 isMobileMenuOpen = false; // 更新状态
-    //                 document.removeEventListener('click', closeFloatingMobileMenu); // 移除监听器
-    //             }
-    //         }
-    //     }
-
-    //     categoriesSidebar.appendChild(categoriesList);
-    //     categoriesSidebar.appendChild(showAllButton);
-
-    //     // 如果没有从 URL 获取到分类，则默认选中 All Products
-    //     if (!urlCategory) {
-    //         updateActiveCategory(allProductsItem);
-    //     } else {
-    //         // 如果有 urlCategory，则高亮对应的分类
-    //         const initialCategoryItem = document.querySelector(`.category-item[data-category="${currentCategory}"]`);
-    //         if (initialCategoryItem) {
-    //             updateActiveCategory(initialCategoryItem);
-    //         }
-    //     }
-    // }
-
     function renderCategories() {
         const categoriesSidebar = document.querySelector('.sidebar-right');
         if (!categoriesSidebar) return;
 
-        // 确保能获取到 .products-content 元素，它是手机端 "Show All" 按钮的目标容器
-        const productsContent = document.querySelector('.products-content'); 
+        const productsContent = document.querySelector('.products-content');
 
         const categoriesList = document.createElement('ul');
         categoriesList.className = 'categories-list';
@@ -392,42 +273,45 @@ document.addEventListener('DOMContentLoaded', function () {
         showAllButton.className = 'show-all-btn';
         showAllButton.innerHTML = 'Show All <i class="fas fa-chevron-down"></i>';
 
-        // **关键修改：根据屏幕宽度条件性地添加 "Show All" 按钮**
+        // **核心修改：先添加 categoriesList，再根据条件添加 showAllButton**
+
+        // categoriesList 总是添加到 categoriesSidebar
+        categoriesSidebar.appendChild(categoriesList); 
+
         if (window.innerWidth <= 768 && productsContent) {
             // 手机端：添加到 .products-content 容器
-            // 通常会添加到 .products-filters 内部，如果您的 HTML中有该元素
-            // 或者直接添加到 .products-content 的子元素中，例如产品网格上方
-            const productsFilters = productsContent.querySelector('.products-filters'); // 尝试找到 products-filters
+            const productsFilters = productsContent.querySelector('.products-filters');
             if (productsFilters) {
-                productsFilters.appendChild(showAllButton); // 如果有 products-filters，添加到它里面
+                productsFilters.appendChild(showAllButton);
             } else {
-                productsContent.insertBefore(showAllButton, productsContent.firstChild); // 否则添加到 products-content 的开头
+                // 如果没有 products-filters，添加到 products-content 的开头
+                productsContent.insertBefore(showAllButton, productsContent.firstChild); 
             }
         } else {
-            // 电脑端：保持在 .sidebar-right 容器内
+            // **电脑端：在 categoriesList 之后，添加到 .sidebar-right**
             categoriesSidebar.appendChild(showAllButton);
         }
 
         // 手机菜单打开状态变量 (放在事件监听器之前)
-        let isMobileMenuOpen = false; 
+        let isMobileMenuOpen = false;
 
         // Event listener for the "Show All" button
         showAllButton.addEventListener('click', (event) => {
             event.stopPropagation(); // 阻止事件冒泡
 
-            if (window.innerWidth <= 768) { 
-                isMobileMenuOpen = !isMobileMenuOpen; 
+            if (window.innerWidth <= 768) {
+                isMobileMenuOpen = !isMobileMenuOpen;
 
-                categoriesList.classList.toggle('is-floating', isMobileMenuOpen); 
-                showAllButton.classList.toggle('active', isMobileMenuOpen); 
+                categoriesList.classList.toggle('is-floating', isMobileMenuOpen);
+                showAllButton.classList.toggle('active', isMobileMenuOpen);
 
                 if (isMobileMenuOpen) {
                     document.addEventListener('click', closeFloatingMobileMenu);
                 } else {
                     document.removeEventListener('click', closeFloatingMobileMenu);
                 }
-            } else { 
-                categoriesList.classList.toggle('expanded'); 
+            } else {
+                categoriesList.classList.toggle('expanded');
                 showAllButton.classList.toggle('active');
             }
         });
@@ -438,15 +322,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (isMobileMenuOpen) {
                     categoriesList.classList.remove('is-floating');
                     showAllButton.classList.remove('active');
-                    isMobileMenuOpen = false; 
-                    document.removeEventListener('click', closeFloatingMobileMenu); 
+                    isMobileMenuOpen = false;
+                    document.removeEventListener('click', closeFloatingMobileMenu);
                 }
             }
         }
 
-        // categoriesList 仍然添加到 categoriesSidebar，因为浮动定位需要其父元素是定位的
-        categoriesSidebar.appendChild(categoriesList);
-        
         // 如果没有从 URL 获取到分类，则默认选中 All Products
         if (!urlCategory) {
             updateActiveCategory(allProductsItem);
@@ -458,6 +339,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
+
 
     // 渲染子分类导航
     function renderSubcategories() {
@@ -575,26 +458,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!productsGrid) return;
 
         productsGrid.innerHTML = '';
-
-        // ✅ 新增：收集当前页所有产品的 ID
-        // const productIds = products.map(p => p.id);
-
-        // // ✅ 新增：发起单个批量请求获取所有产品的评分数据
-        // let allRatings = {}; // 存储所有产品的评分数据，格式如 { productId1: { average: X, count: Y }, productId2: { average: A, count: B } }
-        // if (productIds.length > 0) { // 确保有产品 ID 才发起请求
-        //     try {
-        //         // 修改请求URL，使用 productIds 参数
-        //         const response = await fetch(`/.netlify/functions/review-api?rating=true&productIds=${productIds.join(',')}`);
-        //         if (response.ok) {
-        //             allRatings = await response.json();
-        //             console.log('批量获取的产品评分数据:', allRatings);
-        //         } else {
-        //             console.error('批量获取产品评分失败:', response.statusText);
-        //         }
-        //     } catch (error) {
-        //         console.error('批量获取产品评分时出错:', error);
-        //     }
-        // }
 
         // 使用 Promise.all 等待所有产品卡片创建完成
         // ✅ 修改：将 allRatings 传递给 createProductCard
