@@ -99,10 +99,12 @@
 .categories-list {
     display: flex;
     list-style: none;
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
     margin: 0;
-    width: 80%;
-    overflow-x: hidden;
+    width: 70%;
+    /* overflow-x: hidden; */
+    overflow: hidden;
+    max-height: 60px;
     /* white-space: nowrap; */
     justify-content: flex-start; /* 可选：让项目靠左对齐 */
     gap: 10px; /* 可选：使用 gap 属性来设置间距，比 margin 更简洁 */
@@ -110,6 +112,7 @@
 
 .categories-list.expanded {
     max-height: none; /* 展开后没有高度限制 */
+    overflow: visible;
 }
 
 .show-all-btn {
@@ -174,7 +177,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .products-header h1 {
@@ -579,8 +582,8 @@
     .categories-sidebar {
         width: 100%;
         margin-right: 0;
-        overflow-x: auto;
-        flex-wrap: nowrap;
+        /* overflow-x: auto; */
+        /* flex-wrap: nowrap; */
         padding: 0px;
         flex-direction: column;
     }
@@ -619,20 +622,66 @@
         width: 100%;
     }
     /* 产品导航栏 */
-    .categories-list {
+    /* .categories-list {
         list-style: none;
         padding: 0;
         margin: 0;
-        display: flex; /* 启用弹性布局 */
-        flex-wrap: nowrap;
-        justify-content: flex-start;
-        overflow-x: auto;
-        gap: 1rem; /* 项间距 */
-        -webkit-overflow-scrolling: touch; /* 优化移动端滚动 */
-        scrollbar-width: none; /* 隐藏滚动条 - Firefox */
-        white-space: nowrap; /* 防止文字换行 */
-        padding: 0.5rem 0; /* 垂直留白 */
+        display: flex;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    } */
+    .categories-list {
+        display: none; /* 默认隐藏菜单列表 */
+        max-height: none; /* 覆盖桌面端可能设置的最大高度 */
+        overflow: visible; /* 确保所有内容可见 */
+        width: 100%; /* 默认宽度 */
+        justify-content: center; /* 让菜单项居中 */
+        flex-direction: row; /* 保持项目横向排列 */
+        padding: 0.5rem 0; /* 保持垂直内边距 */
+        /* 移除之前所有冲突的 flex-wrap, overflow-x, white-space 等属性 */
     }
+    .categories-list.is-floating {
+        display: flex;
+        position: absolute;
+        top: 100px; /* 确保这个值足够让菜单出现在您期望的位置 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%; /* 保持或稍微增加此宽度，确保有足够的空间容纳两列 */
+        max-width: 400px; /* 保持或稍微增加此最大宽度 */
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        padding: 1.5rem;
+        z-index: 1001;
+        flex-direction: row;
+        flex-wrap: wrap; /* 确保这里是 wrap，已在之前提供 */
+        justify-content: center; /* 让菜单项在行内居中对齐 */
+        gap: 15px; /* 菜单项之间的间距 */
+        border: 1px solid var(--light-gray);
+    }
+
+    /* 新增或修改这个规则，专门控制浮动菜单中的每个分类项的宽度 */
+    .categories-list.is-floating .category-item {
+        flex: 1 1 calc(50% - 7.5px); /* 让每个项大致占据容器的一半宽度，并减去一半的gap */
+        min-width: 120px; /* 防止在极小屏幕上过窄 */
+        max-width: 180px; /* 防止在较大屏幕上过宽 */
+        box-sizing: border-box; /* 确保内边距和边框包含在宽度计算内 */
+        margin: 0; /* 移除任何可能阻止并排显示的外部 margin */
+        text-align: center; /* 继续保持文字居中 */
+    }
+
+    .show-all-btn {
+        margin-top: 10px; /* 在"Show All"按钮上方增加一些空间 */
+        align-self: flex-start; /* 在垂直堆叠的父容器中靠左对齐 */
+        padding-left: 10%; /* 与侧边栏对齐的内边距 */
+    }
+
+    .products-filters {
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 10px; /* 调整左右内边距 */
+    }
+
     /* 隐藏滚动条 - Chrome/Safari */
     .categories-list::-webkit-scrollbar {
         display: none;
@@ -645,9 +694,10 @@
         font-size: 0.9rem;
         color: #333;
         transition: all 0.3s ease;
-        width: 150px;
-        overflow-x: hidden;
+        width: auto;
+        overflow-x: visible;
         text-align: center;
+        margin: 0px 5px;
     }
     .products-header h1{
         font-size: 1rem;
