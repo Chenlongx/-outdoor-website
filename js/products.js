@@ -250,7 +250,18 @@ document.addEventListener('DOMContentLoaded', function () {
             categoriesList.appendChild(categoryItem);
         });
 
+        // 添加 "Show All" 按钮
+        const showAllButton = document.createElement('button');
+        showAllButton.className = 'show-all-btn';
+        showAllButton.innerHTML = 'Show All <i class="fas fa-chevron-down"></i>';
+        showAllButton.addEventListener('click', () => {
+            categoriesList.classList.toggle('expanded');
+            showAllButton.classList.toggle('active'); // 切换箭头的旋转
+        });
+
+
         categoriesSidebar.appendChild(categoriesList);
+        categoriesSidebar.appendChild(showAllButton);
 
         // 如果没有从 URL 获取到分类，则默认选中 All Products
         if (!urlCategory) {

@@ -1,4 +1,4 @@
-/* 产品页面布局 */
+产品页面布局
 .products-page {
     /* padding: 1rem 0; */
     background-color: var(--light-gray);
@@ -91,25 +91,58 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.categories-sidebar h3 {
-    margin-bottom: 1rem;
-    color: var(--dark-color);
-    font-size: 1.2rem;
-    font-family: Arial, sans-serif;
-    /* text-align: center; */
+.sidebar-right{
+    width: 100%;
+    display: flex;
 }
 
 .categories-list {
     display: flex;
     list-style: none;
+    /* flex-wrap: wrap; */
     margin: 0;
+    width: 80%;
+    overflow-x: hidden;
+    /* white-space: nowrap; */
+    justify-content: flex-start; /* 可选：让项目靠左对齐 */
+    gap: 10px; /* 可选：使用 gap 属性来设置间距，比 margin 更简洁 */
+}
+
+.categories-list.expanded {
+    max-height: none; /* 展开后没有高度限制 */
+}
+
+.show-all-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.show-all-btn:hover {
+    color: var(--secondary-color);
+}
+
+.show-all-btn i {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.show-all-btn.active i {
+    transform: rotate(180deg); /* 旋转箭头 */
 }
 
 .category-item {
+    flex-shrink: 0;
     padding: 12px 20px;
     margin: 0px 10px;
     cursor: pointer;
-    border-radius: 30px;
+    border-radius: 0px;
     transition: all 0.3s ease;
     font-weight: 500;
     color: var(--dark-color);
@@ -625,6 +658,9 @@
     }
     .hero-content{
         display: none;
+    }
+    .sidebar-right{
+        width: 100%;
     }
 }
 
