@@ -400,6 +400,56 @@
     flex-wrap: wrap;
 }
 
+/* 产品描述容器的默认样式（折叠状态）*/
+.product-description {
+    max-height: 100px; /* 默认显示的高度，您可以根据需要调整 */
+    overflow: hidden;
+    position: relative; /* 用于渐变遮罩的定位 */
+    transition: max-height 0.5s ease-in-out; /* 平滑的展开/折叠过渡效果 */
+    margin-bottom: 10px; /* 与按钮的间距 */
+}
+
+/* 底部渐变遮罩，指示内容被隐藏 */
+.product-description::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px; /* 渐变遮罩的高度 */
+    background: linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
+    pointer-events: none; /* 允许点击穿透渐变层 */
+}
+
+/* 产品描述容器的展开状态 */
+.product-description.expanded {
+    max-height: 2000px; /* 足够大的高度以显示所有内容，确保能容纳最长描述 */
+    /* 或者设置 max-height: none; 如果不需要过渡效果 */
+}
+
+/* 展开状态下隐藏渐变遮罩 */
+.product-description.expanded::after {
+    display: none;
+}
+
+/* “阅读更多”按钮的样式 */
+.read-more-btn {
+    width: fit-content;
+    margin: 0 auto;
+    background-color: var(--primary-color, #007bff);
+    color: var(--white-color, white);
+    border: none;
+    padding: 5px 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.6rem;
+    transition: background-color 0.3s ease;
+}
+
+.read-more-btn:hover {
+    background-color: var(--dark-primary-color, #0056b3); /* 鼠标悬停时的颜色 */
+}
+
 
 
 /* 库存信息样式 */
