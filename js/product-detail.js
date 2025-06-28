@@ -154,20 +154,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const productQuantityInput = document.getElementById('quantity');
             const addToCartButton = document.getElementById('add-to-cart');
+            const addToCartText = document.getElementById('add-to-cart-text');
             const stock = product.stock; // 假设 product.stock 是从后端获取到的库存数量
             if (stock <= 0) {
                 stockStatusElement.textContent = 'Sorry, this item is out of stock!';
                 stockStatusElement.classList.add('out-of-stock');
                 // 售罄时禁用加入购物车按钮和数量选择
                 addToCartButton.disabled = true;
-                addToCartButton.textContent = 'Out of Stock';
+                if (addToCartText) addToCartText.textContent = 'Out of Stock';
                 productQuantityInput.disabled = true;
                 productQuantityInput.value = 0;
             } else if (stock > 0 && stock <= 10) { // 假设库存小于等于10件为低库存
                 stockStatusElement.textContent = `Only ${stock} left in stock! Grab yours before it's gone!`;
                 stockStatusElement.classList.add('low-stock');
                 addToCartButton.disabled = false;
-                addToCartButton.textContent = 'Add to Cart';
+                if (addToCartText) addToCartText.textContent = 'ADD TO CART';
                 productQuantityInput.disabled = false;
                 // 确保用户不能选择超过库存的数量
                 productQuantityInput.max = stock;
@@ -178,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 stockStatusElement.textContent = `In stock: ${stock} units available.`;
                 stockStatusElement.classList.remove('low-stock', 'out-of-stock'); // 移除低库存和售罄样式
                 addToCartButton.disabled = false;
-                addToCartButton.textContent = 'Add to Cart';
+                if (addToCartText) addToCartText.textContent = 'ADD TO CART';
                 productQuantityInput.disabled = false;
                 productQuantityInput.max = null; // 移除最大数量限制
             }
