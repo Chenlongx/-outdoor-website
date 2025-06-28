@@ -1218,8 +1218,8 @@
 }
 
 .review-images img {
-    width: 80px;
-    height: 80px;
+    width: 30%;
+    /* height: 80px; */
     object-fit: cover;
     border-radius: 4px;
     cursor: pointer;
