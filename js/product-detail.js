@@ -56,6 +56,61 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // 定位需要操作的元素
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navActions = document.querySelector('.nav-actions');
+
+    // 移动菜单栏事件监听
+    mobileMenuBtn.addEventListener('click', () => {
+        let mobileMenu = document.querySelector('.mobile-menu');
+
+        // 如果菜单不存在，则创建它
+        if (!mobileMenu) {
+            mobileMenu = document.createElement('div');
+            mobileMenu.classList.add('mobile-menu');
+
+            // 创建关闭按钮
+            const closeBtn = document.createElement('div');
+            closeBtn.classList.add('close-btn');
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            closeBtn.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+
+            // 克隆导航链接和操作按钮
+            const navLinksClone = navLinks.cloneNode(true);
+            const actionsContainer = document.createElement('div');
+            actionsContainer.classList.add('mobile-actions');
+            const navActionsClone = navActions.cloneNode(true);
+            actionsContainer.appendChild(navActionsClone);
+
+            // 将克隆的元素和关闭按钮添加到移动菜单中
+            mobileMenu.appendChild(closeBtn);
+            mobileMenu.appendChild(navLinksClone);
+            mobileMenu.appendChild(actionsContainer);
+
+            // 将完整的菜单添加到 body 中
+            document.body.appendChild(mobileMenu);
+        }
+
+        // 切换 .active 类来显示或隐藏菜单
+        // setTimeout 确保浏览器有时间渲染菜单，然后再触发过渡动画
+        setTimeout(() => {
+            mobileMenu.classList.toggle('active');
+        }, 10);
+
+        // 根据菜单的激活状态，防止背景滚动
+        if (mobileMenu.classList.contains('active')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    });
+        
+
+
     // 通过 API 获取产品信息
     fetch(`/.netlify/functions/fetch-product-by-id?id=${productId}`)
         .then(response => response.json())
