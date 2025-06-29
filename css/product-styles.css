@@ -116,28 +116,56 @@
 }
 
 .show-all-btn {
-    background: none;
-    border: none;
-    color: var(--primary-color);
-    font-size: 16px;
+    /* 基础样式 */
+    background-color: var(--light-gray, #f3f4f6); /* 使用一个柔和的背景色，与产品页面的light-gray相呼应 */
+    border: 1px solid var(--border-color, #d1d5db); /* 添加一个轻微的边框，增加质感，使用CSS变量 */
+    color: var(--dark-color, #374151); /* 默认文本颜色，比primary-color更柔和 */
+    font-size: 15px; /* 稍微调整字体大小，更精致 */
+    font-weight: 600; /* 更粗的字体，增加强调 */
+    padding: 10px 18px; /* 增加内边距，让按钮看起来更饱满 */
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center; /* 居中对齐内容 */
+    gap: 0.6rem; /* 增大文本和图标的间距 */
     cursor: pointer;
-    transition: color 0.3s ease;
+    border-radius: 8px; /* 增大圆角，与产品卡片等元素保持一致 */
+    transition: all 0.3s ease; /* 统一所有变化的过渡效果，更平滑 */
+    outline: none; /* 移除默认焦点轮廓 */
+    text-decoration: none;
+    white-space: nowrap; /* 防止文本换行 */
 }
 
+/* 鼠标悬停效果 */
 .show-all-btn:hover {
-    color: var(--secondary-color);
+    background-color: var(--primary-color, #007bff); /* 悬停时变为品牌主色 */
+    color: white; /* 文本变为白色 */
+    border-color: var(--primary-color, #007bff); /* 边框颜色也变为主色 */
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); /* 添加轻微的阴影效果，提升浮动感 */
 }
 
+/* 鼠标按下/激活效果 */
+.show-all-btn:active {
+    background-color: var(--dark-color, #0056b3); /* 按下时颜色更深 */
+    border-color: var(--dark-color, #0056b3);
+    transform: translateY(1px); /* 模拟按下 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影变小，增加按压感 */
+}
+
+/* 焦点（键盘Tab键选中）效果，提高可访问性 */
+.show-all-btn:focus {
+    outline: 2px solid var(--primary-color, #007bff);
+    outline-offset: 3px; /* 增大偏移，使其更明显 */
+}
+
+/* 图标旋转效果 (保持不变，因为这部分逻辑是好的) */
+.show-all-btn.active .fas.fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+/* 图标过渡效果 (保持不变) */
 .show-all-btn i {
-    font-size: 14px;
     transition: transform 0.3s ease;
-}
-
-.show-all-btn.active i {
-    transform: rotate(180deg); /* 旋转箭头 */
+    display: inline-block;
 }
 
 .category-item {
@@ -643,10 +671,9 @@
     .categories-list.is-floating {
         display: flex;
         position: absolute;
-        top: 100px; /* 确保这个值足够让菜单出现在您期望的位置 */
         left: 50%;
         transform: translateX(-50%);
-        width: 90%; /* 保持或稍微增加此宽度，确保有足够的空间容纳两列 */
+        width: 100%; /* 保持或稍微增加此宽度，确保有足够的空间容纳两列 */
         max-width: 400px; /* 保持或稍微增加此最大宽度 */
         background-color: white;
         border-radius: 8px;
