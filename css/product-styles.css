@@ -230,7 +230,7 @@
 }
 
 .view-options {
-    display: flex;
+    display: none;
     gap: 0.5rem;
 }
 
@@ -702,6 +702,9 @@
 }
 
 @media (max-width: 768px) {
+    .view-options {
+        display: flex;
+    }
     .products-layout {
         display: grid;
         grid-template-columns: 1fr; /* 强制单列布局 */
