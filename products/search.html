@@ -15,9 +15,20 @@
     <!-- 顶部导航栏 -->
     <header>
         <div class="announcement-bar">
-            <p>Summer Adventure Sale: Up to 40% off on selected gear. <a href="summer-sale.html" class="btn-small">Buy Now</a></p>
-            <div class="countdown" id="countdown" style="display:none;">
-                <!-- 倒计时功能 -->
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="./products/summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
             </div>
         </div>
         <nav>
@@ -26,17 +37,16 @@
             </div>
             <ul class="nav-links">
                 <li><a href="summer-sale.html">Summer Sale</a></li>
-                <li><a href="../index.html">Products</a></li>
+                <li><a href="index.html">Products</a></li>
                 <li><a href="cart.html">Cart</a></li>
                 <li><a href="activities.html">Activities</a></li>
                 <li><a href="guides.html">Guides</a></li>
                 <li><a href="support.html">Support</a></li>
             </ul>
             <div class="nav-actions">
-                <a href="#" class="icon-link" aria-label="打开搜索栏"><i class="fas fa-search" aria-hidden="true"></i></a>
                 <a href="cart.html" class="icon-link" style="position: relative;">
                     <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-count">0</span>
+                    <span class="cart-count" id="cart-item-count">0</span>
                 </a>
             </div>
             <div class="mobile-menu-btn">
@@ -72,27 +82,27 @@
                 <h4>Products</h4>
                 <ul>
                     <li><a href="summer-sale.html" aria-label="View products on sale">Sale</a></li>
-                    <li><a href="#" aria-label="Check out the new releases">New Releases</a></li>
-                    <li><a href="#">Camping Gear</a></li>
-                    <li><a href="#">Hiking Equipment</a></li>
-                    <li><a href="#">Climbing Tools</a></li>
-                    <li><a href="#">Fishing Gear</a></li>
-                    <li><a href="#">Water Sports</a></li>
-                    <li><a href="#">Apparel</a></li>
-                    <li><a href="#">Footwear</a></li>
-                    <li><a href="#">Accessories</a></li>
+                    <li><a href="https://summitgearhub.com/products/index.html">New Releases</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=Camping">Camping Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking Equipment</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing Tools</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Water Sports</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=apparel">Apparel</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=footwear">Footwear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=accessories">Accessories</a></li>
                 </ul>
             </div>
             <div class="footer-column">
                 <h4>Activities</h4>
                 <ul>
-                    <li><a href="#">Camping</a></li>
-                    <li><a href="#">Hiking</a></li>
-                    <li><a href="#">Climbing</a></li>
-                    <li><a href="#">Fishing</a></li>
-                    <li><a href="#">Kayaking</a></li>
-                    <li><a href="#">Mountaineering</a></li>
-                    <li><a href="#">Trail Running</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=camping">Camping</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Kayaking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=mountaineering">Mountaineering</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=trail running">Trail Running</a></li>
                 </ul>
             </div>
             <div class="footer-column">
@@ -118,9 +128,9 @@
                     <li><a href="support.html">Contact Us</a></li>
                     <li><a href="faq.html">FAQ</a></li>
                     <li><a href="shipping-info.html">Shipping Info</a></li>
-                    <li><a href="#">Returns &amp; Warranty</a></li>
-                    <li><a href="#">Size Charts</a></li>
-                    <li><a href="#">Care Instructions</a></li>
+                    <li><a href="support.html">Returns & Warranty</a></li>
+                    <li><a href="size-chart.html">Size Charts</a></li>
+                    <li><a href="care-Instructions.html">Care Instructions</a></li>
                 </ul>
             </div>
         </div>
@@ -142,8 +152,6 @@
 
     <!-- 引入必要的JavaScript文件 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/cart-manager.js"></script>
-    <script src="../js/cart.js"></script>
     <script src="../js/search.js"></script>
 </body>
 </html>
