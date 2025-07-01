@@ -1215,6 +1215,8 @@
     display: flex;
     gap: 1rem;
     margin-top: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .review-images img {
