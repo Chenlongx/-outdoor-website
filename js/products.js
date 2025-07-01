@@ -36,7 +36,12 @@ document.addEventListener('DOMContentLoaded', function () {
     // 购物车管理对象
     const cart = {
         getCartItems() {
-            return JSON.parse(localStorage.getItem('cart')) || [];
+            const items = JSON.parse(localStorage.getItem('cart')) || [];
+            // 遍历每个购物车项，确保 quantity 是数字
+            return items.map(item => ({
+                ...item,
+                quantity: parseFloat(item.quantity) || 0 // 将 quantity 转换为数字，如果转换失败则默认为 0
+            }));
         },
         saveCartItems(items) {
             localStorage.setItem('cart', JSON.stringify(items));
@@ -69,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function () {
         updateCartCount() {
             const items = this.getCartItems();
             const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+            
+            console.log("购物车数量： " + totalItems)
+            
             // 页面右上角购物车的数量
             const cartCount = document.querySelectorAll('.cart-count');
             if (cartCount.length > 0) {
