@@ -566,7 +566,7 @@
     background: linear-gradient(135deg, #32CD32, #228B22); /* 渐变绿 */
     color: white;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
     font-size: 0.9rem;
