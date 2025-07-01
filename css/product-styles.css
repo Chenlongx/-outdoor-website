@@ -43,10 +43,11 @@
 
 .highlight-text {
   background: linear-gradient(to right, #2563eb, #a855f7);
-  -webkit-background-clip: text;
+  -webkit-background-clip: text; /* For WebKit browsers (Chrome, Safari, older Edge) */
+  background-clip: text; /* Standard property for wider compatibility */
   -webkit-text-fill-color: transparent;
+  color: transparent; /* Fallback for browsers that don't support text-fill-color */
 }
-
 .hero-subtitle {
   font-size: 1.25rem;
   color: #4b5563; /* gray-600 */
@@ -281,13 +282,114 @@
     border-color: var(--primary-color);
 }
 
+
+/* 骨架屏容器 */
+.skeleton-grid-container {
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+}
+
+.skeleton-grid-container.hidden {
+    opacity: 0;
+    pointer-events: none; /* 隐藏后禁用事件 */
+    position: absolute; /* 使其不占据布局空间 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 确保它在产品加载后位于下方 */
+}
+
+/* 骨架卡片 */
+.skeleton-card {
+    background-color: #f0f0f0;
+    border-radius: 15px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative; /* 用于微光效果 */
+    animation: pulse 1.5s infinite ease-in-out; /* 可选的呼吸灯效果 */
+}
+
+/* 骨架图片占位符 */
+.skeleton-image {
+    width: 100%;
+    padding-top: 100%; /* 保持正方形 */
+    background-color: #e0e0e0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 骨架信息区 */
+.skeleton-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* 骨架文本行占位符 */
+.skeleton-text-line {
+    height: 1em; /* 行高 */
+    background-color: #e0e0e0;
+    margin-bottom: 0.5rem;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-text-line.short {
+    width: 60%;
+}
+
+.skeleton-text-line.medium {
+    width: 80%;
+}
+
+.skeleton-text-line.long {
+    width: 100%;
+}
+
+/* 微光效果 */
+.skeleton-card::after,
+.skeleton-image::after,
+.skeleton-text-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 1.5s infinite;
+}
+
+/* 微光动画 */
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* 可选：呼吸灯动画 */
+@keyframes pulse {
+    0% {
+        background-color: #f0f0f0;
+    }
+    50% {
+        background-color: #e5e5e5;
+    }
+    100% {
+        background-color: #f0f0f0;
+    }
+}
+
 /* 产品网格 */
-/* .products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-} */
 
 .products-grid {
     display: grid;

@@ -7,6 +7,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const productsPerPage = 12; // 每页显示的产品数量
     let originalProducts = [];
 
+    const productsGrid = document.getElementById('products-grid'); // 获取产品网格
+    const skeletonGridContainer = document.getElementById('skeleton-grid-container'); // 获取骨架屏容器
+
+    // 显示骨架屏
+    if (skeletonGridContainer) {
+        skeletonGridContainer.classList.remove('hidden');
+        if (productsGrid) {
+            productsGrid.style.display = 'none'; // 暂时隐藏实际产品网格
+        }
+    }
+
     // 获取首页携带的产品参数
     const urlParams = new URLSearchParams(window.location.search);
     const urlCategory = urlParams.get('category');
@@ -165,6 +176,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         // 👇 没有子分类时显示提示信息
                         const subcategoriesNav = document.querySelector('.subcategories-nav');
                         subcategoriesNav.innerHTML = `<p style="padding: 1rem; color: #888;">No related products found</p>`;
+
+                        // 数据加载完毕，隐藏骨架屏，显示产品网格（即使没有产品也要隐藏骨架屏）
+                        if (skeletonGridContainer) {
+                            skeletonGridContainer.classList.add('hidden');
+                        }
+                        if (productsGrid) {
+                            productsGrid.style.display = 'grid'; // 确保网格布局可见
+                        }
                         return;
                     }
                 }
@@ -200,9 +219,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
             cart.updateCartCount(); // 初始化购物车计数
             setupCartEventListeners(); // 设置购物车事件监听器
+
+            // 数据加载完毕，隐藏骨架屏，显示产品网格
+            if (skeletonGridContainer) {
+                skeletonGridContainer.classList.add('hidden');
+            }
+            if (productsGrid) {
+                productsGrid.style.display = 'grid'; // 确保网格布局可见
+            }
         })
         .catch(error => {
             console.error('获取数据失败:', error);
+
+            // 发生错误时也要隐藏骨架屏
+            if (skeletonGridContainer) {
+                skeletonGridContainer.classList.add('hidden');
+            }
+            if (productsGrid) {
+                productsGrid.style.display = 'grid'; // 确保网格布局可见
+            }
         });
 
     // 渲染分类侧边栏
