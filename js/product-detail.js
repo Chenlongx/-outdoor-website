@@ -1111,7 +1111,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     productGrid.innerHTML = ''; // 先清空旧的 grid 内容
 
                     selectedProducts.forEach(product => {
-                        console.log("product", product)
                         const card = document.createElement('div');
                         card.className = 'product-card';
                         card.innerHTML = `
@@ -1124,6 +1123,16 @@ document.addEventListener('DOMContentLoaded', function () {
                             <button class="add-to-cart">ADD TO CART</button>
                         `;
                         productGrid.appendChild(card); // 把新建的card加到grid里
+
+                        // 为产品卡片本身添加点击事件，用于跳转到产品详情页
+                        card.addEventListener('click', (event) => {
+                            // 检查点击事件是否来自“添加到购物车”按钮，如果是，则不执行页面跳转
+                            if (!event.target.classList.contains('add-to-cart')) {
+                                const productUUID = product.id;
+                                const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
+                                window.location.href = `product-detail.html?id=${productUUID}-${productNameForUrl}`;
+                            }
+                        });
                     });
                 }
             })

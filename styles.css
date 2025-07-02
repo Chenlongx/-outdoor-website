@@ -470,6 +470,7 @@ nav {
     width: 100%;
     max-width: 300px;
     margin: 0 auto;
+    transform-style: preserve-3d;
 }
 
 .product-card:hover {
@@ -482,6 +483,12 @@ nav {
     height: 250px;
     object-fit: cover;
     border-bottom: 1px solid #eee;
+    transition: transform 0.3s ease-out;
+}
+
+.product-card:hover img {
+    /* Slightly scales the image up on hover */
+    transform: scale(1.05);
 }
 
 .product-card h3 {
