@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // 搜索功能
     initSearch()
 
+    // 倒计时
+    startCountdown()
+
     // 点击搜索图标显示搜索框
     if(searchTrigger){
         searchTrigger.addEventListener('click', (e) => {
@@ -953,4 +956,51 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
     }
+
+    async function startCountdown() {
+        const countdownElement = document.getElementById('countdown');
+        if (!countdownElement) return;
+
+        try {
+            // Fetch the end time from the Netlify function
+            const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
+            const data = await response.json();
+            
+            // 获取从函数中返回的活动结束时间
+            const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                // Calculate time units
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update DOM
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+                // If countdown is over
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.innerHTML = 'Promotion Ended';
+                }
+            }
+
+            // Initial call to update the countdown immediately
+            updateCountdown();
+
+            // Update countdown every second
+            const countdownInterval = setInterval(updateCountdown, 1000);
+
+        } catch (error) {
+            console.error('Error fetching end time:', error);
+        }
+    }
+
 });
