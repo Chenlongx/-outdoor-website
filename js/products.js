@@ -7,6 +7,52 @@ document.addEventListener('DOMContentLoaded', function () {
     const productsPerPage = 12; // 每页显示的产品数量
     let originalProducts = [];
 
+    const searchTrigger = document.getElementById('header-search');
+    const searchOverlay = document.querySelector('.search-overlay');
+    const closeButton = document.getElementById('close-search');
+    // 搜索功能
+    initSearch()
+
+    // 点击搜索图标显示搜索框
+    if(searchTrigger){
+        searchTrigger.addEventListener('click', (e) => {
+            e.preventDefault(); // 阻止默认链接行为
+            searchOverlay.style.opacity = '1';
+            searchOverlay.style.display = "inline-flex";
+            searchOverlay.style.visibility = 'visible';
+        });
+    }
+
+
+    // 点击关闭按钮隐藏搜索框
+    if(closeButton){
+        closeButton.addEventListener('click', () => {
+            searchOverlay.style.opacity = '0';
+            searchOverlay.style.visibility = 'hidden';
+        });
+    }
+
+
+    // 点击遮罩层关闭（排除搜索容器内部的点击）
+    if(searchOverlay){
+        searchOverlay.addEventListener('click', (e) => {
+            // 检查点击是否发生在遮罩层而不是搜索容器内部
+            if (e.target === searchOverlay) {
+                searchOverlay.style.opacity = '0';
+                searchOverlay.style.visibility = 'hidden';
+            }
+        });
+    }
+
+
+    // 按ESC键关闭
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && searchOverlay.style.visibility === 'visible') {
+            searchOverlay.style.opacity = '0';
+            searchOverlay.style.visibility = 'hidden';
+        }
+    });
+
     const productsGrid = document.getElementById('products-grid'); // 获取产品网格
     const skeletonGridContainer = document.getElementById('skeleton-grid-container'); // 获取骨架屏容器
 
@@ -849,5 +895,62 @@ document.addEventListener('DOMContentLoaded', function () {
                 viewBtns.forEach(b => b.classList.remove('active'));
             }
         });
+    }
+
+    // 搜索功能
+    function initSearch() {
+        const searchOverlay = document.getElementById('search-overlay');
+        const searchInput = document.getElementById('search-input');
+        const closeSearch = document.getElementById('close-search');
+        const headerSearch = document.getElementById('header-search');
+        const heroOverlay = document.querySelector('.hero-overlay');
+
+        // 打开搜索框
+        if (headerSearch && searchOverlay && searchInput) {
+            // 打开搜索框
+            headerSearch.addEventListener('click', (e) => {
+                e.preventDefault();
+                searchOverlay.style.display = 'flex';
+                searchInput.focus();
+
+                // ✅ 隐藏 hero-overlay
+                if (heroOverlay) {
+                    heroOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        // 关闭搜索框
+        if (closeSearch) {
+            closeSearch.addEventListener('click', () => {
+                searchOverlay.style.display = 'none';
+
+                if (heroOverlay) {
+                    heroOverlay.style.display = 'block';
+                }
+            });
+        }
+
+        // 点击遮罩层关闭搜索框
+        if(searchOverlay){
+            searchOverlay.addEventListener('click', (e) => {
+                if (e.target === searchOverlay) {
+                    searchOverlay.style.display = 'none';
+                }
+            });
+        }
+
+        // 处理搜索
+        if(searchInput){
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const searchQuery = searchInput.value.trim();
+                    if (searchQuery) {
+                        window.location.href = `../products/search.html?q=${encodeURIComponent(searchQuery)}`;
+                    }
+                }
+            });
+        }
+
     }
 });
