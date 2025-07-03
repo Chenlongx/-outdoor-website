@@ -21,6 +21,113 @@ document.addEventListener('DOMContentLoaded', function () {
     renderPayPalButton();
     let appliedPromoCode = null;  // 用于记录当前应用的优惠码
 
+    // 全局变量
+    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+    const navLinks = document.querySelector('.nav-links');
+    const navActions = document.querySelector('.nav-actions');
+
+    mobileMenuBtn.addEventListener('click', () => {
+    // 如果不存在移动菜单，则创建一个
+    if (!document.querySelector('.mobile-menu')) {
+        // 创建移动菜单容器
+        const mobileMenu = document.createElement('div');
+        mobileMenu.classList.add('mobile-menu');
+
+        // Clone navigation links
+        const navLinksClone = navLinks.cloneNode(true);
+
+        // Create a close button
+        const closeBtn = document.createElement('div');
+        closeBtn.classList.add('close-btn');
+        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        // closeBtn.addEventListener('click', () => {
+        //     mobileMenu.classList.remove('active');
+        //     document.body.style.overflow = 'auto';
+        // });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('active');
+            mobileMenu.style.transform = 'translateX(-100%)'; // 隐藏菜单
+            document.body.style.overflow = 'auto';
+        });
+
+
+        // Append elements to mobile menu
+        mobileMenu.appendChild(closeBtn);
+        mobileMenu.appendChild(navLinksClone);
+
+        // 点击菜单项后关闭移动菜单
+        const navAnchors = navLinksClone.querySelectorAll('a');
+        navAnchors.forEach(anchor => {
+            anchor.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenu.style.transform = 'translateX(-100%)';
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Clone nav actions
+        const actionsContainer = document.createElement('div');
+        actionsContainer.classList.add('mobile-actions');
+
+        const navActionsClone = navActions.cloneNode(true);
+        actionsContainer.appendChild(navActionsClone);
+
+        mobileMenu.appendChild(actionsContainer);
+
+        // Append mobile menu to body
+        document.body.appendChild(mobileMenu);
+
+        // Add styles to mobile menu
+        mobileMenu.style.position = 'fixed';
+        mobileMenu.style.top = '0';
+        mobileMenu.style.left = '0';
+        mobileMenu.style.width = '100%';
+        mobileMenu.style.height = '100vh';
+        mobileMenu.style.background = 'white';
+        mobileMenu.style.zIndex = '2000';
+        mobileMenu.style.padding = '2rem';
+        mobileMenu.style.transform = 'translateX(-100%)';
+        mobileMenu.style.transition = 'transform 0.3s ease-in-out';
+
+        closeBtn.style.position = 'absolute';
+        closeBtn.style.top = '1rem';
+        closeBtn.style.right = '1rem';
+        closeBtn.style.fontSize = '1.5rem';
+        closeBtn.style.cursor = 'pointer';
+
+        navLinksClone.style.display = 'flex';
+        navLinksClone.style.flexDirection = 'column';
+        navLinksClone.style.marginTop = '3rem';
+
+        // Style all list items in navLinksClone
+        const navItems = navLinksClone.querySelectorAll('li');
+        navItems.forEach(item => {
+            item.style.margin = '0.75rem 0';
+            item.style.padding = '0.5rem 0';
+            item.style.borderBottom = '1px solid #eee';
+        });
+
+        actionsContainer.style.display = 'flex';
+        actionsContainer.style.justifyContent = 'center';
+        actionsContainer.style.marginTop = '2rem';
+        actionsContainer.style.gap = '2rem';
+    }
+
+    // 切换移动菜单
+    const mobileMenu = document.querySelector('.mobile-menu');
+    mobileMenu.classList.toggle('active');
+
+    // 设置活动状态的样式
+    if (mobileMenu.classList.contains('active')) {
+        mobileMenu.style.transform = 'translateX(0)';
+        document.body.style.overflow = 'hidden'; // Prevent scrolling
+    } else {
+        mobileMenu.style.transform = 'translateX(-100%)';
+        document.body.style.overflow = 'auto';
+    }
+});
+
     // 继续购物按钮
     const continueShoppingBtn = document.querySelector('.continue-shopping');
     if (continueShoppingBtn) {

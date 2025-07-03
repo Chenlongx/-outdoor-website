@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart | Summit Gear Hub</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/shoppingcart.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="announcement-bar">
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
+            <div class="countdown" id="countdown">
+                <span class="time-unit">
+                    <span id="days">00</span>d
+                </span>
+                <span class="time-unit">
+                    <span id="hours">00</span>h
+                </span>
+                <span class="time-unit">
+                    <span id="minutes">00</span>m
+                </span>
+                <span class="time-unit">
+                    <span id="seconds">00</span>s
+                </span>
+            </div>
+        </div>
+        <nav>
+            <div class="logo">
+                <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="summer-sale.html">Summer Sale</a></li>
+                <li><a href="./">Products</a></li>
+                <li><a href="activities.html">Activities</a></li>
+                <li><a href="guides.html">Guides</a></li>
+                <li><a href="support.html">Support</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a class="icon-link" onclick="showRegistrationComingSoon(event)"><i class="fas fa-user"></i></a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="breadcrumb">
+                <span>Home</span>
+                <span class="separator">/</span>
+                <span class="current">Shopping Cart</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Steps -->
+    <div class="progress-section">
+        <div class="container">
+            <div class="progress-steps">
+                <div class="step active" data-step="1">
+                    <div class="step-number">1</div>
+                    <span class="step-label">Cart Review</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <span class="step-label">Shipping Info</span>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <span class="step-label">Payment</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="cart-layout">
+
+                <!-- Left Column - Cart Steps -->
+                <div class="cart-steps">
+
+                    <!-- Step 1: Cart Items -->
+                    <div class="step-content active" id="step-1">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-shopping-cart"></i> Your Items (<span class="cart-count"
+                                        id="cart-count">Null</span>)</h2>
+                            </div>
+                            <div class="card-content">
+                                <div id="cart-items">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Shipping Information -->
+                    <div class="step-content" id="step-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-truck"></i> Shipping Information</h2>
+                            </div>
+                            <div class="card-content">
+                                <form id="shipping-form" class="shipping-form">
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="firstName">First Name *</label>
+                                            <input type="text" id="firstName" name="firstName" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="lastName">Last Name *</label>
+                                            <input type="text" id="lastName" name="lastName" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="email">Email Address *</label>
+                                            <input type="email" id="email" name="email" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="phone">Phone Number *</label>
+                                            <input type="tel" id="phone" name="phone" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="country">Country *</label>
+                                        <select id="country" name="country" required>
+                                            <option value="">Select country</option>
+                                        </select>
+                                        <div class="error-message"></div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="city">City *</label>
+                                            <input type="text" id="city" name="city" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="state">State *</label>
+                                            <select id="state" name="state" required>
+                                                <option value="">Select state</option>
+                                            </select>
+                                            <div class="error-message"></div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="zipCode">ZIP Code *</label>
+                                            <input type="text" id="zipCode" name="zipCode" required>
+                                            <div class="error-message"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="address">Street Address *</label>
+                                        <input type="text" id="address" name="address" required>
+                                        <div class="error-message"></div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-content" id="step-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2><i class="fas fa-credit-card"></i> Payment Method</h2>
+                            </div>
+                            <div class="card-content">
+                                <div class="payment-methods">
+                                    <div class="payment-option">
+                                        <input type="radio" id="paypal" name="paymentMethod" value="paypal">
+                                        <label for="paypal" class="payment-label" id="paypal-button-container">
+                                            <span>PayPal</span>
+                                            <div class="payment-icons">
+                                                <img src="https://ext.same-assets.com/2075233756/1354915814.svg"
+                                                    alt="Visa" class="payment-icon">
+                                                <img src="https://ext.same-assets.com/2075233756/2075949099.svg"
+                                                    alt="Mastercard" class="payment-icon">
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div id="paypal-button-container"></div>
+                                    <p id="result-message"></p>
+                                </div>
+
+                                <!-- <div id="card-details" class="card-details">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Card Number</label>
+                                        <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label for="expiry">Expiry Date</label>
+                                            <input type="text" id="expiry" placeholder="MM/YY">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cvv">CVV</label>
+                                            <input type="text" id="cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button id="prev-btn" class="btn btn-outline" onclick="previousStep()" disabled>
+                            Previous
+                        </button>
+                        <button id="next-btn" class="btn btn-primary" onclick="nextStep()">
+                            Continue
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Column - Order Summary -->
+                <div class="order-summary">
+                    <div class="card sticky">
+                        <div class="card-header">
+                            <h2>Order Summary</h2>
+                        </div>
+                        <div class="card-content">
+                            <div class="summary-row">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$338.00</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Shipping</span>
+                                <span id="shipping-cost">-$0.00</span>
+                            </div>
+                            <div class="summary-row" id="discount-row" style="display: none;">
+                                <span>Discount</span>
+                                <span id="discount-amount">-$0.00</span>
+                            </div>
+                            <div class="summary-separator"></div>
+
+                            <div class="promo-section">
+                                <label for="promoCode">Promo Code</label>
+                                <div class="promo-input">
+                                    <input type="text" id="promoCode" placeholder="Enter code">
+                                    <button class="btn btn-outline-green">Apply</button>
+                                </div>
+                            </div>
+
+                            <div class="summary-separator"></div>
+
+                            <div class="summary-total">
+                                <span>Total</span>
+                                <span id="total-amount"></span>
+                            </div>
+                            <div id="order-summary-total" style="display: none;"></div>
+                            <div class="payment-methods-icons">
+                                <i class="fab fa-cc-visa"></i>
+                                <i class="fab fa-cc-mastercard"></i>
+                                <i class="fab fa-cc-amex"></i>
+                                <i class="fab fa-cc-paypal"></i>
+                                <i class="fab fa-cc-discover"></i>
+                            </div>
+                            <div class="secure-checkout">
+                                <i class="fas fa-lock"></i>
+                                <span>Secure Checkout</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h2>Payment Successful!</h2>
+            <p>Thank you for your order. Your payment has been processed successfully.</p>
+            <div class="order-details">
+                <p><strong>Order Number:</strong> <span id="order-number"></span></p>
+                <p><strong>Total Amount:</strong> $338.00</p>
+                <p><strong>Estimated Delivery:</strong> <span id="delivery-date"></span></p>
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-outline" onclick="continueShopping()">Continue Shopping</button>
+                <button class="btn btn-primary">Track Your Order</button>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="footer-columns">
+            <div class="footer-column">
+                <h4>Products</h4>
+                <ul>
+                    <li><a href="https://summitgearhub.com/products/summer-sale.html">Sale</a></li>
+                    <li><a href="https://summitgearhub.com/products/index.html">New Releases</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=Camping">Camping Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking Equipment</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing Tools</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing Gear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Water Sports</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=apparel">Apparel</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=footwear">Footwear</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Activities</h4>
+                <ul>
+                    <li><a href="https://summitgearhub.com/products/?category=camping">Camping</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=hiking">Hiking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=climbing">Climbing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=fishing">Fishing</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=kayaking">Kayaking</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=mountaineering">Mountaineering</a></li>
+                    <li><a href="https://summitgearhub.com/products/?category=trail running">Trail Running</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Adventures</h4>
+                <ul>
+                    <li><a href="#">Weekend Trips</a></li>
+                    <li><a href="#">Expedition Planning</a></li>
+                    <li><a href="#">Guided Tours</a></li>
+                    <li><a href="#">National Parks</a></li>
+                    <li><a href="#">International Treks</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Learn</h4>
+                <ul>
+                    <li><a href="skills.html">Outdoor Skills</a></li>
+                    <li><a href="survival Skills.html">Survival Techniques</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="support.html">Contact Us</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="shipping-info.html">Shipping Info</a></li>
+                    <li><a href="support.html">Returns & Warranty</a></li>
+                    <li><a href="size-chart.html">Size Charts</a></li>
+                    <li><a href="care-Instructions.html">Care Instructions</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="payment-methods">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/Logo/pp-logo-100px.png" alt="Payment Methods">
+            </div>
+            <div class="footer-links">
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="javascript:void(0)" onclick="alert('This feature is not available yet'); return false;">Accessibility</a>
+                <a href="visual-sitemap.html">Sitemap</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Summitgearhub Outdoor Equipment. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- 黑色渐变遮罩 -->
+    <div id="loading-overlay" class="loading-overlay">
+        <i class="fas fa-spinner fa-spin spinner-icon"></i>
+    </div>
+    <script src="https://www.paypal.com/sdk/js?client-id=Abbe3Rs_UB-zn_sQ7z0QGQog51tqtHHKqlFFbcY4VLJDCMGNGudxWXnA0ODyjkFPr6gPMnF4cuTE8nNf&currency=USD&locale=en_US"></script>
+    <script src="../js/shoppingcart.js"></script>
+</body>
+
+</html>
