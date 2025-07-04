@@ -474,6 +474,40 @@ nav {
     transform-style: preserve-3d;
 }
 
+.promo-message-container {
+    background-color: transparent; /* 保持透明背景 */
+    color: var(--primary-color); /* 尝试使用你主题的主色作为文字和边框色，通常是蓝色、绿色或橙色，使其与品牌一致 */
+    padding: 25px 30px; /* 增加内边距，让内容更宽敞，左右稍大 */
+    text-align: center;
+    font-size: 1.3em; /* 稍微增大字体，更具吸引力 */
+    font-weight: bold;
+    border-radius: 12px; /* 增大圆角，更柔和现代 */
+    line-height: 1.5; /* 增加行高，提升可读性 */
+    letter-spacing: 0.02em; /* 可选：稍微增加字母间距，提升美感 */
+    /* 确保移除动画，如果之前有设置 */
+    animation: none;
+}
+
+.promo-message-container p {
+    margin: 0; /* 移除段落默认外边距 */
+    animation: text-glow 2s infinite alternate;
+}
+
+@keyframes text-glow {
+    0% {
+        opacity: 1;
+        text-shadow: 0 0 5px rgba(var(--primary-color-rgb, 0, 123, 255), 0.7); /* 柔和的阴影 */
+    }
+    50% {
+        opacity: 0.8; /* 文字稍微变淡 */
+        text-shadow: 0 0 15px rgba(var(--primary-color-rgb, 0, 123, 255), 1); /* 阴影增强 */
+    }
+    100% {
+        opacity: 1;
+        text-shadow: 0 0 5px rgba(var(--primary-color-rgb, 0, 123, 255), 0.7); /* 回到初始状态 */
+    }
+}
+
 .bestseller-tag {
     position: absolute;
     top: 10px; /* 距离卡片顶部的距离 */

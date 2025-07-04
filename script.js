@@ -572,6 +572,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 productCard.style.transform = 'translateY(0)';
             }, 50);
         });
+
+        // ======== 新增部分：动态添加促销提示容器 ========
+        // 检查促销容器是否已存在，避免重复添加
+        let promoContainer = document.getElementById('promo-message-dynamic');
+        if (!promoContainer) {
+            promoContainer = document.createElement('div');
+            promoContainer.id = 'promo-message-dynamic'; // 给容器一个唯一的ID
+            promoContainer.className = 'promo-message-container'; // 使用之前的 CSS 类名
+            promoContainer.innerHTML = '<p>Order now for a chance to receive a mystery gift!</p>';
+
+            // 将新的容器添加到 productsGrid 元素的后面
+            // productsGrid.after(promoContainer) 是最简洁的方式，如果浏览器支持
+            // 或者使用 productsGrid.parentNode.insertBefore(promoContainer, productsGrid.nextSibling)
+            if (productsGrid.nextElementSibling) { // 检查productsGrid后面是否有兄弟元素
+                productsGrid.parentNode.insertBefore(promoContainer, productsGrid.nextElementSibling);
+            } else { // 如果productsGrid是父元素的最后一个子元素
+                productsGrid.parentNode.appendChild(promoContainer);
+            }
+        }
     }
     // 从Netlify函数获取数据
     fetch('/.netlify/functions/fetch-products')
