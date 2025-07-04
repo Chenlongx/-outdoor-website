@@ -310,6 +310,9 @@
 .paypal-hint{
     font-size: 0.7rem;
 }
+#paypal-button-container{
+    margin-top: 10px;
+}
 
 .checkout-btn {
     width: 100%;
