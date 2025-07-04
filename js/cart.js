@@ -594,9 +594,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // document.getElementById('close-modal').addEventListener('click', function() {
-    //     document.getElementById('custom-modal').style.display = 'none'; // 关闭弹窗
-    // });
 
     const closeBtn = document.getElementById('close-modal');
     const closemodal = document.getElementById('custom-modal');
@@ -736,6 +733,8 @@ function createCartItemElement(item) {
     div.className = 'cart-item';
     div.dataset.productId = item.id;
 
+    const hasVariants = Array.isArray(item.variant_options) && item.variant_options.length > 0;
+
     div.innerHTML = `
         <div class="item-image">
             <img src="${item.image_url || 'https://via.placeholder.com/150'}" alt="${item.name}" 
@@ -744,7 +743,10 @@ function createCartItemElement(item) {
         <div class="item-details">
             <h3>${item.name}</h3>
             <p class="item-attributes">
-            ${item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : 'No specifications'}
+                ${hasVariants 
+                    ? generateVariantSelectHTML(item) 
+                    : (item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : 'No specifications')
+                }
             </p>
             <button class="remove-item">
                 <i class="fas fa-trash-alt"></i> Remove

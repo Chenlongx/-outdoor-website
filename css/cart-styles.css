@@ -181,7 +181,6 @@
 }
 
 .item-quantity input {
-    width: 40px;
     height: 30px;
     text-align: center;
     border: 1px solid var(--light-gray);
@@ -306,6 +305,10 @@
     padding: 1.25rem 0;
     font-size: 1.25rem;
     font-weight: 700;
+}
+
+.paypal-hint{
+    font-size: 0.8rem;
 }
 
 .checkout-btn {
