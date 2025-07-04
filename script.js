@@ -462,8 +462,41 @@ function initSearch() {
 
 }
 
+// 获取购物车数据
+function getCart() {
+    const cart = localStorage.getItem('cart');
+    try {
+        const parsedCart = cart ? JSON.parse(cart) : [];
+        
+        return parsedCart;
+        // return cart ? JSON.parse(cart) : [];
+    } catch (e) {
+        console.error('Error parsing cart data:', e);
+        return [];
+    }
+}
+
+
+// 更新购物车计数徽章
+function updateCartCount() {
+    const cart = getCart();
+    if (!Array.isArray(cart)) {
+        console.warn('Cart is not an array:', cart);
+        return;
+    }
+    const totalItems = cart.reduce((total, item) => total + (parseInt(item.quantity || 1)), 0);
+    const cartCountElements = document.querySelectorAll('.cart-count');
+
+    cartCountElements.forEach(element => {
+        element.textContent = totalItems.toString();
+    });
+}
+
+
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function() {
+    // 更新购物车数量
+    updateCartCount()
     // JavaScript 加载高清图
     const isMobile = window.innerWidth <= 768; // 或用 640, 480，自行调整
     if (isMobile) {
