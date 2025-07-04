@@ -117,7 +117,7 @@ async function startCountdown() {
         // Fetch the end time from the Netlify function
         const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
         const data = await response.json();
-        
+
         // 获取从函数中返回的活动结束时间
         const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
 
@@ -235,7 +235,7 @@ function initProductCards() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
 
     addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
+        button.addEventListener('click', function (e) {
             e.stopPropagation(); // 阻止冒泡，避免跳转
 
             const productCard = this.closest('.product-card');
@@ -317,7 +317,7 @@ function initVideoPlayers() {
     const playButtons = document.querySelectorAll('.play-button');
 
     playButtons.forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const videoContainer = this.closest('.solution-video, .story-video');
             const img = videoContainer.querySelector('img');
 
@@ -440,7 +440,7 @@ function initSearch() {
     }
 
     // 点击遮罩层关闭搜索框
-    if(searchOverlay){
+    if (searchOverlay) {
         searchOverlay.addEventListener('click', (e) => {
             if (e.target === searchOverlay) {
                 searchOverlay.style.display = 'none';
@@ -449,7 +449,7 @@ function initSearch() {
     }
 
     // 处理搜索
-    if(searchInput){
+    if (searchInput) {
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const searchQuery = searchInput.value.trim();
@@ -467,7 +467,7 @@ function getCart() {
     const cart = localStorage.getItem('cart');
     try {
         const parsedCart = cart ? JSON.parse(cart) : [];
-        
+
         return parsedCart;
         // return cart ? JSON.parse(cart) : [];
     } catch (e) {
@@ -494,7 +494,7 @@ function updateCartCount() {
 
 
 // 页面加载时初始化
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // 更新购物车数量
     updateCartCount()
     // JavaScript 加载高清图
@@ -503,9 +503,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const hero = document.getElementById('hero');
         const img = new Image();
         img.src = './img/hero-mobile-background.webp';
-    
+
         img.onload = () => {
-          hero.classList.add('loaded');
+            hero.classList.add('loaded');
         };
     } else {
         // 桌面端直接使用高清图，不加载 JS
@@ -524,7 +524,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderProducts(products) {
         const productsGrid = document.getElementById('dynamic-products');
         if (!productsGrid) return;
-    
+
         productsGrid.innerHTML = '';
         products.forEach((product, index) => {
             const productCard = document.createElement('div');
@@ -532,9 +532,9 @@ document.addEventListener('DOMContentLoaded', function() {
             productCard.style.opacity = '0';
             productCard.style.transform = 'translateY(20px)';
             productCard.style.transitionDelay = `${index * 100}ms`;
-    
+
             productCard.innerHTML = `
-                <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
+                <div class="bestseller-tag">NEW FOR 2025!</div> <img src="${product.image_url}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'">
                 <h3>${product.name}</h3>
                 <div class="price">
                     <span class="current-price">$${product.final_price}</span>
@@ -542,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <button class="add-to-cart">ADD TO CART</button>
             `;
-    
+
             // 点击跳转到详情页
             productCard.addEventListener('click', (e) => {
                 if (e.target.classList.contains('add-to-cart')) {
@@ -553,7 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const productNameForUrl = product.name.replace(/\s+/g, '-').toLowerCase();
                 window.location.href = `./products/product-detail.html?id=${productUUID}-${productNameForUrl}`;
             });
-    
+
             // 加入购物车按钮单独处理
             const addToCartBtn = productCard.querySelector('.add-to-cart');
             if (addToCartBtn) {
@@ -563,9 +563,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     addToCart(product);
                 });
             }
-    
+
             productsGrid.appendChild(productCard);
-    
+
             // 启动动画
             setTimeout(() => {
                 productCard.style.opacity = '1';
@@ -575,30 +575,45 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // 从Netlify函数获取数据
     fetch('/.netlify/functions/fetch-products')
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-    // 只取前4个商品作为推荐
-    const bestSellers = data.slice(0, 4);
-    if(bestSellers){
-        renderProducts(bestSellers);
-    }
-    
-    // 保持原有动画效果
-    setTimeout(() => {
-        document.querySelectorAll('.product-card').forEach((card, index) => {
-        card.style.opacity = 1;
-        card.style.transform = 'translateY(0)';
-        card.style.transitionDelay = `${index * 100}ms`;
-        });
-    }, 100);
-    })
-    .catch(error => {
-    console.error('Error loading products:', error);
-    document.getElementById('dynamic-products').innerHTML = `
+        .then(response => response.json())
+        .then(data => {
+            // 随机选择4个产品
+            const bestSellers = [];
+            const numProducts = data.length;
+            const numToSelect = Math.min(4, numProducts); // 确保不超过总产品数
+
+            // 创建一个产品索引数组，并打乱它
+            const productIndices = Array.from({ length: numProducts }, (_, i) => i);
+            // 使用Fisher-Yates (Knuth) 洗牌算法打乱数组
+            for (let i = productIndices.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [productIndices[i], productIndices[j]] = [productIndices[j], productIndices[i]];
+            }
+
+            // 从打乱后的索引中取出前 numToSelect 个产品
+            for (let i = 0; i < numToSelect; i++) {
+                bestSellers.push(data[productIndices[i]]);
+            }
+
+            if (bestSellers.length > 0) { // 确保有产品才渲染
+                renderProducts(bestSellers);
+            }
+
+            // 保持原有动画效果
+            setTimeout(() => {
+                document.querySelectorAll('.product-card').forEach((card, index) => {
+                    card.style.opacity = 1;
+                    card.style.transform = 'translateY(0)';
+                    card.style.transitionDelay = `${index * 100}ms`;
+                });
+            }, 100);
+        })
+        .catch(error => {
+            console.error('Error loading products:', error);
+            document.getElementById('dynamic-products').innerHTML = `
         <div class="error">Currently unavailable products</div>
     `;
-    });
+        });
 
 
     const searchTrigger = document.getElementById('header-search');
@@ -609,7 +624,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initStickyHeader();
     // initProductCards();
     initVideoPlayers();
-    
+
     // 初始化购物车
     if (typeof CartManager !== 'undefined' && CartManager.init) {
         CartManager.init();
@@ -618,7 +633,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化导航的平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             if (this.getAttribute('href') !== '#') {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
@@ -665,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 点击搜索图标显示搜索框
-    if(searchTrigger){
+    if (searchTrigger) {
         searchTrigger.addEventListener('click', (e) => {
             e.preventDefault(); // 阻止默认链接行为
             searchOverlay.style.opacity = '1';
@@ -676,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 点击关闭按钮隐藏搜索框
-    if(closeButton){
+    if (closeButton) {
         closeButton.addEventListener('click', () => {
             searchOverlay.style.opacity = '0';
             searchOverlay.style.visibility = 'hidden';
@@ -685,7 +700,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 点击遮罩层关闭（排除搜索容器内部的点击）
-    if(searchOverlay){
+    if (searchOverlay) {
         searchOverlay.addEventListener('click', (e) => {
             // 检查点击是否发生在遮罩层而不是搜索容器内部
             if (e.target === searchOverlay) {

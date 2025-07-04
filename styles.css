@@ -127,6 +127,7 @@ button {
 }
 
 .section-title {
+    color: #616630;
     text-align: center;
     font-size: 1.75rem;
     font-weight: 700;
@@ -454,7 +455,7 @@ nav {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 1280px;
     margin: 0 auto;
 }
 
@@ -471,6 +472,21 @@ nav {
     max-width: 300px;
     margin: 0 auto;
     transform-style: preserve-3d;
+}
+
+.bestseller-tag {
+    position: absolute;
+    top: 10px; /* 距离卡片顶部的距离 */
+    left: 10px; /* 距离卡片左侧的距离 */
+    background-color: #e74c3c; /* 红色背景，可根据你现有的 CSS 变量调整 */
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.75em;
+    font-weight: bold;
+    z-index: 10; /* 确保标签在其他内容之上 */
+    white-space: nowrap; /* 防止文字换行 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 轻微阴影 */
 }
 
 .product-card:hover {
@@ -494,7 +510,7 @@ nav {
 .product-card h3 {
     padding: 1rem;
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 0.8rem;
     line-height: 1.4;
     height: 3.08em;
     /* 限制标题高度为3行 */
