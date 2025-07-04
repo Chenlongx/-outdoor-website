@@ -4,12 +4,14 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentDiscount = 20; // 修改默认折扣为20%
     let currentSort = 'featured'; // 当前排序方式
 
+    // 更新购物车数量
+    updateCartCount()
+
     // 初始化购物车
     startCountdown()
-    updateFloatingCartCount();
+
     // 调用移动菜单栏
     setupMobileMenuToggle()
-
 
     // 从Netlify 函数获取数据（获取优惠码）
     fetch('/.netlify/functions/get-unused-codes')  // 调用你定义的Netlify函数
@@ -363,21 +365,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const imageUrl = getImageProxyUrl(product.image_url);
         
         // 处理 price 和 discount
-        // card.innerHTML = `
-        //     <div class="discount-tag">-${product.discount_percent}%</div>
-        //     <img src="${product.image_url}" alt="${product.name}" class="product-image">
-        //     <h3>${product.name}</h3>
-        //     <p class="product-description">${product.description}</p>
-        //     <div class="price">
-        //         <span class="current-price">$${parseFloat(product.final_price).toFixed(2)}</span>
-        //         <span class="original-price">$${parseFloat(product.price).toFixed(2)}</span>
-        //     </div>
-        //     <div class="rating">
-        //         ${generateRatingStars(product.rating)}
-        //         <span class="rating-count">(${product.rating_count})</span>
-        //     </div>
-        //     <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
-        // `;
         card.innerHTML = `
             <div class="discount-tag">-${product.discount_percent}%</div>
             <img src="${imageUrl}" alt="${product.name}" class="product-image" loading="lazy" width="176" height="176">
@@ -563,9 +550,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 更新购物车数量显示
         updateCartCount();
-
-        // 更新悬浮购物车按钮数量
-        updateFloatingCartCount();
         
         // 显示添加成功提示
         showNotification(product.name +'Item has been added to cart');
@@ -574,11 +558,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 更新购物车数量显示
     function updateCartCount() {
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const count = cart.reduce((total, item) => total + item.quantity, 0);
-    
+        // 确保 quantity 是一个有效的数字，如果不是则默认为 0
+        const count = cart.reduce((total, item) => total + (Number(item.quantity) || 0), 0); // MODIFIED LINE
+
         // 所有需要同步数量的元素
         const cartCountElements = document.querySelectorAll('.cart-count, .nav-cart-count');
-    
+
         cartCountElements.forEach(el => {
             el.textContent = count;
         });
@@ -587,24 +572,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 监听 localStorage 变化，更新购物车的数量
     window.addEventListener('storage', function(event) {
         if (event.key === 'cart') {
-            updateFloatingCartCount();
+            updateCartCount()
         }
     });
-
-    // 更新悬浮购物车按钮购物车数量
-    function updateFloatingCartCount() {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-    
-        // 选中所有需要同步数量的元素
-        const countElements = document.querySelectorAll(
-            '.floating-cart-btn .cart-count, .nav-cart-count'
-        );
-    
-        countElements.forEach(el => {
-            el.textContent = cartCount;
-        });
-    }
     
     // 封装移动端菜单切换方法
     function setupMobileMenuToggle(
