@@ -432,7 +432,7 @@
 /* 产品卡片 */
 .product-card {
     background: white;
-    border-radius: 15px;
+    border-radius: 7px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
