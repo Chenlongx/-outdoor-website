@@ -495,6 +495,14 @@ function updateCartCount() {
 
 // 页面加载时初始化
 document.addEventListener('DOMContentLoaded', function () {
+    const desktopHeroImages = [
+        './img/home/refrigerator.webp',
+        './img/home/refrigerator2.webp',
+    ];
+
+    let currentImageIndex = 0;
+    const heroBgElement = document.getElementById('hero-bg-carousel');
+
     // 更新购物车数量
     updateCartCount()
     // JavaScript 加载高清图
@@ -510,10 +518,18 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         // 桌面端直接使用高清图，不加载 JS
         // document.getElementById('hero').classList.add('loaded');
-        const hero = document.getElementById('hero');
-        if (hero) {
-            hero.classList.add('loaded'); // 将触发 CSS 中设置高清图
-        }
+        // const hero = document.getElementById('hero');
+        // if (hero) {
+        //     hero.classList.add('loaded'); // 将触发 CSS 中设置高清图
+        // }
+        setInterval(() => {
+            currentImageIndex = (currentImageIndex + 1) % desktopHeroImages.length;
+            heroBgElement.style.opacity = '0'; // Fade out
+            setTimeout(() => {
+                heroBgElement.src = desktopHeroImages[currentImageIndex];
+                heroBgElement.style.opacity = '1'; // Fade in
+            }, 1000); // Wait for fade out to complete before changing src
+        }, 8000); // Change image every 5 seconds (5000ms)
     }
 
     // 初始化购物车（不会重复定义）

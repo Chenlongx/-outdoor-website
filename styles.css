@@ -316,13 +316,15 @@ nav {
 /* Hero Section */
 .hero {
     position: relative;
-    height: 600px;
+    /* 保持 position: relative; 以便内部的绝对定位元素（如图片和叠加层）能相对于它定位。 */
+    height: 600px; /* 你可以保持这个固定高度，或者根据需求改为 100vh 以占满视口高度 */
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     text-align: center;
     overflow: hidden;
+    /* 保持 overflow: hidden; 这对于图片轮播非常重要，可以裁剪超出容器范围的内容，防止在图片切换时出现滚动条或视觉上的溢出。 */
 }
 
 .hero picture,
@@ -335,7 +337,10 @@ nav {
     object-fit: cover;
     /* 保证图片像背景一样铺满 */
     object-position: center;
-    z-index: 0;
+    z-index: 0; /* 保持 z-index: 0; 确保图片在叠加层下方 */
+    
+    /* === 新增或修改：添加过渡效果 === */
+    transition: opacity 1s ease-in-out; /* 这将使图片在切换 src 时，opacity 的变化有平滑的过渡效果，实现淡入淡出 */
 }
 
 .hero-overlay {
@@ -345,7 +350,7 @@ nav {
     width: 100%;
     height: 100%;
     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-    z-index: 1;
+    z-index: 1; /* 保持 z-index: 1; 确保叠加层在图片上方 */
 }
 
 .hero-content {
@@ -361,6 +366,7 @@ nav {
     margin-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
+    color: burlywood;
 }
 
 .hero p {
