@@ -184,7 +184,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 productQuantityInput.max = null; // 移除最大数量限制
             }
             
-            if (productDescription) productDescription.textContent = product.description;
+            // if (productDescription) productDescription.textContent = product.description;
+            if (productDescription && product.description) {
+            productDescription.innerHTML = product.description.replace(/\n/g, '<br>');
+            }
 
             if (productVariants && Array.isArray(product.variant_options) && product.variant_options.length > 0) {
                 // console.log("获取到的型号选项:", product.variant_options);
