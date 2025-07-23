@@ -813,14 +813,20 @@ document.addEventListener('DOMContentLoaded', function () {
                         "currency": "USD"
                     },
                     "deliveryTime": {
-                        "@type": "DeliveryTime",
-                        "hasDeliveryMethod": "https://schema.org/ShippingDelivery",
+                        "@type": "ShippingDeliveryTime",
+                            "handlingTime": {
+                            "@type": "QuantitativeValue",
+                            "minValue": 1,
+                            "maxValue": 2,
+                            "unitCode": "day"
+                        },
                         "transitTime": {
                             "@type": "QuantitativeValue",
                             "minValue": 5,
                             "maxValue": 7,
                             "unitCode": "day"
                         },
+                        "cutOffTime": "17:00:00",
                         "businessDays": {
                             "@type": "OpeningHoursSpecification",
                             "dayOfWeek": [
