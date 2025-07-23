@@ -832,21 +832,22 @@ document.addEventListener('DOMContentLoaded', function () {
                             ]
                         }
                     }
+                },
+                "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "merchantReturnDays": 30,
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+                    "returnMethod": "https://schema.org/ReturnByMail",
+                    "returnShippingFees": "https://schema.org/ReturnFeesCustomerResponsibility",
+                    "restockingFee": {
+                        "@type": "MonetaryAmount",
+                        "value": 0.00,
+                        "currency": "USD"
+                    },
+                    "url": `https://summitgearhub.com/products/support`
                 }
             },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "merchantReturnDays": 30,
-                "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
-                "returnMethod": "https://schema.org/ReturnByMail",
-                "returnShippingFees": "https://schema.org/ReturnFeesCustomerResponsibility",
-                "restockingFee": {
-                    "@type": "MonetaryAmount",
-                    "value": 0.00,
-                    "currency": "USD"
-                },
-                "url": `https://summitgearhub.com/products/support`
-            }
+
         };
 
         // ✅ 只有有真实评论时才添加 aggregateRating
