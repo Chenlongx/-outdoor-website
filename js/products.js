@@ -846,15 +846,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     "currency": "USD"
                 },
                 "url": `https://summitgearhub.com/products/support`
-            },
-            // --- 添加 aggregateRating 字段 ---
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": ratingData.average ? ratingData.average.toFixed(1) : "0", // 保留一位小数，如果为0则显示"0"
-                "reviewCount": ratingData.count ? String(ratingData.count) : "0" // 确保是字符串
             }
-            // ---------------------------------
         };
+
+        // ✅ 只有有真实评论时才添加 aggregateRating
+        if (ratingData.count > 0 && ratingData.average > 0) {
+            productSchema.aggregateRating = {
+            "@type": "AggregateRating",
+            "ratingValue": ratingData.average.toFixed(1),
+            "reviewCount": String(ratingData.count)
+            };
+        }
 
         script.textContent = JSON.stringify(productSchema, null, 2);
         document.head.appendChild(script);
