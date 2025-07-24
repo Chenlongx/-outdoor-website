@@ -916,6 +916,7 @@ nav {
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
     font-family: var(--body-font);
+    margin-left: 10px;
 }
 
 .newsletter-form button {
@@ -929,6 +930,11 @@ nav {
 
 .newsletter-form button:hover {
     background-color: var(--secondary-color);
+}
+
+
+.social-links{
+    display: flow;
 }
 
 .social-links p {
