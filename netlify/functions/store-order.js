@@ -1,6 +1,5 @@
 const { createClient } = require('@supabase/supabase-js');
 
-// 创建 Supabase 客户端
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
@@ -15,73 +14,107 @@ exports.handler = async (event, context) => {
   }
 
   try {
-    // 打印请求体以确保数据正确
-    // console.log('Received request body:', event.body);
+    const now = new Date().toISOString();
 
-    // 获取请求体中的数据（订单和购物车信息）
-    const { order, items, phone_number, order_notes } = JSON.parse(event.body);  // 解析请求体中的数据
+    // ✅ 解析前端传的 body
+    const parsedBody = JSON.parse(event.body || '{}');
+    const order = parsedBody.order || {};        // ✅ 前端的订单对象
+    const items = parsedBody.items || [];        // ✅ 商品列表数组
 
-    // 打印订单和商品数据
-    console.log('Parsed order:', order);
-    console.log('Parsed items:', items);
-    console.log("Total amount before inserting:", order.total_amount);
-    const currentTime = new Date().toISOString();
-    // 插入订单信息到 orders 表
-    const { data: orderData, error: orderError } = await supabase
-      .from('orders')
-      .insert([
-        {
-          customer_name: order.full_name,
-          email: order.email,
-          shipping_address: {
-            street_address: order.address_line_1,
-            city: order.city,
-            state: order.state,
-            postal_code: order.postal_code,
-            country: order.country,
-          },
-          total_amount: order.total_amount,
-          products: items,  // 将所有订单项作为 JSON 数组存储
-          status: 'paid',  // 假设支付成功，订单状态为 "paid"
-          created_at: currentTime, // 设置创建时间
-          updated_at: currentTime, // 设置更新时间
-          phone_number: phone_number || null, // 如果电话号码有值，则存储，否则为 null
-          order_notes: order_notes || null,   // 如果订单备注有值，则存储，否则为 null
-        }
-      ])
-    //   .single();
+    // ✅ 前端履约地址
+    const shipping = order.shipping_address || {};
+    // ✅ PayPal 返回地址（仅存储对比）
+    const paypalAddr = order.paypal_address || {};
+    // ✅ PayPal 付款人信息
+    const payerInfo = order.payer_info || {};
 
-    // 如果插入数据时发生错误
-    if (orderError) {
-      console.error('Error inserting order:', orderError);
+    // ✅ 兜底 email（优先 shipping.email，次选 payer_info.email）
+    const customerEmail =
+      shipping.email ||
+      payerInfo.email_address ||
+      payerInfo.email ||
+      null;
+
+    // ✅ 兜底客户姓名（优先履约地址的 full_name）
+    const customerName =
+      shipping.full_name ||
+      (payerInfo.name ? `${payerInfo.name.given_name || ''} ${payerInfo.name.surname || ''}`.trim() : null) ||
+      null;
+
+    // ✅ 兜底电话
+    const customerPhone = shipping.phone_number || null;
+
+    // ✅ 打印日志方便调试
+    // console.log('==== Parsed Order ====');
+    // console.log('order:', JSON.stringify(order, null, 2));
+    // console.log('items:', JSON.stringify(items, null, 2));
+    // console.log('customerName:', customerName);
+    // console.log('customerEmail:', customerEmail);
+
+    // ✅ 如果关键字段缺失，直接返回 400
+    if (!customerName || !customerEmail) {
       return {
-        statusCode: 500,
-        body: JSON.stringify({ message: 'Error inserting order', error: orderError }),
+        statusCode: 400,
+        body: JSON.stringify({
+          message: 'Missing required customer name or email',
+          debug: { customerName, customerEmail }
+        }),
       };
     }
 
-    // 直接查询插入的订单
-    const { data: insertedOrder, error: selectError } = await supabase
-    .from('orders')
-    .select('id')  // 只选择id字段
-    .eq('email', order.email)  // 使用 email 或其他唯一字段来确保查询插入的记录
-    .order('created_at', { ascending: false })  // 根据创建时间降序，确保获取最近插入的订单
-    .limit(1)  // 只取一条数据
+    // ✅ 插入数据库
+    const { data: insertedOrder, error: insertError } = await supabase
+      .from('orders')
+      .insert([
+        {
+          customer_name: customerName,
+          email: customerEmail,
+          phone_number: customerPhone,
 
-    // 打印并返回插入的订单ID
-    console.log('Inserted Order ID:', insertedOrder[0].id);
+          // ✅ 存储 JSON 地址信息（方便后期核对）
+          shipping_address: shipping,
+          paypal_address: paypalAddr,
+          payer_info: payerInfo,
 
-    // 返回成功消息
+          total_amount: order.total_amount || 0,
+          products: items,   // 直接存 JSON 数组
+          status: 'paid',
+          created_at: now,
+          updated_at: now
+        }
+      ])
+      .select('id') // ✅ 直接返回插入后的订单 id
+      .single();
+
+    if (insertError) {
+      console.error('❌ Error inserting order:', insertError);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Database insert failed',
+          error: insertError
+        }),
+      };
+    }
+
+    console.log('✅ Inserted Order ID:', insertedOrder.id);
+
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Order successfully submitted', orderId: insertedOrder[0].id }),
+      body: JSON.stringify({
+        message: 'Order successfully saved',
+        orderId: insertedOrder.id
+      }),
     };
-  } catch (error) {
-    // 捕获并打印其他错误
-    console.error('Error:', error);
+
+  } catch (err) {
+    console.error('❌ Server Error:', err);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Server Error', error }),
+      body: JSON.stringify({
+        message: 'Server Error',
+        error: err.message || err
+      }),
     };
   }
 };

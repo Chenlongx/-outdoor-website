@@ -1,6 +1,6 @@
 // ✅ 添加：在 cart.js 的最顶部或一个单独的文件中定义 window.CartManager
 window.CartManager = {
-    getCartItems: function() {
+    getCartItems: function () {
         const cart = localStorage.getItem('cart');
         try {
             const parsedCart = cart ? JSON.parse(cart) : [];
@@ -10,13 +10,47 @@ window.CartManager = {
             return [];
         }
     },
-    saveCartItems: function(cart) {
+    saveCartItems: function (cart) {
         localStorage.setItem('cart', JSON.stringify(cart));
     },
 };
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    const sameAsShipping = document.getElementById("same-as-shipping");
+    const billingForm = document.getElementById("billing-address-form");
+
+    const countrySelect = document.getElementById('shipping-country');
+    const stateContainer = document.getElementById('shipping-state-container');
+
+    function toggleStateField() {
+        const country = countrySelect.value;
+        // 需要州/省字段的国家
+        const needStateCountries = ['US', 'CA', 'AU'];
+
+        if (needStateCountries.includes(country)) {
+            stateContainer.style.display = 'block';
+        } else {
+            stateContainer.style.display = 'none';
+            // 如果隐藏时想清空州/省值，也可以加下面一行：
+            // document.getElementById('shipping-state').value = '';
+        }
+    }
+
+      // 页面加载时运行一次，确保初始状态正确
+    toggleStateField();
+
+    // 国家选择变化时调用
+    countrySelect.addEventListener('change', toggleStateField);
+
+    sameAsShipping.addEventListener("change", function () {
+        if (this.checked) {
+            billingForm.style.display = "none";
+        } else {
+            billingForm.style.display = "block";
+        }
+    });
+
     initCart();
     renderPayPalButton();
     let appliedPromoCode = null;  // 用于记录当前应用的优惠码
@@ -27,106 +61,106 @@ document.addEventListener('DOMContentLoaded', function () {
     const navActions = document.querySelector('.nav-actions');
 
     mobileMenuBtn.addEventListener('click', () => {
-    // 如果不存在移动菜单，则创建一个
-    if (!document.querySelector('.mobile-menu')) {
-        // 创建移动菜单容器
-        const mobileMenu = document.createElement('div');
-        mobileMenu.classList.add('mobile-menu');
+        // 如果不存在移动菜单，则创建一个
+        if (!document.querySelector('.mobile-menu')) {
+            // 创建移动菜单容器
+            const mobileMenu = document.createElement('div');
+            mobileMenu.classList.add('mobile-menu');
 
-        // Clone navigation links
-        const navLinksClone = navLinks.cloneNode(true);
+            // Clone navigation links
+            const navLinksClone = navLinks.cloneNode(true);
 
-        // Create a close button
-        const closeBtn = document.createElement('div');
-        closeBtn.classList.add('close-btn');
-        closeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        // closeBtn.addEventListener('click', () => {
-        //     mobileMenu.classList.remove('active');
-        //     document.body.style.overflow = 'auto';
-        // });
+            // Create a close button
+            const closeBtn = document.createElement('div');
+            closeBtn.classList.add('close-btn');
+            closeBtn.innerHTML = '<i class="fas fa-times"></i>';
+            // closeBtn.addEventListener('click', () => {
+            //     mobileMenu.classList.remove('active');
+            //     document.body.style.overflow = 'auto';
+            // });
 
-        closeBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            mobileMenu.style.transform = 'translateX(-100%)'; // 隐藏菜单
-            document.body.style.overflow = 'auto';
-        });
-
-
-        // Append elements to mobile menu
-        mobileMenu.appendChild(closeBtn);
-        mobileMenu.appendChild(navLinksClone);
-
-        // 点击菜单项后关闭移动菜单
-        const navAnchors = navLinksClone.querySelectorAll('a');
-        navAnchors.forEach(anchor => {
-            anchor.addEventListener('click', () => {
+            closeBtn.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
-                mobileMenu.style.transform = 'translateX(-100%)';
+                mobileMenu.style.transform = 'translateX(-100%)'; // 隐藏菜单
                 document.body.style.overflow = 'auto';
             });
-        });
 
-        // Clone nav actions
-        const actionsContainer = document.createElement('div');
-        actionsContainer.classList.add('mobile-actions');
 
-        const navActionsClone = navActions.cloneNode(true);
-        actionsContainer.appendChild(navActionsClone);
+            // Append elements to mobile menu
+            mobileMenu.appendChild(closeBtn);
+            mobileMenu.appendChild(navLinksClone);
 
-        mobileMenu.appendChild(actionsContainer);
+            // 点击菜单项后关闭移动菜单
+            const navAnchors = navLinksClone.querySelectorAll('a');
+            navAnchors.forEach(anchor => {
+                anchor.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    mobileMenu.style.transform = 'translateX(-100%)';
+                    document.body.style.overflow = 'auto';
+                });
+            });
 
-        // Append mobile menu to body
-        document.body.appendChild(mobileMenu);
+            // Clone nav actions
+            const actionsContainer = document.createElement('div');
+            actionsContainer.classList.add('mobile-actions');
 
-        // Add styles to mobile menu
-        mobileMenu.style.position = 'fixed';
-        mobileMenu.style.top = '0';
-        mobileMenu.style.left = '0';
-        mobileMenu.style.width = '100%';
-        mobileMenu.style.height = '100vh';
-        mobileMenu.style.background = 'white';
-        mobileMenu.style.zIndex = '2000';
-        mobileMenu.style.padding = '2rem';
-        mobileMenu.style.transform = 'translateX(-100%)';
-        mobileMenu.style.transition = 'transform 0.3s ease-in-out';
+            const navActionsClone = navActions.cloneNode(true);
+            actionsContainer.appendChild(navActionsClone);
 
-        closeBtn.style.position = 'absolute';
-        closeBtn.style.top = '1rem';
-        closeBtn.style.right = '1rem';
-        closeBtn.style.fontSize = '1.5rem';
-        closeBtn.style.cursor = 'pointer';
+            mobileMenu.appendChild(actionsContainer);
 
-        navLinksClone.style.display = 'flex';
-        navLinksClone.style.flexDirection = 'column';
-        navLinksClone.style.marginTop = '3rem';
+            // Append mobile menu to body
+            document.body.appendChild(mobileMenu);
 
-        // Style all list items in navLinksClone
-        const navItems = navLinksClone.querySelectorAll('li');
-        navItems.forEach(item => {
-            item.style.margin = '0.75rem 0';
-            item.style.padding = '0.5rem 0';
-            item.style.borderBottom = '1px solid #eee';
-        });
+            // Add styles to mobile menu
+            mobileMenu.style.position = 'fixed';
+            mobileMenu.style.top = '0';
+            mobileMenu.style.left = '0';
+            mobileMenu.style.width = '100%';
+            mobileMenu.style.height = '100vh';
+            mobileMenu.style.background = 'white';
+            mobileMenu.style.zIndex = '2000';
+            mobileMenu.style.padding = '2rem';
+            mobileMenu.style.transform = 'translateX(-100%)';
+            mobileMenu.style.transition = 'transform 0.3s ease-in-out';
 
-        actionsContainer.style.display = 'flex';
-        actionsContainer.style.justifyContent = 'center';
-        actionsContainer.style.marginTop = '2rem';
-        actionsContainer.style.gap = '2rem';
-    }
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.top = '1rem';
+            closeBtn.style.right = '1rem';
+            closeBtn.style.fontSize = '1.5rem';
+            closeBtn.style.cursor = 'pointer';
 
-    // 切换移动菜单
-    const mobileMenu = document.querySelector('.mobile-menu');
-    mobileMenu.classList.toggle('active');
+            navLinksClone.style.display = 'flex';
+            navLinksClone.style.flexDirection = 'column';
+            navLinksClone.style.marginTop = '3rem';
 
-    // 设置活动状态的样式
-    if (mobileMenu.classList.contains('active')) {
-        mobileMenu.style.transform = 'translateX(0)';
-        document.body.style.overflow = 'hidden'; // Prevent scrolling
-    } else {
-        mobileMenu.style.transform = 'translateX(-100%)';
-        document.body.style.overflow = 'auto';
-    }
-});
+            // Style all list items in navLinksClone
+            const navItems = navLinksClone.querySelectorAll('li');
+            navItems.forEach(item => {
+                item.style.margin = '0.75rem 0';
+                item.style.padding = '0.5rem 0';
+                item.style.borderBottom = '1px solid #eee';
+            });
+
+            actionsContainer.style.display = 'flex';
+            actionsContainer.style.justifyContent = 'center';
+            actionsContainer.style.marginTop = '2rem';
+            actionsContainer.style.gap = '2rem';
+        }
+
+        // 切换移动菜单
+        const mobileMenu = document.querySelector('.mobile-menu');
+        mobileMenu.classList.toggle('active');
+
+        // 设置活动状态的样式
+        if (mobileMenu.classList.contains('active')) {
+            mobileMenu.style.transform = 'translateX(0)';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
+        } else {
+            mobileMenu.style.transform = 'translateX(-100%)';
+            document.body.style.overflow = 'auto';
+        }
+    });
 
     // 继续购物按钮
     const continueShoppingBtn = document.querySelector('.continue-shopping');
@@ -184,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        let currentOrderItemsForStorage = []; 
+        let currentOrderItemsForStorage = [];
 
         const paypalButtons = window.paypal.Buttons({
             style: {
@@ -194,262 +228,190 @@ document.addEventListener('DOMContentLoaded', function () {
                 label: 'paypal',
             },
             locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
-            // 动态计算并传递总金额
+
+            // 创建订单信息
             createOrder: async function (data, actions) {
-                const cart = getCart(); // 获取购物车信息
-                console.log("购物车的信息:", cart)
-                const selectedShipping = parseFloat(document.getElementById('shipping-options').value); // ⬅️ 获取选中的运费金额
-                console.log("选择的运费金额:", selectedShipping);
-    
-                // 向后端发送请求，验证价格并获取折扣后的商品信息
+                // 1. 从你的 HTML 表单中获取用户填写的收货地址信息
+                const shippingFirstName = document.querySelector('#shipping-firstname').value;
+                const shippingLastName = document.querySelector('#shipping-lastname').value;
+                const shippingFullName = `${shippingFirstName} ${shippingLastName}`; // 将姓和名合并
+                const shippingCountry = document.querySelector('#shipping-country').value; // 国家代码 (例如 'US')
+                const shippingStreet = document.querySelector('#shipping-address').value;
+                const shippingCity = document.querySelector('#shipping-city').value;
+                const shippingPostal = document.querySelector('#shipping-zip').value;
+
+                // 注意：你的 HTML 中没有州/省的输入框，这里做了兼容处理。
+                // 如果将来添加了 ID 为 'shipping-state' 的输入框，代码也能自动获取其值。
+                const shippingState = document.querySelector('#shipping-state')?.value || '';
+
+                // 2. （可选）表单验证：确保必填项都已填写
+                if (!shippingFirstName || !shippingLastName || !shippingStreet || !shippingCity || !shippingPostal || !shippingCountry) {
+                    showNotification('Please fill out all required shipping address fields.', 'error');
+                    // 通过返回一个被拒绝的 Promise 来阻止 PayPal 窗口打开
+                    return Promise.reject(new Error('Shipping address is incomplete.'));
+                }
+
+                // 3. 照常获取购物车和运费信息，并调用后端函数验证价格
+                const cart = getCart();
+                const selectedShippingCost = parseFloat(document.getElementById('shipping-options').value);
+
                 const response = await fetch('/.netlify/functions/validate-price', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         cart: cart,
-                        promoCode: appliedPromoCode, // ⬅️ 传递当前的优惠码（可以为 null）
-                        selectedShipping: selectedShipping // ⬅️ 添加此字段
+                        promoCode: appliedPromoCode,
+                        selectedShipping: selectedShippingCost
                     })
                 });
-    
+
                 const result = await response.json();
-    
+
                 if (!response.ok) {
-                    throw new Error('无法获取价格');
+                    throw new Error('Could not validate price.');
                 }
-    
-                const subtotal = result.subtotal;  // 从后端获取折扣后的小计
-                const shipping = result.shipping;  // 从后端获取运费
-                const totalAmount = result.total; // 从后端获取总金额
-                let processedItems = result.items; // ⬅️ 从后端获取包含折扣价格的商品列表
-    
-                console.log("后端返回小计:", subtotal);
-                console.log("后端返回运费:", shipping);
-                console.log("后端返回的金额总价：", totalAmount)
-                console.log("后端返回的商品列表（包含折扣）:", processedItems);
-                
 
-                // ✅ 新增部分：从页面中获取最新的 selectedColor
-                const updatedProcessedItems = processedItems.map(item => {
-                    // 修正：根据购物车 HTML，商品项的类是 'cart-item'，而不是 'product-item-summary'
-                    const productElement = document.querySelector(`.cart-item[data-product-id="${item.id}"]`);
-                    let itemVariants = {}; // 用于存储所有找到的变体
-    
-                    if (productElement) {
-                        // 找到该商品行内所有的 .variant-select 元素
-                        const variantSelects = productElement.querySelectorAll('.variant-select');
-                        variantSelects.forEach(selectElement => {
-                            const variantLabel = selectElement.dataset.variant; // 获取 data-variant (例如 'Color', 'Specifications')
-                            const selectedValue = selectElement.value;        // 获取选中的值
-    
-                            if (variantLabel) {
-                                // 将变体信息存储到 itemVariants 对象中
-                                // 例如：{ Color: 'Black', Specifications: 'JZK-D12-3' }
-                                itemVariants[variantLabel] = selectedValue;
-                            }
-                        });
-                    }
-    
-                    // 构建描述字符串，用于 PayPal 的 item.description
-                    let descriptionParts = [];
-                    // 遍历所有获取到的变体并添加到 descriptionParts
-                    for (const label in itemVariants) {
-                        if (itemVariants.hasOwnProperty(label)) {
-                            // 格式化输出，例如 "Color: Black", "Specifications: JZK-D12-3"
-                            descriptionParts.push(`${label}: ${itemVariants[label]}`);
-                        }
-                    }
-    
-                    const combinedDescription = descriptionParts.length > 0 ? descriptionParts.join(', ') : 'No specifications';
-    
-                    // 返回一个新对象，保留后端数据，并添加所有找到的变体和最终描述
-                    return {
-                        ...item,
-                        ...itemVariants, // 将所有获取到的变体属性直接添加到 item 对象中
-                                       // 这样在 onApprove 和 localStorage 中也能访问到 item.Color, item.Specifications 等
-                        description: combinedDescription // 更新 description 字段，用于 PayPal
-                    };
-                });
-                // 2. 将包含最新变体信息的商品列表赋值给外部变量
-                currentOrderItemsForStorage = updatedProcessedItems; 
-                console.log("合并页面变体后的商品列表:", currentOrderItemsForStorage); // 打印新变量
-
-                // 创建订单并返回给 PayPal
+                // 4. 创建 PayPal 订单，并在 purchase_units 中附加 shipping 对象
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
                             currency_code: 'USD',
-                            value: totalAmount, // 订单总金额
+                            value: result.total.toFixed(2), // 使用后端返回的总金额
                             breakdown: {
                                 item_total: {
                                     currency_code: 'USD',
-                                    value: subtotal.toFixed(2), // 小计（折扣后）
+                                    value: result.subtotal.toFixed(2),
                                 },
                                 shipping: {
                                     currency_code: 'USD',
-                                    value: shipping.toFixed(2), // 运费
-                                },
-                            },
+                                    value: result.shipping.toFixed(2),
+                                }
+                            }
                         },
-                        // 将 totalAmount 存储为 custom_id，这样可以在 onApprove 中访问到
-                        custom_id: totalAmount, 
-                        // ⬅️ 使用后端返回的 processedItems 来构建 PayPal 的 items 数组
-                        // items: processedItems.map(item => ({ 
-                        //     name: item.name,
-                        //     unit_amount: {
-                        //         currency_code: 'USD',
-                        //         value: item.unit_amount.toFixed(2), // ⬅️ 使用后端计算的折扣后的 unit_amount
-                        //     },
-                        //     quantity: item.quantity,
-                        //     description: item.description, 
-                        // })),
-
-                        items: currentOrderItemsForStorage.map(item => ({ 
-                            name: item.name,
-                            unit_amount: {
-                                currency_code: 'USD',
-                                value: item.unit_amount.toFixed(2),
+                        // ✅ 关键步骤：将从表单获取的地址信息构建成 shipping 对象传递给 PayPal
+                        shipping: {
+                            name: {
+                                full_name: shippingFullName // PayPal 要求是全名
                             },
-                            quantity: item.quantity,
-                            description: item.description, 
-                        })),
-                    }],
+                            address: {
+                                address_line_1: shippingStreet,    // 街道地址
+                                admin_area_2: shippingCity,        // 城市
+                                admin_area_1: shippingState,       // 州/省 (State/Province)
+                                postal_code: shippingPostal,       // 邮政编码
+                                country_code: shippingCountry      // 两位国家代码 (e.g., "US")
+                            }
+                        },
+                        items: result.items.map(item => ({
+                            name: item.name,
+                            unit_amount: { currency_code: 'USD', value: item.unit_amount.toFixed(2) },
+                            quantity: item.quantity
+                        }))
+                    }]
                 });
             },
 
             // 支付成功后的处理
             onApprove: async function (data, actions) {
-                // 处理支付成功的情况
                 return actions.order.capture().then(async function (details) {
-                    // ⬇️ 添加这段处理优惠码
-                    if (appliedPromoCode) {
-                        try {
-                            const res = await fetch('/.netlify/functions/consume-promo-code', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ promoCode: appliedPromoCode }),
-                            });
-                            const result = await res.json();
-                            if (result.success) {
-                                console.log('优惠码成功标记为已使用');
-                                appliedPromoCode = null; // 清除变量，避免重复
-                            } else {
-                                console.warn('优惠码标记失败:', result.message);
-                            }
-                        } catch (err) {
-                            console.error('消费优惠码失败:', err);
-                        }
-                    }
 
-                    // 在 capture 完成后，从 details 中获取 totalAmount
-                    const totalAmount = details.purchase_units[0].custom_id;  // 这里获取 custom_id，即 totalAmount
-                    console.log("支付成功后的处理总金额", totalAmount);
-                    // 获取客户的昵称
-                    // console.log("Payment details: ", JSON.stringify(details, null, 2));
-                    // 获取完整的收货地址信息
-                    // const shippingAddress = details.purchase_units[0].shipping.address;
-
-
-                    // **关键修改开始**
-                    const shippingDetails = details.purchase_units[0].shipping;
-                    const shippingAddress = shippingDetails?.address; // 使用可选链
-
-                    // 打印完整的收货地址信息
-                    // console.log('Shipping Address:', shippingAddress);
-
-                    // 客户信息
-                    const email_address = details.payer.email_address;
-                    const fullName = details.purchase_units[0].shipping.name.full_name;
-                    const given_name = details.payer.name.given_name;
-                    const surname = details.payer.name.surname;
-                    console.log('email:', email_address)
-                    console.log('Full Name:', fullName);
-                    console.log('given_name:', given_name)
-                    console.log('surname:', surname)
-
-                    // 获取并打印各个字段
-                    const streetAddress = shippingAddress.address_line_1 || 'Address not provided';
-                    const city = shippingAddress.admin_area_2 || 'City not provided';
-                    const state = shippingAddress.admin_area_1 || 'State not provided';
-                    const postalCode = shippingAddress.postal_code || 'Postal code not provided';
-                    const countryCode = shippingAddress.country_code || 'Country not provided';
-                    // 输出地址信息
-                    console.log('国家:', countryCode);
-                    console.log('城市:', city);
-                    console.log('街道地址:', streetAddress);
-                    console.log('邮政编码:', postalCode);
-                    console.log('状态:', state);
-
-                    // alert('交易完成 ' + details.payer.name.given_name);
-
-                    // 存储客户订单数据到数据库中（发送到后端进行存储）
-                    const cart = getCart(); // 获取购物车信息
-                    // 创建订单对象
-                    const order = {
-                        full_name: fullName,  // 客户的全名
-                        email: email_address, // 客户的电子邮件
-                        address_line_1: streetAddress, // 客户的街道地址
-                        city: city,           // 客户的城市
-                        state: state,         // 客户的省州
-                        postal_code: postalCode,  // 客户的邮政编码
-                        country: countryCode,  // 客户的国家
-                        total_amount: totalAmount, // 总金额
+                    // ✅ PayPal 返回的付款人信息（保留备用）
+                    const paypalPayer = {
+                        email: details.payer.email_address,
+                        given_name: details.payer.name.given_name,
+                        surname: details.payer.name.surname,
+                        paypal_shipping: details.purchase_units[0].shipping || null  // 可能为空
                     };
 
-                    
+                    console.log("PayPal 返回的地址信息(可能为空):", paypalPayer.paypal_shipping);
 
-                    // const items = cart.map(item => ({
-                    //     id: item.id,   // 订单id
-                    //     name: item.name,    // 产品名称
-                    //     price: item.price,  // 产品价格
-                    //     description: item.description,  // 产品短语
-                    //     quantity: item.quantity, // 产品数量
-                    //     selectedColor: item.selectedColor, // 关键修改
-                    // }));
+                    // ✅ 前端表单的地址（履约用）
+                    const shippingFirstName = document.querySelector('#shipping-firstname').value;
+                    const shippingPhone = document.querySelector('#shipping-phone').value;
+                    const shippingLastName = document.querySelector('#shipping-lastname').value;
+                    const shippingFullName = `${shippingFirstName} ${shippingLastName}`;
+                    const shippingCountry = document.querySelector('#shipping-country').value;
+                    const shippingStreet = document.querySelector('#shipping-address').value;
+                    const shippingCity = document.querySelector('#shipping-city').value;
+                    const shippingPostal = document.querySelector('#shipping-zip').value;
+                    const shippingState = document.querySelector('#shipping-state')?.value || '';
+
+
+                    // ✅ 订单总金额（你可能需要 result.total 之类的）
+                    const totalAmount = details.purchase_units[0].amount.value;
+
+                    // ✅ 最终用于发货的地址（前端为准）
+                    const finalShippingAddress = {
+                        full_name: shippingFullName,
+                        phone_number: shippingPhone,
+                        email: paypalPayer.email,
+                        address_line_1: shippingStreet,
+                        city: shippingCity,
+                        state: shippingState,
+                        postal_code: shippingPostal,
+                        country: shippingCountry,
+                    };
+
+                    // ✅ 同时把 PayPal 返回的地址也存起来，方便后端对比
+                    const paypalShippingAddress = paypalPayer.paypal_shipping ? {
+                        full_name: paypalPayer.paypal_shipping.name.full_name,
+                        address_line_1: paypalPayer.paypal_shipping.address.address_line_1,
+                        city: paypalPayer.paypal_shipping.address.admin_area_2,
+                        state: paypalPayer.paypal_shipping.address.admin_area_1,
+                        postal_code: paypalPayer.paypal_shipping.address.postal_code,
+                        country: paypalPayer.paypal_shipping.address.country_code
+                    } : null;
+
+                    // console.log("前端地址:", finalShippingAddress);
+                    // console.log("PayPal 返回地址:", paypalShippingAddress);
+
+                    // ✅ 购物车商品
                     const itemsToSave = currentOrderItemsForStorage.map(item => ({
                         id: item.id,
                         name: item.name,
-                        price: item.price, // 使用 item.price 或 item.unit_amount.value，取决于您希望保存哪个
-                        description: item.description, 
+                        price: item.price,
+                        description: item.description,
                         quantity: item.quantity,
-                        // 将所有变体属性都保存下来，而不仅仅是 selectedColor
-                        // 例如，如果 itemVariants 中有 { Color: 'Red', Size: 'M' }
-                        // 那么这里会变成 item.Color, item.Size
-                        // 这样在 checkout.html 中就可以更灵活地访问
-                        ...item // 包含所有原始属性以及 createOrder 中添加的变体属性
+                        ...item
                     }));
 
-                    // 将订单信息发送到后端（Netlify Function）
+                    // ✅ 订单对象（包含两份地址，方便后台核对）
+                    const order = {
+                        total_amount: totalAmount,
+                        items: itemsToSave,
+                        shipping_address: finalShippingAddress,   // ✅ 用这个履约
+                        paypal_address: paypalShippingAddress,   // ✅ 仅存储对比用
+                        payer_info: paypalPayer,                 // ✅ 保存付款人信息
+                    };
+
+                    const payload = {
+                        order,           // 订单信息
+                        items: itemsToSave  // 商品列表
+                    };
+
+                    // console.log("即将发送到后端的 payload:", JSON.stringify(payload, null, 2));
+
+                    // ✅ 发到后端存储
                     const response = await fetch('/.netlify/functions/store-order', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ order: order, items: itemsToSave })
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
                     });
-                    const result = await response.json(); // 获取返回的结果
+                    const result = await response.json();
 
                     if (response.ok) {
                         console.log('订单已成功保存:', result);
-                        // 存储 orderId 到 localStorage
-                        if (result.orderId) {
-                            localStorage.setItem('orderId', result.orderId);
-                        }
+                        if (result.orderId) localStorage.setItem('orderId', result.orderId);
                     } else {
                         console.error('保存订单时出错:', result);
-                        showNotification('处理订单时出错。请重试。');
+                        showNotification('处理订单时出错，请重试。');
                     }
-                    console.log("交易完成！！！！！！！！！")
 
-                    // 将订单和商品信息存储到 localStorage
-                    localStorage.setItem('orderData', JSON.stringify(order));
-                    localStorage.setItem('orderItems', JSON.stringify(itemsToSave));
-                    // 携带信息转跳至另一个页面，如果客户有相关的地址信息，自动填写进去，并且让客户确认是否正确，如错误可以自行修改
+                    // ✅ 存本地，跳转到确认页面
+                    localStorage.setItem('orderData', JSON.stringify(payload));
                     window.location.href = '../products/checkout.html';
                 });
             },
+
 
             // 支付失败的处理
             onCancel: function (data) {
@@ -743,10 +705,10 @@ function createCartItemElement(item) {
         <div class="item-details">
             <h3>${item.name}</h3>
             <p class="item-attributes">
-                ${hasVariants 
-                    ? generateVariantSelectHTML(item) 
-                    : (item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : 'No specifications')
-                }
+                ${hasVariants
+            ? generateVariantSelectHTML(item)
+            : (item.selectedColor ? `<span class="selected-color">Color: ${item.selectedColor}</span>` : 'No specifications')
+        }
             </p>
             <button class="remove-item">
                 <i class="fas fa-trash-alt"></i> Remove
@@ -880,8 +842,6 @@ function getCart() {
     const cart = localStorage.getItem('cart');
     try {
         const parsedCart = cart ? JSON.parse(cart) : [];
-
-        console.log('购物车中的商品如下:');
         parsedCart.forEach((item, index) => {
             console.log(`第 ${index + 1} 个商品:`);
             console.log('ID:', item.id);
@@ -1252,7 +1212,7 @@ async function fetchAndRenderSuggestedProducts(endpoint, count = 3, renderFn = r
         const response = await fetch(endpoint);
         const products = await response.json();
 
-        console.log("获取到的产品数据：", products)
+        // console.log("获取到的产品数据：", products)
 
         if (!Array.isArray(products)) {
             throw new Error('产品数据格式无效');

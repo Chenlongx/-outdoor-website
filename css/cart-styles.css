@@ -305,19 +305,165 @@
     background-color: var(--secondary-color);
 }
 
+.billing-toggle {
+  margin: 10px 0px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* 通用卡片样式 */
+.address-section {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #e3e7ee;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  animation: fadeIn 0.3s ease;
+}
+
+.address-section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #e3e7ee;
+  padding-bottom: 10px;
+}
+
+/* 输入框组 */
+.address-section .form-group {
+  margin-bottom: 15px;
+}
+
+.address-section .form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.address-section .form-group.half {
+  flex: 1;
+}
+
+.address-section label {
+  display: block;
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+/* 输入框美化 */
+.address-section input,
+.address-section select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d6e1;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  background: #fdfdfd;
+  transition: all 0.2s ease;
+}
+
+/* hover & focus 交互效果 */
+.address-section input:hover,
+.address-section select:hover {
+  border-color: #b3bcd0;
+  background: #f9fafc;
+}
+
+.address-section input:focus,
+.address-section select:focus {
+  border-color: #0070f3;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.15);
+}
+
+/* 展开时淡入动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 送货地址和账单地址都用相同风格 */
+.shipping-address, .billing-address {
+  margin-top: 20px;
+}
+
+
+
+.billing-address h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+  border-bottom: 1px solid #e3e7ee;
+  padding-bottom: 10px;
+}
+
+.billing-address .form-group {
+  margin-bottom: 15px;
+}
+
+.billing-address .form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.billing-address .form-group.half {
+  flex: 1;
+}
+
+.billing-address label {
+  display: block;
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.billing-address input,
+.billing-address select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d6e1;
+  border-radius: 6px;
+  font-size: 15px;
+  color: #333;
+  background: #fdfdfd;
+  transition: all 0.2s ease;
+}
+
+/* hover & focus 效果 */
+.billing-address input:hover,
+.billing-address select:hover {
+  border-color: #b3bcd0;
+  background: #f9fafc;
+}
+.billing-address input:focus,
+.billing-address select:focus {
+  border-color: #0070f3;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,112,243,0.15);
+}
+
+/* 小动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .summary-total {
     display: flex;
     justify-content: space-between;
     padding: 1.25rem 0;
     font-size: 1.25rem;
     font-weight: 700;
-}
-
-.paypal-hint{
-    font-size: 0.7rem;
-}
-#paypal-button-container{
-    margin-top: 10px;
 }
 
 .checkout-btn {
@@ -521,6 +667,9 @@
 
     .cart-summary {
         position: static;
+        max-height: none;
+        position: static;
+        overflow-y: visible;
     }
 
     .cart-headers {

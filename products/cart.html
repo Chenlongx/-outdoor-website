@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,27 +10,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Meta Pixel Code -->
     <script>
-        !function(f,b,e,v,n,t,s)
-        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-        n.queue=[];t=b.createElement(e);t.async=!0;
-        t.src=v;s=b.getElementsByTagName(e)[0];
-        s.parentNode.insertBefore(t,s)}(window, document,'script',
-        'https://connect.facebook.net/en_US/fbevents.js');
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
         fbq('init', '1345745506686997');
         fbq('track', 'PageView');
-        </script>
-        <noscript><img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1"
-        /></noscript>
-        <!-- End Meta Pixel Code -->
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
 </head>
+
 <body>
     <header>
         <!-- 夏季优惠页面 -->
         <div class="announcement-bar">
-            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop Now</a></p>
+            <p>Summer Adventure Sale: Up to 40% Off Select Gear. <a href="summer-sale.html" class="btn-small">Shop
+                    Now</a></p>
             <div class="countdown" id="countdown">
                 <span class="time-unit">
                     <span id="days">00</span>d
@@ -48,7 +53,7 @@
         <!-- 包邮优惠提示 -->
         <div class="free-shipping-banner">
             🚚 Free shipping on orders over <strong>$49.90</strong>!
-          </div>
+        </div>
         <nav>
             <div class="logo">
                 <a href="../index.html"><img src="../img/logo.svg" alt="WildGear Logo"></a>
@@ -62,7 +67,8 @@
             </ul>
             <div class="nav-actions">
                 <a class="icon-link" onclick="showRegistrationComingSoon(event)"><i class="fas fa-user"></i></a>
-                <a href="cart.html" class="icon-link active"><i class="fas fa-shopping-cart"></i><span class="cart-count"></span></a>
+                <a href="cart.html" class="icon-link active"><i class="fas fa-shopping-cart"></i><span
+                        class="cart-count"></span></a>
             </div>
             <div class="mobile-menu-btn">
                 <i class="fas fa-bars"></i>
@@ -109,26 +115,159 @@
                         <span>Discount</span>
                         <span id="discount-amount">-$0.00</span>
                     </div>
-                    <!-- <div class="summary-row">
-                        <span>Tax</span>
-                        <span id="tax">$0.00</span>
-                    </div> -->
 
                     <div class="promo-code">
                         <h3>Promo Code</h3>
                         <div class="promo-input">
-                            <input type="text" placeholder="Enter promo code">
+                            <input type="text" placeholder="Enter promo code (optional)">
                             <button>Apply</button>
                         </div>
-                    </div>
 
+
+                    </div>
                     <div class="summary-total">
                         <span>Total</span>
                         <span id="total">$0.00</span>
                     </div>
+
+                    <!-- 送货地址 -->
+                    <div class="shipping-address address-section">
+                    <h3>Shipping Address</h3>
+
+                    <div class="form-group">
+                        <label for="shipping-country">Country/Region</label>
+                        <select id="shipping-country">
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="ES">Spain</option>
+                            <option value="IT">Italy</option>
+                            <option value="NL">Netherlands</option>
+                            <option value="CH">Switzerland</option>
+                            <option value="BE">Belgium</option>
+                            <option value="SE">Sweden</option>
+                            <option value="NO">Norway</option>
+                            <option value="JP">Japan</option>
+                            <option value="SG">Singapore</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                        <label for="shipping-firstname">First Name</label>
+                        <input type="text" id="shipping-firstname" placeholder="First Name">
+                        </div>
+                        <div class="form-group half">
+                        <label for="shipping-lastname">Last Name</label>
+                        <input type="text" id="shipping-lastname" placeholder="Last Name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shipping-address">Street Address</label>
+                        <input type="text" id="shipping-address" placeholder="Street address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shipping-apartment">Apartment, Suite (optional)</label>
+                        <input type="text" id="shipping-apartment" placeholder="Apartment, suite, unit number">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group half">
+                            <label for="shipping-city">City</label>
+                            <input type="text" id="shipping-city" placeholder="City">
+                        </div>
+                        <div class="form-group half" id="shipping-state-container">
+                            <label for="shipping-state">State/Province</label>
+                            <input type="text" id="shipping-state" placeholder="State/Province">
+                        </div>
+                        <div class="form-group half">
+                            <label for="shipping-zip">Postal Code</label>
+                            <input type="text" id="shipping-zip" placeholder="Postal Code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="shipping-phone">Phone</label>
+                        <input type="tel" id="shipping-phone" placeholder="Phone number">
+                    </div>
+                    </div>
+
+                    
+                    <div class="billing-toggle">
+                        <label>
+                            <input type="checkbox" id="same-as-shipping" checked>
+                            Use shipping address as billing address
+                        </label>
+                    </div>
+                    <!-- 账单地址表单（默认隐藏） -->
+                    <div class="billing-address" id="billing-address-form" style="display: none;">
+                        <h3>Billing Address</h3>
+
+                        <div class="form-group">
+                            <label for="billing-country">Country/Region</label>
+                            <select id="billing-country">
+                                <option value="US">United States</option>
+                                <option value="GB">United Kingdom</option>
+                                <option value="DE">Germany</option>
+                                <option value="FR">France</option>
+                                <option value="CA">Canada</option>
+                                <option value="AU">Australia</option>
+                                <option value="ES">Spain</option>
+                                <option value="IT">Italy</option>
+                                <option value="NL">Netherlands</option>
+                                <option value="CH">Switzerland</option>
+                                <option value="BE">Belgium</option>
+                                <option value="SE">Sweden</option>
+                                <option value="NO">Norway</option>
+                                <option value="JP">Japan</option>
+                                <option value="SG">Singapore</option>
+                            </select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="billing-firstname">First Name</label>
+                                <input type="text" id="billing-firstname" placeholder="First Name">
+                            </div>
+                            <div class="form-group half">
+                                <label for="billing-lastname">Last Name</label>
+                                <input type="text" id="billing-lastname" placeholder="Last Name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="billing-address">Street Address</label>
+                            <input type="text" id="billing-address" placeholder="Street address">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="billing-apartment">Apartment, Suite (optional)</label>
+                            <input type="text" id="billing-apartment" placeholder="Apartment, suite, unit number">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="billing-city">City</label>
+                                <input type="text" id="billing-city" placeholder="City">
+                            </div>
+                            <div class="form-group half">
+                                <label for="billing-zip">Postal Code</label>
+                                <input type="text" id="billing-zip" placeholder="Postal Code">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="billing-phone">Phone</label>
+                            <input type="tel" id="billing-phone" placeholder="Phone number">
+                        </div>
+                    </div>
                     <!-- 结算按钮 -->
                     <!-- <button class="checkout-btn">Proceed to Checkout</button> -->
-                    <span class="paypal-hint">Express checkout uses your paypal saved payment address. You can change the address after ordering.</span>
                     <div id="paypal-button-container"></div>
                     <p id="result-message"></p>
 
@@ -167,8 +306,10 @@
         <div class="social-links">
             <p>Follow Us</p>
             <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=100089727983737&mibextid=ZbWKwL"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/summitgearhub?igsh=MWZmb29iaXo2MWVzbw=="><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=100089727983737&mibextid=ZbWKwL"><i
+                        class="fab fa-facebook-f"></i></a>
+                <a href="https://www.instagram.com/summitgearhub?igsh=MWZmb29iaXo2MWVzbw=="><i
+                        class="fab fa-instagram"></i></a>
                 <a href="https://x.com/summitgearhub"><i class="fab fa-twitter"></i></a>
                 <a href="https://youtube.com/@summitgearhub?si=8L46WJOF9V52lfkB"><i class="fab fa-youtube"></i></a>
             </div>
@@ -240,7 +381,8 @@
             <div class="footer-links">
                 <a href="privacy-policy.html">Privacy Policy</a>
                 <a href="terms-of-service.html">Terms of Service</a>
-                <a href="javascript:void(0)" onclick="alert('This feature is not available yet'); return false;">Accessibility</a>
+                <a href="javascript:void(0)"
+                    onclick="alert('This feature is not available yet'); return false;">Accessibility</a>
                 <a href="visual-sitemap.html">Sitemap</a>
             </div>
             <div class="copyright">
@@ -262,9 +404,9 @@
     </div>
 
     <!-- JS-SDK -->
-    <script src="https://www.paypal.com/sdk/js?client-id=Abbe3Rs_UB-zn_sQ7z0QGQog51tqtHHKqlFFbcY4VLJDCMGNGudxWXnA0ODyjkFPr6gPMnF4cuTE8nNf&currency=USD&locale=en_US"></script>
+    <script
+        src="https://www.paypal.com/sdk/js?client-id=Acxmfon7onLy6ii8r51JSI-jarFpNHzksjLSoKGxhNygbSKKicZdMl-uwlNmYvKkDuWasy9-Zjn_XjYE&currency=USD&locale=en_US"></script>
     <script src="../js/cart.js"></script>
-    <!-- <script src="../js/summer-sale.js"></script> -->
-    <!-- <script src="../script.js"></script> -->
 </body>
+
 </html>
