@@ -338,7 +338,7 @@
 
 .address-section .form-row {
   display: flex;
-  gap: 15px;
+  gap: 10px;
 }
 
 .address-section .form-group.half {

@@ -40,6 +40,39 @@ document.addEventListener('DOMContentLoaded', function () {
       // 页面加载时运行一次，确保初始状态正确
     toggleStateField();
 
+    // 通过 IP API 自动选择国家
+    fetch('https://ipapi.co/json/')
+    .then(response => response.json())
+    .then(data => {
+        const detectedCountry = data.country_code; // e.g. "US", "GB", etc.
+        console.log("Detected country:", detectedCountry);
+
+        const countrySelect = document.getElementById('shipping-country');
+        if (!countrySelect) return;
+
+        // 检查下拉框中是否存在该选项
+        const hasOption = [...countrySelect.options].some(opt => opt.value === detectedCountry);
+
+        if (hasOption) {
+        countrySelect.value = detectedCountry;
+        } else {
+        // 如果定位到了但不在列表中，默认 US
+        countrySelect.value = 'US';
+        }
+
+        toggleStateField(); // 更新州/省显示
+    })
+    .catch(err => {
+        console.warn("IP API failed, fallback to default country US", err);
+
+        // 如果定位失败，默认美国
+        const countrySelect = document.getElementById('shipping-country');
+        if (countrySelect) {
+        countrySelect.value = 'US';
+        toggleStateField(); 
+        }
+    });
+
     // 国家选择变化时调用
     countrySelect.addEventListener('change', toggleStateField);
 
