@@ -638,7 +638,40 @@ document.addEventListener('DOMContentLoaded', function () {
             showRegistrationComingSoon(event); // Call your function
         });
     }
+
+    // 最近购买弹窗
+    // 每隔 20 秒随机弹一次
+    setInterval(showRecentPurchasePopup, 20000);
+
+    // 页面加载 3 秒后先显示一次
+    setTimeout(showRecentPurchasePopup, 3000);
 });
+
+
+// === 最近购买弹窗 ===
+function showRecentPurchasePopup() {
+  const popup = document.getElementById('recent-purchase-popup');
+  if (!popup) return;
+
+  const fakePurchases = [
+    { name: 'Sarah', location: 'New York', product: 'Camping Tent', time: '2 minutes ago' },
+    { name: 'David', location: 'California', product: 'Hiking Backpack', time: '5 minutes ago' },
+    { name: 'Emily', location: 'London', product: 'Portable Blender', time: '3 minutes ago' },
+    { name: 'Tom', location: 'Sydney', product: 'Outdoor Jacket', time: '8 minutes ago' },
+    { name: 'Anna', location: 'Berlin', product: 'Waterproof Boots', time: '4 minutes ago' },
+  ];
+
+  const randomPurchase = fakePurchases[Math.floor(Math.random() * fakePurchases.length)];
+
+  popup.innerHTML = `✔ <strong>${randomPurchase.name}</strong> from ${randomPurchase.location} just bought <strong>${randomPurchase.product}</strong> (${randomPurchase.time})`;
+  popup.style.display = 'block';
+
+  // 3 秒后自动隐藏
+  setTimeout(() => {
+    popup.style.display = 'none';
+  }, 3000);
+}
+
 
 // 初始化购物车功能
 function initCart() {
