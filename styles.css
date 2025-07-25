@@ -960,10 +960,44 @@ nav {
     transition: all 0.3s ease;
 }
 
-.social-icons a:hover {
-    background-color: var(--primary-color);
-    color: white;
+
+/* ✅ Facebook */
+.social-icons a[href*="facebook"] {
+    background-color: white;
+    border: 1px solid #1877F2;
 }
+.social-icons a[href*="facebook"]:hover {
+    color: #1877F2;
+    border: 1px solid #1877F2;
+}
+
+/* ✅ Instagram（渐变色） */
+.social-icons a[href*="instagram"] {
+    /* background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); */
+    background: white;
+    color: #E4405F; /* Instagram 主色 */
+    border: 1px solid #E4405F;
+}
+
+/* ✅ Twitter(X) */
+.social-icons a[href*="x.com"], 
+.social-icons a[href*="twitter"] {
+    /* background-color: #000000; */
+    background-color: white;
+    color: #1877F2;
+    border: 1px solid #1877F2;
+}
+
+/* ✅ YouTube */
+.social-icons a[href*="youtube"] {
+    background-color: white;
+    border: 1px solid #FF0000;
+}
+.social-icons a[href*="youtube"]:hover {
+    background-color: white;
+    color: #FF0000;
+}
+
 
 /* Footer Styles */
 footer {

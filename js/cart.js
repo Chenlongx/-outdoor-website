@@ -336,8 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const shippingState = document.querySelector('#shipping-state')?.value || '';
 
 
-                    // ✅ 订单总金额（你可能需要 result.total 之类的）
-                    const totalAmount = details.purchase_units[0].amount.value;
+
 
                     // ✅ 最终用于发货的地址（前端为准）
                     const finalShippingAddress = {
@@ -351,6 +350,21 @@ document.addEventListener('DOMContentLoaded', function () {
                         country: shippingCountry,
                     };
 
+                    // ✅ 获取账单地址（billing）
+                    const useShippingAsBilling = document.querySelector('#same-as-shipping').checked;
+                    const billingAddress = useShippingAsBilling
+                        ? { ...finalShippingAddress }
+                        : {
+                            full_name: `${document.querySelector('#billing-firstname').value} ${document.querySelector('#billing-lastname').value}`,
+                            phone_number: document.querySelector('#billing-phone').value,
+                            email: paypalPayer.email,
+                            address_line_1: document.querySelector('#billing-address').value,
+                            city: document.querySelector('#billing-city').value,
+                            postal_code: document.querySelector('#billing-zip').value,
+                            country: document.querySelector('#billing-country').value,
+                            state: '', // 如你未来添加 billing-state 可补充
+                        };
+
                     // ✅ 同时把 PayPal 返回的地址也存起来，方便后端对比
                     const paypalShippingAddress = paypalPayer.paypal_shipping ? {
                         full_name: paypalPayer.paypal_shipping.name.full_name,
@@ -363,6 +377,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // console.log("前端地址:", finalShippingAddress);
                     // console.log("PayPal 返回地址:", paypalShippingAddress);
+                    
+                    // ✅ 订单总金额（你可能需要 result.total 之类的）
+                    const totalAmount = details.purchase_units[0].amount.value;
 
                     // ✅ 购物车商品
                     const itemsToSave = currentOrderItemsForStorage.map(item => ({
@@ -379,6 +396,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         total_amount: totalAmount,
                         items: itemsToSave,
                         shipping_address: finalShippingAddress,   // ✅ 用这个履约
+                        billing_address: billingAddress, // ✅ 加入账单地址
                         paypal_address: paypalShippingAddress,   // ✅ 仅存储对比用
                         payer_info: paypalPayer,                 // ✅ 保存付款人信息
                     };

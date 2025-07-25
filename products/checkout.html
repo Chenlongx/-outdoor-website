@@ -457,7 +457,7 @@
                 console.log("localStorage orderData: ", orderData);
                 console.log("localStorage orderItems: ", orderItems);
 
-                if (orderData && orderItems) {
+                if (orderData) {
                     // 填充表单字段
                     const order = orderData?.order || {};  // 取出 order 层
                     const shipping = order.shipping_address || {};
