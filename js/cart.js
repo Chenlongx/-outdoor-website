@@ -639,12 +639,10 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // 最近购买弹窗
-    // 每隔 20 秒随机弹一次
-    setInterval(showRecentPurchasePopup, 20000);
 
-    // 页面加载 3 秒后先显示一次
-    setTimeout(showRecentPurchasePopup, 3000);
+    // 每隔 20 秒随机弹一次
+    setTimeout(showRecentPurchasePopup, 5000);   // 第一次，页面加载后 5 秒
+    setTimeout(showRecentPurchasePopup, 35000);  // 第二次，35 秒后
 });
 
 
