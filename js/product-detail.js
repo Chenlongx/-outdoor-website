@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 页面加载时，立即显示一个默认的0星和0评论占位符
     updateMainProductRating({ average: 0, count: 0 });
 
+    startCountdown()
+
     // // 从 URL 获取产品 ID
     const urlParams = new URLSearchParams(window.location.search);
     const productParam = urlParams.get('id'); // 获取 URL 中的 id 参数
@@ -108,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.style.overflow = 'auto';
         }
     });
-        
+
 
 
     // 通过 API 获取产品信息
@@ -121,8 +123,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // 更新页面标题
             document.title = `${product.name} | WildGear`;
 
-            console.log("获取到的数据: " + JSON.stringify(product, null, 2));
-            console.log(parseFloat(product.final_price).toFixed(2))
+            // console.log("获取到的数据: " + JSON.stringify(product, null, 2));
+            // console.log(parseFloat(product.final_price).toFixed(2))
             // 更新产品信息
             const productImage = document.querySelector('.main-image img');
             const productName = document.querySelector('.product-name');
@@ -131,9 +133,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const productPrice = document.querySelector('.current-price');
             const originalPrice = document.querySelector('.original-price');
             const discountBadge = document.querySelector('.discount-badge');
-            const stockStatusElement = document.getElementById('stock-status'); 
+            const stockStatusElement = document.getElementById('stock-status');
             const productDescription = document.querySelector('.product-description');
-            
+
 
             // 展示型号选择
             const productVariants = document.querySelector('.product-variants');
@@ -183,10 +185,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 productQuantityInput.disabled = false;
                 productQuantityInput.max = null; // 移除最大数量限制
             }
-            
+
             // if (productDescription) productDescription.textContent = product.description;
             if (productDescription && product.description) {
-            productDescription.innerHTML = product.description.replace(/\n/g, '<br>');
+                productDescription.innerHTML = product.description.replace(/\n/g, '<br>');
             }
 
             if (productVariants && Array.isArray(product.variant_options) && product.variant_options.length > 0) {
@@ -289,23 +291,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     const videoPreview = document.getElementById('videoPreview');
                     const youtubeIframe = document.getElementById('youtubeVideo'); // Corrected ID
                     const videoLoadingSpinner = document.getElementById('videoLoadingSpinner'); // 获取加载指示器元素
-            
+
                     if (videoPreview && youtubeIframe) {
                         // 设置视频预览的缩略图
                         const videoThumbnailImg = videoPreview.querySelector('img');
-                        if (videoThumbnailImg) {    
+                        if (videoThumbnailImg) {
                             videoThumbnailImg.src = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`; // Use maxresdefault for best quality
                             videoThumbnailImg.alt = `Product Video Thumbnail for ${product.name}`;
                         }
-            
+
                         // 在预览中添加点击监听器来播放视频
                         videoPreview.addEventListener('click', () => {
                             videoPreview.style.display = 'none'; // 隐藏预览
                             videoLoadingSpinner.style.display = 'flex'; // 显示加载指示器
-        
+
                             // 设置 iframe src，一旦设置，iframe就会开始加载视频
                             youtubeIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
-        
+
                             // 监听 iframe 的加载完成事件
                             // 'load' 事件在 iframe 的内容完全加载后触发
                             youtubeIframe.onload = () => {
@@ -314,18 +316,18 @@ document.addEventListener('DOMContentLoaded', function () {
                                 youtubeIframe.onload = null; // 移除事件监听器，防止重复触发
                             };
                         });
-            
+
                         // 确保 iframe 最初是隐藏的并且显示预览
                         youtubeIframe.style.display = 'none';
                         videoPreview.style.display = 'block';
-            
+
                     } else {
                         console.warn("HTML 中未找到 ID 为“videoPreview”或“youtubeVideo”的元素。");
                     }
                 } else {
                     console.warn("无法从提供的 URL 中提取 YouTube 视频 ID：", product.video_url);
                 }
-            }else{
+            } else {
                 // 如果 product.video_url 是 null，隐藏视频标签和视频内容区域
                 const videoTab = document.querySelector('.tab[data-tab="video"]');
                 const videoTabPane = document.getElementById('video'); // 这个ID对应 <div class="tab-pane" id="video">
@@ -542,7 +544,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
-            
+
             // 产品详情标签
             const tabs = document.querySelectorAll('.tab');
             const tabPanes = document.querySelectorAll('.tab-pane');
@@ -1241,7 +1243,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (pagedReviews.length === 0) {
                 listEl.innerHTML = '<p>No comments yet — Be the first to leave a review!</p>'; // 修改提示为中文
                 paginationEl.innerHTML = '';
-                reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });  
+                reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
                 // 如果没有评论，产品顶部的评分也显示为0
                 updateMainProductRating({ average: 0, count: 0 }); // <-- 在这里调用
@@ -1507,4 +1509,49 @@ document.addEventListener('DOMContentLoaded', function () {
         return (match && match[1]) ? match[1] : null;
     }
 
+    async function startCountdown() {
+        const countdownElement = document.getElementById('countdown');
+        if (!countdownElement) return;
+
+        try {
+            // Fetch the end time from the Netlify function
+            const response = await fetch('/.netlify/functions/get-activities');  // 调用Netlify函数
+            const data = await response.json();
+
+            // 获取从函数中返回的活动结束时间
+            const countdownDate = new Date(data.endTime);  // 假设endTime是一个ISO格式的时间字符串
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = countdownDate - now;
+
+                // Calculate time units
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Update DOM
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+
+                // If countdown is over
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.innerHTML = 'Promotion Ended';
+                }
+            }
+
+            // Initial call to update the countdown immediately
+            updateCountdown();
+
+            // Update countdown every second
+            const countdownInterval = setInterval(updateCountdown, 1000);
+
+        } catch (error) {
+            console.error('Error fetching end time:', error);
+        }
+    }
 });
