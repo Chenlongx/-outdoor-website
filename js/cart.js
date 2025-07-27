@@ -261,9 +261,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 label: 'paypal',
             },
             locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
+            
 
             // 创建订单信息
             createOrder: async function (data, actions) {
+
                 // 1. 从你的 HTML 表单中获取用户填写的收货地址信息
                 const shippingFirstName = document.querySelector('#shipping-firstname').value;
                 const shippingLastName = document.querySelector('#shipping-lastname').value;
@@ -279,6 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 2. （可选）表单验证：确保必填项都已填写
                 if (!shippingFirstName || !shippingLastName || !shippingStreet || !shippingCity || !shippingPostal || !shippingCountry) {
+                    console.warn("⚠️ 收货地址不完整 (createOrder 阶段)");
                     showNotification('Please fill out all required shipping address fields.', 'error');
                     // 通过返回一个被拒绝的 Promise 来阻止 PayPal 窗口打开
                     return Promise.reject(new Error('Shipping address is incomplete.'));
@@ -303,6 +306,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!response.ok) {
                     throw new Error('Could not validate price.');
                 }
+
+                // 触发 Facebook Pixel 的事件，使用后端校验的价格
+                fbq('track', 'InitiateCheckout', { value: result.total, currency: 'USD' });
 
                 // 4. 创建 PayPal 订单，并在 purchase_units 中附加 shipping 对象
                 return actions.order.create({
