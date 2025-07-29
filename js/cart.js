@@ -245,6 +245,251 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // 渲染 PayPal 按钮
+    // async function renderPayPalButton() {
+    //     if (!window.paypal) {
+    //         // console.error("PayPal SDK has not loaded.");
+    //         return;
+    //     }
+
+    //     let currentOrderItemsForStorage = [];
+
+    //     const paypalButtons = window.paypal.Buttons({
+    //         style: {
+    //             shape: 'rect',
+    //             layout: 'vertical',
+    //             color: 'gold',
+    //             label: 'paypal',
+    //         },
+    //         locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
+            
+
+    //         // 创建订单信息
+    //         createOrder: async function (data, actions) {
+
+    //             // 1. 从你的 HTML 表单中获取用户填写的收货地址信息
+    //             const shippingFirstName = document.querySelector('#shipping-firstname').value;
+    //             const shippingLastName = document.querySelector('#shipping-lastname').value;
+    //             const shippingFullName = `${shippingFirstName} ${shippingLastName}`; // 将姓和名合并
+    //             const shippingCountry = document.querySelector('#shipping-country').value; // 国家代码 (例如 'US')
+    //             const shippingStreet = document.querySelector('#shipping-address').value;
+    //             const shippingCity = document.querySelector('#shipping-city').value;
+    //             const shippingPostal = document.querySelector('#shipping-zip').value;
+
+    //             // 注意：你的 HTML 中没有州/省的输入框，这里做了兼容处理。
+    //             // 如果将来添加了 ID 为 'shipping-state' 的输入框，代码也能自动获取其值。
+    //             const shippingState = document.querySelector('#shipping-state')?.value || '';
+
+    //             // 2. （可选）表单验证：确保必填项都已填写
+    //             if (!shippingFirstName || !shippingLastName || !shippingStreet || !shippingCity || !shippingPostal || !shippingCountry) {
+    //                 console.warn("⚠️ 收货地址不完整 (createOrder 阶段)");
+    //                 showNotification('Please fill out all required shipping address fields.', 'error');
+    //                 // 通过返回一个被拒绝的 Promise 来阻止 PayPal 窗口打开
+    //                 return Promise.reject(new Error('Shipping address is incomplete.'));
+    //             }
+
+    //             // 3. 照常获取购物车和运费信息，并调用后端函数验证价格
+    //             const cart = getCart();
+    //             const selectedShippingCost = parseFloat(document.getElementById('shipping-options').value);
+
+    //             const response = await fetch('/.netlify/functions/validate-price', {
+    //                 method: 'POST',
+    //                 headers: { 'Content-Type': 'application/json' },
+    //                 body: JSON.stringify({
+    //                     cart: cart,
+    //                     promoCode: appliedPromoCode,
+    //                     selectedShipping: selectedShippingCost
+    //                 })
+    //             });
+
+    //             const result = await response.json();
+
+    //             if (!response.ok) {
+    //                 throw new Error('Could not validate price.');
+    //             }
+
+    //             // 触发 Facebook Pixel 的事件，使用后端校验的价格
+    //             fbq('track', 'InitiateCheckout', { value: result.total, currency: 'USD' });
+
+    //             // 4. 创建 PayPal 订单，并在 purchase_units 中附加 shipping 对象
+    //             return actions.order.create({
+    //                 purchase_units: [{
+    //                     amount: {
+    //                         currency_code: 'USD',
+    //                         value: result.total.toFixed(2), // 使用后端返回的总金额
+    //                         breakdown: {
+    //                             item_total: {
+    //                                 currency_code: 'USD',
+    //                                 value: result.subtotal.toFixed(2),
+    //                             },
+    //                             shipping: {
+    //                                 currency_code: 'USD',
+    //                                 value: result.shipping.toFixed(2),
+    //                             }
+    //                         }
+    //                     },
+    //                     // ✅ 关键步骤：将从表单获取的地址信息构建成 shipping 对象传递给 PayPal
+    //                     shipping: {
+    //                         name: {
+    //                             full_name: shippingFullName // PayPal 要求是全名
+    //                         },
+    //                         address: {
+    //                             address_line_1: shippingStreet,    // 街道地址
+    //                             admin_area_2: shippingCity,        // 城市
+    //                             admin_area_1: shippingState,       // 州/省 (State/Province)
+    //                             postal_code: shippingPostal,       // 邮政编码
+    //                             country_code: shippingCountry      // 两位国家代码 (e.g., "US")
+    //                         }
+    //                     },
+    //                     items: result.items.map(item => ({
+    //                         name: item.name,
+    //                         unit_amount: { currency_code: 'USD', value: item.unit_amount.toFixed(2) },
+    //                         quantity: item.quantity
+    //                     }))
+    //                 }]
+    //             });
+    //         },
+
+    //         // 支付成功后的处理
+    //         onApprove: async function (data, actions) {
+    //             return actions.order.capture().then(async function (details) {
+
+    //                 // ✅ PayPal 返回的付款人信息（保留备用）
+    //                 const paypalPayer = {
+    //                     email: details.payer.email_address,
+    //                     given_name: details.payer.name.given_name,
+    //                     surname: details.payer.name.surname,
+    //                     paypal_shipping: details.purchase_units[0].shipping || null  // 可能为空
+    //                 };
+
+    //                 console.log("PayPal 返回的地址信息(可能为空):", paypalPayer.paypal_shipping);
+
+    //                 // ✅ 前端表单的地址（履约用）
+    //                 const shippingFirstName = document.querySelector('#shipping-firstname').value;
+    //                 const shippingPhone = document.querySelector('#shipping-phone').value;
+    //                 const shippingLastName = document.querySelector('#shipping-lastname').value;
+    //                 const shippingFullName = `${shippingFirstName} ${shippingLastName}`;
+    //                 const shippingCountry = document.querySelector('#shipping-country').value;
+    //                 const shippingStreet = document.querySelector('#shipping-address').value;
+    //                 const shippingCity = document.querySelector('#shipping-city').value;
+    //                 const shippingPostal = document.querySelector('#shipping-zip').value;
+    //                 const shippingState = document.querySelector('#shipping-state')?.value || '';
+
+
+
+
+    //                 // ✅ 最终用于发货的地址（前端为准）
+    //                 const finalShippingAddress = {
+    //                     full_name: shippingFullName,
+    //                     phone_number: shippingPhone,
+    //                     email: paypalPayer.email,
+    //                     address_line_1: shippingStreet,
+    //                     city: shippingCity,
+    //                     state: shippingState,
+    //                     postal_code: shippingPostal,
+    //                     country: shippingCountry,
+    //                 };
+
+    //                 // ✅ 获取账单地址（billing）
+    //                 const useShippingAsBilling = document.querySelector('#same-as-shipping').checked;
+    //                 const billingAddress = useShippingAsBilling
+    //                     ? { ...finalShippingAddress }
+    //                     : {
+    //                         full_name: `${document.querySelector('#billing-firstname').value} ${document.querySelector('#billing-lastname').value}`,
+    //                         phone_number: document.querySelector('#billing-phone').value,
+    //                         email: paypalPayer.email,
+    //                         address_line_1: document.querySelector('#billing-address').value,
+    //                         city: document.querySelector('#billing-city').value,
+    //                         postal_code: document.querySelector('#billing-zip').value,
+    //                         country: document.querySelector('#billing-country').value,
+    //                         state: '', // 如你未来添加 billing-state 可补充
+    //                     };
+
+    //                 // ✅ 同时把 PayPal 返回的地址也存起来，方便后端对比
+    //                 const paypalShippingAddress = paypalPayer.paypal_shipping ? {
+    //                     full_name: paypalPayer.paypal_shipping.name.full_name,
+    //                     address_line_1: paypalPayer.paypal_shipping.address.address_line_1,
+    //                     city: paypalPayer.paypal_shipping.address.admin_area_2,
+    //                     state: paypalPayer.paypal_shipping.address.admin_area_1,
+    //                     postal_code: paypalPayer.paypal_shipping.address.postal_code,
+    //                     country: paypalPayer.paypal_shipping.address.country_code
+    //                 } : null;
+
+    //                 // console.log("前端地址:", finalShippingAddress);
+    //                 // console.log("PayPal 返回地址:", paypalShippingAddress);
+                    
+    //                 // ✅ 订单总金额（你可能需要 result.total 之类的）
+    //                 const totalAmount = details.purchase_units[0].amount.value;
+
+    //                 // ✅ 购物车商品
+    //                 const itemsToSave = currentOrderItemsForStorage.map(item => ({
+    //                     id: item.id,
+    //                     name: item.name,
+    //                     price: item.price,
+    //                     description: item.description,
+    //                     quantity: item.quantity,
+    //                     ...item
+    //                 }));
+
+    //                 // ✅ 订单对象（包含两份地址，方便后台核对）
+    //                 const order = {
+    //                     total_amount: totalAmount,
+    //                     items: itemsToSave,
+    //                     shipping_address: finalShippingAddress,   // ✅ 用这个履约
+    //                     billing_address: billingAddress, // ✅ 加入账单地址
+    //                     paypal_address: paypalShippingAddress,   // ✅ 仅存储对比用
+    //                     payer_info: paypalPayer,                 // ✅ 保存付款人信息
+    //                 };
+
+    //                 const payload = {
+    //                     order,           // 订单信息
+    //                     items: itemsToSave  // 商品列表
+    //                 };
+
+    //                 // console.log("即将发送到后端的 payload:", JSON.stringify(payload, null, 2));
+
+    //                 // ✅ 发到后端存储
+    //                 const response = await fetch('/.netlify/functions/store-order', {
+    //                     method: 'POST',
+    //                     headers: { 'Content-Type': 'application/json' },
+    //                     body: JSON.stringify(payload)
+    //                 });
+    //                 const result = await response.json();
+
+    //                 if (response.ok) {
+    //                     console.log('订单已成功保存:', result);
+    //                     if (result.orderId) localStorage.setItem('orderId', result.orderId);
+    //                 } else {
+    //                     console.error('保存订单时出错:', result);
+    //                     showNotification('处理订单时出错，请重试。');
+    //                 }
+
+    //                 // ✅ 存本地，跳转到确认页面
+    //                 localStorage.setItem('orderData', JSON.stringify(payload));
+    //                 window.location.href = '../products/checkout.html';
+    //             });
+    //         },
+
+
+    //         // 支付失败的处理
+    //         onCancel: function (data) {
+    //             // 交易已取消
+    //             showNotification('Transaction Cancelled');
+    //         },
+
+    //         // 错误处理
+    //         onError: function (error) {
+    //             // 付款失败转跳到whatsapp客户联系页面
+    //             console.error('付款处理过程中出现错误:', error);
+    //             // alert('付款过程中出现问题');
+    //             showNotification("Payment error, please contact online customer service")
+    //             // window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
+    //         }
+    //     });
+
+    //     // 渲染 PayPal 按钮
+    //     paypalButtons.render('#paypal-button-container');
+    // }
+
     async function renderPayPalButton() {
         if (!window.paypal) {
             // console.error("PayPal SDK has not loaded.");
@@ -260,8 +505,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 color: 'gold',
                 label: 'paypal',
             },
-            locale: 'en_US',  // 强制使用英文（美国），可以改成其他语言代码如 'en_GB', 'zh_CN' 等
-            
+            locale: 'en_US',
 
             // 创建订单信息
             createOrder: async function (data, actions) {
@@ -269,27 +513,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 1. 从你的 HTML 表单中获取用户填写的收货地址信息
                 const shippingFirstName = document.querySelector('#shipping-firstname').value;
                 const shippingLastName = document.querySelector('#shipping-lastname').value;
-                const shippingFullName = `${shippingFirstName} ${shippingLastName}`; // 将姓和名合并
-                const shippingCountry = document.querySelector('#shipping-country').value; // 国家代码 (例如 'US')
+                const shippingFullName = `${shippingFirstName} ${shippingLastName}`.trim(); // 合并姓名并去除前后空格
+                const shippingCountry = document.querySelector('#shipping-country').value;
                 const shippingStreet = document.querySelector('#shipping-address').value;
                 const shippingCity = document.querySelector('#shipping-city').value;
                 const shippingPostal = document.querySelector('#shipping-zip').value;
-
-                // 注意：你的 HTML 中没有州/省的输入框，这里做了兼容处理。
-                // 如果将来添加了 ID 为 'shipping-state' 的输入框，代码也能自动获取其值。
                 const shippingState = document.querySelector('#shipping-state')?.value || '';
 
-                // 2. （可选）表单验证：确保必填项都已填写
-                if (!shippingFirstName || !shippingLastName || !shippingStreet || !shippingCity || !shippingPostal || !shippingCountry) {
-                    console.warn("⚠️ 收货地址不完整 (createOrder 阶段)");
-                    showNotification('Please fill out all required shipping address fields.', 'error');
-                    // 通过返回一个被拒绝的 Promise 来阻止 PayPal 窗口打开
-                    return Promise.reject(new Error('Shipping address is incomplete.'));
-                }
-
-                // 3. 照常获取购物车和运费信息，并调用后端函数验证价格
+                // 2. 照常获取购物车和运费信息，并调用后端函数验证价格
                 const cart = getCart();
                 const selectedShippingCost = parseFloat(document.getElementById('shipping-options').value);
+                currentOrderItemsForStorage = cart; // 在这里保存当前购物车的状态
 
                 const response = await fetch('/.netlify/functions/validate-price', {
                     method: 'POST',
@@ -304,150 +538,133 @@ document.addEventListener('DOMContentLoaded', function () {
                 const result = await response.json();
 
                 if (!response.ok) {
-                    throw new Error('Could not validate price.');
+                    showNotification(result.error || 'Could not validate price.', 'error');
+                    return Promise.reject(new Error('Could not validate price.'));
                 }
 
-                // 触发 Facebook Pixel 的事件，使用后端校验的价格
+                // 触发 Facebook Pixel 的事件
                 fbq('track', 'InitiateCheckout', { value: result.total, currency: 'USD' });
-
-                // 4. 创建 PayPal 订单，并在 purchase_units 中附加 shipping 对象
-                return actions.order.create({
-                    purchase_units: [{
-                        amount: {
-                            currency_code: 'USD',
-                            value: result.total.toFixed(2), // 使用后端返回的总金额
-                            breakdown: {
-                                item_total: {
-                                    currency_code: 'USD',
-                                    value: result.subtotal.toFixed(2),
-                                },
-                                shipping: {
-                                    currency_code: 'USD',
-                                    value: result.shipping.toFixed(2),
-                                }
-                            }
-                        },
-                        // ✅ 关键步骤：将从表单获取的地址信息构建成 shipping 对象传递给 PayPal
-                        shipping: {
-                            name: {
-                                full_name: shippingFullName // PayPal 要求是全名
+                
+                // 3. ✅【核心修改】创建一个基础的订单对象 (purchase_unit)
+                const purchase_unit = {
+                    amount: {
+                        currency_code: 'USD',
+                        value: result.total.toFixed(2),
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'USD',
+                                value: result.subtotal.toFixed(2),
                             },
-                            address: {
-                                address_line_1: shippingStreet,    // 街道地址
-                                admin_area_2: shippingCity,        // 城市
-                                admin_area_1: shippingState,       // 州/省 (State/Province)
-                                postal_code: shippingPostal,       // 邮政编码
-                                country_code: shippingCountry      // 两位国家代码 (e.g., "US")
+                            shipping: {
+                                currency_code: 'USD',
+                                value: result.shipping.toFixed(2),
                             }
+                        }
+                    },
+                    items: result.items.map(item => ({
+                        name: item.name,
+                        unit_amount: { currency_code: 'USD', value: item.unit_amount.toFixed(2) },
+                        quantity: item.quantity
+                    }))
+                };
+
+                // 4. ✅【核心修改】检查表单地址是否完整。如果完整，则附加到订单；否则，让 PayPal 处理。
+                if (shippingFirstName && shippingLastName && shippingStreet && shippingCity && shippingPostal && shippingCountry) {
+                    console.log("✅ 表单地址完整，将其预设到 PayPal 订单中。");
+                    // 将从表单获取的地址信息构建成 shipping 对象传递给 PayPal
+                    purchase_unit.shipping = {
+                        name: {
+                            full_name: shippingFullName
                         },
-                        items: result.items.map(item => ({
-                            name: item.name,
-                            unit_amount: { currency_code: 'USD', value: item.unit_amount.toFixed(2) },
-                            quantity: item.quantity
-                        }))
-                    }]
+                        address: {
+                            address_line_1: shippingStreet,    // 街道地址
+                            admin_area_2: shippingCity,      // 城市
+                            admin_area_1: shippingState,     // 州/省
+                            postal_code: shippingPostal,     // 邮政编码
+                            country_code: shippingCountry    // 两位国家代码
+                        }
+                    };
+                } else {
+                    console.warn("⚠️ 表单收货地址不完整，将由用户在 PayPal 页面中选择或输入。");
+                    // 不添加 shipping 对象，PayPal 将使用其账户中的默认地址或要求用户提供。
+                }
+
+                // 5. 创建 PayPal 订单
+                return actions.order.create({
+                    purchase_units: [purchase_unit] // 使用我们动态构建的 purchase_unit
                 });
             },
 
             // 支付成功后的处理
             onApprove: async function (data, actions) {
                 return actions.order.capture().then(async function (details) {
+                    
+                    // ✅【核心修改】直接使用 PayPal 返回的、经过用户确认的地址作为最终履约地址
+                    // 这是最可靠的数据源
+                    const confirmedShippingDetails = details.purchase_units[0].shipping;
 
-                    // ✅ PayPal 返回的付款人信息（保留备用）
-                    const paypalPayer = {
-                        email: details.payer.email_address,
-                        given_name: details.payer.name.given_name,
-                        surname: details.payer.name.surname,
-                        paypal_shipping: details.purchase_units[0].shipping || null  // 可能为空
-                    };
+                    if (!confirmedShippingDetails || !confirmedShippingDetails.address) {
+                        // 这种情况很少见，但可能发生在数字商品或特定配置中
+                        // 如果没有地址，则无法发货，需要通知客户并记录错误
+                        console.error("❌ 严重错误: PayPal 没有返回收货地址，无法完成订单。");
+                        showNotification('Could not retrieve shipping address from PayPal. Please contact support.', 'error');
+                        return; // 阻止后续流程
+                    }
 
-                    console.log("PayPal 返回的地址信息(可能为空):", paypalPayer.paypal_shipping);
+                    console.log("✅ 用户在 PayPal 确认的最终地址:", confirmedShippingDetails);
 
-                    // ✅ 前端表单的地址（履约用）
-                    const shippingFirstName = document.querySelector('#shipping-firstname').value;
-                    const shippingPhone = document.querySelector('#shipping-phone').value;
-                    const shippingLastName = document.querySelector('#shipping-lastname').value;
-                    const shippingFullName = `${shippingFirstName} ${shippingLastName}`;
-                    const shippingCountry = document.querySelector('#shipping-country').value;
-                    const shippingStreet = document.querySelector('#shipping-address').value;
-                    const shippingCity = document.querySelector('#shipping-city').value;
-                    const shippingPostal = document.querySelector('#shipping-zip').value;
-                    const shippingState = document.querySelector('#shipping-state')?.value || '';
-
-
-
-
-                    // ✅ 最终用于发货的地址（前端为准）
+                    // ✅ 构建最终用于发货的地址 (以 PayPal 返回的为准)
                     const finalShippingAddress = {
-                        full_name: shippingFullName,
-                        phone_number: shippingPhone,
-                        email: paypalPayer.email,
-                        address_line_1: shippingStreet,
-                        city: shippingCity,
-                        state: shippingState,
-                        postal_code: shippingPostal,
-                        country: shippingCountry,
+                        full_name: confirmedShippingDetails.name.full_name,
+                        // 电话号码不是 PayPal 的标准返回字段，我们仍然尝试从表单获取
+                        phone_number: document.querySelector('#shipping-phone').value,
+                        email: details.payer.email_address, // 邮箱从 payer 信息获取
+                        address_line_1: confirmedShippingDetails.address.address_line_1,
+                        city: confirmedShippingDetails.address.admin_area_2,
+                        state: confirmedShippingDetails.address.admin_area_1,
+                        postal_code: confirmedShippingDetails.address.postal_code,
+                        country: confirmedShippingDetails.address.country_code,
                     };
-
-                    // ✅ 获取账单地址（billing）
+                    
+                    // 获取账单地址 (billing)
                     const useShippingAsBilling = document.querySelector('#same-as-shipping').checked;
                     const billingAddress = useShippingAsBilling
-                        ? { ...finalShippingAddress }
+                        ? { ...finalShippingAddress, phone_number: document.querySelector('#billing-phone').value || finalShippingAddress.phone_number }
                         : {
                             full_name: `${document.querySelector('#billing-firstname').value} ${document.querySelector('#billing-lastname').value}`,
                             phone_number: document.querySelector('#billing-phone').value,
-                            email: paypalPayer.email,
+                            email: details.payer.email_address,
                             address_line_1: document.querySelector('#billing-address').value,
                             city: document.querySelector('#billing-city').value,
                             postal_code: document.querySelector('#billing-zip').value,
                             country: document.querySelector('#billing-country').value,
-                            state: '', // 如你未来添加 billing-state 可补充
+                            state: document.querySelector('#billing-state')?.value || '',
                         };
 
-                    // ✅ 同时把 PayPal 返回的地址也存起来，方便后端对比
-                    const paypalShippingAddress = paypalPayer.paypal_shipping ? {
-                        full_name: paypalPayer.paypal_shipping.name.full_name,
-                        address_line_1: paypalPayer.paypal_shipping.address.address_line_1,
-                        city: paypalPayer.paypal_shipping.address.admin_area_2,
-                        state: paypalPayer.paypal_shipping.address.admin_area_1,
-                        postal_code: paypalPayer.paypal_shipping.address.postal_code,
-                        country: paypalPayer.paypal_shipping.address.country_code
-                    } : null;
-
-                    // console.log("前端地址:", finalShippingAddress);
-                    // console.log("PayPal 返回地址:", paypalShippingAddress);
-                    
-                    // ✅ 订单总金额（你可能需要 result.total 之类的）
                     const totalAmount = details.purchase_units[0].amount.value;
+                    const itemsToSave = currentOrderItemsForStorage.map(item => ({ ...item }));
 
-                    // ✅ 购物车商品
-                    const itemsToSave = currentOrderItemsForStorage.map(item => ({
-                        id: item.id,
-                        name: item.name,
-                        price: item.price,
-                        description: item.description,
-                        quantity: item.quantity,
-                        ...item
-                    }));
-
-                    // ✅ 订单对象（包含两份地址，方便后台核对）
+                    // 构建将要发送到后端的订单对象
                     const order = {
                         total_amount: totalAmount,
                         items: itemsToSave,
-                        shipping_address: finalShippingAddress,   // ✅ 用这个履约
-                        billing_address: billingAddress, // ✅ 加入账单地址
-                        paypal_address: paypalShippingAddress,   // ✅ 仅存储对比用
-                        payer_info: paypalPayer,                 // ✅ 保存付款人信息
+                        shipping_address: finalShippingAddress, // ✅ 使用 PayPal 确认的地址履约
+                        billing_address: billingAddress,
+                        // 为了方便后端对比，可以把 PayPal 返回的原始 Payer 信息也存起来
+                        payer_info: {
+                            email: details.payer.email_address,
+                            given_name: details.payer.name.given_name,
+                            surname: details.payer.name.surname,
+                            paypal_id: details.payer.payer_id
+                        },
                     };
 
                     const payload = {
-                        order,           // 订单信息
-                        items: itemsToSave  // 商品列表
+                        order,
+                        items: itemsToSave
                     };
 
-                    // console.log("即将发送到后端的 payload:", JSON.stringify(payload, null, 2));
-
-                    // ✅ 发到后端存储
+                    // 发送到后端存储
                     const response = await fetch('/.netlify/functions/store-order', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -463,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         showNotification('处理订单时出错，请重试。');
                     }
 
-                    // ✅ 存本地，跳转到确认页面
+                    // 存本地，跳转到确认页面
                     localStorage.setItem('orderData', JSON.stringify(payload));
                     window.location.href = '../products/checkout.html';
                 });
@@ -472,16 +689,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // 支付失败的处理
             onCancel: function (data) {
-                // 交易已取消
                 showNotification('Transaction Cancelled');
             },
 
             // 错误处理
             onError: function (error) {
-                // 付款失败转跳到whatsapp客户联系页面
                 console.error('付款处理过程中出现错误:', error);
-                // alert('付款过程中出现问题');
-                showNotification("Payment error, please contact online customer service")
+                showNotification("Payment error, please contact online customer service");
                 // window.location.href = 'https://wa.me/8613326425565?text=Hello,%20I%20want%20to%20place%20an%20order';
             }
         });
