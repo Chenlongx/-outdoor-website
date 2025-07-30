@@ -10,20 +10,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Meta Pixel Code -->
     <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '682646151227281');
-    fbq('track', 'PageView');
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s)
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '682646151227281');
+        fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=682646151227281&ev=PageView&noscript=1"
-    /></noscript>
+            src="https://www.facebook.com/tr?id=682646151227281&ev=PageView&noscript=1" /></noscript>
     <!-- End Meta Pixel Code -->
     <noscript><img height="1" width="1" style="display:none"
             src="https://www.facebook.com/tr?id=1345745506686997&ev=PageView&noscript=1" /></noscript>
@@ -414,6 +416,33 @@
                             if (data.orderId) {
                                 // 订单更新成功，显示成功模态框 (成功状态，并传入订单号)
                                 showModal(true, data.orderId);
+
+                                // --- 新增的 Facebook Pixel 购买事件代码 ---
+                                const orderData = JSON.parse(localStorage.getItem('orderData'));
+
+                                console.log("orderData的值", orderData)
+
+                                if (orderData && orderData.order && orderData.order.total_amount) {
+                                    const totalValue = parseFloat(orderData.order.total_amount).toFixed(2);
+                                    const currency = 'USD'; // 假设货币是美元，如果不是请修改
+
+                                    // 提取商品信息
+                                    console.log('Preparing Facebook Pixel Purchase event:', orderData?.order?.items);
+                                    const contents = orderData.items.map(item => ({
+                                        id: item.sku || item.product_id, // 使用 SKU 或 product_id
+                                        quantity: item.quantity,
+                                        item_price: parseFloat(item.unit_amount?.value || item.price || 0).toFixed(2)
+                                    }));
+
+                                    fbq('track', 'Purchase', {
+                                        value: totalValue,
+                                        currency: currency,
+                                        contents: contents,
+                                        content_type: 'product' // 或者 'product_group' 如果是多种商品
+                                    });
+                                    console.log('Facebook Pixel Purchase event fired:', { value: totalValue, currency: currency, contents: contents });
+                                }
+
                                 // 清空购物车和订单相关数据，防止重复购买或信息残留
                                 localStorage.removeItem('cart');
                                 localStorage.removeItem('orderData');
