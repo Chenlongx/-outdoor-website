@@ -1104,8 +1104,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
                         <div class="cart-item-options">
-                              ${item.variant_options?.[0]?.label || 'Option'}:
-  ${item.selectedColor || item.variant_options?.[0]?.options?.[0] || 'Default'}
+                            ${item.variant_options?.[0]?.label || 'Option'}:
+                            ${item.selectedColor || item.variant_options?.[0]?.options?.[0] || 'Default'}
                         </div>
                         <div class="cart-item-price">${item.quantity} × $${Number(item.price).toFixed(2)}</div>
                         <div class="cart-item-quantity">
@@ -1810,13 +1810,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     const contentIds = cartItems.map(item => item.id);
                     const numItems = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-                    fbq('track', 'AddPaymentInfo', {
+                    fbq('track', 'InitiateCheckout', {
                         value: totalValue.toFixed(2),
                         currency: 'USD',
                         content_ids: contentIds,
                         num_items: numItems,
-                        content_type: 'product',
-                        payment_type: 'PayPal' // 支付方式
+                        content_type: 'product'
                     });
                 }
 
