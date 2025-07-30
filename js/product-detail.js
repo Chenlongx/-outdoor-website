@@ -1095,7 +1095,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log("Items的值为: " + JSON.stringify(items, null, 2));
 
         items.forEach(item => {
-            const itemTotal = item.price * item.quantity;
+            const itemTotal = item.price * (item.quantity != null ? item.quantity : 1);
             subtotal += itemTotal;
 
             const itemHTML = `
@@ -1107,10 +1107,10 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${item.variant_options?.[0]?.label || 'Option'}:
                             ${item.selectedColor || item.variant_options?.[0]?.options?.[0] || 'Default'}
                         </div>
-                        <div class="cart-item-price">${item.quantity} × $${Number(item.price).toFixed(2)}</div>
+                        <div class="cart-item-price">${item.quantity || 1} × $${Number(item.price).toFixed(2)}</div>
                         <div class="cart-item-quantity">
                             <button class="qty-btn decrease" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">-</button>
-                            <input type="number" value="${item.quantity}" min="1" class="qty-input" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">
+                            <input type="number" value="${item.quantity || 1}" min="1" class="qty-input" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">
                             <button class="qty-btn increase" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">+</button>
                         </div>
                     </div>
