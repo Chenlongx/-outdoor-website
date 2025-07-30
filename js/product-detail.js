@@ -890,6 +890,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     const sidebar = document.getElementById('checkoutSidebar');
                     sidebar.style.display = 'none';
                     sidebar.classList.remove('active');
+
+                    // 恢复主页面滚动
+                    document.body.style.overflow = 'auto';
                 });
             }
 
@@ -1052,6 +1055,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // 显示侧边栏
         sidebar.style.display = 'block';
         sidebar.classList.add('active');
+
+        // 禁用主页面滚动
+        document.body.style.overflow = 'hidden';
 
         // 获取购物车数据并渲染
         const cartItems = getCart(); // 使用你已有的方法
