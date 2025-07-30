@@ -867,14 +867,36 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             // 点击购物车转跳到购物车页面
+            // const checkoutButton = document.querySelector('.proceed-checkout');
+
+            // if (checkoutButton) {
+            //     checkoutButton.addEventListener('click', function () {
+            //         // 点击按钮跳转到 cart.html
+            //         window.location.href = '../products/cart.html';
+            //     });
+            // }
+
+            // 获取“继续结账”按钮（或你点击用的按钮）和侧边栏元素
             const checkoutButton = document.querySelector('.proceed-checkout');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const checkoutButtonID = document.getElementById('checkoutBtn');
 
             if (checkoutButton) {
-                checkoutButton.addEventListener('click', function () {
-                    // 点击按钮跳转到 cart.html
-                    window.location.href = '../products/cart.html';
+                checkoutButton.addEventListener('click', openCheckoutSidebar);
+            }
+
+            if (closeSidebar) {
+                closeSidebar.addEventListener('click', function () {
+                    const sidebar = document.getElementById('checkoutSidebar');
+                    sidebar.style.display = 'none';
+                    sidebar.classList.remove('active');
                 });
             }
+
+
+            checkoutButtonID.addEventListener('click', function () {
+                window.location.href = './cart.html';
+            });
 
             // 点击查看更多
             const btn = document.querySelector('.read-more-btn');
@@ -1022,6 +1044,191 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 
+    // 主方法：打开侧栏并渲染购物车
+    function openCheckoutSidebar() {
+        const sidebar = document.getElementById('checkoutSidebar');
+        if (!sidebar) return;
+
+        // 显示侧边栏
+        sidebar.style.display = 'block';
+        sidebar.classList.add('active');
+
+        // 获取购物车数据并渲染
+        const cartItems = getCart(); // 使用你已有的方法
+        // console.log("cartItems的值为: " + JSON.stringify(cartItems, null, 2))
+        renderCartItems(cartItems);
+    }
+
+    // 渲染购物车商品到侧栏
+    function renderCartItems(items) {
+        const cartContainer = document.getElementById('cartItems');
+        const subtotalElement = document.getElementById('subtotal');
+        const shippingElement = document.getElementById('shippingSidebar');
+        const totalElement = document.getElementById('total');
+
+        // 如果购物车为空
+        if (items.length === 0) {
+            cartContainer.innerHTML = `
+                <div class="empty-cart">
+                    <div class="empty-cart-icon">🛒</div>
+                    <p>您的购物车为空</p>
+                    <p>添加一些商品以开始购物！</p>
+                </div>
+            `;
+            subtotalElement.textContent = '$0.00';
+            shippingElement.textContent = '$0.00';
+            totalElement.textContent = '$0.00';
+            return;
+        }
+
+        let subtotal = 0;
+        cartContainer.innerHTML = '';
+
+        console.log("Items的值为: " + JSON.stringify(items, null, 2));
+
+        items.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            subtotal += itemTotal;
+
+            const itemHTML = `
+                <div class="cart-item" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">
+                    <img src="${item.image_url}" alt="${item.producttype}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-options">颜色: ${getColorName(item.selectedColor || 'default')}</div>
+                        <div class="cart-item-price">${item.quantity} × $${Number(item.price).toFixed(2)}</div>
+                        <div class="cart-item-quantity">
+                            <button class="qty-btn decrease" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">-</button>
+                            <input type="number" value="${item.quantity}" min="1" class="qty-input" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">
+                            <button class="qty-btn increase" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">+</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            cartContainer.insertAdjacentHTML('beforeend', itemHTML);
+        });
+
+        // 计算运费
+        const shippingFee = calculateShipping(subtotal);
+        const total = subtotal + shippingFee;
+
+        console.log("计算出来的运费：" + shippingFee);
+
+        // 更新价格显示
+        subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+        shippingElement.textContent = `$${shippingFee.toFixed(2)}`;
+        totalElement.textContent = `$${total.toFixed(2)}`;
+
+        // 绑定数量按钮事件
+        bindCartItemEvents();
+    }
+
+    // 颜色名称映射（根据你的原始代码复制）
+    function getColorName(color) {
+        const colorNames = {
+            'black': '黑色',
+            'blue': '蓝色',
+            'green': '绿色',
+            'red': '红色'
+        };
+        return colorNames[color] || color;
+    }
+
+    // 数量修改按钮事件绑定（你也可以直接调用购物车类的方法）
+    function bindCartItemEvents() {
+        const container = document.getElementById('cartItems');
+        if (!container) {
+            console.error('cartItems 容器不存在');
+            return;
+        }
+
+        // 移除旧的事件监听器，防止重复绑定
+        container.removeEventListener('click', handleClick);
+        container.removeEventListener('input', handleInput);
+
+        // 定义点击事件处理函数
+        function handleClick(e) {
+            const target = e.target;
+            if (!target.classList.contains('qty-btn')) return; // 只处理 qty-btn 的点击
+
+            const productId = target.getAttribute('data-id');
+            const color = target.getAttribute('data-color') || 'default';
+            console.log('点击事件 - productId:', productId, 'color:', color, 'button:', target.className);
+
+            if (!productId) {
+                console.error('缺少 data-id 属性');
+                showNotification('无法更新数量，商品ID缺失！');
+                return;
+            }
+
+            let cart = getCart();
+            const item = cart.find(i => i.id === productId && (i.selectedColor || 'default') === color);
+
+            if (!item) {
+                console.error('未找到匹配的购物车项目:', productId, color);
+                showNotification('无法更新数量，购物车项目不存在！');
+                return;
+            }
+
+            console.log('找到的购物车项目:', item);
+
+            if (target.classList.contains('decrease')) {
+                if (item.quantity > 1) {
+                    item.quantity -= 1;
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    renderCartItems(cart);
+                }
+            } else if (target.classList.contains('increase')) {
+                if (item.stock && item.quantity >= item.stock) {
+                    showNotification('无法增加，库存不足！');
+                    return;
+                }
+                item.quantity += 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCartItems(cart);
+            }
+        }
+
+        // 定义输入事件处理函数
+        function handleInput(e) {
+            const target = e.target;
+            if (!target.classList.contains('qty-input')) return;
+
+            const productId = target.getAttribute('data-id');
+            const color = target.getAttribute('data-color') || 'default';
+            const newQuantity = parseInt(target.value);
+
+            console.log('输入框更新 - productId:', productId, 'color:', color, 'newQuantity:', newQuantity);
+
+            let cart = getCart();
+            const item = cart.find(i => i.id === productId && (i.selectedColor || 'default') === color);
+
+            if (!item) {
+                console.error('未找到匹配的购物车项目:', productId, color);
+                showNotification('无法更新数量，购物车项目不存在！');
+                return;
+            }
+
+            if (isNaN(newQuantity) || newQuantity < 1) {
+                target.value = 1;
+                item.quantity = 1;
+            } else if (item.stock && newQuantity > item.stock) {
+                showNotification('输入的数量超过库存！');
+                target.value = item.stock;
+                item.quantity = item.stock;
+            } else {
+                item.quantity = newQuantity;
+            }
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCartItems(cart);
+        }
+
+        // 绑定事件监听器
+        container.addEventListener('click', handleClick);
+        container.addEventListener('input', handleInput);
+    }
+
     // 封装显示消息方法
     function showNotification(message) {
         // Check if notification container exists
@@ -1148,36 +1355,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 添加商品到购物车
     function addToCart(product) {
-        // 获取购物车数据
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log("获取购物车数据" + cart)
+        console.log("添加购物车 - 原始购物车数据:", JSON.stringify(cart, null, 2));
 
-        // 获取用户选择的颜色
-        const selectedColor = document.getElementById('color-select')?.value || '';
+        const selectedColor = document.getElementById('color-select')?.value || 'default';
+        console.log("添加购物车 - 选择的颜色:", selectedColor, "产品ID:", product.id);
 
-        const existingItem = cart.find(item => item.id === product.id);
+        const existingItem = cart.find(item => item.id === product.id && (item.selectedColor || 'default') === selectedColor);
 
         if (existingItem) {
-            // 如果产品已在购物车中，增加数量
             existingItem.quantity += 1;
+            console.log("更新现有商品数量:", existingItem);
         } else {
-            // 如果产品不在购物车中，直接添加整个 product 对象
-            // product.quantity = 1; // 默认数量为 1
-            // cart.push(product);
-            // 把产品所有字段都保存进去，但价格字段用打折价 final_price
             const productToCart = {
                 ...product,
-                price: parseFloat(product.final_price).toFixed(2), // 覆盖原price为折扣价
-                quantity: 1, // 新增 quantity 字段
-                selectedColor // 添加用户选择的颜色
+                price: parseFloat(product.final_price).toFixed(2),
+                quantity: 1,
+                selectedColor
             };
-
             cart.push(productToCart);
+            console.log("添加新商品到购物车:", productToCart);
         }
 
-        // 保存购物车数据
-        console.log(product)
-
+        console.log("更新后的购物车:", JSON.stringify(cart, null, 2));
         localStorage.setItem('cart', JSON.stringify(cart));
     }
 
@@ -1553,5 +1753,145 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Error fetching end time:', error);
         }
+    }
+
+    // 计算运费
+    function calculateShipping(subtotal) {
+        if (subtotal === 0) return 0; // 空购物车不收运费
+        return subtotal > 49 ? 0 : 10;
+    }
+
+    if (window.paypal) {
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'paypal'
+            },
+            createOrder: async function (data, actions) {
+                // 获取购物车中的所有商品
+                // 假设 getCart() 返回的是一个商品数组，每个商品包含 name, price, quantity 等
+                const cartItems = getCart(); // 使用您已有的获取购物车数据的方法
+
+                const selectedShippingCost = parseFloat(document.getElementById('shippingSidebar').value);
+
+                const response = await fetch('/.netlify/functions/validate-price', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        cart: cartItems,
+                        selectedShipping: selectedShippingCost
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    showNotification(result.error || 'Could not validate price.', 'error');
+                    return Promise.reject(new Error('Could not validate price.'));
+                }
+
+
+                const purchase_unit = {
+                    amount: {
+                        currency_code: 'USD',
+                        value: result.total.toFixed(2),
+                        breakdown: {
+                            item_total: {
+                                currency_code: 'USD',
+                                value: result.subtotal.toFixed(2),
+                            },
+                            shipping: {
+                                currency_code: 'USD',
+                                value: result.shipping.toFixed(2),
+                            }
+                        }
+                    },
+                    items: result.items.map(item => ({
+                        name: item.name,
+                        unit_amount: { currency_code: 'USD', value: item.unit_amount.toFixed(2) },
+                        quantity: item.quantity
+                    }))
+                };
+
+                // ✅ 这行是关键：返回创建订单
+                return actions.order.create({
+                    purchase_units: [purchase_unit]
+                });
+
+            },
+            onApprove: function (data, actions) {
+                return actions.order.capture().then(async function (details) {
+                    const confirmedShippingDetails = details.purchase_units[0].shipping;
+
+                    const shippingAddress = {
+                        full_name: confirmedShippingDetails.name.full_name,
+                        phone_number: confirmedShippingDetails.phone?.phone_number?.national_number || '',
+                        address_line_1: confirmedShippingDetails.address.address_line_1,
+                        city: confirmedShippingDetails.address.admin_area_2,
+                        state: confirmedShippingDetails.address.admin_area_1,
+                        postal_code: confirmedShippingDetails.address.postal_code,
+                        country: confirmedShippingDetails.address.country_code,
+                        email: details.payer.email_address, // 邮箱从 payer 获取
+                    };
+
+                    const payerInfo = {
+                        email_address: details.payer.email_address,
+                        name: {
+                            given_name: details.payer.name?.given_name || '',
+                            surname: details.payer.name?.surname || '',
+                        }
+                    };
+
+                    const payload = {
+                        order: {
+                            shipping_address: shippingAddress,
+                            paypal_address: {},  // 如果需要，可以传 PayPal 原始地址
+                            payer_info: payerInfo,
+                            total_amount: parseFloat(details.purchase_units[0].amount.value) || 0,
+                            status: details.status,
+                            created_at: new Date().toISOString(),
+                            updated_at: new Date().toISOString(),
+                        },
+                        items: getCart(),
+                    };
+
+                    try {
+                        const response = await fetch('/.netlify/functions/store-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload),
+                        });
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            console.log('订单已成功保存:', result);
+                            if (result.orderId) localStorage.setItem('orderId', result.orderId);
+                        } else {
+                            console.error('保存订单时出错:', result);
+                            showNotification('An error occurred while processing your order. Please try again.');
+                        }
+                    } catch (err) {
+                        console.error('发送订单时发生异常:', err);
+                        showNotification('Failed to submit the order. Please check your network and try again.');
+                    }
+
+                    // 存本地，跳转到确认页面
+                    localStorage.setItem('orderData', JSON.stringify(payload));
+                    window.location.href = '../products/checkout.html';
+                });
+            },
+
+            onCancel: function (data) {
+                showNotification('Transaction Cancelled');
+            },
+
+            onError: function (err) {
+                console.error('PayPal Checkout error', err);
+                showNotification('An error occurred during PayPal payment.');
+            }
+        }).render('#paypal-button-container');
     }
 });

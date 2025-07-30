@@ -78,7 +78,7 @@
             </ul>
             <div class="nav-actions">
                 <a href="#" class="icon-link" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
-                <a href="cart.html" class="icon-link" style="position: relative;">
+                <a href="cart.html" class="icon-link" style="position: relative;" id="cartIcon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
                 </a>
@@ -225,7 +225,7 @@
                 <!-- 购物车按钮 -->
                 <!-- <button class="proceed-checkout">Proceed to Checkout</button> -->
                 <button class="proceed-checkout">
-                    <i class="fas fa-credit-card" aria-hidden="true"></i> Proceed to Checkout
+                    <i class="fas fa-credit-card" aria-hidden="true"></i> Express Checkout
                 </button>
                 <div class="product-meta grid grid-cols-3 gap-4 py-6 border-t border-gray-200 text-center">
                     <div class="meta-item">
@@ -613,9 +613,50 @@
         <button id="nextImage" class="nav-btn">&#10095;</button>
     </div>
 
+    <!-- 快速结账侧边栏 -->
+    <div class="checkout-sidebar" id="checkoutSidebar">
+        <div class="sidebar-header">
+            <h3>Quick Checkout</h3>
+            <button class="close-sidebar" id="closeSidebar">×</button>
+        </div>
+
+        <div class="sidebar-content">
+            <div class="cart-items" id="cartItems">
+                <!-- 购物车商品将在这里动态生成 -->
+            </div>
+
+            <div class="cart-summary">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span id="shippingSidebar">$0.00</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+            </div>
+
+            <div class="checkout-actions">
+                <!-- <button class="btn btn-paypal" id="paypalBtn">
+                    <span style="font-weight: bold; color: #003087;">PayPal</span>
+                    <span>Express</span>
+                </button> -->
+                <div id="paypal-button-container"></div>
+                <button class="btn btn-primary full-width" id="checkoutBtn">
+                    Continue to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="overlay" id="overlay"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- <script src="../js/cart-manager.js"></script> -->
-    <!-- <script src="../js/cart.js"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化购物车
@@ -641,6 +682,8 @@
       </script>
     <script src="https://www.google.com/recaptcha/api.js?render=explicit&hl=en" async defer></script>
     <script src="../js/product-detail.js"></script>
-    <!-- <script src="../script.js"></script> -->
+    <script
+    src="https://www.paypal.com/sdk/js?client-id=Abbe3Rs_UB-zn_sQ7z0QGQog51tqtHHKqlFFbcY4VLJDCMGNGudxWXnA0ODyjkFPr6gPMnF4cuTE8nNf&currency=USD&locale=en_US&disable-funding=card,paylater">
+    </script>
 </body>
 </html>
