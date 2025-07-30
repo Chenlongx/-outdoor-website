@@ -1079,8 +1079,8 @@ document.addEventListener('DOMContentLoaded', function () {
             cartContainer.innerHTML = `
                 <div class="empty-cart">
                     <div class="empty-cart-icon">🛒</div>
-                    <p>您的购物车为空</p>
-                    <p>添加一些商品以开始购物！</p>
+                    <p>Your cart is empty.</p>
+                    <p>Add some items to start shopping!</p>
                 </div>
             `;
             subtotalElement.textContent = '$0.00';
@@ -1103,7 +1103,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     <img src="${item.image_url}" alt="${item.producttype}" class="cart-item-image">
                     <div class="cart-item-details">
                         <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-options">颜色: ${getColorName(item.selectedColor || 'default')}</div>
+                        <div class="cart-item-options">
+                              ${item.variant_options?.[0]?.label || 'Option'}:
+  ${item.selectedColor || item.variant_options?.[0]?.options?.[0] || 'Default'}
+                        </div>
                         <div class="cart-item-price">${item.quantity} × $${Number(item.price).toFixed(2)}</div>
                         <div class="cart-item-quantity">
                             <button class="qty-btn decrease" data-id="${item.id}" data-color="${item.selectedColor || 'default'}">-</button>
