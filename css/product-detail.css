@@ -924,6 +924,8 @@
   transition: right 0.3s ease;
   display: flex;
   flex-direction: column;
+  overflow-y: auto; /* 启用侧边栏整体滚动 */
+  overscroll-behavior: contain; /* 防止滚动穿透 */
 }
 
 .checkout-sidebar.active {
@@ -936,6 +938,7 @@
   padding: 1.5rem;
   border-bottom: 1px solid var(--border-color);
   background: var(--light-gray);
+  flex-shrink: 0; /* 防止头部被压缩 */
 }
 
 .sidebar-header h3 {
@@ -964,11 +967,14 @@
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
+  overflow-y: auto; /* 确保内容区域可滚动 */
+  overscroll-behavior: contain; /* 防止滚动影响主页面 */
 }
 .cart-items {
   flex: 1;
   margin-bottom: 1.5rem;
   overflow-y: auto;
+  overscroll-behavior: contain; /* 防止滚动穿透 */
 }
 
 .cart-item {
@@ -1126,6 +1132,10 @@
     }
     .checkout-sidebar{
         width: 100%;
+    }
+    .cart-items {
+        max-height: calc(100vh - 200px); /* 限制商品列表高度，留出空间给头部和底部 */
+        overflow-y: auto; /* 确保滚动 */
     }
 }
 
