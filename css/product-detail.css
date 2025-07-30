@@ -1134,7 +1134,7 @@
         width: 100%;
     }
     .cart-items {
-        max-height: calc(100vh - 200px); /* 限制商品列表高度，留出空间给头部和底部 */
+        max-height: calc(70vh - 200px); /* 限制商品列表高度，留出空间给头部和底部 */
         overflow-y: auto; /* 确保滚动 */
     }
 }
