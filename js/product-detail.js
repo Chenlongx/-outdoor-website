@@ -891,6 +891,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     sidebar.style.display = 'none';
                     sidebar.classList.remove('active');
 
+                    // 隐藏遮罩层
+                    if (overlay) overlay.classList.remove('active');
+
                     // 恢复主页面滚动
                     document.body.style.overflow = 'auto';
                 });
@@ -1055,6 +1058,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // 显示侧边栏
         sidebar.style.display = 'block';
         sidebar.classList.add('active');
+
+        // 显示遮罩层
+        overlay.classList.add('active');
 
         // 禁用主页面滚动
         document.body.style.overflow = 'hidden';
