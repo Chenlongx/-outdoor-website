@@ -1063,6 +1063,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const cartItems = getCart(); // 使用你已有的方法
         // console.log("cartItems的值为: " + JSON.stringify(cartItems, null, 2))
         renderCartItems(cartItems);
+
+        
     }
 
     // 渲染购物车商品到侧栏
@@ -1798,6 +1800,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     return Promise.reject(new Error('Could not validate price.'));
                 }
 
+
+                // 触发 AddPaymentInfo 事件
+                if (window.fbq && cartItems.length > 0) {
+                    const totalValue = cartItems.reduce((total, item) => total + (parseFloat(item.price) * item.quantity), 0);
+                    const contentIds = cartItems.map(item => item.id);
+                    const numItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+
+                    fbq('track', 'AddPaymentInfo', {
+                        value: totalValue.toFixed(2),
+                        currency: 'USD',
+                        content_ids: contentIds,
+                        num_items: numItems,
+                        content_type: 'product',
+                        payment_type: 'PayPal' // 支付方式
+                    });
+                }
 
                 const purchase_unit = {
                     amount: {
