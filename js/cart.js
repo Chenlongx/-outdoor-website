@@ -644,6 +644,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     const totalAmount = details.purchase_units[0].amount.value;
                     const itemsToSave = currentOrderItemsForStorage.map(item => ({ ...item }));
 
+
+                    fbq('track', 'AddPaymentInfo', {
+                        value: parseFloat(totalAmount), // 订单总金额
+                        currency: 'USD', // 货币
+                        contents: itemsToSave.map(item => ({
+                            id: item.id,
+                            quantity: item.quantity,
+                            item_price: parseFloat(item.price)
+                        })), // 商品详情
+                        content_type: 'product' // 内容类型
+                    });
+
                     // 构建将要发送到后端的订单对象
                     const order = {
                         total_amount: totalAmount,
