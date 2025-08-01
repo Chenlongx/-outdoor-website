@@ -1148,7 +1148,7 @@ function calculateSubtotal(cart) {
 // 计算运费
 function calculateShipping(subtotal) {
     if (subtotal === 0) return 0; // 空购物车不收运费
-    return subtotal > 49 ? 0 : 10;
+    return subtotal > 49 ? 0 : 4.9;
 }
 
 // 获取购物车数据

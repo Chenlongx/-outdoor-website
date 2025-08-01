@@ -72,7 +72,7 @@ exports.handler = async (event) => {
         if (subtotal > 49.9) {
             shipping = 0; // 订单大于49.9，免运费
         } else {
-            shipping = typeof selectedShipping === 'number' ? selectedShipping : 9.9; // 否则使用提供的运费或默认运费
+            shipping = typeof selectedShipping === 'number' ? selectedShipping : 4.9; // 否则使用提供的运费或默认运费
         }
 
         const total = parseFloat((subtotal + shipping).toFixed(2));
